@@ -1,87 +1,95 @@
 <template>
-  <div class="row">
-    <div class="col-lg-8 m-auto">
-      <card v-if="mustVerifyEmail" :title="$t('register')">
-        <div class="alert alert-success" role="alert">
-          {{ $t('verify_email_address') }}
+  <div class="login-page--container" :class="{ 'lecturer-bg': lecturerRole }">
+    <div class="login-page--logo">
+      <router-link :to="{ name: 'index' }" :class="{ 'lecturer-color': lecturerRole }">
+        PHive
+      </router-link>
+    </div>
+
+    <div class="login-form--container">
+      <h1 class="login--h1">
+        You are?
+      </h1>
+      <div class="login-role--container">
+        <div>
+          <input id="login-student" v-model="loginRole" class="login-radio" type="radio" value="Student" name="role">
+          <label class="login-radio--label" for="login-student" @click="chooseStudent">Student</label>
         </div>
-      </card>
-      <card v-else :title="$t('register')">
-        <form @submit.prevent="register" @keydown="form.onKeydown($event)">
-          <!-- Name -->
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label text-md-right">{{ $t('name') }}</label>
-            <div class="col-md-7">
-              <input v-model="form.name" :class="{ 'is-invalid': form.errors.has('name') }" class="form-control" type="text" name="name">
-              <has-error :form="form" field="name" />
-            </div>
-          </div>
+        <div>
+          <input id="login-lecturer" v-model="loginRole" class="login-radio" type="radio" value="Lecturer" name="role">
+          <label class="login-radio--label" for="login-lecturer" @click="chooseLecturer">Lecturer</label>
+        </div>
+      </div>
+      <div class="role--choose-effect" :class="{ 'role--student': studentRole, 'role--lecturer': lecturerRole }" />
+      <form @submit.prevent="register" @keydown="form.onKeydown($event)">
+        <div class="login-input--container">
+          <!-- <label class="auth__input--label" for="first_name">First Name</label> -->
+          <input v-model="form.first_name" :class="{ 'is-invalid': form.errors.has('first_name') }" class="login-input" type="text" name="first_name" placeholder="First Name">
+          <has-error :form="form" field="first_name" />
+        </div>
 
-          <!-- Email -->
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label text-md-right">{{ $t('email') }}</label>
-            <div class="col-md-7">
-              <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }" class="form-control" type="email" name="email">
-              <has-error :form="form" field="email" />
-            </div>
-          </div>
+        <div class="login-input--container">
+          <!-- <label class="auth__input--label" for="last_name">Last Name</label> -->
+          <input v-model="form.last_name" :class="{ 'is-invalid': form.errors.has('last_name') }" class="login-input" type="text" name="last_name" placeholder="Last Name">
+          <has-error :form="form" field="last_name" />
+        </div>
 
-          <!-- Password -->
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label text-md-right">{{ $t('password') }}</label>
-            <div class="col-md-7">
-              <input v-model="form.password" :class="{ 'is-invalid': form.errors.has('password') }" class="form-control" type="password" name="password">
-              <has-error :form="form" field="password" />
-            </div>
-          </div>
+        <div class="login-input--container">
+          <!-- <label class="auth__input--label" for="email">Email</label> -->
+          <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }" class="login-input" type="email" name="email" placeholder="Email">
+          <has-error :form="form" field="email" />
+        </div>
 
-          <!-- Password Confirmation -->
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label text-md-right">{{ $t('confirm_password') }}</label>
-            <div class="col-md-7">
-              <input v-model="form.password_confirmation" :class="{ 'is-invalid': form.errors.has('password_confirmation') }" class="form-control" type="password" name="password_confirmation">
-              <has-error :form="form" field="password_confirmation" />
-            </div>
-          </div>
+        <!-- Password -->
+        <div class="login-input--container">
+          <!-- <label class="auth__input--label" for="password">Password</label> -->
+          <input v-model="form.password" :class="{ 'is-invalid': form.errors.has('password') }" class="login-input" type="password" name="password" placeholder="Password">
+          <has-error :form="form" field="password" />
+        </div>
 
-          <div class="form-group row">
-            <div class="col-md-7 offset-md-3 d-flex">
-              <!-- Submit Button -->
-              <v-button :loading="form.busy">
-                {{ $t('register') }}
-              </v-button>
+        <div class="">
+          <!-- Submit Button -->
+          <v-button :loading="form.busy" class="login-submit--button" :class="{ 'is-lecturer': lecturerRole }">
+            Sign Up
+          </v-button>
+        </div>
+      </form>
 
-              <!-- GitHub Register Button -->
-              <login-with-github />
-            </div>
-          </div>
-        </form>
-      </card>
+      <div class="login-extra">
+        <p>
+          Already had an account?
+          <router-link :to="{ name: 'login' }" class="login-link">
+            <b>Sign In</b>
+          </router-link>
+        </p>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import Form from 'vform'
-import LoginWithGithub from '~/components/LoginWithGithub'
+// import LoginWithGithub from '~/components/LoginWithGithub'
 
 export default {
   middleware: 'guest',
 
-  components: {
-    LoginWithGithub
-  },
+  layout: 'wide',
 
   metaInfo () {
-    return { title: this.$t('register') }
+    return { title: 'Register' }
   },
 
   data: () => ({
+    loginRole: 'Student',
+    studentRole: false,
+    lecturerRole: false,
+
     form: new Form({
-      name: '',
+      first_name: '',
+      last_name: '',
       email: '',
-      password: '',
-      password_confirmation: ''
+      password: ''
     }),
     mustVerifyEmail: false
   }),
@@ -107,6 +115,14 @@ export default {
         // Redirect home.
         this.$router.push({ name: 'home' })
       }
+    },
+    chooseStudent () {
+      this.studentRole = true
+      this.lecturerRole = false
+    },
+    chooseLecturer () {
+      this.lecturerRole = true
+      this.studentRole = false
     }
   }
 }

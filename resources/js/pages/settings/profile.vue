@@ -1,11 +1,11 @@
 <template>
-  <card :title="$t('your_info')">
+  <card title="Your Info">
     <form @submit.prevent="update" @keydown="form.onKeydown($event)">
-      <alert-success :form="form" :message="$t('info_updated')" />
+      <alert-success :form="form" message="Your info has been updated!" />
 
       <!-- Name -->
       <div class="form-group row">
-        <label class="col-md-3 col-form-label text-md-right">{{ $t('name') }}</label>
+        <label class="col-md-3 col-form-label text-md-right">Name</label>
         <div class="col-md-7">
           <input v-model="form.name" :class="{ 'is-invalid': form.errors.has('name') }" class="form-control" type="text" name="name">
           <has-error :form="form" field="name" />
@@ -14,7 +14,7 @@
 
       <!-- Email -->
       <div class="form-group row">
-        <label class="col-md-3 col-form-label text-md-right">{{ $t('email') }}</label>
+        <label class="col-md-3 col-form-label text-md-right">Email</label>
         <div class="col-md-7">
           <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }" class="form-control" type="email" name="email">
           <has-error :form="form" field="email" />
@@ -25,7 +25,7 @@
       <div class="form-group row">
         <div class="col-md-9 ml-md-auto">
           <v-button :loading="form.busy" type="success">
-            {{ $t('update') }}
+            Update
           </v-button>
         </div>
       </div>
@@ -41,7 +41,7 @@ export default {
   scrollToTop: false,
 
   metaInfo () {
-    return { title: this.$t('settings') }
+    return { title: 'Settings' }
   },
 
   data: () => ({

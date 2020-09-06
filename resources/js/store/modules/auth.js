@@ -5,12 +5,14 @@ import * as types from '../mutation-types'
 // state
 export const state = {
   user: null,
+  data: null,
   token: Cookies.get('token')
 }
 
 // getters
 export const getters = {
   user: state => state.user,
+  data: state => state.data,
   token: state => state.token,
   check: state => state.user !== null
 }
@@ -22,8 +24,12 @@ export const mutations = {
     Cookies.set('token', token, { expires: remember ? 365 : null })
   },
 
-  [types.FETCH_USER_SUCCESS] (state, { user }) {
+  [types.FETCH_USER_SUCCESS] (state, { user, userProjects, userWishlists }) {
     state.user = user
+    state.data = {
+      projects: userProjects,
+      wishlists: userWishlists
+    }
   },
 
   [types.FETCH_USER_FAILURE] (state) {
@@ -31,15 +37,15 @@ export const mutations = {
     Cookies.remove('token')
   },
 
+  [types.UPDATE_USER_AVATAR] (state, { avatar }) {
+    state.user.avatar = avatar
+  },
+
   [types.LOGOUT] (state) {
     state.user = null
     state.token = null
 
     Cookies.remove('token')
-  },
-
-  [types.UPDATE_USER] (state, { user }) {
-    state.user = user
   }
 }
 
@@ -53,14 +59,20 @@ export const actions = {
     try {
       const { data } = await axios.get('/api/user')
 
-      commit(types.FETCH_USER_SUCCESS, { user: data })
+      commit(types.FETCH_USER_SUCCESS, {
+        user: data.user,
+        userProjects: data.projects,
+        userWishlists: data.wishlists
+      })
     } catch (e) {
       commit(types.FETCH_USER_FAILURE)
     }
   },
 
-  updateUser ({ commit }, payload) {
-    commit(types.UPDATE_USER, payload)
+  async updateAvatar ({ commit }, payload) {
+    try {
+      commit(types.UPDATE_USER_AVATAR, payload)
+    } catch (e) { }
   },
 
   async logout ({ commit }) {
@@ -69,11 +81,5 @@ export const actions = {
     } catch (e) { }
 
     commit(types.LOGOUT)
-  },
-
-  async fetchOauthUrl (ctx, { provider }) {
-    const { data } = await axios.post(`/api/oauth/${provider}`)
-
-    return data.url
   }
 }

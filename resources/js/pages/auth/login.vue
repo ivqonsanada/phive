@@ -1,73 +1,87 @@
 <template>
-  <div class="row">
-    <div class="col-lg-8 m-auto">
-      <card :title="$t('login')">
-        <form @submit.prevent="login" @keydown="form.onKeydown($event)">
-          <!-- Email -->
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label text-md-right">{{ $t('email') }}</label>
-            <div class="col-md-7">
-              <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }" class="form-control" type="email" name="email">
-              <has-error :form="form" field="email" />
-            </div>
-          </div>
+  <div class="login-page--container" :class="{ 'lecturer-bg': lecturerRole }">
+    <div class="login-page--logo">
+      <router-link :to="{ name: 'index' }" :class="{ 'lecturer-color': lecturerRole }">
+        <img src="/images/logo.svg" alt="">
+      </router-link>
+    </div>
 
-          <!-- Password -->
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label text-md-right">{{ $t('password') }}</label>
-            <div class="col-md-7">
-              <input v-model="form.password" :class="{ 'is-invalid': form.errors.has('password') }" class="form-control" type="password" name="password">
-              <has-error :form="form" field="password" />
-            </div>
-          </div>
+    <div class="login-form--container">
+      <h1 class="login--h1">
+        Who are you?
+      </h1>
+      <div class="login-role--container">
+        <div>
+          <input id="login-student" v-model="loginRole" class="login-radio" type="radio" value="Student" name="role">
+          <label class="login-radio--label" for="login-student" @click="chooseStudent">Student</label>
+        </div>
+        <div>
+          <input id="login-lecturer" v-model="loginRole" class="login-radio" type="radio" value="Lecturer" name="role">
+          <label class="login-radio--label" for="login-lecturer" @click="chooseLecturer">Lecturer</label>
+        </div>
+      </div>
+      <div class="role--choose-effect" :class="{ 'role--student': studentRole, 'role--lecturer': lecturerRole }" />
+      <form @submit.prevent="login" @keydown="form.onKeydown($event)">
+        <!-- Email -->
+        <div class="login-input--container">
+          <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }" class="login-input" type="email" name="email" placeholder="Email">
+          <has-error :form="form" field="email" />
+        </div>
 
-          <!-- Remember Me -->
-          <div class="form-group row">
-            <div class="col-md-3" />
-            <div class="col-md-7 d-flex">
-              <checkbox v-model="remember" name="remember">
-                {{ $t('remember_me') }}
-              </checkbox>
+        <!-- Password -->
+        <div class="login-input--container">
+          <input v-model="form.password" :class="{ 'is-invalid': form.errors.has('password') }" class="login-input" type="password" name="password" placeholder="Password">
+          <has-error :form="form" field="password" />
+        </div>
 
-              <router-link :to="{ name: 'password.request' }" class="small ml-auto my-auto">
-                {{ $t('forgot_password') }}
-              </router-link>
-            </div>
-          </div>
+        <!-- Remember Me -->
+        <div class="login-input--container">
+          <checkbox v-model="remember" name="remember" class="input-remember">
+            Remember Me
+          </checkbox>
+        </div>
 
-          <div class="form-group row">
-            <div class="col-md-7 offset-md-3 d-flex">
-              <!-- Submit Button -->
-              <v-button :loading="form.busy">
-                {{ $t('login') }}
-              </v-button>
-
-              <!-- GitHub Login Button -->
-              <login-with-github />
-            </div>
-          </div>
-        </form>
-      </card>
+        <div class="">
+          <!-- Submit Button -->
+          <v-button :loading="form.busy" class="login-submit--button" :class="{ 'is-lecturer': lecturerRole }">
+            Sign In
+          </v-button>
+        </div>
+      </form>
+      <div class="login-extra">
+        <p>
+          Don't have an account?
+          <router-link :to="{ name: 'register' }" class="login-link">
+            <b>Sign Up</b>
+          </router-link>
+        </p>
+        <p>
+          <router-link :to="{ name: 'password.request' }" class="login-link">
+            <b>Forgot Password?</b>
+          </router-link>
+        </p>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import Form from 'vform'
-import LoginWithGithub from '~/components/LoginWithGithub'
 
 export default {
   middleware: 'guest',
 
-  components: {
-    LoginWithGithub
-  },
+  layout: 'wide',
 
   metaInfo () {
-    return { title: this.$t('login') }
+    return { title: 'Log In' }
   },
 
   data: () => ({
+    loginRole: 'Student',
+    studentRole: false,
+    lecturerRole: false,
+
     form: new Form({
       email: '',
       password: ''
@@ -77,20 +91,25 @@ export default {
 
   methods: {
     async login () {
-      // Submit the form.
       const { data } = await this.form.post('/api/login')
 
-      // Save the token.
       this.$store.dispatch('auth/saveToken', {
         token: data.token,
         remember: this.remember
       })
 
-      // Fetch the user.
       await this.$store.dispatch('auth/fetchUser')
 
-      // Redirect home.
-      this.$router.push({ name: 'home' })
+      this.$router.back()
+    },
+
+    chooseStudent () {
+      this.studentRole = true
+      this.lecturerRole = false
+    },
+    chooseLecturer () {
+      this.lecturerRole = true
+      this.studentRole = false
     }
   }
 }

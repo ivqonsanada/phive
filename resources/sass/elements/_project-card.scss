@@ -1,0 +1,114 @@
+.project__card--container {
+  width: 100%;
+  height: auto;
+  box-shadow: 1px 4px 10px rgba(2, 2, 1, 0.1);
+  border-radius: 10px;
+}
+
+.project__card--top-container {
+  display: flex;
+  flex-direction: column;
+
+  & img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+
+    border-radius: 10px ;
+  }
+
+  & button {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.project__card--name {
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 1.15;
+  margin-top: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.project__card--body-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  bottom: 23px;
+  height: calc(100% - 15.2rem);
+}
+
+.project__card--info-container {
+  padding-left: 22px;
+  padding-right: 22px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.project__card--info--consistency {
+  display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.project__card--body-salary {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  background-color: #020201;
+
+  color: #FFFFFF;
+  font-weight: bold;
+  font-size: 1.8rem;
+
+  height: 40px;
+  line-height: 40px;
+  padding: 0px 20px;
+  border-radius: 10px;
+}
+
+.project__card--post-info {
+  font-size: 1.4rem;
+  line-height: 1.5;
+  color: #514848;
+  margin-bottom: 1.5rem;
+}
+
+.project__card--bounty-info {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  color: #020201;
+  margin-bottom: 1.5rem;
+  font-size: 1.4rem;
+  flex-wrap: wrap;
+}
+
+.bounty--span {
+  display: inline-block;
+  font-weight: 800;
+}
+
+.project__card--extra-info {
+  display: flex;
+  color: #514848;
+  flex-direction: row;
+  gap: 1rem;
+  font-size: 1.2rem;
+}
+
+.info-item--container {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.info-item--icon {
+  width: 1.3em;
+  height: 1.3em;
+  margin-right: -0.15rem;
+}

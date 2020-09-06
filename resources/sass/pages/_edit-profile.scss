@@ -1,0 +1,59 @@
+.form-avatar-group__container {
+  margin-bottom: 3rem;
+}
+
+.edit-profile--img {
+  width: 12.5rem;
+  height: 12.5rem;
+  margin: 0 auto 3rem;
+  display: block;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.form__file-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  margin-bottom: 0;
+  text-align: center;
+
+  & > :not(:last-child) {
+    margin-right: 1rem;
+  }
+}
+
+.form__label-file {
+  background: $red-glow;
+  color: #001534;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+  display: block;
+}
+
+.form__input-file {
+  display: none;
+}
+
+.form__delete-avatar {
+  background: #F1F1F1;
+  color: #001534;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+  border-radius: 1rem;
+}
+
+.edit-profile__page-2-button {
+  background: #F1F1F1;
+  color: #001534;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+  border-radius: 1rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}

@@ -11,22 +11,18 @@
     "lint": "eslint --fix --ext .js,.vue resources/js"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.17",
-    "@fortawesome/free-brands-svg-icons": "^5.8.1",
-    "@fortawesome/free-regular-svg-icons": "^5.8.1",
-    "@fortawesome/free-solid-svg-icons": "^5.8.1",
-    "@fortawesome/vue-fontawesome": "^0.1.6",
     "axios": "^0.18.1",
-    "bootstrap": "^4.3.1",
-    "jquery": "^3.4.1",
+    "axios-progress-bar": "^1.2.0",
     "js-cookie": "^2.2.0",
-    "popper.js": "^1.15.0",
-    "sweetalert2": "^8.10.0",
+    "moment": "^2.27.0",
+    "object-to-formdata": "^4.1.0",
+    "timeago.js": "^4.0.2",
     "vform": "^1.0.0",
     "vue": "^2.6.10",
-    "vue-i18n": "^8.11.2",
+    "vue-content-placeholders": "^0.2.1",
     "vue-meta": "^1.6.0",
     "vue-router": "^3.0.6",
+    "vue-scrollto": "^2.18.2",
     "vuex": "^3.1.0",
     "vuex-router-sync": "^5.0.0"
   },
@@ -44,10 +40,13 @@
     "eslint-plugin-vue": "^5.2.2",
     "laravel-mix": "^4.0.15",
     "laravel-mix-versionhash": "^1.0.7",
+    "laravel-mix-workbox": "^0.1.2",
+    "moment-locales-webpack-plugin": "^1.2.0",
     "resolve-url-loader": "^2.3.1",
     "sass": "^1.20.1",
     "sass-loader": "^7.1.0",
     "vue-template-compiler": "^2.6.10",
-    "webpack-bundle-analyzer": "^3.3.2"
+    "webpack-bundle-analyzer": "^3.3.2",
+    "workbox-webpack-plugin": "^5.1.3"
   }
 }

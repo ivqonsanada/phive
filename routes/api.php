@@ -16,10 +16,15 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('logout', 'Auth\LoginController@logout');
 
-    Route::get('/user', 'Auth\UserController@current');
+    Route::get('user', 'Auth\UserController@current');
 
     Route::patch('settings/profile', 'Settings\ProfileController@update');
     Route::patch('settings/password', 'Settings\PasswordController@update');
+
+    Route::post('user/uploadavatar', 'Auth\UserController@uploadAvatar');
+    Route::post('user/saveprofile', 'Auth\UserController@saveProfile');
+
+    // Route::post('project/{project}/apply');
 });
 
 Route::group(['middleware' => 'guest:api'], function () {
@@ -34,4 +39,12 @@ Route::group(['middleware' => 'guest:api'], function () {
 
     Route::post('oauth/{driver}', 'Auth\OAuthController@redirectToProvider');
     Route::get('oauth/{driver}/callback', 'Auth\OAuthController@handleProviderCallback')->name('oauth.callback');
+});
+
+Route::group([], function() {
+    Route::get('user/{user:tagname}', 'ProfileController@getUser');
+
+    Route::get('projects', 'ProjectController@explore');
+    Route::get('projects/search/', 'ProjectController@search');
+    Route::get('project/{project}', 'ProjectController@show');
 });

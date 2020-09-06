@@ -6,10 +6,10 @@ use App\Notifications\ResetPassword;
 use App\Notifications\VerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
+class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
     use Notifiable;
 
@@ -19,7 +19,11 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+    //     'name', 'email', 'password', 'photo_url'
+    ];
+
+    protected $guard = [
+        'id', 'role'
     ];
 
     /**
@@ -29,6 +33,8 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
      */
     protected $hidden = [
         'password', 'remember_token',
+
+        'id', 'email_verified_at', 'created_at', 'updated_at', 'email', 'photo_url'
     ];
 
     /**
@@ -46,7 +52,7 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
      * @var array
      */
     protected $appends = [
-        'photo_url',
+        'avatar', 'joined_since'
     ];
 
     /**
@@ -54,9 +60,16 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
      *
      * @return string
      */
-    public function getPhotoUrlAttribute()
+    public function getAvatarAttribute()
     {
-        return 'https://www.gravatar.com/avatar/'.md5(strtolower($this->email)).'.jpg?s=200&d=mm';
+        if ($this->photo_url == null) {
+            return 'https://www.gravatar.com/avatar/'.md5(strtolower($this->email)).'.jpg?s=200&d=mm';
+        } else return '/images/avatar/' . $this->photo_url;
+    }
+
+    public function getJoinedSinceAttribute()
+    {
+        return $this->email_verified_at;
     }
 
     /**
@@ -104,5 +117,17 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function projects() {
+        return $this->hasMany('App\Project');
+    }
+
+    public function student() {
+        return $this->hasOne('App\Student');
+    }
+
+    public function lecturer() {
+        return $this->hasOne('App\Lecturer');
     }
 }

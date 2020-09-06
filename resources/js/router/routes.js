@@ -1,25 +1,78 @@
-function page (path) {
+function page(path) {
   return () => import(/* webpackChunkName: '' */ `~/pages/${path}`).then(m => m.default || m)
 }
 
 export default [
-  { path: '/', name: 'welcome', component: page('welcome.vue') },
+  { path: '/', name: 'index', component: page('home.vue') },
 
-  { path: '/login', name: 'login', component: page('auth/login.vue') },
-  { path: '/register', name: 'register', component: page('auth/register.vue') },
+  { path: '/login', name: 'login', meta: { title: 'Log In' }, component: page('auth/login.vue') },
+  { path: '/register', name: 'register', meta: { title: 'Register' }, component: page('auth/register.vue') },
   { path: '/password/reset', name: 'password.request', component: page('auth/password/email.vue') },
   { path: '/password/reset/:token', name: 'password.reset', component: page('auth/password/reset.vue') },
   { path: '/email/verify/:id', name: 'verification.verify', component: page('auth/verification/verify.vue') },
   { path: '/email/resend', name: 'verification.resend', component: page('auth/verification/resend.vue') },
 
-  { path: '/home', name: 'home', component: page('home.vue') },
-  { path: '/settings',
+  {
+    path: '/profile',
+    component: page('profile/index.vue'),
+    children: [
+      { path: '', redirect: { name: 'profile.projects' } },
+      { path: 'projects', name: 'profile.projects', meta: { title: 'Profile' }, component: page('profile/projects.vue') },
+      { path: 'wishlist', name: 'profile.wishlist', meta: { title: 'Profile' }, component: page('profile/wishlist.vue') },
+      { path: 'info', name: 'profile.info', meta: { title: 'Profile' }, component: page('profile/info.vue') }
+    ]
+  },
+
+  {
+    path: '/profile/edit',
+    component: page('editprofile/index.vue'),
+    children: [
+      { path: '', redirect: { name: 'editprofile.page1' } },
+      { path: 'page1', name: 'editprofile.page1', meta: { title: 'Edit Profile' }, component: page('editprofile/page1.vue') },
+      { path: 'page2', name: 'editprofile.page2', meta: { title: 'Edit Profile' }, component: page('editprofile/page2.vue') },
+    ]
+  },
+
+  {
+    path: '/@/:tagname',
+    component: page('visit/index.vue'),
+    children: [
+      { path: '', redirect: { name: '@.info' } },
+      { path: 'projects', name: '@.projects', component: page('visit/projects.vue') },
+      { path: 'wishlist', name: '@.wishlist', component: page('visit/wishlist.vue') },
+      { path: 'info', name: '@.info', component: page('visit/info.vue') }
+    ]
+  },
+
+  {
+    path: '/settings',
     component: page('settings/index.vue'),
     children: [
       { path: '', redirect: { name: 'settings.profile' } },
-      { path: 'profile', name: 'settings.profile', component: page('settings/profile.vue') },
-      { path: 'password', name: 'settings.password', component: page('settings/password.vue') }
-    ] },
+      { path: 'profile', name: 'settings.profile', meta: { title: 'Settings' }, component: page('settings/profile.vue') },
+      { path: 'password', name: 'settings.password', meta: { title: 'Settings' }, component: page('settings/password.vue') }
+    ]
+  },
 
-  { path: '*', component: page('errors/404.vue') }
+  { path: '/explore', name: 'explore', meta: {
+    title: 'Explore' }, component: page('explore.vue') },
+  { path: '/project/post', name: 'project.post', meta: {
+    title: 'Post Project' }, component: page('project/post.vue') },
+  { path: '/project/:id', name: 'project.details', meta: {
+    title: 'Project' }, component: page('project/details.vue') },
+
+  {
+    path: '/project/:id/apply',
+    component: page('project/apply/index.vue'),
+    children: [
+      { path: '', redirect: { name: 'project.apply.individual' } },
+      { path: '/project/:id/apply/individual', name: 'project.apply.individual', meta: { title: 'Apply Project' }, component: page('project/apply/individual.vue') },
+      { path: '/project/:id/apply/team', name: 'project.apply.team', meta: { title: 'Apply Project' }, component: page('project/apply/team.vue') },
+    ]
+  },
+
+  { path: '/project/create', name: 'project.create', meta: {
+    title: 'Post Project' }, component: page('project/details.vue') },
+
+  { path: '*', component: page('errors/404.vue'), }
 ]

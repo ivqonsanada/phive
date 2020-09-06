@@ -1,19 +1,249 @@
-.navbar {
-  font-weight: 600;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+@keyframes navOpen {
+  0%   { left: -100%; position: fixed; }
+  100% { left:    0%; position: fixed; }
 }
 
-.nav-item {
-  .dropdown-menu {
-    border: none;
-    margin-top: .5rem;
-    border-top: 1px solid #f2f2f2 !important;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.12), 0 2px 4px 0 rgba(0,0,0,0.08);
+@keyframes navClose {
+  0%   { left:    0%; position: fixed; }
+  100% { left: -100%; position: fixed; }
+}
+
+@keyframes overlayOpen {
+  0%   { left: 0%; opacity: 0; }
+  100% { left: 0%; opacity: 1; }
+}
+
+@keyframes overlayClose {
+  0%   { left: 0%; opacity: 1; }
+  99%  { left: 0%; }
+  100% { left: -100%; opacity: 0; }
+}
+
+.nav-base {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  gap: 1rem;
+  padding: 1rem 2.5rem;
+  position: fixed;
+  width: 100%;
+  // max-width: 1366px;
+
+  background-color: #ffffff;
+  z-index: 5;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+
+  & a {
+    text-decoration: none;
   }
+}
+
+.nav--top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.nav--brand-container {
+  text-align: center;
+}
+
+.nav-stabilizer {
+  width: 18px;
+}
+
+.navbar {
+  font-size: 1.8rem;
+  font-weight: 700;
+  padding: 1rem 2.5rem;
+  // padding: 1rem 1.8em;
+  border-top: 5px solid $dark-blue;
+  position: absolute;
+  opacity: 1;
+  left: -100%;
+  width: min(35.8rem, 100vw);
+  height: 100vh;
+  min-height: 50rem;
+  background-color: #ffffff;
+  overflow-y: scroll;
+  z-index: 20;
+
+  & a {
+    text-decoration: none;
+    color: $dark-blue;
+  }
+}
+
+.nav--animate-open {
+  animation: navOpen 0.4s $bezier forwards;
+}
+
+.nav--animate-close {
+  animation: navClose 0.4s $bezier forwards;
+}
+
+.nav--overlay {
+  position: fixed;
+  filter: brightness(0.5);
+  height: 100vh;
+  width: 100vw;
+
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 15;
+  opacity: 0;
+  left: -100%;
+}
+
+.nav--overlay-open {
+  animation: overlayOpen 0.35s $bezier forwards;
+}
+
+.nav--overlay-close {
+  animation: overlayClose 0.4s $bezier forwards;
+}
+
+.nav-toggler {
+  font-weight: 700;
+  color: $dark-blue;
+}
+
+.nav--profile-guest {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.nav__profile--guest-desc {
+  display: flex;
+  align-items: center;
+  font-size: 1.4rem;
+  color: $dark-blue;
+}
+
+.nav--profile {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.nav--profile-img {
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  object-fit: cover;
+  filter: drop-shadow(1px 4px 4px rgba(2, 2, 1, 0.3));
+}
+
+.nav--profile-desc {
+  color: $dark-blue;
+
+  & p {
+    margin: 0 0 0.75rem 0;
+  }
+
+  & p:last-child {
+    margin: 0;
+  }
+}
+
+.nav--profile-name {
+  font-size: 1.8rem;
+  line-height: 1.15;
+}
+
+.nav--profile-expertise {
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  & .iconify {
+    width: 1em;
+    height: 1em;
+  }
+}
+
+.nav--profile-points {
+  font-size: 1.4rem;
+}
+
+.nav--profile-link {
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+  margin: 0 0 0.5rem;
+  padding: 1rem 0;
+}
+
+a.nav--profile-link {
+  color: $red-glow;
+}
+
+a.nav--profile-link-active {
+  color: $dark-blue;
 }
 
 .nav-link {
-  .svg-inline--fa {
-    font-size: 1.4rem;
-  }
+  // color: $dark-blue;
+  display: flex;
+  gap: 3rem;
+  padding: 1.2rem 2rem;
+  align-items: center;
+}
+
+.nav-group {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 0;
+}
+
+.link-login {
+  width: 100%;
+  background-color: $red-glow;
+  text-align: center;
+  padding: 1.2rem;
+  border-radius: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1.2rem 2rem;
+}
+
+.link-register {
+  width: 100%;
+  text-align: center;
+  padding: 1.2rem;
+  border-radius: 1rem;
+  padding: 1.2rem 2rem;
+  border: 1px solid $dark-blue;
+}
+
+a.nav--active-link {
+  background: $dark-blue;
+  border-radius: 10px;
+  color: #FFFFFF;
+}
+
+.nav-separator {
+  border-style: solid;
+  border: none;
+  border-bottom: 1px solid $dark-blue;
+}
+
+.button-logout {
+  width: 100%;
+  background-color: $red-glow;
+  text-align: center;
+  padding: 1.2rem;
+  border-radius: 1rem;
+  margin-top: 2.5rem;
 }

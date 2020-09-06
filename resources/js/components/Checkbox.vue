@@ -1,5 +1,5 @@
 <template>
-  <div class="custom-control custom-checkbox d-flex">
+  <div class="">
     <input
       :id="id || name"
       :name="name"
@@ -8,7 +8,7 @@
       class="custom-control-input"
       @click="handleClick"
     >
-    <label :for="id || name" class="custom-control-label my-auto">
+    <label :for="id || name" class="">
       <slot />
     </label>
   </div>

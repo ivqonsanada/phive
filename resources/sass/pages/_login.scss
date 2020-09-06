@@ -1,0 +1,150 @@
+@keyframes studentRole {
+  0%   { left: 50%; background-color: $red-glow; }
+  50%  { left:  0%; width: 100%;}
+  100% { left:  0%; background-color: $dark-blue; width: 50%; }
+}
+
+@keyframes lecturerRole {
+  0%   { left:  0%; background-color: $dark-blue; }
+  50%  { left:  0%; width: 100%;}
+  100% { left: 50%; background-color: $red-glow; width: 50%;}
+}
+
+.login-page--container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  min-height: 40rem;
+  background: url(/images/login-student.png);
+  background-size: contain;
+  transition: all 0.4s $bezier;
+}
+
+.login-page--logo {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-top: 1rem;
+
+  & a {
+    text-decoration: none;
+    color: #ffffff;
+    transition: all 0.4s $bezier;
+  }
+}
+
+.login--h1 {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-weight: 800;
+  font-size: 2.4rem;
+}
+
+.login-role--container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  // margin-bottom: 2rem;
+}
+
+.login-radio {
+  display: none;
+}
+
+.login-radio--label {
+  display: inline-block;
+  width: 100%;
+  padding: 1rem 2rem;
+  font-size: 1.4rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.role--choose-effect {
+  margin-bottom: 2rem;
+  display: inline-block;
+  width: 50%;
+  height: 4px;
+  position: relative;
+  left: 0%;
+  background-color: $dark-blue;
+  border-radius: 1rem;
+}
+
+.role--student {
+  animation: studentRole 0.4s $bezier forwards;
+}
+
+.is-lecturer {
+  background: $red-glow !important;
+  color: $dark-blue !important;
+}
+
+.lecturer-bg {
+  background: $red-glow !important;
+}
+
+.lecturer-color {
+  color: #020201 !important;
+}
+
+.role--lecturer {
+  animation: lecturerRole 0.4s $bezier forwards;
+}
+
+.login-form--container {
+  min-height: 40rem;
+  padding: 2.2rem 3.2rem;
+  background-color: white;
+  border-radius: 1.5rem 1.5rem 0 0;
+}
+
+.login-input--container {
+  margin-bottom: 1.5rem;
+}
+
+.login-input {
+  width: 100%;
+  border: unset;
+  background-color: #F1F1F1;
+  font-size: 1.8rem;
+  padding: 1rem 1.2rem;
+  border-radius: 1rem;
+  line-height: 1.65;
+}
+
+.input-remember {
+  font-size: 1.3rem;
+  font-weight: 700;
+  display: flex;
+  gap: 0.6rem;
+
+  & input {
+    background-color: aquamarine;
+  }
+}
+
+.login-submit--button {
+  width: 100%;
+  border: unset;
+  border-radius: 1rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+  padding: 1rem;
+  background: $dark-blue;
+  transition: all 0.4s $bezier;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+}
+
+.login-extra {
+  text-align: center;
+  font-size: 1.3rem;
+  margin-top: 2rem;
+}
+
+.login-link {
+  text-decoration: none;
+  color: #020201;
+}

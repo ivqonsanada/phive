@@ -1,0 +1,125 @@
+h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  margin-top: 0rem;
+}
+
+p {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.65;
+}
+
+.info-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+}
+
+.info__skill-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 1.2rem;
+}
+
+.record--items {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-size: 1.2rem;
+  padding-left: 0.8rem;
+}
+
+.record--container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.record--icon {
+  min-width: 3.5rem;
+  color: $red-glow;
+}
+
+.record--icon-visited {
+  min-width: 3.5rem;
+  color: $dark-blue;
+}
+
+.experience__item {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+}
+
+.experience__desc {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.experience__heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.experience__job {
+  font-size: 1rem;
+}
+
+.experience__date {
+  font-size: 1rem;
+  color: #757575;
+}
+
+.social-media__input-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2rem;
+}
+
+.social-media__heading {
+  font-size: 2.4rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.social-media__container {
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+}
+
+.social-media__icon {
+  width: 3em;
+  height: 3em;
+  color: $red-glow;
+}
+
+.social-media__icon-visited {
+  width: 3em;
+  height: 3em;
+  color: $dark-blue;
+}
+
+.social-media__input {
+  width: 100%;
+  border: unset;
+  background-color: #f1f1f1;
+  font-size: 1.4rem;
+  padding: 1rem 1.2rem;
+  border-radius: 1rem;
+  line-height: 1.65;
+}
+
+.social-media__a {
+  width: 100%;
+}
+
+.last-sub--h3 {
+  margin-bottom: 0rem;
+}

@@ -1,0 +1,109 @@
+.profile--container {
+  margin-top: 0.7rem;
+}
+
+.profile__info--container {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile__info--img {
+  margin-right: 3rem;
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile__info--name {
+  font-size: 1.8rem;
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0 0 0.3rem;
+}
+
+.profile__info--occupation {
+  color: #757575;
+  margin: 0 0 0.5rem;
+  line-height: 1.45;
+}
+
+.profile__info--expertise {
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  line-height: 1.45;
+}
+
+.profile__info--available {
+  color: #7FFA53;
+  font-weight: 700;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  line-height: 1.45;
+}
+
+.profile__info--edit-profile {
+  margin-bottom: 3.5rem;
+  width: 100%;
+  padding: 1rem 2rem;
+  background: #FF5470;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  border-radius: 0.5rem;
+}
+
+.edit-profile__link {
+  color: #001534;
+  text-decoration: none;
+}
+
+.profile__sub-menu--container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.5rem;
+  margin-bottom: 3.5rem;
+}
+
+.profile__sub-menu--item {
+  background-color: #F9F9F9;
+  padding: 0.8rem;
+  border-radius: 0.5rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  color: #000000;
+}
+
+.profile__sub-menu--active {
+  background-color: $red-glow;
+  font-weight: 700;
+}
+
+.edit-profile__top-decore {
+  background: url(http://localhost:8000/images/edit-profile-top.png);
+  backdrop-filter: brightness(0.5);
+  height: 7.5rem;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 1.5rem;
+  margin: 2rem 0;
+}
+
+.edit-profile__inside-top-decore {
+  background: url(http://localhost:8000/images/logo.svg);
+  height: 7.5rem;
+  background-size: 5.7rem;
+  background-position: center;
+  background-repeat: no-repeat;
+}

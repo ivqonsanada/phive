@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <loading ref="loading" />
+    <!-- <loading ref="loading" /> -->
 
     <transition name="page" mode="out-in">
       <component :is="layout" v-if="layout" />
@@ -9,7 +9,11 @@
 </template>
 
 <script>
-import Loading from './Loading'
+// import Loading from './Loading'
+import '../../sass/elements/_customNProgress.scss'
+import { loadProgressBar } from 'axios-progress-bar'
+
+loadProgressBar()
 
 // Load layout components dynamically.
 const requireContext = require.context('~/layouts', false, /.*\.vue$/)
@@ -26,26 +30,18 @@ const layouts = requireContext.keys()
 export default {
   el: '#app',
 
-  components: {
-    Loading
-  },
-
   data: () => ({
     layout: null,
     defaultLayout: 'default'
   }),
 
   metaInfo () {
-    const { appName } = window.config
+    const appName = 'Phive'
 
     return {
       title: appName,
       titleTemplate: `%s · ${appName}`
     }
-  },
-
-  mounted () {
-    this.$loading = this.$refs.loading
   },
 
   methods: {

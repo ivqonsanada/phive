@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -17,12 +18,12 @@ class ProjectSeeder extends Seeder
         $faker = Faker::create('id_ID');
 
         $projectName = [
-            'Redesign SIAM UB Website',
-            'SIAM UB Website Development',
-            'SIAM UB Data Development',
             'Redesign FILKOM UB Website',
             'Gapura UB Development',
-            'iNews Apps Development'
+            'iNews Apps Development',
+            'Science-Fiction Story Generator AI',
+            'Philosopher AI',
+            'Random Project Name'
         ];
 
         $applicant_type = [
@@ -31,11 +32,11 @@ class ProjectSeeder extends Seeder
             'Team'
         ];
 
-        $skill = [
+        $skills = [
             'Communication', 'Design Thinking', 'Research', 'Design', 'Figma', 'Adobe XD'
         ];
 
-        $requirement = [
+        $requirements = [
             'Specific technical skills or languages are not required but strong designing skills and hunger to learn are. Out-of-school experiences like winning contests, prior internships, open source contribution etc. will make your application stand out.',
             'You have excellent written and verbal communication skills.',
             'You should have strong decision making skills and use sound reasoning to communicate.',
@@ -59,35 +60,83 @@ class ProjectSeeder extends Seeder
             'Demigod'
         ];
 
-        for ($i = 2; $i < 8; $i++) {
+        // For Mr. Covey
+        $randSalary = $salary[array_rand($salary)];
+        if ( $randSalary === '0' ) $certificate = 1;
+        else $certificate = $faker->boolean;
+
+        DB::table('projects')->insert([
+            'user_id' => 2,
+            'title' => $projectName[0],
+            'description' => $faker->text,
+            'salary' => $randSalary,
+            'certificate' => $certificate,
+            'ui_ux_designer' => true,
+            'front_end_engineer' => $faker->boolean,
+            'back_end_engineer' => $faker->boolean,
+            'data_expert' => $faker->boolean,
+            'max_person' => $faker->numberBetween($min = 1, $max = 9),
+            'image' => $faker->imageUrl,
+            'applicant_type' => $applicant_type[array_rand($applicant_type)],
+            'min_points' => $min_points[array_rand($min_points)],
+            'level_applicant' => $level_applicant[array_rand($level_applicant)],
+            'created_at' => now(),
+            'updated_at' => now(),
+            ]);
+
+            shuffle($skills);
+            shuffle($requirements);
+
+            for($j = 0; $j < 6; $j++) {
+                DB::table('project_skills')->insert([
+                    'project_id' => 1,
+                    'skill' => $skills[$j],
+                ]);
+
+                DB::table('project_requirements')->insert([
+                    'project_id' => 1,
+                    'requirement' => $requirements[$j],
+                ]);
+            }
+
+        for ($i = 3; $i < 8; $i++) {
+            $randSalary = $salary[array_rand($salary)];
+            if ( $randSalary === '0' ) $certificate = 1;
+            else $certificate = $faker->boolean;
+            $month = $faker->numberBetween($min = 8, $max = 9);
+            $day = $faker->numberBetween($min = 1, $max = 20);
+
             DB::table('projects')->insert([
                 'user_id' => $i,
-                'name' => $projectName[$i-2],
+                'title' => $projectName[$i-2],
                 'description' => $faker->text,
-                'salary' => $salary[$i-2],
-                'certificate' => $faker->boolean,
+                'salary' => $randSalary,
+                'certificate' => $certificate,
                 'ui_ux_designer' => true,
                 'front_end_engineer' => $faker->boolean,
                 'back_end_engineer' => $faker->boolean,
                 'data_expert' => $faker->boolean,
-                'max_person' => $faker->randomDigit,
+                'max_person' => $faker->numberBetween($min = 1, $max = 9),
                 'image' => $faker->imageUrl,
                 'applicant_type' => $applicant_type[array_rand($applicant_type)],
                 'min_points' => $min_points[array_rand($min_points)],
                 'level_applicant' => $level_applicant[array_rand($level_applicant)],
-                'created_at' => now(),
-                'updated_at' => now()
+                'created_at' => Carbon::createFromDate(2020, $month, $day, 'Asia/Jakarta'),
+                'updated_at' => Carbon::createFromDate(2020, $month, $day, 'Asia/Jakarta'),
             ]);
 
+            shuffle($skills);
+            shuffle($requirements);
+
             for($j = 0; $j < 6; $j++) {
-                DB::table('skills')->insert([
+                DB::table('project_skills')->insert([
                     'project_id' => $i-1,
-                    'skill' => $skill[$j],
+                    'skill' => $skills[$j],
                 ]);
 
-                DB::table('requirements')->insert([
+                DB::table('project_requirements')->insert([
                     'project_id' => $i-1,
-                    'requirement' => $requirement[$j],
+                    'requirement' => $requirements[$j],
                 ]);
             }
         }
@@ -96,18 +145,24 @@ class ProjectSeeder extends Seeder
             'Freelancer Apps Development',
             'K-Pay Payments Service',
             'Cloud Monitoring Apps',
-            'Science-Fiction Story Generator AI',
-            'Philosopher AI',
-            'Random Project Name'
+            'Redesign SIAM UB Website',
+            'SIAM UB Website Development',
+            'SIAM UB Data Development',
         ];
 
         for ($i = 8; $i < 14; $i++) {
+            $randSalary = $salary[array_rand($salary)];
+            if ( $randSalary === '0' ) $certificate = 1;
+            else $certificate = $faker->boolean;
+            $month = $faker->numberBetween($min = 8, $max = 9);
+            $day = $faker->numberBetween($min = 1, $max = 20);
+
             DB::table('projects')->insert([
                 'user_id' => $i-6,
-                'name' => $projectName2[$i-8],
+                'title' => $projectName2[$i-8],
                 'description' => $faker->text,
-                'salary' => $salary[$i-8],
-                'certificate' => $faker->boolean,
+                'salary' => $randSalary,
+                'certificate' => $certificate,
                 'ui_ux_designer' => true,
                 'front_end_engineer' => $faker->boolean,
                 'back_end_engineer' => $faker->boolean,
@@ -117,19 +172,22 @@ class ProjectSeeder extends Seeder
                 'applicant_type' => $applicant_type[array_rand($applicant_type)],
                 'min_points' => $min_points[array_rand($min_points)],
                 'level_applicant' => $level_applicant[array_rand($level_applicant)],
-                'created_at' => now(),
-                'updated_at' => now()
+                'created_at' => Carbon::createFromDate(2020, $month, $day, 'Asia/Jakarta'),
+                'updated_at' => Carbon::createFromDate(2020, $month, $day, 'Asia/Jakarta'),
             ]);
 
+            shuffle($skills);
+            shuffle($requirements);
+
             for($j = 0; $j < 6; $j++) {
-                DB::table('skills')->insert([
+                DB::table('project_skills')->insert([
                     'project_id' => $i-1,
-                    'skill' => $skill[$j],
+                    'skill' => $skills[$j],
                 ]);
 
-                DB::table('requirements')->insert([
+                DB::table('project_requirements')->insert([
                     'project_id' => $i-1,
-                    'requirement' => $requirement[$j],
+                    'requirement' => $requirements[$j],
                 ]);
             }
         }

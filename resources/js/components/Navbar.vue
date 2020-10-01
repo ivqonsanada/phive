@@ -1,18 +1,18 @@
 <template>
   <div class="nav">
     <div class="nav-base">
-      <div class="nav-toggler" @click="openMenu">
+      <button class="nav-toggler btn--clear" @click="openMenu">
         <span class="iconify" data-icon="ic:round-view-headline" data-inline="true" width="24" height="24" />
-      </div>
+      </button>
 
       <div class="nav--brand-container">
         <a class="nav-brand">
-          <template v-if="title">
+          <div v-show="title">
             {{ title }}
-          </template>
-          <template v-else>
+          </div>
+          <div v-show="!title">
             <img src="/images/logo-blue.svg" alt="">
-          </template>
+          </div>
         </a>
       </div>
 
@@ -24,9 +24,9 @@
     <nav class="navbar" :class="{ 'nav--animate-open': showMenu, 'nav--animate-close': hideMenu }">
       <div class="navbar--menu-container">
         <div class="nav--top">
-          <div class="nav-toggler" @click="closeMenu">
-            <span class="iconify" data-icon="entypo:chevron-left" data-inline="true" />
-          </div>
+          <button class="nav-toggler btn--clear" @click="closeMenu">
+            <span class="iconify" data-icon="entypo:chevron-left" data-inline="true" width="24" height="24" />
+          </button>
 
           <div class="nav--brand-container">
             <a class="nav-brand">
@@ -44,7 +44,8 @@
                 {{ getFullName }}
               </p>
               <p class="nav--profile-expertise">
-                <span class="iconify" data-icon="fa-solid:paint-brush" data-inline="true" width="10" height="10" /> {{ user.expertise }}
+                <span class="iconify" data-icon="fa-solid:paint-brush" data-inline="true" width="10" height="10" />
+                <span>{{ user.expertise }}</span>
               </p>
               <p v-if="user.role === 'Student'" class="nav--profile-points">
                 3500 Points
@@ -66,37 +67,47 @@
 
         <div class="nav-group">
           <router-link :to="{ name: 'explore' }" class="nav-link" active-class="nav--active-link">
-            <span class="iconify" data-icon="eva:globe-2-fill" data-inline="true" width="20" height="20" /> Explore
-          </router-link>
-          <router-link :to="{ path: '/leaderboard' }" class="nav-link" active-class="nav--active-link">
-            <span class="iconify" data-icon="gridicons:stats-up-alt" data-inline="true" width="20" height="20" /> Leaderboard
+            <span class="iconify" data-icon="eva:globe-2-fill" data-inline="true" width="20" height="20" />
+            <span>Explore</span>
           </router-link>
 
-          <template v-if="user">
+          <router-link :to="{ path: '/leaderboard' }" class="nav-link" active-class="nav--active-link">
+            <span class="iconify" data-icon="gridicons:stats-up-alt" data-inline="true" width="20" height="20" />
+            <span>Leaderboard</span>
+          </router-link>
+
+          <div v-if="user">
             <router-link v-if="user.role == 'Student'" :to="{ path: '/quest' }" class="nav-link" active-class="nav--active-link">
-              <span class="iconify" data-icon="el:star-alt" data-inline="true" width="20" height="20" /> Quest
+              <span class="iconify" data-icon="el:star-alt" data-inline="true" width="20" height="20" />
+              <span>Quest</span>
             </router-link>
-          </template>
+          </div>
         </div>
 
         <div class="nav-separator" />
 
         <!-- Authenticated -->
-        <template v-if="user">
+        <div v-show="user">
           <div class="nav-group">
-            <router-link :to="{ path: '/inbox' }" class="nav-link" active-class="nav--active-link">
+            <router-link :to="{ name: 'inbox' }" class="nav-link" active-class="nav--active-link">
               <span class="iconify" data-icon="ion:mail-unread-sharp" data-inline="true" width="20" height="20" />
-              Inbox
+              <span>
+                Inbox
+              </span>
             </router-link>
 
-            <router-link :to="{ path: '/box' }" class="nav-link" active-class="nav--active-link">
+            <router-link :to="{ name: 'projectbox' }" class="nav-link" active-class="nav--active-link">
               <span class="iconify" data-icon="simple-icons:polymerproject" data-inline="true" width="20" height="20" />
-              Project Box
+              <span>
+                Project Box
+              </span>
             </router-link>
 
-            <router-link v-if="user.role == 'Lecturer'" :to="{ name: 'project.post' }" class="nav-link" active-class="nav--active-link">
+            <router-link v-show="user && user.role === 'Lecturer'" :to="{ name: 'project.post' }" class="nav-link" active-class="nav--active-link">
               <span class="iconify" data-icon="ic:baseline-post-add" data-inline="true" width="20" height="20" />
-              Post Project
+              <span>
+                Post Project
+              </span>
             </router-link>
           </div>
 
@@ -105,7 +116,9 @@
           <div class="nav-group">
             <router-link :to="{ path: '/settings' }" class="nav-link" active-class="nav--active-link">
               <span class="iconify" data-icon="eva:settings-fill" data-inline="true" />
-              Settings
+              <span>
+                Settings
+              </span>
             </router-link>
 
             <div class="dropdown-divider" />
@@ -114,9 +127,9 @@
               Logout
             </a>
           </div>
-        </template>
-        <!-- Guest -->
-        <template v-else>
+        </div>
+
+        <div v-show="!user">
           <div class="nav-group ">
             <router-link :to="{ name: 'login' }" class="link-login" active-class="nav--active-link">
               Login
@@ -126,7 +139,7 @@
               Create Account
             </router-link>
           </div>
-        </template>
+        </div>
       </div>
     </nav>
   </div>
@@ -146,11 +159,13 @@ export default {
   computed: {
     ...mapGetters({
       user: 'auth/user',
-      navTitle: 'navigation/title'
+      navTitle: 'navigation/title',
+      overlay: 'navigation/overlay'
     }),
 
     getFullName () {
-      return this.user.first_name + ' ' + this.user.last_name
+      if (this.user) return this.user.first_name + ' ' + this.user.last_name
+      return ''
     },
 
     title () {
@@ -187,7 +202,8 @@ export default {
     async logout () {
       await this.$store.dispatch('auth/logout')
 
-      this.$router.push({ name: 'login' })
+      // this.$router.push({ name: 'login' })
+      this.$router.push({ name: 'index' })
     }
 
   }

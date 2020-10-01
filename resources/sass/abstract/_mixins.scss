@@ -1,6 +1,12 @@
 @mixin respon($breakpoint) {
-  @if $breakpoint == s {
+  @if $breakpoint == xs {
     @media only screen and (min-width: 360px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == s {
+    @media only screen and (min-width: 410px) {
       @content;
     }
   }
@@ -28,4 +34,11 @@
       @content;
     }
   }
+}
+
+@mixin line-clamp($line) {
+  display: -webkit-box;
+  -webkit-line-clamp: $line;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }

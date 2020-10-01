@@ -55,7 +55,7 @@
   margin-bottom: 3.5rem;
   width: 100%;
   padding: 1rem 2rem;
-  background: #FF5470;
+  background: var(--red-glow);
   text-align: center;
   font-size: 1.4rem;
   font-weight: 700;
@@ -86,13 +86,12 @@
 }
 
 .profile__sub-menu--active {
-  background-color: $red-glow;
+  background-color: var(--red-glow);
   font-weight: 700;
 }
 
 .edit-profile__top-decore {
-  background: url(http://localhost:8000/images/edit-profile-top.png);
-  backdrop-filter: brightness(0.5);
+  background: url(/images/edit-profile-top.png);
   height: 7.5rem;
   background-size: cover;
   background-repeat: no-repeat;
@@ -101,9 +100,12 @@
 }
 
 .edit-profile__inside-top-decore {
-  background: url(http://localhost:8000/images/logo.svg);
+  background: url(/images/logo.svg);
   height: 7.5rem;
   background-size: 5.7rem;
   background-position: center;
   background-repeat: no-repeat;
+}
+.tagname {
+  font-weight: 600;
 }

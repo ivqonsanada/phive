@@ -40,12 +40,12 @@ p {
 
 .record--icon {
   min-width: 3.5rem;
-  color: $red-glow;
+  color: var(--red-glow);
 }
 
 .record--icon-visited {
   min-width: 3.5rem;
-  color: $dark-blue;
+  color: var(--dark-blue);
 }
 
 .experience__item {
@@ -97,13 +97,13 @@ p {
 .social-media__icon {
   width: 3em;
   height: 3em;
-  color: $red-glow;
+  color: var(--red-glow);
 }
 
 .social-media__icon-visited {
   width: 3em;
   height: 3em;
-  color: $dark-blue;
+  color: var(--dark-blue);
 }
 
 .social-media__input {

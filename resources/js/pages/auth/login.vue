@@ -12,11 +12,11 @@
       </h1>
       <div class="login-role--container">
         <div>
-          <input id="login-student" v-model="loginRole" class="login-radio" type="radio" value="Student" name="role">
+          <input id="login-student" v-model="form.role" class="login-radio" type="radio" value="Student">
           <label class="login-radio--label" for="login-student" @click="chooseStudent">Student</label>
         </div>
         <div>
-          <input id="login-lecturer" v-model="loginRole" class="login-radio" type="radio" value="Lecturer" name="role">
+          <input id="login-lecturer" v-model="form.role" class="login-radio" type="radio" value="Lecturer">
           <label class="login-radio--label" for="login-lecturer" @click="chooseLecturer">Lecturer</label>
         </div>
       </div>
@@ -78,11 +78,11 @@ export default {
   },
 
   data: () => ({
-    loginRole: 'Student',
     studentRole: false,
     lecturerRole: false,
 
     form: new Form({
+      role: 'Student',
       email: '',
       password: ''
     }),
@@ -93,12 +93,10 @@ export default {
     async login () {
       const { data } = await this.form.post('/api/login')
 
-      this.$store.dispatch('auth/saveToken', {
+      await this.$store.dispatch('auth/saveToken', {
         token: data.token,
         remember: this.remember
       })
-
-      await this.$store.dispatch('auth/fetchUser')
 
       this.$router.back()
     },

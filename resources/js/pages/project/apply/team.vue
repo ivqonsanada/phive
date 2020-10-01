@@ -80,8 +80,10 @@
 
       <div class="">
         <!-- Submit Button -->
-        <v-button :loading="form.busy" class="form__submit-button">
-          Submit
+        <v-button :loading="form.busy" class="btn btn--red btn--large">
+          <span>
+            Submit
+          </span>
           <span class="iconify" data-icon="si-glyph:paper-plane" data-inline="true" />
         </v-button>
       </div>
@@ -115,11 +117,21 @@ export default {
     })
   }),
 
+  computed: {
+    peoples () {
+      return ''
+    }
+  },
+
   metaInfo () {
-    return { title: 'Apply' }
+    return { title: 'Apply - Team' }
   },
 
   mounted () {
+    if (!this.$route.params.title) {
+      this.$router.push({ path: `/project/${this.$route.params.id}` })
+    }
+
     this.checkMany()
   },
 

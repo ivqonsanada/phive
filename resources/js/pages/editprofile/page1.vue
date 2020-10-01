@@ -4,10 +4,10 @@
       <img class="edit-profile--img" :src="data.avatar" alt="">
       <div class="form-group__input-container form__file-container">
         <div>
-          <label for="form2.avatar" class="form__label-file">Upload Photo</label>
+          <label for="form2.avatar" class="btn btn--red">Upload Photo</label>
           <input id="form2.avatar" class="form__input-file" name="form2.file" type="file" @change="uploadAvatar">
         </div>
-        <button class="form__delete-avatar">
+        <button class="btn btn--grey">
           Delete
         </button>
       </div>
@@ -38,7 +38,7 @@
             Status
           </h4>
           <div class="form-group__input-container">
-            <input v-model="form.user.role" class="form-group__input-text">
+            <input v-model="form.user.role" class="form-group__input-text" disabled>
           </div>
         </div>
 
@@ -133,7 +133,7 @@
 
         <hr class="form--hr">
 
-        <div class="form-group__container">
+        <div class="form-group__container mb-5">
           <h4 class="form-group__input-name">
             Tag Name
           </h4>
@@ -142,15 +142,13 @@
           </div>
         </div>
         <div class="">
-          <!-- Submit Button -->
-
           <router-link :to="{ name: 'editprofile.page2' }" class="edit-profile__link">
-            <div class="edit-profile__page-2-button">
+            <div class="btn btn--grey mb-1_5 mt-5">
               Next
             </div>
           </router-link>
 
-          <v-button :loading="form.busy" class="form__submit-button">
+          <v-button :loading="form.busy" class="btn btn--red">
             Save Changes
           </v-button>
         </div>
@@ -163,8 +161,11 @@
 import Form from 'vform'
 import { serialize } from 'object-to-formdata'
 import { mapGetters } from 'vuex'
+// import snarkdown from 'snarkdown'
 
 export default {
+  name: 'EditProfilePageOne',
+
   data: () => ({
     form: new Form({
       user: null
@@ -177,7 +178,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      data: 'auth/user'
+      data: 'auth/user',
+      snackbar: 'notification/snackbar'
     })
   },
 
@@ -206,16 +208,21 @@ export default {
           this.$store.dispatch('auth/updateAvatar', {
             avatar: data.avatar
           })
+
+          this.snackbar.info(data.message)
         })
     },
 
     async saveProfile (e) {
-      await this.form.post('/api/user/saveprofile')
+      // this.form.user.biography = snarkdown(this.form.user.biography)
+
+      await this.form.post('/api/user/saveprofile/1')
         .then(({ data }) => {
-          console.log(data)
-          // this.$store.dispatch('auth/updateAvatar', {
-          //   avatar: data.avatar
-          // })
+          this.$store.dispatch('auth/updateUser', {
+            user: data.user
+          })
+
+          this.snackbar.info(data.message)
         })
     }
   }

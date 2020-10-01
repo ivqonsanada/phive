@@ -1,47 +1,66 @@
 <template>
   <div class="project__card--container">
     <div class="project__card--top-container">
-      <router-link :to="{ name: 'project.details', params: { id: data.id} }">
-        <img :src="`https://placeimg.com/640/360/tech/${data.id}`" alt="">
+      <router-link :to="{ name: 'project.details', params: { id: project.id } }">
+        <img :src="`https://placeimg.com/640/360/tech/${project.id}`" loading="lazy">
       </router-link>
     </div>
 
     <div class="project__card--body-container">
-      <div
-        class="project__card--body-salary"
-      >
-        {{ getRewards(data.salary, data.certificate) }}
+      <div class="project__card--body-salary">
+        {{ rewards }}
       </div>
 
       <div class="project__card--info-container">
         <h2 class="project__card--name">
-          {{ data.name }}
+          {{ project.title }}
         </h2>
         <div class="project__card--info--consistency">
           <div class="project__card--post-info">
-            <div>Expertise in : {{ expertiseIn }}</div>
-            <div>Posted by : {{ getFullName }}</div>
-            <div>Applicant : {{ data.applicant_type }}</div>
+            <div class="ellipsies">
+              Expertise in : {{ expertiseIn }}
+            </div>
+            <div class="ellipsies">
+              Posted by : {{ fullName }}
+            </div>
+            <div class="ellipsies">
+              Applicant : {{ project.applicant_type }}
+            </div>
           </div>
           <div>
             <div class="project__card--bounty-info">
               <div class="info-item--container">
-                <span class="bounty--span">LVL</span> Superior
+                <span class="bounty--span">LVL</span>
+                <span>{{ project.level_applicant }}</span>
               </div>
-              <div v-if="data.salary > 0" class="info-item--container">
-                <span class="iconify info-item--icon" data-icon="fa-solid:dollar-sign" data-inline="true" width="8" height="15" /> Salary
+              <div v-if="project.salary > 0" class="info-item--container">
+                <span>
+                  <span
+                    class="iconify info-item--icon"
+                    data-icon="fa-solid:dollar-sign"
+                    data-inline="true"
+                    width="8"
+                    height="15"
+                  />
+                </span>
+                <span>Salary</span>
               </div>
-              <div v-if="data.certificate == 1" class="info-item--container">
-                <span class="iconify info-item--icon" data-icon="la:certificate-solid" data-inline="true" width="15" height="15" /> Certificate
+              <div v-if="project.certificate === 1" class="info-item--container">
+                <span>
+                  <span
+                    class="iconify info-item--icon"
+                    data-icon="la:certificate-solid"
+                    data-inline="true"
+                    width="15"
+                    height="15"
+                  />
+                </span>
+                <span>Certificate</span>
               </div>
             </div>
             <div class="project__card--extra-info">
-              <div>
-                &bull; Posted {{ getHumanDate(data.created_at) }}
-              </div>
-              <div>
-                &bull; Max. {{ data.max_person }} Person
-              </div>
+              <div>&bull; Posted {{ getHumanDate(project.created_at) }}</div>
+              <div>&bull; Max. {{ project.max_person }} Person</div>
             </div>
           </div>
         </div>
@@ -61,34 +80,57 @@ export default {
   },
 
   computed: {
-    getFullName () {
-      return this.data.user.first_name + ' ' + this.data.user.last_name
+    fullName () {
+      return this.project.user.first_name + ' ' + this.project.user.last_name
     },
 
     expertiseIn () {
-      return this.getExpertise(this.data.ui_ux_designer, this.data.data_expert, this.data.front_end_engineer, this.data.back_end_engineer)
+      let expertises = [
+        {
+          name: 'UI/UX Designer',
+          isRequired: this.project.ui_ux_designer
+        },
+        {
+          name: 'Frontend Engineer',
+          isRequired: this.project.front_end_engineer
+        },
+        {
+          name: 'Backend Engineer',
+          isRequired: this.project.back_end_engineer
+        },
+        {
+          name: 'Data Expert',
+          isRequired: this.project.data_expert
+        }
+      ].filter(expertise => expertise.isRequired == 1)
+        .map(expertise => expertise.name)
+        .join(', ')
+
+      return expertises
+    },
+
+    rewards () {
+      return this.getRewards(this.project.salary, this.project.certificate)
+    },
+
+    project () {
+      if (this.data.project) return this.data.project
+
+      return this.data
     }
   },
 
   methods: {
-    getExpertise: function (...expertises) {
-      if (expertises[0]) expertises[0] = 'UI/UX Designer'
-      if (expertises[1]) expertises[1] = 'Frontend Engineer'
-      if (expertises[2]) expertises[2] = 'Backend Engineer'
-      if (expertises[3]) expertises[3] = 'Data Expert'
-
-      return expertises.filter(expertise => expertise !== 0).join(', ')
-    },
 
     getRewards: function (...rewards) {
-      if (rewards[0] !== '0') return new Intl.NumberFormat('id-ID').format(rewards[0]) + ',- IDR'
-      else return 'Certificate'
+      if (rewards[0] !== '0') {
+        return new Intl.NumberFormat('id-ID').format(rewards[0]) + ',- IDR'
+      } else return 'Certificate'
     },
 
     getHumanDate: function (date) {
       return timeago.format(date)
     }
   }
-
 }
 </script>

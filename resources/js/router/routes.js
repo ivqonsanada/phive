@@ -18,8 +18,23 @@ export default [
     children: [
       { path: '', redirect: { name: 'profile.projects' } },
       { path: 'projects', name: 'profile.projects', meta: { title: 'Profile' }, component: page('profile/projects.vue') },
-      { path: 'wishlist', name: 'profile.wishlist', meta: { title: 'Profile' }, component: page('profile/wishlist.vue') },
+      { path: 'wishlists', name: 'profile.wishlist', meta: { title: 'Profile' }, component: page('profile/wishlist.vue') },
       { path: 'info', name: 'profile.info', meta: { title: 'Profile' }, component: page('profile/info.vue') }
+    ]
+  },
+
+  { path: '/inbox', name: 'inbox', component: page('inbox.vue') },
+
+  { path: '/projectbox', name: 'projectbox', component: page('projectbox.vue') },
+
+  {
+    path: '/newcomer',
+    component: page('auth/newcomer/index.vue'),
+    children: [
+      { path: '', redirect: { name: 'newcomer.page1' } },
+      { path: 'page1', name: 'newcomer.page1', component: page('auth/newcomer/page1.vue') },
+      { path: 'page2', name: 'newcomer.page2', component: page('auth/newcomer/page2.vue') },
+      { path: 'page3', name: 'newcomer.page3', component: page('auth/newcomer/page3.vue') }
     ]
   },
 
@@ -29,7 +44,7 @@ export default [
     children: [
       { path: '', redirect: { name: 'editprofile.page1' } },
       { path: 'page1', name: 'editprofile.page1', meta: { title: 'Edit Profile' }, component: page('editprofile/page1.vue') },
-      { path: 'page2', name: 'editprofile.page2', meta: { title: 'Edit Profile' }, component: page('editprofile/page2.vue') },
+      { path: 'page2', name: 'editprofile.page2', meta: { title: 'Edit Profile' }, component: page('editprofile/page2.vue') }
     ]
   },
 
@@ -39,10 +54,12 @@ export default [
     children: [
       { path: '', redirect: { name: '@.info' } },
       { path: 'projects', name: '@.projects', component: page('visit/projects.vue') },
-      { path: 'wishlist', name: '@.wishlist', component: page('visit/wishlist.vue') },
+      { path: 'wishlists', name: '@.wishlist', component: page('visit/wishlist.vue') },
       { path: 'info', name: '@.info', component: page('visit/info.vue') }
     ]
   },
+
+  { path: '/@/:tagname/message', name: 'message', component: page('message.vue') },
 
   {
     path: '/settings',
@@ -67,12 +84,12 @@ export default [
     children: [
       { path: '', redirect: { name: 'project.apply.individual' } },
       { path: '/project/:id/apply/individual', name: 'project.apply.individual', meta: { title: 'Apply Project' }, component: page('project/apply/individual.vue') },
-      { path: '/project/:id/apply/team', name: 'project.apply.team', meta: { title: 'Apply Project' }, component: page('project/apply/team.vue') },
+      { path: '/project/:id/apply/team', name: 'project.apply.team', meta: { title: 'Apply Project' }, component: page('project/apply/team.vue') }
     ]
   },
 
-  { path: '/project/create', name: 'project.create', meta: {
-    title: 'Post Project' }, component: page('project/details.vue') },
+  { path: '/project/create', name: 'project.create',
+    meta: { title: 'Post Project' }, component: page('project/details.vue') },
 
-  { path: '*', component: page('errors/404.vue'), }
+  { path: '*', meta: { title: 'Error' }, component: page('errors/404.vue') }
 ]

@@ -16,14 +16,11 @@
   grid-template-columns: 2fr 1fr;
   margin-bottom: 0;
   text-align: center;
-
-  & > :not(:last-child) {
-    margin-right: 1rem;
-  }
+  gap: 1rem;
 }
 
 .form__label-file {
-  background: $red-glow;
+  background: var(--red-glow);
   color: #001534;
   padding: 1rem 2rem;
   border-radius: 1rem;
@@ -36,24 +33,13 @@
   display: none;
 }
 
-.form__delete-avatar {
-  background: #F1F1F1;
-  color: #001534;
-  border: none;
-  padding: 1rem 2rem;
-  font-size: 1.8rem;
-  font-weight: 700;
-  border-radius: 1rem;
+.button__add-skill--icon {
+  width: 2rem;
+  height: 2rem;
 }
 
-.edit-profile__page-2-button {
-  background: #F1F1F1;
-  color: #001534;
-  border: none;
-  padding: 1rem 2rem;
-  font-size: 1.8rem;
-  font-weight: 700;
-  border-radius: 1rem;
-  text-align: center;
-  margin-bottom: 1.5rem;
+.button__add-skill--text {
+  font-size: 1.2rem;
+  font-weight: 800;
+  text-transform: uppercase;
 }

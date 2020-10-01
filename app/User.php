@@ -14,15 +14,11 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     use Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes that are not mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-    //     'name', 'email', 'password', 'photo_url'
-    ];
-
-    protected $guard = [
+    protected $guarded = [
         'id', 'role'
     ];
 
@@ -34,7 +30,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     protected $hidden = [
         'password', 'remember_token',
 
-        'id', 'email_verified_at', 'created_at', 'updated_at', 'email', 'photo_url'
+        'email_verified_at', 'created_at', 'updated_at', 'email', 'photo_url'
     ];
 
     /**
@@ -64,7 +60,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     {
         if ($this->photo_url == null) {
             return 'https://www.gravatar.com/avatar/'.md5(strtolower($this->email)).'.jpg?s=200&d=mm';
-        } else return '/images/avatar/' . $this->photo_url;
+        } else return '/storage/images/avatar/' . $this->photo_url;
     }
 
     public function getJoinedSinceAttribute()
@@ -129,5 +125,9 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 
     public function lecturer() {
         return $this->hasOne('App\Lecturer');
+    }
+
+    public function inboxes() {
+        return $this->hasMany('App\Inbox');
     }
 }

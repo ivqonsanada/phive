@@ -8,14 +8,13 @@
 
     <div>
       <transition name="fade" mode="out-in">
-        <router-view :data="user" />
+        <router-view />
       </transition>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 
 export default {
   middleware: 'auth',
@@ -29,9 +28,9 @@ export default {
   },
 
   computed: {
-    ...mapGetters({
-      user: 'auth/user'
-    })
+    // ...mapGetters({
+    //   user: 'auth/user'
+    // })
   },
 
   mounted () {
@@ -39,9 +38,6 @@ export default {
   },
 
   methods: {
-    // async getUserData () {
-    //   this.user = this.$props.user
-    // }
   }
 }
 </script>

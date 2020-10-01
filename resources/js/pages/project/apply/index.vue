@@ -4,11 +4,11 @@
       <div class="edit-profile__top-decore">
         <div class="edit-profile__inside-top-decore" />
       </div>
-      <h1 class="apply__top--h1">
+      <h2 class="apply__top--h1">
         You Almost There!
-      </h1>
+      </h2>
       <p class="apply__top--p">
-        You need to fill up the form below about yourself / team who wants to applied to <strong>{{ $route.params.name }}.</strong>
+        You need to fill up the form below about yourself / team who wants to applied to <strong>{{ title }}.</strong>
       </p>
     </div>
 
@@ -17,18 +17,9 @@
         Applicant Type
       </h4>
       <div class="form-group__radio-container">
-        <div>
-          <input id="apply-individual" v-model="applicant_type" class="form-group__radio" value="Individual" type="radio" name="applicant_type">
-          <router-link :to="{ name: 'project.apply.individual', params: { name: $route.params.name } }" class="radio__square" active-class="active-type">
-            <label for="apply-individual">Individual</label>
-          </router-link>
-        </div>
-        <div>
-          <input id="apply-team" v-model="applicant_type" class="form-group__radio" value="Team" type="radio" name="applicant_type">
-          <router-link :to="{ name: 'project.apply.team', params: { name: $route.params.name } }" class="radio__square" active-class="active-type">
-            <label for="apply-team">Team</label>
-          </router-link>
-        </div>
+        <router-link v-for="type in types" :key="type.name" :to="{ name: type.route, params: { title: title, type: applicant_type } }" class="btn--clear radio__square" active-class="active-type" tag="button">
+          {{ type.name }}
+        </router-link>
       </div>
     </div>
 
@@ -46,18 +37,45 @@
 export default {
   middleware: 'auth',
 
-  data: () => ({
-    applicant_type: ''
-  }),
+  computed: {
+    title () {
+      return this.$route.params.title
+    },
+
+    applicant_type () {
+      return this.$route.params.type
+    },
+
+    types () {
+      let types = [
+        {
+          name: 'Individual',
+          route: 'project.apply.individual'
+        },
+        {
+          name: 'Team',
+          route: 'project.apply.team'
+        }
+      ]
+
+      if (this.applicant_type === 'Individual') {
+        return [types[0]]
+      }
+
+      if (this.applicant_type === 'Team') {
+        return [types[1]]
+      }
+
+      return types
+    }
+  },
 
   metaInfo () {
     return { title: 'Apply' }
   },
 
   mounted () {
-    if (!this.$route.params.name) {
-      this.$router.push({ path: `/project/${this.$route.params.id}` })
-    }
+
   },
 
   methods: {

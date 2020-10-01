@@ -6,22 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
-    protected $guard = [
-        // 'id',
-        // 'user_id'
-    ];
-
+    protected $guarded = [];
 
     public function user()
     {
         return $this->belongsTo('App\User');
     }
 
-    public function requirements() {
-        return $this->hasMany('App\Requirement');
+    public function project_requirements() {
+        return $this->hasMany('App\ProjectRequirement');
     }
 
-    public function skills() {
-        return $this->hasMany('App\Skill');
+    public function project_skills() {
+        return $this->hasMany('App\ProjectSkill');
+    }
+
+    public function project_team () {
+        return $this->hasOne('App\ProjectTeam');
     }
 }

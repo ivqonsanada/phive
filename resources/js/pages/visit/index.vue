@@ -3,7 +3,7 @@
     <div class="user__info--container">
       <img class="user__info--img" :src="data.user.avatar" alt="">
       <p class="user__info--name">
-        {{ getFullName }}
+        {{ fullName }}
       </p>
       <p class="user__info--occupation">
         {{ data.user.expertise }}
@@ -12,17 +12,22 @@
 
     <div class="user__action--container">
       <template v-if="data.user.role === 'Student'">
-        <div class="action--invite-to-team">
-          Invite To Team
-        </div>
-        <div class="action--direct-message">
+        <button class="btn--clear action--invite-to-team" @click="inviteToTeam">
+          <template v-if="user && user.role === 'Lecturer'">
+            Invite To Project
+          </template>
+          <template v-else>
+            Invite To Team
+          </template>
+        </button>
+        <router-link :to="{ name: 'message', params: { tagname: this.$route.params.tagname } }" class="action--direct-message" tag="button">
           Direct Message
-        </div>
+        </router-link>
       </template>
       <template v-else>
-        <div class="action--invite-to-team">
+        <router-link :to="{ name: 'message', params: { tagname: this.$route.params.tagname } }" class="action--invite-to-team" tag="button">
           Contact Lecturer
-        </div>
+        </router-link>
       </template>
     </div>
 
@@ -34,46 +39,42 @@
 
     <div class="">
       <transition name="fade" mode="out-in">
-        <router-view :data="data" />
+        <router-view />
       </transition>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 import { mapGetters } from 'vuex'
 
 export default {
   // middleware: 'guest',
 
-  data: () => ({
-    navtitle: ''
-  }),
-
   computed: {
-    getFullName () {
+    ...mapGetters({
+      user: 'auth/user',
+      data: 'visit/user',
+      snackbar: 'notification/snackbar'
+    }),
+
+    fullName () {
       return this.data.user.first_name + ' ' + this.data.user.last_name
     },
-
-    ...mapGetters({
-      data: 'visitedUser/data'
-    }),
 
     tabs () {
       if (this.data.user.role === 'Student') {
         return [
           {
-            icon: 'user',
             name: 'Projects',
             route: '@.projects'
           },
           {
-            icon: 'lock',
             name: 'Wishlist',
             route: '@.wishlist'
           },
           {
-            icon: 'lock',
             name: 'Info',
             route: '@.info'
           }
@@ -82,12 +83,10 @@ export default {
 
       return [
         {
-          icon: 'user',
           name: 'Projects',
           route: '@.projects'
         },
         {
-          icon: 'lock',
           name: 'Info',
           route: '@.info'
         }
@@ -101,19 +100,39 @@ export default {
 
   methods: {
     async getUser () {
-      await this.$store.dispatch('visitedUser/fetchVisitedUser', {
+      await this.$store.dispatch('visit/fetchVisitedUser', {
         tagname: this.$route.params.tagname
       })
 
-      await this.$store.dispatch('navigation/changeTitle', {
-        title: this.getFullName
+      this.changeTitle()
+    },
+
+    async changeTitle () {
+      this.$store.dispatch('navigation/changeTitle', {
+        title: this.fullName
       })
+    },
+
+    async inviteToTeam () {
+      if (this.user) {
+        if (this.user.role === 'Student') {
+          axios.post(`/api/user/${this.data.user.tagname}/invite/team`)
+            .then(({ data }) => {
+              this.snackbar.info(data.message)
+              console.log(data)
+            })
+        } else {
+          axios.post(`/api/user/${this.data.user.tagname}/invite/project`)
+            .then(({ data }) => {
+              this.snackbar.info(data.message)
+              console.log(data)
+            })
+        }
+      } else {
+        this.$router.push({ name: 'login' })
+      }
     }
   }
 
 }
 </script>
-
-<style>
-
-</style>

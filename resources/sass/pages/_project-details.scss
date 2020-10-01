@@ -3,13 +3,17 @@
   font-weight: 800;
   text-transform: uppercase;
   text-align: center;
-  margin-top: 0px;
-  margin-bottom: 25px;
+  margin-top: 0;
+  margin-bottom: 2.5rem;
+
+  @include respon(m) {
+    margin-top: 2rem;
+  }
 }
 
-.project-details--container {
+// .project-details--container {
 
-}
+// }
 
 .details--top-container {
   display: flex;
@@ -23,19 +27,22 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 15px;
 
-  & button {
-    width: 100%;
-    height: 60px;
-    border-radius: 15px;
-    font-weight: 700;
-    font-size: 18px;
+  & > :not(:last-child) {
+    margin-bottom: 1.5rem;
   }
+
+  // & button {
+  //   width: 100%;
+  //   height: 60px;
+  //   border-radius: 15px;
+  //   font-weight: 700;
+  //   font-size: 18px;
+  // }
 }
 
 .project__apply-button {
-  background-color: $red-glow;
+  background-color: var(--red-glow);
   color: #020201;
   border: unset;
 }
@@ -50,9 +57,9 @@
   gap: 0.5rem;
 }
 
-.project-details--main-body {
-  // margin-top: 1rem;
-}
+// .project-details--main-body {
+//   // margin-top: 1rem;
+// }
 
 .project-details--h2 {
   font-size: 18px;
@@ -75,7 +82,7 @@
     width: 3rem;
     height: auto;
     margin-bottom: -0.5rem;
-    color: $red-glow;
+    color: var(--red-glow);
   }
 }
 
@@ -214,9 +221,9 @@
 }
 
 .summary-icon {
-  width: 3rem;
+  min-width: 3rem;
   display: inline-block;
-  color: $red-glow;
+  color: var(--red-glow);
 }
 
 .summary--text-icon {
@@ -225,7 +232,7 @@
 
 .contact-button {
   color: #001534;
-  background-color: $red-glow;
+  background-color: var(--red-glow);
   width: 100%;
   font-weight: 700;
   font-size: 18px;

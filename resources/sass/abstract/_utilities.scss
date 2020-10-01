@@ -1,0 +1,58 @@
+.ellipsies {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mb-1_5 {
+  margin-bottom: 1.5rem;
+}
+
+.mb-5 {
+  margin-bottom: 5rem;
+}
+
+.mt-1 {
+  margin-top: 1rem;
+}
+
+.mt-5 {
+  margin-top: 5rem;
+}
+
+.mr-0_5 {
+  margin-right: 0.5rem;
+}
+
+.mr-1_5 {
+  margin-right: 1.5rem;
+}
+
+.ml-1 {
+  margin-left: 1rem;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.link--clean {
+  text-decoration: none;
+  color: #020201;
+}
+
+.align-self-end {
+  align-self: end;
+}

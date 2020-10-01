@@ -26,12 +26,10 @@
   align-items: center;
   font-size: 1.8rem;
   font-weight: 700;
-  gap: 1rem;
-  padding: 1rem 2.5rem;
+  padding: 0 2rem;
+  height: 5.5rem;
   position: fixed;
   width: 100%;
-  // max-width: 1366px;
-
   background-color: #ffffff;
   z-index: 5;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
@@ -48,7 +46,6 @@
   align-items: center;
   font-size: 1.8rem;
   font-weight: 700;
-  gap: 1rem;
   margin-bottom: 2rem;
 }
 
@@ -57,7 +54,7 @@
 }
 
 .nav-stabilizer {
-  width: 18px;
+  width: 3.6rem;
 }
 
 .navbar {
@@ -65,7 +62,7 @@
   font-weight: 700;
   padding: 1rem 2.5rem;
   // padding: 1rem 1.8em;
-  border-top: 5px solid $dark-blue;
+  border-top: 5px solid var(--dark-blue);
   position: absolute;
   opacity: 1;
   left: -100%;
@@ -78,16 +75,16 @@
 
   & a {
     text-decoration: none;
-    color: $dark-blue;
+    color: var(--dark-blue);
   }
 }
 
 .nav--animate-open {
-  animation: navOpen 0.4s $bezier forwards;
+  animation: navOpen 0.4s var(--bezier) forwards;
 }
 
 .nav--animate-close {
-  animation: navClose 0.4s $bezier forwards;
+  animation: navClose 0.4s var(--bezier) forwards;
 }
 
 .nav--overlay {
@@ -103,38 +100,44 @@
 }
 
 .nav--overlay-open {
-  animation: overlayOpen 0.35s $bezier forwards;
+  animation: overlayOpen 0.35s var(--bezier) forwards;
 }
 
 .nav--overlay-close {
-  animation: overlayClose 0.4s $bezier forwards;
+  animation: overlayClose 0.4s var(--bezier) forwards;
 }
 
 .nav-toggler {
   font-weight: 700;
-  color: $dark-blue;
+  color: var(--dark-blue);
 }
 
 .nav--profile-guest {
   display: flex;
   flex-direction: row;
-  gap: 2rem;
   margin-bottom: 2rem;
+
+  & > :not(:last-child) {
+    margin-right: 2rem;
+  }
 }
 
 .nav__profile--guest-desc {
   display: flex;
   align-items: center;
   font-size: 1.4rem;
-  color: $dark-blue;
+  color: var(--dark-blue);
 }
 
 .nav--profile {
   display: flex;
   flex-direction: row;
-  gap: 2rem;
   align-items: center;
   margin-top: 2rem;
+
+  & > :not(:last-child) {
+    margin-right: 2rem;
+  }
 }
 
 .nav--profile-img {
@@ -146,7 +149,7 @@
 }
 
 .nav--profile-desc {
-  color: $dark-blue;
+  color: var(--dark-blue);
 
   & p {
     margin: 0 0 0.75rem 0;
@@ -166,7 +169,11 @@
   font-size: 1.2rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+
+
+  & > :not(:last-child) {
+    margin-right: 0.5rem;
+  }
 
   & .iconify {
     width: 1em;
@@ -187,19 +194,21 @@
 }
 
 a.nav--profile-link {
-  color: $red-glow;
+  color: var(--red-glow);
 }
 
 a.nav--profile-link-active {
-  color: $dark-blue;
+  color: var(--dark-blue);
 }
 
 .nav-link {
-  // color: $dark-blue;
   display: flex;
-  gap: 3rem;
   padding: 1.2rem 2rem;
   align-items: center;
+
+  & > :not(:last-child) {
+    margin-right: 3rem;
+  }
 }
 
 .nav-group {
@@ -210,7 +219,7 @@ a.nav--profile-link-active {
 
 .link-login {
   width: 100%;
-  background-color: $red-glow;
+  background-color: var(--red-glow);
   text-align: center;
   padding: 1.2rem;
   border-radius: 1rem;
@@ -224,11 +233,11 @@ a.nav--profile-link-active {
   padding: 1.2rem;
   border-radius: 1rem;
   padding: 1.2rem 2rem;
-  border: 1px solid $dark-blue;
+  border: 1px solid var(--dark-blue);
 }
 
 a.nav--active-link {
-  background: $dark-blue;
+  background: var(--dark-blue);
   border-radius: 10px;
   color: #FFFFFF;
 }
@@ -236,12 +245,12 @@ a.nav--active-link {
 .nav-separator {
   border-style: solid;
   border: none;
-  border-bottom: 1px solid $dark-blue;
+  border-bottom: 1px solid var(--dark-blue);
 }
 
 .button-logout {
   width: 100%;
-  background-color: $red-glow;
+  background-color: var(--red-glow);
   text-align: center;
   padding: 1.2rem;
   border-radius: 1rem;

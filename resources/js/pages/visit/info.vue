@@ -52,7 +52,7 @@
           <span class="iconify social-media__icon-visited" :data-icon="socmed.icon" data-inline="true" />
           <template v-if="socmed.link !== ''">
             <a :href="socmed.link" class="social-media__a" target="_blank">
-              <input type="text" class="social-media__input" :value="socmed.link" disabled>
+              <input type="text" class="social-media__input" :value="socmed.linkFiltered" disabled>
             </a>
           </template>
           <template v-else>
@@ -73,7 +73,9 @@
       <h3 class="last-sub--h3">
         TagName
       </h3>
-      <p>@{{ data.user.tagname }} </p>
+      <p class="tagname">
+        @{{ data.user.tagname }}
+      </p>
     </div>
   </div>
 </template>
@@ -89,7 +91,7 @@ export default {
   },
 
   metaInfo () {
-    return { title: 'Settings' }
+    return { title: `${this.data.user.first_name} ${this.data.user.last_name} - Info` }
   },
 
   data: () => ({
@@ -113,11 +115,26 @@ export default {
   computed: {
     socmeds () {
       return [
-        { 'id': 1, 'icon': 'ant-design:behance-outlined', 'link': this.data.user.behance ? `http://${this.data.user.behance}` : '' },
-        { 'id': 2, 'icon': 'ant-design:github-filled', 'link': this.data.user.github ? `http://${this.data.user.github}` : '' },
-        { 'id': 3, 'icon': 'brandico:linkedin', 'link': this.data.user.linkedin ? `http://${this.data.user.linkedin}` : '' },
-        { 'id': 4, 'icon': 'whh:dribbblealt', 'link': this.data.user.dribbble ? `http://${this.data.user.dribbble}` : '' },
-        { 'id': 5, 'icon': 'whh:website', 'link': this.data.user.website ? `http://${this.data.user.website}` : '' }
+        { 'id': 1,
+          'icon': 'ant-design:behance-outlined',
+          'link': this.data.user.behance ? this.data.user.behance : '',
+          'linkFiltered': this.data.user.behance ? this.filterLink(this.data.user.behance) : '' },
+        { 'id': 2,
+          'icon': 'ant-design:github-filled',
+          'link': this.data.user.github ? this.data.user.github : '',
+          'linkFiltered': this.data.user.github ? this.filterLink(this.data.user.github) : '' },
+        { 'id': 3,
+          'icon': 'brandico:linkedin',
+          'link': this.data.user.linkedin ? this.data.user.linkedin : '',
+          'linkFiltered': this.data.user.linkedin ? this.filterLink(this.data.user.linkedin) : '' },
+        { 'id': 4,
+          'icon': 'whh:dribbblealt',
+          'link': this.data.user.dribbble ? this.data.user.dribbble : '',
+          'linkFiltered': this.data.user.dribbble ? this.filterLink(this.data.user.dribbble) : '' },
+        { 'id': 5,
+          'icon': 'whh:website',
+          'link': this.data.user.website ? this.data.user.website : '',
+          'linkFiltered': this.data.user.website ? this.filterLink(this.data.user.website) : '' }
       ]
     },
 
@@ -127,7 +144,7 @@ export default {
           { 'id': 1, 'icon': 'bx:bxs-id-card', 'content': this.data.user.identity_number, 'type': 'icon' },
           { 'id': 2, 'icon': 'Pts', 'content': '3500 Points Collected', 'type': 'not-icon' },
           { 'id': 3, 'icon': 'LVL', 'content': 'Superior Designer', 'type': 'not-icon' },
-          { 'id': 4, 'icon': 'fa-solid:building', 'content': `${this.data.user.major}, ${this.data.user.university}`, 'type': 'icon' },
+          { 'id': 4, 'icon': 'fa-solid:building', 'content': `${this.data.user.faculty}, ${this.data.user.university}`, 'type': 'icon' },
           { 'id': 5, 'icon': 'ic:baseline-card-membership', 'content': `Joined since ${timeago.format(this.data.user.joined_since)}`, 'type': 'icon' },
           { 'id': 6, 'icon': 'icons8:finish-flag', 'content': '3 Finished Project', 'type': 'icon' },
           { 'id': 7, 'icon': 'entypo:squared-cross', 'content': '1 Failed Project', 'type': 'icon' }
@@ -136,7 +153,7 @@ export default {
 
       return [
         { 'id': 1, 'icon': 'bx:bxs-id-card', 'content': this.data.user.identity_number, 'type': 'icon' },
-        { 'id': 4, 'icon': 'fa-solid:building', 'content': `${this.data.user.major}, ${this.data.user.university}`, 'type': 'icon' },
+        { 'id': 4, 'icon': 'fa-solid:building', 'content': `${this.data.user.faculty}, ${this.data.user.university}`, 'type': 'icon' },
         { 'id': 5, 'icon': 'ic:baseline-card-membership', 'content': `Joined since ${timeago.format(this.data.user.joined_since)}`, 'type': 'icon' },
         { 'id': 6, 'icon': 'dashicons-admin-post', 'content': '3 Project Posted', 'type': 'icon' },
         { 'id': 7, 'icon': 'entypo:squared-cross', 'content': '1 Failed Project', 'type': 'icon' }
@@ -144,7 +161,7 @@ export default {
     },
 
     ...mapGetters({
-      data: 'visitedUser/data'
+      data: 'visit/user'
     })
   },
 
@@ -153,9 +170,10 @@ export default {
   },
 
   methods: {
-    // async getInfo () {
-    //   this.user = this.data.user
-    // }
+    filterLink (link) {
+      let filter = link.split('//')
+      return filter[filter.length - 1]
+    }
   }
 }
 </script>

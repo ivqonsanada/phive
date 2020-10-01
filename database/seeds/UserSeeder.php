@@ -65,9 +65,9 @@ class UserSeeder extends Seeder
             'major' => 'Informatics Engineering',
             'location' => 'Malang, Indonesia',
             'biography' => $faker->text(),
-            'github' => 'github.com/ivqonsanada',
-            'linkedin' => 'linkedin.com/in/ivqonnada',
-            'website' => 'ivqonsanada.com'
+            'github' => 'https://github.com/ivqonsanada',
+            'linkedin' => 'https://linkedin.com/in/ivqonnada',
+            'website' => 'https://ivqonsanada.com'
         ]);
 
         DB::table('users')->insert([
@@ -149,6 +149,25 @@ class UserSeeder extends Seeder
             'location' => 'Malang, Indonesia',
             'biography' => $faker->text(),
         ]);
+
+        DB::table('users')->insert([
+            'first_name' => 'Rangga',
+            'last_name' => 'Aji Gumiwang',
+            'email' => 'aji@gmail.com',
+            'email_verified_at' => now(),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'remember_token' => Str::random(10),
+            'tagname' => 'ajigumiwang',
+            'role' => 'Student',
+            'expertise' => 'Data Expert',
+            'identity_number' => '175150200111091',
+            'university' => 'University of Brawijaya',
+            'faculty' => 'Faculty of Computer Science',
+            'major' => 'Informatics Engineering',
+            'location' => 'Malang, Indonesia',
+            'biography' => $faker->text(),
+        ]);
+
 
     }
 }

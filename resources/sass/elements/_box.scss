@@ -1,0 +1,160 @@
+.box--container {
+  display: flex;
+  flex-direction: column;
+
+  padding: 1.8rem 2.5rem;
+  background: #F2F4F6;
+  border-radius: 1rem;
+}
+
+.box--top-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.box--img {
+  width: 5rem;
+  height: 5rem;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+.box__content--container {
+  display: inline-grid;
+}
+
+.box--content {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+  line-height: 1.15;
+}
+
+.box--name {
+  font-weight: 700;
+}
+
+.box--bottom-container {
+  margin-top: 2.2rem;
+}
+
+.box__details--container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.box--close-button {
+  width: 1.4rem;
+  height: 1.4rem;
+  color: #9D9D9D;
+}
+
+.box--details {
+  text-decoration: underline;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.box--project-title {
+  color: var(--dark-blue);
+  font-weight: bold;
+}
+
+.box--project-link {
+  text-align: center;
+  display: block;
+  margin: 1rem 0;
+  padding: 1rem 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: black;
+}
+
+.box--agree-button {
+  padding: 1rem 0;
+  background: var(--dark-blue);
+  color: white;
+  border-radius: 1rem;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.box--decline-button {
+  padding: 1rem 0;
+  background: #EB2D2D;
+  color: white;
+  border-radius: 1rem;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.box--message {
+  font-size: 1.2rem;
+  font-weight: 300;
+  line-height: 1.3;
+  @include line-clamp(2)
+}
+
+.project-box__item--container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.project-box__item--img {
+  width: 10rem;
+  height: 10rem;
+  object-fit: cover;
+  margin-right: 1.5rem;
+  border-radius: 0.5rem;
+}
+
+.project-box__item--status {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 1.4rem;
+  font-weight: bold;
+
+  & > :not(:last-child) {
+    margin-right: 0.5rem;
+  }
+}
+
+.project-box__item--status-blue {
+  color: var(--dark-blue);
+}
+
+.project-box__item--status-red {
+  color: #EB2D2D;
+}
+
+.project-box__item--icon {
+  width: 2rem;
+  height: 2rem;
+}
+
+.project-box__item--title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #020201;
+  line-height: 1.15;
+}
+
+.project-box__item--details {
+  font-size: 1.4rem;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.project-box__item--p {
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin-bottom: 2rem;
+}

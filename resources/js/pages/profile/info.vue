@@ -8,21 +8,21 @@
     <div class="info__sub--container">
       <h3>Skills</h3>
       <div class="info__skill-container">
-        <BubbleSkill v-for="skill in skills" :key="skill.id" :color="bgBubble" :name="skill.skill" />
+        <BubbleSkill v-for="skill in skills" :key="`skill-${skill.id}`" :color="bgBubble" :name="skill.skill" />
       </div>
     </div>
 
     <div v-if="user.role === 'Student'" class="info__sub--container">
       <h3>Badges</h3>
       <div class="info__skill-container">
-        <BubbleSkill v-for="badge in badges" :key="badge.id" :color="bgBubble" :name="badge.name" />
+        <BubbleSkill v-for="badge in badges" :key="`badge-${badge.id}`" :color="bgBubble" :name="badge.name" />
       </div>
     </div>
 
     <div class="info__sub--container">
       <h3>Records</h3>
       <div class="record--items">
-        <div v-for="record in records" :key="record.id" class="record--container">
+        <div v-for="record in records" :key="`record-${record.id}`" class="record--container">
           <div class="record--icon">
             <span v-if="record.type === 'icon'" class="iconify" :data-icon="record.icon" data-inline="true" width="20" height="20" />
             <span v-else class="summary--text-icon">{{ record.icon }}</span>
@@ -52,11 +52,11 @@
     <div class="info__sub--container">
       <h3>Social Media</h3>
       <div class="social-media__container">
-        <div v-for="socmed in socmeds" :key="socmed.id" class="social-media__input-container">
+        <div v-for="socmed in socmeds" :key="`socmed-${socmed.id}`" class="social-media__input-container">
           <span class="iconify social-media__icon" :data-icon="socmed.icon" data-inline="true" />
           <template v-if="socmed.link !== ''">
             <a :href="socmed.link" class="social-media__a" target="_blank">
-              <input type="text" class="social-media__input" :value="socmed.link" disabled>
+              <input type="text" class="social-media__input" :value="socmed.linkFiltered" disabled>
             </a>
           </template>
           <template v-else>
@@ -77,7 +77,9 @@
       <h3 class="last-sub--h3">
         TagName
       </h3>
-      <p>@{{ user.tagname }}</p>
+      <p class="tagname">
+        @{{ user.tagname }}
+      </p>
     </div>
   </div>
 </template>
@@ -119,11 +121,26 @@ export default {
   computed: {
     socmeds () {
       return [
-        { 'id': 1, 'icon': 'ant-design:behance-outlined', 'link': this.user.behance ? `http://${this.user.behance}` : '' },
-        { 'id': 2, 'icon': 'ant-design:github-filled', 'link': this.user.github ? `http://${this.user.github}` : '' },
-        { 'id': 3, 'icon': 'brandico:linkedin', 'link': this.user.linkedin ? `http://${this.user.linkedin}` : '' },
-        { 'id': 4, 'icon': 'whh:dribbblealt', 'link': this.user.dribbble ? `http://${this.user.dribbble}` : '' },
-        { 'id': 5, 'icon': 'whh:website', 'link': this.user.website ? `http://${this.user.website}` : '' }
+        { 'id': 1,
+          'icon': 'ant-design:behance-outlined',
+          'link': this.user.behance ? this.user.behance : '',
+          'linkFiltered': this.user.behance ? this.filterLink(this.user.behance) : '' },
+        { 'id': 2,
+          'icon': 'ant-design:github-filled',
+          'link': this.user.github ? this.user.github : '',
+          'linkFiltered': this.user.github ? this.filterLink(this.user.github) : '' },
+        { 'id': 3,
+          'icon': 'brandico:linkedin',
+          'link': this.user.linkedin ? this.user.linkedin : '',
+          'linkFiltered': this.user.linkedin ? this.filterLink(this.user.linkedin) : '' },
+        { 'id': 4,
+          'icon': 'whh:dribbblealt',
+          'link': this.user.dribbble ? this.user.dribbble : '',
+          'linkFiltered': this.user.dribbble ? this.filterLink(this.user.dribbble) : '' },
+        { 'id': 5,
+          'icon': 'whh:website',
+          'link': this.user.website ? this.user.website : '',
+          'linkFiltered': this.user.website ? this.filterLink(this.user.website) : '' }
       ]
     },
 
@@ -137,7 +154,7 @@ export default {
           { 'id': 1, 'icon': 'bx:bxs-id-card', 'content': this.user.identity_number, 'type': 'icon' },
           { 'id': 2, 'icon': 'Pts', 'content': '3500 Points Collected', 'type': 'not-icon' },
           { 'id': 3, 'icon': 'LVL', 'content': 'Superior Designer', 'type': 'not-icon' },
-          { 'id': 4, 'icon': 'fa-solid:building', 'content': `${this.user.major}, ${this.user.university}`, 'type': 'icon' },
+          { 'id': 4, 'icon': 'fa-solid:building', 'content': `${this.user.faculty}, ${this.user.university}`, 'type': 'icon' },
           { 'id': 5, 'icon': 'ic:baseline-card-membership', 'content': `Joined since ${timeago.format(this.user.joined_since)}`, 'type': 'icon' },
           { 'id': 6, 'icon': 'icons8:finish-flag', 'content': '3 Finished Project', 'type': 'icon' },
           { 'id': 7, 'icon': 'entypo:squared-cross', 'content': '1 Failed Project', 'type': 'icon' }
@@ -146,11 +163,18 @@ export default {
 
       return [
         { 'id': 1, 'icon': 'bx:bxs-id-card', 'content': this.user.identity_number, 'type': 'icon' },
-        { 'id': 4, 'icon': 'fa-solid:building', 'content': `${this.user.major}, ${this.user.university}`, 'type': 'icon' },
+        { 'id': 4, 'icon': 'fa-solid:building', 'content': `${this.user.faculty}, ${this.user.university}`, 'type': 'icon' },
         { 'id': 5, 'icon': 'ic:baseline-card-membership', 'content': `Joined since ${timeago.format(this.user.joined_since)}`, 'type': 'icon' },
         { 'id': 6, 'icon': 'dashicons-admin-post', 'content': '3 Project Posted', 'type': 'icon' },
         { 'id': 7, 'icon': 'entypo:squared-cross', 'content': '1 Failed Project', 'type': 'icon' }
       ]
+    }
+  },
+
+  methods: {
+    filterLink (link, type = 0) {
+      let filter = link.split('//')
+      return filter[filter.length - 1]
     }
   }
 }

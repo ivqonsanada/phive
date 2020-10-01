@@ -13,6 +13,8 @@
         "laravel/socialite": "^4.3",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
+        "pusher/pusher-php-server": "^4.1",
+        "stevebauman/purify": "^3.0",
         "tymon/jwt-auth": "^1.0.0"
     },
     "require-dev": {

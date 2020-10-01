@@ -32,14 +32,14 @@
     </router-link>
 
     <div class="user__sub-menu--container">
-      <router-link v-for="tab in tabs" :key="tab.route" :to="{ name: tab.route }" class="profile__sub-menu--item" active-class="profile__sub-menu--active">
+      <router-link v-for="tab in tabs" :key="`route-${tab.name}`" :to="{ name: tab.route }" class="profile__sub-menu--item" active-class="profile__sub-menu--active">
         {{ tab.name }}
       </router-link>
     </div>
 
     <div class="">
       <transition name="fade" mode="out-in">
-        <router-view :data="user" />
+        <router-view />
       </transition>
     </div>
   </div>

@@ -3,18 +3,20 @@ const fs = require('fs-extra')
 const mix = require('laravel-mix')
 // const webpack = require('webpack')
 require('laravel-mix-versionhash')
-// require('laravel-mix-workbox')
+require('laravel-mix-workbox')
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 mix
   .js('resources/js/app.js', 'public/dist/js')
   .sass('resources/sass/app.scss', 'public/dist/css')
+  .options({ processCssUrls: false })
   .disableNotifications()
 
 if (mix.inProduction()) {
   mix
     // .extract() // Disabled until resolved: https://github.com/JeffreyWay/laravel-mix/issues/1889
     // .version() // Use `laravel-mix-versionhash` for the generating correct Laravel Mix manifest file.
+    .generateSW()
     .versionHash()
 } else {
   mix.sourceMaps()
@@ -38,11 +40,11 @@ mix.webpackConfig({
 
 mix.then(() => {
   if (!mix.config.hmr) {
-    process.nextTick(() => publishAseets())
+    process.nextTick(() => publishAssets())
   }
 })
 
-function publishAseets () {
+function publishAssets () {
   const publicDir = path.resolve(__dirname, './public')
 
   if (mix.inProduction()) {

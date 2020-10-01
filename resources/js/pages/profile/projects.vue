@@ -1,13 +1,7 @@
 <template>
   <div>
     <div class="project--container">
-      <template v-if="loading">
-        <content-placeholders v-for="i in 4" :key="i" :rounded="true">
-          <content-placeholders-img />
-          <content-placeholders-heading />
-        </content-placeholders>
-      </template>
-      <ProjectCard v-for="project in data.projects" :key="project.id"
+      <ProjectCard v-for="project in projects" :key="`project-${project.id}`"
                    :data="project"
       />
     </div>
@@ -35,17 +29,16 @@ export default {
 
   computed: {
     ...mapGetters({
+      user: 'auth/user',
       data: 'auth/data'
-    })
-  },
+    }),
 
-  mounted () {
-    this.getProjects()
-  },
+    projects () {
+      if (this.user.role === 'Student') {
+        return this.data.projects.map(e => e.project)
+      }
 
-  methods: {
-    async getProjects () {
-      this.loading = false
+      return this.data.projects
     }
   }
 }

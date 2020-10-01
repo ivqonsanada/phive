@@ -7,11 +7,16 @@
 .project--container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
 
   @include respon(s) {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   }
+
+  @include respon(m) {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+
+  gap: 2rem;
 }
 
 //
@@ -54,8 +59,8 @@
   & svg {
     background: #001534;
     color: #ffffff;
-    width: 2.4em;
-    height: 2.4rem;
+    width: auto;
+    height: 3rem;
     padding: 0.2rem;
     border-radius: 0.5rem;
   }
@@ -71,7 +76,7 @@
   margin-top: 3rem;
   padding: 1.2rem 2.5rem ;
   width: 100%;
-  background: #FF5470;
+  background: var(--red-glow);
   border: none;
   border-radius: 1rem;
   font-size: 1.8rem;

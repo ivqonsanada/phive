@@ -22,9 +22,28 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::patch('settings/password', 'Settings\PasswordController@update');
 
     Route::post('user/uploadavatar', 'Auth\UserController@uploadAvatar');
-    Route::post('user/saveprofile', 'Auth\UserController@saveProfile');
+    Route::post('user/saveprofile/1', 'Auth\UserController@saveProfile1');
+    Route::post('user/saveprofile/2', 'Auth\UserController@saveProfile2');
 
+
+    Route::post('project/{project}/apply/individual', 'Auth\ApplyController@individual');
+    Route::post('project/{project}/apply/team', 'Auth\ApplyController@team');
+    Route::post('project/{project}/wishlist', 'Auth\ProjectController@addWishlist');
     // Route::post('project/{project}/apply');
+
+    Route::post('inbox', 'InboxController@getAll');
+
+
+    Route::post('user/{user:tagname}/invite/team', 'InvitationController@teamInvitation');
+    Route::post('user/{user:tagname}/invite/project', 'InvitationController@projectInvitation');
+    Route::post('user/{user:tagname}/message', 'MessageController@index');
+    Route::post('user/{user:tagname}/message/send', 'MessageController@send');
+
+    Route::post('inbox/invitation/team', 'InboxController@teamInvitation');
+    Route::post('inbox/invitation/project', 'InboxController@projectInvitation');
+    Route::post('inbox/apply/individual', 'InboxController@individualApplicant');
+    Route::post('inbox/apply/team', 'InboxController@teamApplicant');
+
 });
 
 Route::group(['middleware' => 'guest:api'], function () {

@@ -1,3 +1,9 @@
+button {
+  cursor: pointer;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+}
+
 .btn-loading {
   position: relative;
   pointer-events: none;
@@ -5,7 +11,7 @@
 
   &:after {
     animation: spinAround 500ms infinite linear;
-    border: 2px solid #dbdbdb;
+    border: 2px solid #fff;
     border-radius: 50%;
     border-right-color: transparent;
     border-top-color: transparent;
@@ -22,4 +28,72 @@
 @keyframes spinAround {
   from { transform: rotate(0deg); }
   to { transform: rotate(359deg); }
+}
+
+
+.btn {
+  font-size: 1.8rem;
+  font-weight: 700;
+  width: 100%;
+  border: none;
+  border-radius: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 4.5rem;
+  text-decoration: none;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+
+  & > :not(:last-child) {
+    margin-right: 0.5rem;
+  }
+}
+
+.btn--min {
+  cursor: pointer;
+}
+
+.btn--red {
+  background-color: var(--red-glow);
+  color: #020201;
+}
+
+.btn--decline {
+  background-color: #EB2D2D;
+  color: #ffffff;
+}
+
+.btn--blue {
+  background-color: var(--dark-blue);
+  color: #ffffff;
+}
+
+.btn--white {
+  background-color: #ffffff;
+  color: #020201;
+  border: 1px solid #020201;
+}
+
+.btn--grey {
+  background: #F1F1F1;
+  color: #001534;
+}
+
+.btn--small {
+  height: 4rem;
+  border-radius: 1rem;
+  font-size: 1.4rem;
+
+}
+
+.btn--large {
+  height: 6rem;
+  border-radius: 1.5rem;
+}
+
+.btn--clear {
+  background: none;
+  border: none;
+  cursor: pointer;
 }

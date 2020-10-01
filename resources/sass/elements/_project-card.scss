@@ -59,7 +59,7 @@
   display: flex;
   justify-content: center;
   align-self: center;
-  background-color: #020201;
+  background-color: #001534;
 
   color: #FFFFFF;
   font-weight: bold;
@@ -81,11 +81,25 @@
 .project__card--bounty-info {
   display: flex;
   flex-direction: row;
-  gap: 1rem;
+
   color: #020201;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
   font-size: 1.4rem;
   flex-wrap: wrap;
+
+  & > div {
+    margin-bottom: 1rem;
+  }
+
+  & > :not(:last-child) {
+    margin-right: 0.9rem;
+  }
+
+  @include respon(s) {
+    & > :not(:last-child) {
+      margin-right: 1.5rem;
+    }
+  }
 }
 
 .bounty--span {
@@ -97,14 +111,26 @@
   display: flex;
   color: #514848;
   flex-direction: row;
-  gap: 1rem;
   font-size: 1.2rem;
+
+  & > :not(:last-child) {
+    margin-right: 1rem;
+  }
 }
 
 .info-item--container {
   display: flex;
-  gap: 0.4rem;
   align-items: center;
+
+  & > :not(:last-child) {
+    margin-right: 0.4rem;
+  }
+
+  @include respon(s) {
+    & > :not(:last-child) {
+      margin-right: 0.5rem;
+    }
+  }
 }
 
 .info-item--icon {

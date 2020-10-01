@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Project;
+use App\ProjectBox;
 use App\Wishlist;
 
 class ProfileController extends Controller
@@ -11,8 +12,8 @@ class ProfileController extends Controller
     public function getUser(User $user)
     {
         if ($user->role === 'Student') {
-            $projects = Project::with('user')->where('user_id', $user->id)->get();
-            $wishlists = Wishlist::with('user')->where('user_id', $user->id)->get();
+            $projects = ProjectBox::with('project.user:id,tagname,first_name,last_name,photo_url,email')->where('user_id', $user->id)->latest()->get();
+            $wishlists = Wishlist::with('project.user:id,tagname,first_name,last_name,photo_url,email')->where('user_id', $user->id)->latest()->get();
 
             return response()->json(
                 [
@@ -21,7 +22,7 @@ class ProfileController extends Controller
                     'wishlists' => $wishlists
                 ]);
         } else {
-            $projects = Project::with('user')->where('user_id', $user->id)->get();
+            $projects = Project::with('user:id,tagname,first_name,last_name,photo_url,email')->where('user_id', $user->id)->latest()->get();
 
             return response()->json(
                 [

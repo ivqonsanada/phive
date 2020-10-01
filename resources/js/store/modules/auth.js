@@ -6,6 +6,7 @@ import * as types from '../mutation-types'
 export const state = {
   user: null,
   data: null,
+  team: null,
   token: Cookies.get('token')
 }
 
@@ -13,6 +14,7 @@ export const state = {
 export const getters = {
   user: state => state.user,
   data: state => state.data,
+  team: state => state.team,
   token: state => state.token,
   check: state => state.user !== null
 }
@@ -24,12 +26,13 @@ export const mutations = {
     Cookies.set('token', token, { expires: remember ? 365 : null })
   },
 
-  [types.FETCH_USER_SUCCESS] (state, { user, userProjects, userWishlists }) {
+  [types.FETCH_USER_SUCCESS] (state, { user, projects, wishlists, team }) {
     state.user = user
     state.data = {
-      projects: userProjects,
-      wishlists: userWishlists
+      projects: projects,
+      wishlists: wishlists
     }
+    state.team = team
   },
 
   [types.FETCH_USER_FAILURE] (state) {
@@ -37,8 +40,16 @@ export const mutations = {
     Cookies.remove('token')
   },
 
+  [types.UPDATE_USER] (state, { user }) {
+    state.user = user
+  },
+
   [types.UPDATE_USER_AVATAR] (state, { avatar }) {
     state.user.avatar = avatar
+  },
+
+  [types.UPDATE_USER_WISHLISTS] (state, { wishlists }) {
+    state.data.wishlists = wishlists
   },
 
   [types.LOGOUT] (state) {
@@ -61,8 +72,9 @@ export const actions = {
 
       commit(types.FETCH_USER_SUCCESS, {
         user: data.user,
-        userProjects: data.projects,
-        userWishlists: data.wishlists
+        projects: data.projects,
+        wishlists: data.wishlists,
+        team: data.team
       })
     } catch (e) {
       commit(types.FETCH_USER_FAILURE)
@@ -72,6 +84,18 @@ export const actions = {
   async updateAvatar ({ commit }, payload) {
     try {
       commit(types.UPDATE_USER_AVATAR, payload)
+    } catch (e) { }
+  },
+
+  async updateUser ({ commit }, payload) {
+    try {
+      commit(types.UPDATE_USER, payload)
+    } catch (e) { }
+  },
+
+  async updateWishlists ({ commit }, payload) {
+    try {
+      commit(types.UPDATE_USER_WISHLISTS, payload)
     } catch (e) { }
   },
 

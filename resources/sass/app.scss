@@ -1,30 +1,39 @@
-@import 'abstract/mixins';
+@import "abstract/variables";
+@import "abstract/mixins";
+@import "abstract/utilities";
 
-@import 'base/reset';
+@import "base/reset";
+@import "base/base";
 
-@import 'variables';
+@import "elements/footer";
+@import "elements/box";
+@import "elements/card";
+@import "elements/buttons";
+@import "elements/transitions";
+@import "elements/bubbleSkill";
+@import "elements/project-card";
+@import "elements/selectBox";
+@import "elements/snackbar";
+@import "elements/navbar";
+@import "elements/checkbox";
 
-@import 'base/base';
+@import "pages/explore";
+@import "pages/project-details";
+@import "pages/apply";
 
-@import 'elements/card';
-@import 'elements/navbar';
-@import 'elements/buttons';
-@import 'elements/transitions';
-@import 'elements/project-card';
+@import "pages/inbox";
 
-@import 'pages/explore';
-@import 'pages/project-details';
-@import 'pages/apply-project';
+@import "pages/login";
+@import "pages/register";
 
-@import 'pages/login';
-@import 'pages/register';
+@import "pages/edit-profile";
+@import "pages/profile";
+@import "pages/info";
 
-@import 'pages/profile';
-@import 'pages/info';
+@import "pages/visit";
 
-@import 'pages/home';
-@import 'pages/post';
+@import "pages/home";
+@import "pages/post";
 
-@import 'pages/@';
-
-@import 'pages/edit-profile';
+@import "pages/message";
+@import "pages/newcomer";

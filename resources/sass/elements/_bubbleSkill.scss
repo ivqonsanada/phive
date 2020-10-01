@@ -1,0 +1,20 @@
+.blue {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.65;
+  padding: 5px 15px;
+  border-radius: 10px;
+  color: #ffffff;
+  background-color: var(--dark-blue);
+  letter-spacing: 0.02em;
+}
+
+.red {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.65;
+  padding: 5px 15px;
+  border-radius: 10px;
+  color: #001534;
+  background-color: var(--red-glow);
+}

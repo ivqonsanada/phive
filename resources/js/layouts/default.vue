@@ -1,21 +1,27 @@
 <template>
   <div class="main-layout">
-    <navbar />
+    <Navbar />
 
-    <div class="container">
-      <child />
+    <div class="main-container">
+      <div class="container">
+        <child />
+      </div>
+
+      <Footer />
     </div>
   </div>
 </template>
 
 <script>
 import Navbar from '~/components/Navbar'
+import Footer from '~/components/Footer'
 
 export default {
   name: 'MainLayout',
 
   components: {
-    Navbar
+    Navbar,
+    Footer
   }
 }
 </script>
@@ -26,10 +32,13 @@ export default {
 }
 
 .main-layout {
-  /* height: 100vh; */
-  min-height: max-content;
-  /* max-width: 1366px;
-  margin: 0 auto;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,.1); */
+  min-height: 100vh;
+}
+
+.main-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 </style>

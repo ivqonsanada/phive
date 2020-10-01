@@ -2,34 +2,34 @@
   <div class="project-details--container">
     <div class="details--top-container">
       <div>
-        <div v-if="project.state == 'load'">
+        <div v-show="!project">
           <content-placeholders :rounded="true">
             <content-placeholders-img />
             <content-placeholders-heading />
           </content-placeholders>
         </div>
-        <div v-if="project.state != 'load'" class="project-details--image-container">
+        <div v-show="project" class="project-details--image-container">
           <div id="project-details--image" :style="cssProps" />
         </div>
-        <h1 class="project-details--h1">
-          {{ project.name }}
-        </h1>
       </div>
+      <h1 class="project-details--h1">
+        {{ project.title }}
+      </h1>
       <div class="project-details--action-button">
-        <router-link :to="{ name: 'project.apply.individual', params: { name: project.name } }">
-          <button class="project__apply-button">
-            Apply Project
-          </button>
+        <router-link class="btn btn--red btn--large" :to="{ name: applyRoute, params: { title: project.title, type: project.applicant_type } }" tag="button">
+          Apply Project
         </router-link>
-        <button class="project__wishlist-button">
+        <button class="btn btn--white btn--large" @click="addWishlist">
           <span class="iconify" data-icon="ic:round-add-circle-outline" data-inline="true" width="24" height="24" />
-          Wishlist
+          <span>Wishlist</span>
         </button>
       </div>
       <h2 id="project-details" v-scroll-to="'#project-details'" class="project-details--h2">
         <a href="#project-details" class="button__project--more">
           <span class="iconify" data-icon="zmdi:more" data-inline="false" />
-          Project Details
+          <span>
+            Project Details
+          </span>
         </a>
       </h2>
     </div>
@@ -38,12 +38,12 @@
         <div class="lecturer-info--left">
           <router-link :to="{ path: '/@/' + project.user.tagname }" class="lencturer-text-link">
             <div class="lecturer-info--image-container">
-              <img :src="project.user.avatar" :alt="`${getFullName} Photo Profile`">
+              <img :src="project.user.avatar" :alt="`${fullName} Photo Profile`">
             </div>
 
             <div>
               <div><strong>Posted By</strong></div>
-              <div>{{ getFullName }}</div>
+              <div>{{ fullName }}</div>
               <div>{{ project.user.identity_number }}</div>
               <div>{{ project.user.expertise }}</div>
             </div>
@@ -61,7 +61,7 @@
       <div class="project-requirements">
         <h3>Requirements</h3>
         <ul class="requirements--container">
-          <li v-for="req in project.requirements" :key="req.id">
+          <li v-for="req in project.project_requirements" :key="req.id">
             {{ req.requirement }}
           </li>
         </ul>
@@ -69,7 +69,7 @@
       <div class="project-skills">
         <h3>Skills</h3>
         <div class="skills--container">
-          <BubbleSkill v-for="skill in project.skills" :key="skill.id" :color="bgBubble" :name="skill.skill" />
+          <BubbleSkill v-for="skill in project.project_skills" :key="skill.id" :color="bgBubble" :name="skill.skill" />
         </div>
       </div>
       <div class="project-summary">
@@ -120,17 +120,18 @@
         </div>
       </div>
     </div>
-    <button class="contact-button">
+    <router-link :to="{ name: 'message', params: { tagname: project.user.tagname } }" class="btn btn--red btn--large" tag="button">
       Contact Lecturer
-    </button>
+    </router-link>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
 import * as timeago from 'timeago.js'
 
 import BubbleSkill from '~/components/BubbleSkill'
+import { mapGetters } from 'vuex'
+import axios from 'axios'
 
 export default {
   name: 'ProjectDetailsPage',
@@ -139,30 +140,54 @@ export default {
     BubbleSkill
   },
 
-  data () {
-    return {
-      project: {
-        state: 'load',
-        user: { photo_url: '' }
-      },
-      bg: '',
-      bgBubble: 'red'
-    }
-  },
+  data: () => ({
+    bgBubble: 'red'
+  }),
 
   computed: {
+    ...mapGetters({
+      project: 'visit/project',
+      snackbar: 'notification/snackbar'
+    }),
+
     cssProps () {
       return {
-        '--project-details-bg': `url(${this.bg})`
+        '--project-details-bg': `url(https://placeimg.com/640/360/tech/${this.$route.params.id})`
       }
     },
 
-    getFullName () {
+    fullName () {
       return this.project.user.first_name + ' ' + this.project.user.last_name
     },
 
+    applyRoute () {
+      if (this.project.applicant_type === 'Team') return 'project.apply.team'
+      return 'project.apply.individual'
+    },
+
     expertiseIn () {
-      return this.getExpertise(this.project.ui_ux_designer, this.project.project_expert, this.project.front_end_engineer, this.project.back_end_engineer)
+      let expertises = [
+        {
+          name: 'UI/UX Designer',
+          isRequired: this.project.ui_ux_designer
+        },
+        {
+          name: 'Frontend Engineer',
+          isRequired: this.project.front_end_engineer
+        },
+        {
+          name: 'Backend Engineer',
+          isRequired: this.project.back_end_engineer
+        },
+        {
+          name: 'Data Expert',
+          isRequired: this.project.data_expert
+        }
+      ].filter(expertise => expertise.isRequired == 1)
+        .map(expertise => expertise.name)
+        .join(', ')
+
+      return expertises
     }
   },
 
@@ -177,33 +202,29 @@ export default {
     },
 
     async getDetails () {
-      axios.get(`/api/project/${this.$route.params.id}`)
-        .then(response => {
-          this.project = response.data
-          this.bg = `https://placeimg.com/640/360/tech/${this.$route.params.id}`
-        })
+      await this.$store.dispatch('visit/fetchVisitedProject', {
+        id: this.$route.params.id
+      })
     },
 
-    getExpertise: function (...expertises) {
-      if (expertises[0]) expertises[0] = 'UI/UX Designer'
-      if (expertises[1]) expertises[1] = 'Frontend Engineer'
-      if (expertises[2]) expertises[2] = 'Backend Engineer'
-      if (expertises[3]) expertises[3] = 'Data Expert'
-
-      let results = expertises.filter(expertise => expertise !== 0).join(', ')
-
-      return results
+    async addWishlist () {
+      await axios.post(`/api/project/${this.$route.params.id}/wishlist`)
+        .then(({ data }) => {
+          this.snackbar.open(data.message)
+          this.$store.dispatch('auth/updateWishlists', {
+            wishlists: data.wishlists
+          })
+        })
     }
-
   },
 
   metaInfo () {
-    return { title: 'Home' }
+    return { title: this.project.title }
   }
 }
 </script>
 
-<style lang="css" scoped>
+<style scoped>
 
 #project-details--image {
   background-image: var(--project-details-bg);
@@ -218,6 +239,7 @@ export default {
 
   height: 35vh;
   width: 85vw;
+  max-width: 510px;
 
   margin: 0 auto;
 }

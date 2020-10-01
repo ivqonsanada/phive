@@ -1,13 +1,7 @@
 <template>
   <div>
     <div class="project--container">
-      <template v-if="loading">
-        <content-placeholders v-for="i in 4" :key="i" :rounded="true">
-          <content-placeholders-img />
-          <content-placeholders-heading />
-        </content-placeholders>
-      </template>
-      <ProjectCard v-for="project in projects" :key="project.id"
+      <ProjectCard v-for="project in data.wishlists" :key="project.id"
                    :data="project"
       />
     </div>
@@ -15,8 +9,8 @@
 </template>
 
 <script>
-import axios from 'axios'
 import ProjectCard from '~/components/ProjectCard'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -24,26 +18,18 @@ export default {
   },
 
   metaInfo () {
-    return { title: 'Settings' }
+    return { title: `${this.data.user.first_name} ${this.data.user.last_name} - Wishlists` }
   },
 
   data: () => ({
     loading: true,
-    projects: '',
-    searchQuery: ''
+    projects: ''
   }),
 
-  mounted () {
-    this.getWishlist()
-  },
-
-  methods: {
-    async getWishlist () {
-      this.loading = false
-      this.projects = JSON.parse(localStorage.getItem('visitedUser')).projects
-      // console.log(JSON.parse(localStorage.getItem('visitedUser')).wishlists)
-      // this.loading = false
-    }
+  computed: {
+    ...mapGetters({
+      data: 'visit/user'
+    })
   }
 }
 </script>

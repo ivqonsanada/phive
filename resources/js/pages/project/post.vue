@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h1 class="post__h1">
+    <h2 class="post__h1">
       Post Your Project!
-    </h1>
+    </h2>
     <form @submit.prevent="image_post" @keydown="form.onKeydown($event)">
       he
     </form>

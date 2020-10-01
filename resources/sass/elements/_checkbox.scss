@@ -1,0 +1,13 @@
+.checkbox-group > * + * {
+  margin-top: 0.8rem;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox > * + * {
+  margin-left: 0.8rem;
+}
+

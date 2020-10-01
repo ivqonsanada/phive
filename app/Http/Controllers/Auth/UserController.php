@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Project;
+use App\ProjectBox;
+use App\Team;
 use App\User;
 use App\Wishlist;
 use Illuminate\Http\Request;
@@ -21,18 +23,20 @@ class UserController extends Controller
         $user = $request->user();
 
         if ($user->role === 'Student') {
-            $projects = Project::with('user')->where('user_id', $user->id)->get();
-            $wishlists = Wishlist::with('user')->where('user_id', $user->id)->get();
+            $projects = ProjectBox::with('project.user:id,tagname,first_name,last_name,photo_url,email')->where('user_id', $user->id)->latest()->get();
+            $wishlists = Wishlist::with('project.user:id,tagname,first_name,last_name,photo_url,email')->where('user_id', $user->id)->latest()->get();
+            $team = Team::with('members.member:id,tagname,first_name,last_name,photo_url,email')->where('leader_id', $user->id)->first();
 
             return response()->json(
                 [
                     'user' => $user,
                     'projects' => $projects,
-                    'wishlists' => $wishlists
+                    'wishlists' => $wishlists,
+                    'team' => $team
                 ]
             );
         } else {
-            $projects = Project::with('user')->where('user_id', $user->id)->get();
+            $projects = Project::with('user:id,tagname,first_name,last_name,photo_url,email')->where('user_id', $user->id)->latest()->get();
 
             return response()->json(
                 [
@@ -55,32 +59,33 @@ class UserController extends Controller
         if ($request->hasFile('file')) {
             $image = $request->file('file');
             $extension = $image->extension();
-            $name = $this->generateRandomString(25) . '.' . $extension;
-            $destinationPath = public_path('/images/avatar/');
-            $image->move($destinationPath, $name);
+            $imgName = $this->generateRandomString(25) . '.' . $extension;
+            $destinationPath = storage_path('app/public/images/avatar');
+            $image->move($destinationPath, $imgName);
 
             if ($userAuth->photo_url) {
-                $path = public_path() . '/images/avatar/' . $userAuth->photo_url;
+                $path = storage_path() . 'app/public/images/avatar/' . $userAuth->photo_url;
                 if (file_exists($path)) unlink($path);
             }
 
-            $user = User::find($userAuth->id);
-            $user->photo_url = $name;
+            $user = User::findOrFail($userAuth->id);
+            $user->photo_url = $imgName;
             $user->save();
         }
 
         return response()->json([
-            'success' => 'Image uploaded successfully',
-            'avatar' => '/images/avatar/' . $name
+            'status' => 'success',
+            'message' => 'Photo has been Changed',
+            'avatar' => '/storage/images/avatar/' . $imgName
         ]);
     }
 
-    public function saveProfile(Request $request)
+    public function saveProfile1(Request $request)
     {
         $userAuth = $request->user();
         $newUserData = $request->post('user');
 
-        $user = User::find($userAuth->id);
+        $user = User::findOrFail($userAuth->id);
 
         $user->first_name = $newUserData['first_name'];
         $user->last_name = $newUserData['last_name'];
@@ -102,8 +107,22 @@ class UserController extends Controller
         $user->save();
 
         return response()->json([
-            'success' => 'Profile updated successfully',
-            'user' => User::find($userAuth->id)
+            'status' => 'success',
+            'message' => 'Profile has been updated',
+            'user' => $user
+        ]);
+    }
+
+    public function saveProfile2(Request $request)
+    {
+        $userAuth = $request->user();
+        $user = User::findOrFail($userAuth->id);
+        $user->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Profile has been updated',
+            'user' => $user
         ]);
     }
 

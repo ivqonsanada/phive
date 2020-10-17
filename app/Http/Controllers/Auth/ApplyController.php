@@ -51,7 +51,7 @@ class ApplyController extends Controller
 
         $to = User::findOrFail($project->user_id);
 
-        $individualApplicant = TeamApplicant::firstOrCreate(
+        $teamApplicant = TeamApplicant::firstOrCreate(
             [
                 'project_id' => $project->id,
                 'from_id' => $user_id,
@@ -64,7 +64,7 @@ class ApplyController extends Controller
         );
 
         Inbox::firstOrCreate(
-            ['individual_applicant_id' => $individualApplicant->id],
+            ['team_applicant_id' => $teamApplicant->id],
             [
                 'user_id' => $user_id,
                 'category' => 'Team Applicant'

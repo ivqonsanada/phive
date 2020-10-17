@@ -11,10 +11,12 @@
 
 .red {
   font-size: 12px;
-  font-weight: 600;
+  font-weight: bold;
   line-height: 1.65;
   padding: 5px 15px;
   border-radius: 10px;
-  color: #001534;
+  // color: #001534;
   background-color: var(--red-glow);
+
+  color: white;
 }

@@ -25,7 +25,7 @@
     <div v-show="showFilter" class="explore--filter mb-1_5 checkbox-group">
       <div v-for="filter in filters" :key="`filter-${filter.name}`" class="checkbox">
         <input :id="`filter-${filter.name}`" v-model="filter.isChecked" type="checkbox">
-        <label :for="`filter-${filter.name}`">{{ filter.name }}</label>
+        <label :for="`filter-${filter.name}`">{{ filter.name }} ({{ filter.count }})</label>
       </div>
 
       <button class="" @click="filterProjects">
@@ -51,7 +51,7 @@
       <ProjectCard v-for="project in projects" :key="`project-${project.id}`" :data="project" />
     </div>
 
-    <button v-if="canLoadMore" class="button__load-more" @click="loadMore">
+    <button v-if="canLoadMore" class="btn btn--red mt-3" @click="loadMore">
       Load More
     </button>
   </div>
@@ -110,6 +110,16 @@ export default {
         },
         {
           name: 'Individual & Team',
+          isChecked: false,
+          count: 0
+        },
+        // {
+        //   name: 'Salary',
+        //   isChecked: false,
+        //   count: 0
+        // },
+        {
+          name: 'Certificate',
           isChecked: false,
           count: 0
         }
@@ -190,9 +200,10 @@ export default {
         'data_expert',
         'applicant_type',
         'applicant_type',
-        'applicant_type'
+        'applicant_type',
+        'certificate'
       ]
-      let mustBe = [1, 1, 1, 1, 'Individual', 'Team', 'Individual & Team']
+      let mustBe = [1, 1, 1, 1, 'Individual', 'Team', 'Individual & Team', 1]
 
       for (let i in this.filters) {
         if (this.filters[i].isChecked) {
@@ -213,32 +224,27 @@ export default {
     },
 
     async countProject () {
-      let counter = {
-        designer: 0,
-        frontend: 0,
-        backend: 0,
-        data: 0,
-        individual: 0,
-        team: 0,
-        both: 0
-      }
+      let counter = [...this.filters]
+
+      for (let i in counter) counter[i].count = 0
 
       for (let project of this.projects) {
-        if (project.ui_ux_designer == 1) counter.designer++
-        if (project.front_end_engineer == 1) counter.frontend++
-        if (project.back_end_engineer == 1) counter.backend++
-        if (project.data_expert == 1) counter.data++
-        if (project.applicant_type === 'Individual & Team') counter.both++
-        else if (project.applicant_type === 'Individual') counter.individual++
-        else if (project.applicant_type === 'Team') counter.team++
+        if (project.ui_ux_designer == 1) counter[0].count++
+        if (project.front_end_engineer == 1) counter[1].count++
+        if (project.back_end_engineer == 1) counter[2].count++
+        if (project.data_expert == 1) counter[3].count++
+        if (project.applicant_type === 'Individual') counter[4].count++
+        else if (project.applicant_type === 'Team') counter[5].count++
+        else if (project.applicant_type === 'Individual & Team') counter[6].count++
+        if (project.certificate == 1) counter[7].count++
       }
 
-      console.log(counter)
+      this.filters = counter
     }
   },
 
   metaInfo () {
-    return { title: 'Explorer' }
+    return { title: 'Explore' }
   }
 }
 </script>

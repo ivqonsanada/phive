@@ -29,21 +29,22 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('project/{project}/apply/individual', 'Auth\ApplyController@individual');
     Route::post('project/{project}/apply/team', 'Auth\ApplyController@team');
     Route::post('project/{project}/wishlist', 'Auth\ProjectController@addWishlist');
-    // Route::post('project/{project}/apply');
+
+    Route::post('project/post', 'Auth\ProjectController@postProject');
 
     Route::post('inbox', 'InboxController@getAll');
-
+    Route::post('projectbox', 'ProjectBoxController@getAll');
+    Route::post('projectbox/confirmation', 'ProjectBoxController@confirmProject');
 
     Route::post('user/{user:tagname}/invite/team', 'InvitationController@teamInvitation');
     Route::post('user/{user:tagname}/invite/project', 'InvitationController@projectInvitation');
     Route::post('user/{user:tagname}/message', 'MessageController@index');
     Route::post('user/{user:tagname}/message/send', 'MessageController@send');
 
-    Route::post('inbox/invitation/team', 'InboxController@teamInvitation');
-    Route::post('inbox/invitation/project', 'InboxController@projectInvitation');
-    Route::post('inbox/apply/individual', 'InboxController@individualApplicant');
-    Route::post('inbox/apply/team', 'InboxController@teamApplicant');
-
+    Route::post('inbox/invitation/team', 'InboxController@acceptTeamInvitation');
+    Route::post('inbox/invitation/project', 'InboxController@acceptProjectInvitation');
+    Route::post('inbox/apply/individual', 'InboxController@acceptIndividualApplicant');
+    Route::post('inbox/apply/team', 'InboxController@acceptTeamApplicant');
 });
 
 Route::group(['middleware' => 'guest:api'], function () {

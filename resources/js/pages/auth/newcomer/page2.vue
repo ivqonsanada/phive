@@ -1,5 +1,8 @@
 <template>
   <div>
+    <h2 class="newcomer__h2 mb-3">
+      Expertise
+    </h2>
     <form @submit.prevent="saveProfile" @keydown="form.onKeydown($event)">
       <div class="">
         <div class="form-group__container">
@@ -43,32 +46,51 @@
           </div>
         </div>
 
+        <div v-show="showEditSkill">
+          <form @submit.prevent="saveSkills" @keydown="form.onKeydown($event)">
+            asfd
+          </form>
+        </div>
+
         <hr class="form--hr">
 
         <h2 class="social-media__heading">
           Experience
         </h2>
 
+        <h3>Experience</h3>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, quod dolor. Doloremque sint nam asperiores cupiditate omnis. Aliquam praesentium consequuntur maxime ipsam, quidem quos ex placeat, maiores dolor aut non.</p>
+        <div class="newcomer__add-experience mt-1">
+          <span class="iconify" data-icon="ic:round-add-circle" data-inline="true" width="20" height="20" />
+          <span>Add Experience</span>
+        </div>
+
+        <div class="newcomer__hire--container mt-3">
+          <span class="newcomer__hire--text">Are you open to be hired?</span>
+          <div class="newcomer__hire--button-group">
+            <button class="newcomer__hire--button">
+              Yes
+            </button>
+            <button class="newcomer__hire--button">
+              No
+            </button>
+          </div>
+        </div>
+
         <div class="">
-          <router-link :to="{ name: 'newcomer.page3' }" class="btn btn--grey mb-1_5 mt-5" tag="button">
-            Next
-          </router-link>
           <router-link :to="{ name: 'newcomer.page1' }" class="btn btn--grey mb-1_5" tag="button">
             Previous
           </router-link>
+          <router-link :to="{ name: 'newcomer.page3' }" class="btn btn--red" tag="button">
+            Next
+          </router-link>
 
-          <v-button :loading="form.busy" class="btn btn--red">
+          <!-- <v-button :loading="form.busy" class="btn btn--red">
             Save Changes
-          </v-button>
+          </v-button> -->
         </div>
       </div>
     </form>
-
-    <div v-show="showEditSkill">
-      <form @submit.prevent="saveSkills" @keydown="form.onKeydown($event)">
-        asfd
-      </form>
-    </div>
   </div>
 </template>
 
@@ -98,7 +120,9 @@ export default {
       { 'id': 6, 'project_id': 1, 'skill': 'Adobe XD' }],
 
     form: new Form({
-      user: null
+      user: {
+        expertise: ''
+      }
     })
   }),
 
@@ -114,6 +138,10 @@ export default {
     this.getUser()
   },
 
+  beforeDestroy () {
+    this.saveProfile()
+  },
+
   methods: {
     async showSkills () {
       this.toggleOverlay()
@@ -123,10 +151,10 @@ export default {
       this.form.user = this.data
     },
 
-    async saveProfile (e) {
-      await this.form.post('/api/user/saveprofile/1')
+    async saveProfile () {
+      this.form.post('/api/user/saveprofile/2')
         .then(({ data }) => {
-          this.snackbar.info(data.message)
+          // this.snackbar.open(data.message)
         })
     },
 

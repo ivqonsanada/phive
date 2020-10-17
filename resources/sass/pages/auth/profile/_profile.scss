@@ -3,20 +3,35 @@
 }
 
 .profile__info--container {
-  display: flex;
-  flex-direction: row;
   margin-bottom: 2rem;
-  font-size: 1.2rem;
+
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  background: #F2F4F6;
+  border-radius: 2rem;
+  box-shadow: 0px 2px 6px rgba(119, 114, 114, 0.2);
+  padding: 2rem 1rem;
+
+  @include respon(s) {
+    padding: 1.5rem 2.5rem 1.5rem 1.5rem;
+    flex-direction: row;
+  }
 }
 
 .profile__info--img {
-  margin-right: 3rem;
   width: 10rem;
   height: 10rem;
   border-radius: 50%;
   object-fit: cover;
+  margin-bottom: 2rem;
+
+  @include respon(s) {
+    margin-right: 3rem;
+    margin-bottom: 0;
+  }
 }
 
 .profile__info--name {
@@ -51,6 +66,17 @@
   line-height: 1.45;
 }
 
+.profile__info--verified {
+  color: #3051DF;
+  font-weight: 700;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  line-height: 1.45;
+  font-style: italic;
+}
+
 .profile__info--edit-profile {
   margin-bottom: 3.5rem;
   width: 100%;
@@ -60,6 +86,8 @@
   font-size: 1.4rem;
   font-weight: 700;
   border-radius: 0.5rem;
+
+  color: white;
 }
 
 .edit-profile__link {
@@ -82,12 +110,14 @@
   font-weight: 600;
   text-align: center;
   text-decoration: none;
-  color: #000000;
+  color: #001534;
 }
 
 .profile__sub-menu--active {
   background-color: var(--red-glow);
   font-weight: 700;
+
+  color: white;
 }
 
 .edit-profile__top-decore {

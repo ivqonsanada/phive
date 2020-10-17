@@ -1,0 +1,37 @@
+.auth__input--label {
+  font-size: 2.4rem;
+  font-weight: 600;
+}
+
+.email-check--container {
+  padding: 1.2rem 3.2rem 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.email-check--container p {
+  font-size: 1.4rem;
+}
+
+.text__link {
+  text-decoration: none;
+}
+
+.email-check--heading {
+  margin-top: 0;
+  font-size: 2.8rem;
+  font-weight: 800;
+  text-align: center;
+
+  @include respon(s) {
+    font-size: 3rem;
+  }
+}
+
+.email-check--img {
+  object-fit: contain;
+  max-height: 33vmax;
+}
+

@@ -59,7 +59,8 @@
   display: flex;
   justify-content: center;
   align-self: center;
-  background-color: #001534;
+  // background-color: #001534;
+  background-color: var(--red-glow);
 
   color: #FFFFFF;
   font-weight: bold;

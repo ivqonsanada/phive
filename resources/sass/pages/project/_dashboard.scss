@@ -1,0 +1,86 @@
+.project-dashboard__container {
+  // margin: ;
+  margin-left: -1rem;
+  margin-right: -1rem;
+}
+
+.project-dashboard__h2 {
+  // font-size: calc(1rem + 5vw);
+  font-size: 2.4rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 1rem;
+
+  @include respon(s) {
+    font-size: 3.2rem;
+  }
+
+  @include respon(lg) {
+    font-size: 3.2rem;
+  }
+}
+
+.project-dashboard__h3 {
+  font-size: 1.8rem;
+font-weight: bold;
+  text-align: center;
+  margin-bottom: 1.5rem;
+
+  @include respon(s) {
+    font-size: 2.4rem;
+  }
+}
+
+.project-dashboard__subtitle {
+  font-size: 1.6rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 2rem;
+  line-height: 1.15;
+
+  @include respon(s) {
+    font-size: 1.8rem;
+  }
+}
+
+.project-dashboard__list-team {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 12rem));
+  column-gap: 0.4rem;
+  row-gap: 2rem;
+  justify-content: center;
+  margin-bottom: 2.4rem;
+}
+
+.project-dashboard__list-team--item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-dashboard__list-team--img {
+  border-radius: 50%;
+  width: 6.5rem;
+  height: 6.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.project-dashboard__list-team--name {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+
+.project-dashboard__p {
+  font-size: 1.4rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  line-height: 1.15;
+
+  // @include respon(s) {
+  //   font-size: 1.8rem;
+  // }
+}

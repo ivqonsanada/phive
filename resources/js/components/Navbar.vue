@@ -30,7 +30,9 @@
 
           <div class="nav--brand-container">
             <a class="nav-brand">
-              <img src="/images/logo-blue.svg" alt="">
+              <router-link :to="{ name: 'index' }">
+                <img src="/images/logo-blue.svg" alt="">
+              </router-link>
             </a>
           </div>
           <div class="nav-stabilizer" />
@@ -71,7 +73,7 @@
             <span>Explore</span>
           </router-link>
 
-          <router-link :to="{ path: '/leaderboard' }" class="nav-link" active-class="nav--active-link">
+          <router-link :to="{ name: 'leaderboard' }" class="nav-link" active-class="nav--active-link">
             <span class="iconify" data-icon="gridicons:stats-up-alt" data-inline="true" width="20" height="20" />
             <span>Leaderboard</span>
           </router-link>
@@ -123,20 +125,20 @@
 
             <div class="dropdown-divider" />
 
-            <a href="#" class="button-logout" @click.prevent="logout">
+            <button class="btn btn--red mt-3" @click="logout">
               Logout
-            </a>
+            </button>
           </div>
         </div>
 
         <div v-show="!user">
           <div class="nav-group ">
-            <router-link :to="{ name: 'login' }" class="link-login" active-class="nav--active-link">
-              Login
+            <router-link :to="{ name: 'login' }" class="btn btn--red mt-3" tag="button">
+              Sign In
             </router-link>
 
-            <router-link :to="{ name: 'register' }" class="link-register" active-class="nav--active-link">
-              Create Account
+            <router-link :to="{ name: 'register' }" class="btn btn--white mt-1_5" tag="button">
+              Create an Account
             </router-link>
           </div>
         </div>

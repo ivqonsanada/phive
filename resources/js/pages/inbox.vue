@@ -18,10 +18,18 @@
         <p class="profile__info--expertise">
           <span class="iconify" data-icon="fa-solid:paint-brush" data-inline="true" width="15" height="10" /> {{ user.expertise }}
         </p>
-        <p class="profile__info--available">
-          <span class="iconify" data-icon="carbon:dot-mark" data-inline="true" width="15" height="15" />
-          Available
-        </p>
+        <template v-if="user.role === 'Student'">
+          <p class="profile__info--available">
+            <span class="iconify" data-icon="carbon:dot-mark" data-inline="true" width="15" height="15" />
+            Available
+          </p>
+        </template>
+        <template v-else-if="user.role === 'Lecturer'">
+          <p class="profile__info--verified">
+            <span class="iconify" data-icon="bi:shield-fill-check" data-inline="true" width="15" height="15" />
+            Verified
+          </p>
+        </template>
       </div>
     </div>
 

@@ -47,7 +47,7 @@
             {{ form.user.role }} ID Number
           </h4>
           <div class="form-group__input-container">
-            <input v-model="form.user.identity_number" class="form-group__input-text">
+            <input v-model="form.user.identity_number" class="form-group__input-text" placeholder="e.g., 205150200111042">
           </div>
         </div>
 
@@ -56,7 +56,7 @@
             University
           </h4>
           <div class="form-group__input-container">
-            <input v-model="form.user.university" class="form-group__input-text">
+            <input v-model="form.user.university" class="form-group__input-text" placeholder="e.g., University of Brawijaya">
           </div>
         </div>
 
@@ -65,7 +65,7 @@
             Faculty
           </h4>
           <div class="form-group__input-container">
-            <input v-model="form.user.faculty" class="form-group__input-text">
+            <input v-model="form.user.faculty" class="form-group__input-text" placeholder="e.g., Faculty of Computer Science">
           </div>
         </div>
 
@@ -74,7 +74,7 @@
             Major
           </h4>
           <div class="form-group__input-container">
-            <input v-model="form.user.major" class="form-group__input-text">
+            <input v-model="form.user.major" class="form-group__input-text" placeholder="e.g., Informatics Engineering">
           </div>
         </div>
 
@@ -83,7 +83,7 @@
             Location
           </h4>
           <div class="form-group__input-container">
-            <input v-model="form.user.location" class="form-group__input-text">
+            <input v-model="form.user.location" class="form-group__input-text" placeholder="e.g., Malang, Indonesia">
           </div>
         </div>
 
@@ -106,27 +106,27 @@
           <div class="social-media__container">
             <div class="social-media__input-container">
               <span class="iconify social-media__icon" data-icon="ant-design:behance-outlined" data-inline="true" />
-              <input v-model="form.user.behance" type="text" class="social-media__input">
+              <input v-model="form.user.behance" type="text" class="social-media__input" :placeholder="`e.g., behance.net/${form.user.first_name}`">
             </div>
 
             <div class="social-media__input-container">
               <span class="iconify social-media__icon" data-icon="ant-design:github-filled" data-inline="true" />
-              <input v-model="form.user.github" type="text" class="social-media__input">
+              <input v-model="form.user.github" type="text" class="social-media__input" :placeholder="`e.g., github.com/${form.user.first_name}`">
             </div>
 
             <div class="social-media__input-container">
               <span class="iconify social-media__icon" data-icon="brandico:linkedin" data-inline="true" />
-              <input v-model="form.user.linkedin" type="text" class="social-media__input">
+              <input v-model="form.user.linkedin" type="text" class="social-media__input" :placeholder="`e.g., linkedin.com/in/${form.user.first_name}`">
             </div>
 
             <div class="social-media__input-container">
               <span class="iconify social-media__icon" data-icon="whh:dribbblealt" data-inline="true" />
-              <input v-model="form.user.dribbble" type="text" class="social-media__input">
+              <input v-model="form.user.dribbble" type="text" class="social-media__input" :placeholder="`e.g., dribbble.com/${form.user.first_name}`">
             </div>
 
             <div class="social-media__input-container">
               <span class="iconify social-media__icon" data-icon="whh:website" data-inline="true" />
-              <input v-model="form.user.website" type="text" class="social-media__input">
+              <input v-model="form.user.website" type="text" class="social-media__input" :placeholder="`e.g., ${form.user.first_name}.github.io`">
             </div>
           </div>
         </div>
@@ -164,11 +164,14 @@ import { mapGetters } from 'vuex'
 // import snarkdown from 'snarkdown'
 
 export default {
-  name: 'EditProfilePageOne',
+  name: 'EditProfilePage1',
 
   data: () => ({
     form: new Form({
-      user: null
+      user: {
+        first_name: ''
+
+      }
     }),
 
     form2: new Form({
@@ -209,7 +212,7 @@ export default {
             avatar: data.avatar
           })
 
-          this.snackbar.info(data.message)
+          this.snackbar.open(data.message)
         })
     },
 
@@ -222,7 +225,7 @@ export default {
             user: data.user
           })
 
-          this.snackbar.info(data.message)
+          this.snackbar.open(data.message)
         })
     }
   }

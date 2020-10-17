@@ -77,11 +77,19 @@ class ProjectSeeder extends Seeder
             'data_expert' => $faker->boolean,
             'max_person' => $faker->numberBetween($min = 1, $max = 9),
             'image' => $faker->imageUrl,
-            'applicant_type' => $applicant_type[array_rand($applicant_type)],
+            'applicant_type' => 'Individual & Team',
             'min_points' => $min_points[array_rand($min_points)],
             'level_applicant' => $level_applicant[array_rand($level_applicant)],
             'created_at' => now(),
             'updated_at' => now(),
+            ]);
+
+            DB::table('project_boxes')->insert([
+                'project_id' => 1,
+                'user_id' => 2,
+                'status' => 'Hiring',
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
 
             shuffle($skills);
@@ -121,6 +129,14 @@ class ProjectSeeder extends Seeder
                 'applicant_type' => $applicant_type[array_rand($applicant_type)],
                 'min_points' => $min_points[array_rand($min_points)],
                 'level_applicant' => $level_applicant[array_rand($level_applicant)],
+                'created_at' => Carbon::createFromDate(2020, $month, $day, 'Asia/Jakarta'),
+                'updated_at' => Carbon::createFromDate(2020, $month, $day, 'Asia/Jakarta'),
+            ]);
+
+            DB::table('project_boxes')->insert([
+                'project_id' => $i-1,
+                'user_id' => $i,
+                'status' => 'Hiring',
                 'created_at' => Carbon::createFromDate(2020, $month, $day, 'Asia/Jakarta'),
                 'updated_at' => Carbon::createFromDate(2020, $month, $day, 'Asia/Jakarta'),
             ]);
@@ -172,6 +188,14 @@ class ProjectSeeder extends Seeder
                 'applicant_type' => $applicant_type[array_rand($applicant_type)],
                 'min_points' => $min_points[array_rand($min_points)],
                 'level_applicant' => $level_applicant[array_rand($level_applicant)],
+                'created_at' => Carbon::createFromDate(2020, $month, $day, 'Asia/Jakarta'),
+                'updated_at' => Carbon::createFromDate(2020, $month, $day, 'Asia/Jakarta'),
+            ]);
+
+            DB::table('project_boxes')->insert([
+                'project_id' => $i-2,
+                'user_id' => $i-6,
+                'status' => 'Hiring',
                 'created_at' => Carbon::createFromDate(2020, $month, $day, 'Asia/Jakarta'),
                 'updated_at' => Carbon::createFromDate(2020, $month, $day, 'Asia/Jakarta'),
             ]);

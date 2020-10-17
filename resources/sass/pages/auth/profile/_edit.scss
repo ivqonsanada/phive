@@ -1,0 +1,141 @@
+.stepper-wrap {
+  width: 100%;
+  margin-bottom: 3rem;
+}
+
+.stepper-wrap:after {
+  clear: both;
+  height: 0;
+  width: 100%;
+  content: '';
+  display: block;
+}
+
+.stepper {
+  padding-left: 0;
+}
+
+.stepper li {
+    counter-increment: step;
+    list-style-type: none;
+    float: left;
+    width: 33%;
+    position: relative;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #C8C8C8;
+}
+
+.stepper li:before {
+    content: counter(step);
+    font-weight: 800;
+    font-size: 2.8rem;
+    line-height: 36px;
+    border-radius: 50%;
+    width: 36px;
+    height: 36Px;
+    border: 8px double #C8C8C8;
+    display: block;
+    text-align: center;
+    margin: 0 auto 10px;
+    background-color: white;
+    color: #C8C8C8;
+}
+
+.stepper li:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    background-color: #ddd;
+    top: 24px;
+    left: -50%;
+    z-index: -1;
+}
+
+.stepper li:first-child:after {
+    content: none;
+}
+
+.stepper li.active {
+    color: #020201;
+}
+
+.stepper li.active:before {
+    border-color: #020201;
+    background-color: white;
+    color: #020201;
+}
+
+.stepper .active:after {
+    background-color: #020201;
+}
+
+.form-avatar-group__container {
+  margin-bottom: 3rem;
+}
+
+.form-tag__group {
+  display: flex;
+  flex-direction: row;
+  font-size: 1.4rem;
+  align-items: center;
+  background: #f1f1f1;
+  border-radius: 1rem;
+}
+
+.form-tag {
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.6rem;
+  color: grey;
+  padding: 0 0.5rem 0 2rem;
+  border-radius: 1rem 0 0 1rem;
+}
+
+// .form-tag__group > * + * {
+//   margin-left: 1rem;
+// }
+
+.edit-profile--img {
+  width: 12.5rem;
+  height: 12.5rem;
+  margin: 0 auto 3rem;
+  display: block;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.form__file-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  margin-bottom: 0;
+  text-align: center;
+  gap: 1rem;
+}
+
+.form__label-file {
+  background: var(--red-glow);
+  color: #001534;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+  display: block;
+}
+
+.form__input-file {
+  display: none;
+}
+
+.button__add-skill--icon {
+  width: 2rem;
+  height: 2rem;
+}
+
+.button__add-skill--text {
+  font-size: 1.2rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}

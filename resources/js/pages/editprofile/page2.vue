@@ -28,18 +28,50 @@
 
         <div class="form-group__container">
           <div class="flex-row space-between">
-            <h4 class="form-group__input-name">
+            <h4 class="form-group__input-name post__h4">
               Skills
             </h4>
-            <div class="flex-row" @click="showSkills">
+            <div class="flex-row unselectable post__add-skill pointer" @click="showAddSkill">
               <span class="iconify button__add-skill--icon mr-0_5" data-icon="ic:round-add-circle" data-inline="true" />
               <span class="button__add-skill--text">Add Skills</span>
             </div>
           </div>
           <div class="form-group__input-container">
             <div class="form-group__input-select info__skill-container">
-              <BubbleSkill v-for="skill in skills" :key="`skill-${skill.id}`" color="red" :name="skill.skill" />
+              <p v-show="!form.user.skills">
+                Add required skills to your project
+              </p>
+              <BubbleSkill v-for="skill in form.user.skills" :key="`skill-${skill.skill}`" color="red" :name="skill.skill" />
             </div>
+
+            <modal ref="addSkillModal">
+              <template v-slot:header>
+                <div>
+                  <h4 class="post__modal--h4 my-0">
+                    Add Skills
+                  </h4>
+                </div>
+              </template>
+
+              <template v-slot:body>
+                <div>
+                  <hr class="my-0 mb-2_5">
+                  <div>
+                    <div class="form-group__input-container">
+                      <input v-model="anotherSkills" class="form-group__input-text mb-0_5" placeholder="e.g., Communication, Laravel, VueJS">
+                      <p>Separated by comma</p>
+                      <p>You can add {{ 15 - skillLength }} more skills</p>
+                    </div>
+                  </div>
+                </div>
+              </template>
+
+              <template v-slot:footer>
+                <div class="btn btn--red" @click="addSkill">
+                  Add Skills
+                </div>
+              </template>
+            </modal>
           </div>
         </div>
 
@@ -60,12 +92,6 @@
         </div>
       </div>
     </form>
-
-    <div v-if="showEditSkill">
-      <form @submit.prevent="saveSkills" @keydown="form.onKeydown($event)">
-        asfd
-      </form>
-    </div>
   </div>
 </template>
 
@@ -75,6 +101,7 @@ import { mapGetters } from 'vuex'
 import BubbleSkill from '~/components/BubbleSkill'
 
 export default {
+  name: 'EditProfilePage2',
 
   components: {
     BubbleSkill
@@ -95,13 +122,17 @@ export default {
       { 'id': 6, 'project_id': 1, 'skill': 'Adobe XD' }],
 
     form: new Form({
-      user: null
-    })
+      user: {
+        expertise: ''
+      }
+    }),
+
+    anotherSkills: ''
   }),
 
   computed: {
     ...mapGetters({
-      data: 'auth/user',
+      user: 'auth/user',
       snackbar: 'notification/snackbar'
     })
 
@@ -117,13 +148,13 @@ export default {
     },
 
     async getUser () {
-      this.form.user = this.data
+      this.form.user = this.user
     },
 
     async saveProfile (e) {
       await this.form.post('/api/user/saveprofile/1')
         .then(({ data }) => {
-          this.snackbar.info(data.message)
+          this.snackbar.open(data.message)
         })
     },
 
@@ -137,6 +168,21 @@ export default {
       }
 
       this.showEditSkill = !this.showEditSkill
+    },
+
+    async showAddSkill () {
+      this.$refs.addSkillModal.openModal()
+      this.skillLength = this.form.skills.length
+    },
+
+    async addSkill () {
+      let anotherSkills = this.anotherSkills.split(',').map(skill => {
+        return { skill: skill }
+      })
+
+      this.form.skills.push(...anotherSkills)
+      this.$refs.addSkillModal.closeModal()
+      this.anotherSkills = ''
     }
   }
 

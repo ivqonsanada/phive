@@ -16,11 +16,9 @@
         <p class="slide-1__paragraph">
           Fill up your college life with expectation
         </p>
-        <router-link :to="{ name: 'explore' }" class="">
-          <button class="slide-1__button">
-            <span>Get Started</span>
-            <span class="iconify" data-icon="ion:arrow-forward-outline" data-inline="true" />
-          </button>
+        <router-link :to="{ name: 'explore' }" class="slide-1__button" tag="button">
+          <span>Get Started</span>
+          <span class="iconify" data-icon="ion:arrow-forward-outline" data-inline="true" />
         </router-link>
       </div>
       <div class="slide-1__image-container">
@@ -79,7 +77,7 @@
       <div class="slide-3__leaderboard--card">
         <img src="https://www.gravatar.com/avatar/7fc93cea09e4b8c225baac9b80875fab.jpg?s=200&d=mm" alt="" class="slide-3__leaderboard--img">
         <div class="slide-3__leaderboard--name">
-          Carlos Abravetta, Designer
+          {{ user ? user.name : 'Carlos Abravetta' }}, UI/UX Designer
         </div>
 
         <div class="slide-3__leaderboard--hr" />
@@ -121,14 +119,17 @@ export default {
     return { title: 'Home' }
   },
 
-  data: () => ({
-    title: 'Home'
-  }),
+  middleware: 'newcomer',
 
-  computed: mapGetters({
-    authenticated: 'auth/check',
-    snackbar: 'notification/snackbar'
-  }),
+  computed: {
+    user () {
+      return ''
+    },
+    ...mapGetters({
+      authenticated: 'auth/check',
+      snackbar: 'notification/snackbar'
+    })
+  },
 
   mounted () {
     let sheet = document.createElement('style')

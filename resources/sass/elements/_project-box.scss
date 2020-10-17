@@ -1,68 +1,71 @@
-.box--container {
+.project-box__container {
   display: flex;
   flex-direction: column;
-
   padding: 1.8rem 2.5rem;
   background: #F2F4F6;
   border-radius: 1rem;
 }
 
-.box--top-container {
+.project-box__top-container {
   display: flex;
   flex-direction: row;
 }
 
-.box--img {
+.project-box__img {
   width: 5rem;
   height: 5rem;
   object-fit: cover;
   border-radius: 0.5rem;
 }
 
-.box__content--container {
+.project-box__content--container {
   display: inline-grid;
+  width: 100%;
 }
 
-.box--content {
+.project-box__content {
   font-size: 1.4rem;
   margin-bottom: 0.5rem;
   overflow: hidden;
   line-height: 1.15;
 }
 
-.box--name {
+.project-box__name {
   font-weight: 700;
 }
 
-.box--bottom-container {
+.project-box__bottom-container {
   margin-top: 2.2rem;
 }
 
-.box__details--container {
+.project-box__details--container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 }
 
-.box--close-button {
+.project-box__close-button {
   width: 1.4rem;
   height: 1.4rem;
   color: #9D9D9D;
+  cursor: pointer;
 }
 
-.box--details {
+.project-box__details {
   text-decoration: underline;
   font-size: 1.2rem;
   font-weight: 700;
+  line-height: 1.4rem;
+  cursor: pointer;
 }
 
-.box--project-title {
+.project-box__project-title {
   color: var(--dark-blue);
   font-weight: bold;
 }
 
-.box--project-link {
+.project-box__project-link {
   text-align: center;
   display: block;
   margin: 1rem 0;
@@ -72,7 +75,7 @@
   color: black;
 }
 
-.box--agree-button {
+.project-box__agree-button {
   padding: 1rem 0;
   background: var(--dark-blue);
   color: white;
@@ -83,7 +86,7 @@
   margin-bottom: 1rem;
 }
 
-.box--decline-button {
+.project-box__decline-button {
   padding: 1rem 0;
   background: #EB2D2D;
   color: white;
@@ -93,7 +96,7 @@
   font-weight: bold;
 }
 
-.box--message {
+.project-box__message {
   font-size: 1.2rem;
   font-weight: 300;
   line-height: 1.3;
@@ -108,23 +111,52 @@
 }
 
 .project-box__item--img {
-  width: 10rem;
+  width: 9rem;
   height: 10rem;
   object-fit: cover;
   margin-right: 1.5rem;
   border-radius: 0.5rem;
+
+  @include respon(s) {
+    width: 10rem;
+  }
 }
 
 .project-box__item--status {
   display: flex;
   flex-direction: row;
   align-items: center;
-  font-size: 1.4rem;
+  font-size: 1.36rem;
   font-weight: bold;
 
   & > :not(:last-child) {
     margin-right: 0.5rem;
   }
+
+  @include respon(s) {
+    font-size: 1.4rem;
+  }
+}
+
+.project-box__item--lecture-statuses {
+  & > * + * {
+    margin-top: 0.4rem;
+  }
+}
+
+.project-box__item--status-lecturer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 1.1rem;
+
+  & > * + * {
+    margin-left: 0.5rem;
+  }
+
+  // @include respon(s) {
+  //   font-size: 1.1rem;
+  // }
 }
 
 .project-box__item--status-blue {
@@ -136,8 +168,19 @@
 }
 
 .project-box__item--icon {
-  width: 2rem;
-  height: 2rem;
+  width: 1.8rem;
+  height: 1.8rem;
+
+  @include respon(s) {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+.project-box__item--lecturer-icon {
+  width: 10px;
+  margin-left: 2px;
+  // height: 1em;
 }
 
 .project-box__item--title {
@@ -145,6 +188,11 @@
   font-weight: bold;
   color: #020201;
   line-height: 1.15;
+
+  @include line-clamp(2);
+  @include respon(s) {
+    font-size: 1.8rem;
+  }
 }
 
 .project-box__item--details {
@@ -157,4 +205,38 @@
   font-size: 1.2rem;
   font-weight: 400;
   margin-bottom: 2rem;
+}
+
+.project-box__item--button-group {
+  display: flex;
+  flex-direction: column;
+
+  @include respon(s) {
+    flex-direction: row;
+  }
+}
+
+.project-box__item--button-group > * + * {
+  margin-top: 1rem;
+
+  @include respon(s) {
+    margin-left: 1rem;
+    margin-top: 0;
+  }
+}
+
+.project-box__item--icon {
+  min-width: 3.5rem;
+}
+
+.project-box__item--icon > * + * {
+  margin-top: 0.5rem;
+}
+
+.project-box__item--text {
+  font-size: 1.2rem;
+}
+
+.project-box__item--summaries > * + * {
+  margin-top: 0.5rem;
 }

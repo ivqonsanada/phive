@@ -30,7 +30,7 @@ class MessageSeeder extends Seeder
             'message_header_id' => 1,
             'sender_id' => 1,
             'recipient_id' => 2,
-            'message' => 'Halo jugaaa',
+            'message' => 'Good afternoon Prof,<br />I hope we can discuss this project first before we jump into agreement on both sides, I’m here to negotiate the offers.<br />Thank you!',
             'created_at' => now(),
             'updated_at' => now(),
         ]);

@@ -32,6 +32,7 @@
   width: 25px;
   height: 25px;
   object-fit: cover;
+  border-radius: 5px;
 }
 
 .message-item__container--other {
@@ -58,6 +59,7 @@
   width: fit-content;
   margin-right: 2.5rem;
   font-size: 1.2rem;
+  line-height: 1.65;
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -73,6 +75,7 @@
   border-radius: 0.5rem;
   margin-right: 1.6rem;
   font-size: 1.2rem;
+  line-height: 1.65;
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
 }
 

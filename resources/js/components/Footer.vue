@@ -39,11 +39,6 @@
 import { mapGetters } from 'vuex'
 
 export default {
-
-  metaInfo () {
-    return { title: 'Settings' }
-  },
-
   data: () => ({
     wishlists: '',
     searchQuery: ''

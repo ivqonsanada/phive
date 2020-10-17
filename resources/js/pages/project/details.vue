@@ -9,14 +9,14 @@
           </content-placeholders>
         </div>
         <div v-show="project" class="project-details--image-container">
-          <div id="project-details--image" :style="cssProps" />
+          <div class="project-details--image" :style="cssProps" />
         </div>
       </div>
       <h1 class="project-details--h1">
         {{ project.title }}
       </h1>
       <div class="project-details--action-button">
-        <router-link class="btn btn--red btn--large" :to="{ name: applyRoute, params: { title: project.title, type: project.applicant_type } }" tag="button">
+        <router-link class="btn btn--red btn--large" :to="{ name: applyRoute, params: { title: project.title , type: project.applicant_type } }" tag="button">
           Apply Project
         </router-link>
         <button class="btn btn--white btn--large" @click="addWishlist">
@@ -219,29 +219,7 @@ export default {
   },
 
   metaInfo () {
-    return { title: this.project.title }
+    return { title: this.project ? this.project.title : '' }
   }
 }
 </script>
-
-<style scoped>
-
-#project-details--image {
-  background-image: var(--project-details-bg);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-
-  mask-image: url(/images/mask-image.png);
-  mask-size: 90%;
-  mask-repeat: no-repeat;
-  mask-position: center;
-
-  height: 35vh;
-  width: 85vw;
-  max-width: 510px;
-
-  margin: 0 auto;
-}
-
-</style>

@@ -1,10 +1,36 @@
+.project-details--image {
+  background-image: var(--project-details-bg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  mask-image: url(/images/mask-image.png);
+  mask-size: 97.2%;
+  mask-repeat: no-repeat;
+  mask-position: center;
+
+  height: 22.4rem;
+  width: 100%;
+  max-width: 510px;
+
+  margin: 1rem auto;
+
+  @include respon(s) {
+    height: 25rem;
+  }
+}
+
 .project-details--h1 {
-  font-size: 36px;
+  font-size: 2.8rem;
   font-weight: 800;
   text-transform: uppercase;
   text-align: center;
   margin-top: 0;
   margin-bottom: 2.5rem;
+
+@include respon(s) {
+  font-size: 3.6rem;
+}
 
   @include respon(m) {
     margin-top: 2rem;

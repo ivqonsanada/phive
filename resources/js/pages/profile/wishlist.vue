@@ -19,7 +19,7 @@ export default {
   },
 
   metaInfo () {
-    return { title: 'Settings' }
+    return { title: 'Wishlists' }
   },
 
   data: () => ({

@@ -57,6 +57,7 @@ button {
 .btn--red {
   background-color: var(--red-glow);
   color: #020201;
+  // color: white;
 }
 
 .btn--decline {
@@ -80,11 +81,20 @@ button {
   color: #001534;
 }
 
+.btn--grey {
+  background: #F1F1F1;
+  color: #001534;
+}
+
+.btn--grey-2 {
+  background: #C6C5C5;
+  color: #020201;
+}
+
 .btn--small {
   height: 4rem;
   border-radius: 1rem;
   font-size: 1.4rem;
-
 }
 
 .btn--large {

@@ -3,8 +3,17 @@ import * as types from '../mutation-types'
 
 // state
 export const state = {
-  user: null,
-  project: null
+  user: {
+    user: {
+      avatar: null
+    }
+  },
+  project: {
+    applicant_type: null,
+    user: {
+      tagname: 0
+    }
+  }
 }
 
 // getters

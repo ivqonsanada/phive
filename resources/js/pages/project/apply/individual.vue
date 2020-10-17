@@ -122,7 +122,7 @@ export default {
     async submitIndividual () {
       await this.form.post('/api' + this.$route.path)
         .then(({ data }) => {
-          this.snackbar.info(data.message)
+          this.snackbar.open(data.message)
         })
         .then(e => {
           this.$router.push({ path: `/project/${this.$route.params.id}` })

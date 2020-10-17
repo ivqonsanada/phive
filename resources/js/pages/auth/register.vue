@@ -12,11 +12,11 @@
       </h1>
       <div class="login-role--container">
         <div>
-          <input id="login-student" v-model="loginRole" class="login-radio" type="radio" value="Student" name="role">
+          <input id="login-student" v-model="form.role" class="login-radio" type="radio" value="Student" name="role">
           <label class="login-radio--label" for="login-student" @click="chooseStudent">Student</label>
         </div>
         <div>
-          <input id="login-lecturer" v-model="loginRole" class="login-radio" type="radio" value="Lecturer" name="role">
+          <input id="login-lecturer" v-model="form.role" class="login-radio" type="radio" value="Lecturer" name="role">
           <label class="login-radio--label" for="login-lecturer" @click="chooseLecturer">Lecturer</label>
         </div>
       </div>
@@ -69,6 +69,7 @@
 
 <script>
 import Form from 'vform'
+import { mapGetters } from 'vuex'
 // import LoginWithGithub from '~/components/LoginWithGithub'
 
 export default {
@@ -81,7 +82,6 @@ export default {
   },
 
   data: () => ({
-    loginRole: 'Student',
     studentRole: false,
     lecturerRole: false,
 
@@ -89,19 +89,28 @@ export default {
       first_name: '',
       last_name: '',
       email: '',
-      password: ''
+      password: '',
+      role: 'Student'
     }),
     mustVerifyEmail: false
   }),
+
+  computed: {
+    ...mapGetters({
+      snackbar: 'notification/snackbar'
+    })
+  },
 
   methods: {
     async register () {
       // Register the user.
       const { data } = await this.form.post('/api/register')
 
-      // Must verify email fist.
+      // Must verify email first.
       if (data.status) {
         this.mustVerifyEmail = true
+        this.snackbar.open(data.status)
+        this.$router.push({ name: 'verification.check', params: { email: this.form.email } })
       } else {
         // Log in the user.
         const { data: { token } } = await this.form.post('/api/login')
@@ -113,7 +122,7 @@ export default {
         await this.$store.dispatch('auth/updateUser', { user: data })
 
         // Redirect home.
-        this.$router.push({ name: 'home' })
+        this.$router.push({ name: 'index' })
       }
     },
     chooseStudent () {

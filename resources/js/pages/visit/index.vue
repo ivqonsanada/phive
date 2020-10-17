@@ -118,13 +118,13 @@ export default {
         if (this.user.role === 'Student') {
           axios.post(`/api/user/${this.data.user.tagname}/invite/team`)
             .then(({ data }) => {
-              this.snackbar.info(data.message)
+              this.snackbar.open(data.message)
               console.log(data)
             })
         } else {
           axios.post(`/api/user/${this.data.user.tagname}/invite/project`)
             .then(({ data }) => {
-              this.snackbar.info(data.message)
+              this.snackbar.open(data.message)
               console.log(data)
             })
         }

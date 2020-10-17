@@ -18,17 +18,17 @@ class CreateProjectsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('title');
             $table->string('description');
-            $table->string('salary');
-            $table->boolean('certificate');
+            $table->string('salary')->nullable();
+            $table->boolean('certificate')->default(false);
             $table->string('max_person');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->boolean('ui_ux_designer');
             $table->boolean('front_end_engineer');
             $table->boolean('back_end_engineer');
             $table->boolean('data_expert');
             $table->string('min_points');
             $table->string('level_applicant');
-            $table->string('applicant_type');
+            $table->string('applicant_type')->default('Individual & Team');
             $table->string('status')->default('Hiring');
             $table->timestamps();
 

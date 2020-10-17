@@ -2,12 +2,18 @@
   margin-top: 1rem;
   margin-bottom: 3.2rem;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   background: #F2F4F6;
-  padding: 1.5rem 2.5rem 1.5rem 1.5rem;
   border-radius: 2rem;
   box-shadow: 0px 2px 6px rgba(119, 114, 114, 0.2);
+  padding: 2rem 1rem;
+
+  @include respon(s) {
+    padding: 1.5rem 2.5rem 1.5rem 1.5rem;
+    flex-direction: row;
+  }
 }
 
 .inbox--top {

@@ -158,6 +158,11 @@
   justify-content: center;
 }
 
+.slide-2__facts > * + * {
+  margin-left: 4rem;
+}
+
+
 .slide-2__fact-item {
   display: flex;
   flex-direction: column;

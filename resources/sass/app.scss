@@ -5,35 +5,23 @@
 @import "base/reset";
 @import "base/base";
 
+@import "elements/navbar";
 @import "elements/footer";
-@import "elements/box";
+@import "elements/project-box";
 @import "elements/card";
 @import "elements/buttons";
 @import "elements/transitions";
 @import "elements/bubbleSkill";
-@import "elements/project-card";
 @import "elements/selectBox";
 @import "elements/snackbar";
-@import "elements/navbar";
 @import "elements/checkbox";
-
-@import "pages/explore";
-@import "pages/project-details";
-@import "pages/apply";
-
-@import "pages/inbox";
-
-@import "pages/login";
-@import "pages/register";
-
-@import "pages/edit-profile";
-@import "pages/profile";
-@import "pages/info";
-
-@import "pages/visit";
+@import "elements/radio";
 
 @import "pages/home";
-@import "pages/post";
-
+@import "pages/auth";
+@import "pages/explore";
+@import "pages/project";
+@import "pages/visit";
+@import "pages/inbox";
 @import "pages/message";
-@import "pages/newcomer";
+@import "pages/leaderboard";

@@ -1,5 +1,8 @@
 <template>
   <div>
+    <h2 class="newcomer__h2 mb-3">
+      Personal Information
+    </h2>
     <div class="form-avatar-group__container">
       <img class="edit-profile--img" :src="data.avatar" alt="">
       <div class="form-group__input-container form__file-container">
@@ -106,27 +109,27 @@
           <div class="social-media__container">
             <div class="social-media__input-container">
               <span class="iconify social-media__icon" data-icon="ant-design:behance-outlined" data-inline="true" />
-              <input v-model="form.user.behance" type="text" class="social-media__input">
+              <input v-model="form.user.behance" type="text" class="social-media__input" :placeholder="`e.g., behance.net/${form.user.first_name}`">
             </div>
 
             <div class="social-media__input-container">
               <span class="iconify social-media__icon" data-icon="ant-design:github-filled" data-inline="true" />
-              <input v-model="form.user.github" type="text" class="social-media__input">
+              <input v-model="form.user.github" type="text" class="social-media__input" :placeholder="`e.g., github.com/${form.user.first_name}`">
             </div>
 
             <div class="social-media__input-container">
               <span class="iconify social-media__icon" data-icon="brandico:linkedin" data-inline="true" />
-              <input v-model="form.user.linkedin" type="text" class="social-media__input">
+              <input v-model="form.user.linkedin" type="text" class="social-media__input" :placeholder="`e.g., linkedin.com/in/${form.user.first_name}`">
             </div>
 
             <div class="social-media__input-container">
               <span class="iconify social-media__icon" data-icon="whh:dribbblealt" data-inline="true" />
-              <input v-model="form.user.dribbble" type="text" class="social-media__input">
+              <input v-model="form.user.dribbble" type="text" class="social-media__input" :placeholder="`e.g., dribbble.com/${form.user.first_name}`">
             </div>
 
             <div class="social-media__input-container">
               <span class="iconify social-media__icon" data-icon="whh:website" data-inline="true" />
-              <input v-model="form.user.website" type="text" class="social-media__input">
+              <input v-model="form.user.website" type="text" class="social-media__input" :placeholder="`e.g., ${form.user.first_name}.github.io`">
             </div>
           </div>
         </div>
@@ -134,23 +137,23 @@
         <hr class="form--hr">
 
         <div class="form-group__container mb-5">
-          <h4 class="form-group__input-name">
+          <h4 class="form-group__input-name ">
             Tag Name
           </h4>
-          <div class="form-group__input-container">
-            <input v-model="form.user.tagname" class="form-group__input-text">
+          <div class="form-group__input-container form-tag__group">
+            <label for="form.user.tagname" class="form-tag">@</label>
+            <input id="form.user.tagname" v-model="form.user.tagname" class="form-group__input-text ">
           </div>
         </div>
         <div class="">
-          <router-link :to="{ name: 'newcomer.page2' }" class="edit-profile__link">
-            <div class="btn btn--grey mb-1_5 mt-5">
-              Next
-            </div>
+          <router-link :to="{ name: 'newcomer.page2' }" class="btn btn--red" tag="button" @click="saveProfile">
+            Next
           </router-link>
 
-          <v-button :loading="form.busy" class="btn btn--red">
+          <!-- @click="saveProfile" -->
+          <!-- <v-button :loading="form.busy" class="btn btn--red">
             Save Changes
-          </v-button>
+          </v-button> -->
         </div>
       </div>
     </form>
@@ -168,7 +171,9 @@ export default {
 
   data: () => ({
     form: new Form({
-      user: null
+      user: {
+        first_name: ''
+      }
     }),
 
     form2: new Form({
@@ -187,9 +192,15 @@ export default {
     this.getUser()
   },
 
+  beforeDestroy () {
+    this.saveProfile()
+  },
+
   methods: {
     async getUser () {
       this.form.user = this.data
+
+      this.form.user.tagname = this.data.first_name + this.data.id
     },
 
     async uploadAvatar (e) {
@@ -209,20 +220,16 @@ export default {
             avatar: data.avatar
           })
 
-          this.snackbar.info(data.message)
+          this.snackbar.open(data.message)
         })
     },
 
-    async saveProfile (e) {
-      // this.form.user.biography = snarkdown(this.form.user.biography)
-
-      await this.form.post('/api/user/saveprofile/1')
+    async saveProfile () {
+      this.form.post('/api/user/saveprofile/1')
         .then(({ data }) => {
           this.$store.dispatch('auth/updateUser', {
             user: data.user
           })
-
-          this.snackbar.info(data.message)
         })
     }
   }

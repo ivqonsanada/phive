@@ -17,7 +17,9 @@ class CreateApplicantTeamMembersTable extends Migration
             $table->id();
             $table->unsignedBigInteger('team_applicant_id');
             $table->unsignedBigInteger('member_id');
+            $table->string('expertise');
 
+            $table->unique(['team_applicant_id', 'member_id']);
             $table->foreign('team_applicant_id')->references('id')->on('team_applicants')->onDelete('cascade');
             $table->foreign('member_id')->references('id')->on('users')->onDelete('cascade');
         });

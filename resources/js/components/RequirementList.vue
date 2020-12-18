@@ -1,6 +1,6 @@
 <template>
   <ul class="post__requirements">
-    <RequirementItem v-for="(requirement, index) in data" :key="`requirements-${index}`" :data="requirement" />
+    <RequirementItem v-for="(requirement, index) in data" :key="`requirements-${index}`" :data="requirement" :deletable="deletable" :index="index" />
   </ul>
 </template>
 
@@ -15,7 +15,8 @@ export default {
   },
 
   props: {
-    data: { type: Array, default: null }
+    data: { type: Array, default: null },
+    deletable: { type: Boolean, default: false }
   }
 }
 </script>

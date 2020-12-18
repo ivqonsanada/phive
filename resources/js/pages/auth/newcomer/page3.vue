@@ -8,17 +8,17 @@
         Climb to the top and find the exciting experience through out the process
       </p>
 
-      <router-link :to="{ name: 'explore' }" class="btn btn--red" tag="button">
+      <router-link :to="{ name: 'explore' }" class="btn btn--blue btn--large mx-auto" tag="button">
         Dive In
       </router-link>
     </div>
-
-    <!-- <div>
-      logo
-    </div> -->
   </div>
 </template>
 
 <script>
+export default {
+  name: 'Newcomer3Page',
 
+  metaInfo () { return { title: 'Newcomer - 3' } }
+}
 </script>

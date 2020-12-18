@@ -1,9 +1,12 @@
 <template>
   <div id="app">
     <!-- <loading ref="loading" /> -->
-    <template>
-      <snackbar ref="snackbar" base-size="100px" style="font-size:1.24rem" position="bottom" :hold-time="4000" :multiple="false" />
-    </template>
+    <div v-if="!$matchMedia.xl">
+      <snackbar ref="snackbar" base-size="10rem" position="bottom" :hold-time="5000" :multiple="false" />
+    </div>
+    <div v-else>
+      <snackbar ref="snackbar" base-size="10rem" style="font-size:1.24rem;top:10%;right:7%;" position="top-right" :hold-time="5000" :multiple="false" />
+    </div>
     <transition name="page" mode="out-in">
       <component :is="layout" v-if="layout" />
     </transition>
@@ -12,7 +15,6 @@
 
 <script>
 // import Loading from './Loading'
-import '../../sass/elements/_customNProgress.scss'
 import { loadProgressBar } from 'axios-progress-bar'
 
 loadProgressBar()

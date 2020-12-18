@@ -16,7 +16,9 @@ if (mix.inProduction()) {
   mix
     // .extract() // Disabled until resolved: https://github.com/JeffreyWay/laravel-mix/issues/1889
     // .version() // Use `laravel-mix-versionhash` for the generating correct Laravel Mix manifest file.
-    .generateSW()
+    // .injectManifest({
+    //   swSrc: './resources/js/sw.js'
+    // })
     .versionHash()
 } else {
   mix.sourceMaps()

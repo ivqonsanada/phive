@@ -1,19 +1,29 @@
 //
 .explore--container {
   margin-top: 1.7rem;
+  max-width: 109rem;
+  margin: 3rem auto 0;
+
+  @include respon(xl) {
+    margin: 4.5rem auto 0;
+  }
 }
 
 //
 .project--container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(26rem, 1fr));
 
-  @include respon(s) {
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  @include respon(sm) {
+    grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
   }
 
-  @include respon(m) {
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  @include respon(md) {
+    grid-template-columns: repeat(auto-fill, minmax(32rem, 1fr));
+  }
+
+  @include respon(xl) {
+    grid-template-columns: repeat(auto-fill, minmax(35rem, 1fr));
   }
 
   gap: 2rem;
@@ -23,22 +33,26 @@
 .explore__top--container {
   text-align: center;
   margin-bottom: 3rem;
+
+  @include respon(xl) {
+    margin-bottom: 7.2rem;
+  }
 }
 
 .explore__top--h1 {
   margin-top: 0;
-  font-size: 24px;
+  font-size: 2.4rem;
   font-weight: 500;
 }
 
 .explore__top--search {
-  background-color: #F1F1F1;
-  border-radius: 10px;
+  background-color: #f1f1f1;
+  border-radius: 1rem;
   width: 100%;
-  height: 45px;
+  height: 4.5rem;
   border: transparent;
-  padding-left: 13px;
-  padding-right: 13px;
+  padding-left: 1.3rem;
+  padding-right: 1.3rem;
   font-size: 1.4rem;
   font-weight: 600;
   line-height: 1.65;
@@ -48,41 +62,87 @@
   }
 }
 
+.explore__search--container {
+  max-width: 79rem;
+  display: flex;
+  flex-direction: row;
+  margin: 0 auto;
+}
+
+.explore__search--form {
+  width: 100%;
+}
+
+.explore__search--button {
+  margin-left: auto;
+  border: unset;
+  border-radius: 1rem;
+  width: 18rem;
+  background-color: var(--dark-blue);
+  color: white;
+
+  @include respon(xl) {
+    font-size: 1.8rem;
+  }
+}
+
 //
 .explore__main--container {
-  margin-bottom: 28px;
+  margin-bottom: 2.8rem;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
 
-  & svg {
-    background: #001534;
+  & .icon {
+    background: var(--dark-blue);
     color: #ffffff;
     width: auto;
     height: 3rem;
     padding: 0.2rem;
     border-radius: 0.5rem;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+
+    @include respon(xl) {
+      height: 3.5rem;
+      padding: 0.8rem;
+    }
+
+    & svg {
+      height: 2.4rem;
+      width: 2.4rem;
+    }
   }
 }
 
 .explore__main--h2 {
-  font-size: 24px;
+  font-size: 2.4rem;
   font-weight: bold;
   margin: 0;
+
+  @include respon(xl) {
+    font-size: 3.6rem;
+  }
 }
 
-.button__load-more {
-  margin-top: 3rem;
-  padding: 1.2rem 2.5rem ;
-  width: 100%;
-  background: var(--red-glow);
-  border: none;
-  border-radius: 1rem;
-  font-size: 1.8rem;
-  font-weight: 700;
+.btn__load-more {
+  margin: 3rem auto 0;
+
+  @include respon(xl) {
+    min-width: 23rem;
+  }
 }
 
 .content-placeholders-container {
   margin-bottom: 1rem;
+}
+
+.explore--filter {
+  @include respon(xl) {
+    border-top: 1px solid #b0aeae;
+    border-bottom: 1px solid #b0aeae;
+    padding: 1.2rem 0;
+  }
 }

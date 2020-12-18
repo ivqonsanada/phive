@@ -1,0 +1,44 @@
+.notfound__container {
+  min-height: calc(100vh - (var(--mobile-nav-height) + 0.5rem + 3rem));
+  display: flex;
+  flex-direction: column;
+
+  @include respon(xl) {
+    min-height: calc(
+      100vh - (var(--desktop-nav-height) + 0.5rem + 3rem + 18rem)
+    );
+  }
+}
+
+.notfound__h2 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.newcomer__p {
+  font-size: 1.4rem;
+  font-weight: 400;
+}
+
+.notfound__body {
+  & > * + * {
+    margin-top: 3rem;
+  }
+
+  @include respon(xl) {
+    margin-top: 2rem;
+    margin: auto;
+  }
+}
+
+.notfound__img {
+  height: 19rem;
+  width: 19rem;
+  margin: 0 auto;
+
+  @include respon(sm) {
+    width: 21.4rem;
+    height: 21.4rem;
+  }
+}

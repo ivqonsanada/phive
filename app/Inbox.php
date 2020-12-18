@@ -8,6 +8,15 @@ class Inbox extends Model
 {
     protected $guarded = [];
 
+    protected $casts = [
+        'recipient_id' => 'integer',
+        'sender_id' => 'integer',
+        'team_invitation_id' => 'integer',
+        'project_invitation_id' => 'integer',
+        'message_body_id' => 'integer',
+        'is_read' => 'boolean'
+    ];
+
     public function individual_applicant()
     {
         return $this->belongsTo('App\IndividualApplicant');
@@ -36,5 +45,9 @@ class Inbox extends Model
     public function user()
     {
         return $this->belongsTo('App\User');
+    }
+
+    public static function getInboxes ($user) {
+        return Inbox::where('recipient_id', $user->id)->with(['individual_applicant.from', 'individual_applicant.project', 'team_applicant.members', 'message_body.sender:id,photo_url,tagname,first_name,last_name,email', 'team_invitation.from', 'project_invitation.project', 'project_invitation.from'])->latest()->get();
     }
 }

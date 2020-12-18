@@ -12,7 +12,7 @@
   text-align: center;
   margin-bottom: 1rem;
 
-  @include respon(s) {
+  @include respon(sm) {
     font-size: 3.2rem;
   }
 
@@ -23,12 +23,17 @@
 
 .project-dashboard__h3 {
   font-size: 1.8rem;
-font-weight: bold;
+  font-weight: bold;
   text-align: center;
   margin-bottom: 1.5rem;
 
-  @include respon(s) {
+  @include respon(sm) {
     font-size: 2.4rem;
+  }
+
+  @include respon(xl) {
+    font-size: 2.4rem;
+    // text-align: left;
   }
 }
 
@@ -39,40 +44,78 @@ font-weight: bold;
   margin-bottom: 2rem;
   line-height: 1.15;
 
-  @include respon(s) {
+  @include respon(sm) {
     font-size: 1.8rem;
   }
 }
 
 .project-dashboard__list-team {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(10rem, 12rem));
-  column-gap: 0.4rem;
-  row-gap: 2rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  margin: -1.2rem;
   justify-content: center;
   margin-bottom: 2.4rem;
+
+  @include respon(xl) {
+    margin: -1.6rem;
+    // justify-content: flex-start;
+    // margin-right: -28rem;
+  }
 }
 
 .project-dashboard__list-team--item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  max-width: 10.92rem;
+  margin: 1.2rem;
+
+  @include respon(xl) {
+    margin: 1.6rem;
+    max-width: 14rem;
+  }
 }
 
 .project-dashboard__list-team--img {
   border-radius: 50%;
   width: 6.5rem;
   height: 6.5rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.7rem;
+  background-image: url('/images/missing-avatar.svg');
+  background-size: cover;
+
+  @include respon(xl) {
+    width: 9rem;
+    height: 9rem;
+  }
 }
 
 .project-dashboard__list-team--name {
   text-align: center;
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
+  line-height: 1.15;
+
+  @include respon(xl) {
+    font-size: 1.8rem;
+    font-weight: 600;
+  }
 }
 
+.project-dashboard__list-team--expertise {
+  text-align: center;
+  font-weight: 400;
+  font-size: 1.2rem;
+  line-height: 1.15;
+  margin-top: 0.4rem;
+
+  @include respon(xl) {
+    font-size: 1.6rem;
+  }
+}
 
 .project-dashboard__p {
   font-size: 1.4rem;
@@ -80,7 +123,7 @@ font-weight: bold;
   margin-bottom: 1rem;
   line-height: 1.15;
 
-  // @include respon(s) {
+  // @include respon(sm) {
   //   font-size: 1.8rem;
   // }
 }

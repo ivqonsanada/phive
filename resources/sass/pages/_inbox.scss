@@ -1,18 +1,73 @@
+.inbox__container {
+  display: flex;
+  flex-direction: column;
+  max-width: 72rem;
+  width: 100%;
+  margin: 0 auto;
+
+  @include respon(xl) {
+    // flex-direction: row;
+    justify-content: center;
+    max-width: 112.5rem;
+    margin-bottom: 2rem;
+  }
+}
+
+.inbox__body--container {
+  display: flex;
+  flex-direction: column;
+  max-width: 72rem;
+  width: 100%;
+
+  @include respon(xl) {
+    flex-direction: row;
+    justify-content: center;
+    max-width: 112.5rem;
+    margin: 0;
+
+    & > * + * {
+      margin-left: 2.4rem;
+    }
+  }
+}
+
 .inbox__info--container {
   margin-top: 1rem;
   margin-bottom: 3.2rem;
   display: flex;
   flex-direction: column;
+  padding: 2rem 1rem;
   align-items: center;
   justify-content: center;
-  background: #F2F4F6;
+  background: #f2f4f6;
   border-radius: 2rem;
-  box-shadow: 0px 2px 6px rgba(119, 114, 114, 0.2);
-  padding: 2rem 1rem;
+  box-shadow: 0rem 0.2rem 0.6rem rgba(119, 114, 114, 0.2);
 
-  @include respon(s) {
+  @include respon(sm) {
     padding: 1.5rem 2.5rem 1.5rem 1.5rem;
     flex-direction: row;
+  }
+
+  @include respon(xl) {
+    padding: 2.4rem 2rem;
+    flex-direction: column;
+    text-align: center;
+    height: 100%;
+    width: 28rem;
+    margin-bottom: 0;
+
+    & > * + * {
+      margin-top: 1.6rem;
+    }
+  }
+}
+
+.inbox__right--container {
+  width: 100%;
+  max-width: 72rem;
+
+  @include respon(xl) {
+    max-width: 82rem;
   }
 }
 
@@ -45,9 +100,9 @@
   width: 3rem;
   height: 3rem;
   padding: 0.3rem;
-  border: 0.05rem  solid #B0AEAE;
+  border: 0.05rem solid #b0aeae;
   border-radius: 0.5rem;
-  color: #B0AEAE;
+  color: #b0aeae;
 }
 
 .inbox--container {
@@ -59,3 +114,114 @@
   }
 }
 
+.inbox__info--img {
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 2rem;
+  background-image: url("/images/missing-avatar.svg");
+  background-size: cover;
+
+  @include respon(sm) {
+    margin-right: 3rem;
+    margin-bottom: 0;
+  }
+
+  @include respon(xl) {
+    width: 12.5rem;
+    height: 12.5rem;
+    margin-right: 0;
+  }
+}
+
+.inbox__info--desc {
+  @include respon(xl) {
+    & > p + p {
+      margin-top: 1.6rem;
+    }
+  }
+}
+
+.inbox__info--name {
+  font-size: 1.8rem;
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0 0 0.3rem;
+
+  @include respon(xl) {
+    font-size: 3.6rem;
+  }
+}
+
+.inbox__info--occupation {
+  color: #757575;
+  margin: 0 0 0.5rem;
+  line-height: 1.45;
+
+  @include respon(xl) {
+    font-size: 1.8em;
+  }
+}
+
+.inbox__info--expertise-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+
+  @include respon(xl) {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+}
+
+.inbox__info--expertise {
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  line-height: 1.45;
+
+  @include respon(xl) {
+    justify-content: center;
+    font-size: 1.8em;
+  }
+}
+
+.inbox__info--available {
+  color: #7ffa53;
+  font-weight: 700;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  line-height: 1.45;
+
+  @include respon(xl) {
+    font-size: 1.8em;
+    justify-content: center;
+  }
+}
+
+.inbox__info--verified {
+  color: #3051df;
+  font-weight: 700;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  line-height: 1.45;
+  font-style: italic;
+
+  @include respon(xl) {
+    font-size: 1.8em;
+    justify-content: center;
+  }
+}
+
+.desktop-inbox__heading {
+  font-size: 3.6rem;
+  font-weight: 800;
+  margin-bottom: 1.6rem;
+  text-transform: uppercase;
+}

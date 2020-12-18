@@ -10,6 +10,10 @@ class Team extends Model
 
     public $timestamps = false;
 
+    protected $casts = [
+        'leader_id' => 'integer',
+    ];
+
     public function leader () {
         return $this->belongsTo('App\User');
     }

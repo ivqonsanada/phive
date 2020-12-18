@@ -1,9 +1,7 @@
 <template>
-  <div>
+  <div class="apply__container">
     <div class="apply__top--container">
-      <div class="edit-profile__top-decore">
-        <div class="edit-profile__inside-top-decore" />
-      </div>
+      <TopImage :type="1" />
       <h2 class="apply__top--h1">
         You Almost There!
       </h2>
@@ -13,11 +11,11 @@
     </div>
 
     <div class="form-group__container">
-      <h4 class="form-group__input-name">
-        Applicant Type
+      <h4 class="form-group__input-name form__input-name">
+        Applicant
       </h4>
       <div class="form-group__radio-container">
-        <router-link v-for="type in types" :key="type.name" :to="{ name: type.route, params: { title: title, type: applicant_type } }" class="btn--clear radio__square" active-class="active-type" tag="button">
+        <router-link v-for="type in types" :key="type.name" :to="{ name: type.route, params: { title: title, type: applicant_type } }" class="btn btn--white btn--apply" active-class="active-type" tag="button" :disabled="type.isDisabled">
           {{ type.name }}
         </router-link>
       </div>
@@ -35,7 +33,9 @@
 // import Form from 'vform'
 
 export default {
-  middleware: 'auth',
+  name: 'ApplyIndex',
+
+  middleware: ['auth', 'student'],
 
   computed: {
     title () {
@@ -50,32 +50,18 @@ export default {
       let types = [
         {
           name: 'Individual',
-          route: 'project.apply.individual'
+          route: 'project.apply.individual',
+          isDisabled: this.$route.params.type === 'Team'
         },
         {
           name: 'Team',
-          route: 'project.apply.team'
+          route: 'project.apply.team',
+          isDisabled: this.$route.params.type === 'Individual'
         }
       ]
 
-      if (this.applicant_type === 'Individual') {
-        return [types[0]]
-      }
-
-      if (this.applicant_type === 'Team') {
-        return [types[1]]
-      }
-
       return types
     }
-  },
-
-  metaInfo () {
-    return { title: 'Apply' }
-  },
-
-  mounted () {
-
   },
 
   methods: {

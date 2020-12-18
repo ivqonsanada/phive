@@ -1,36 +1,120 @@
+.footer {
+  background: #001534;
+  color: #b7c9e4;
+}
+
 .footer__container {
   display: flex;
   flex-direction: column;
-  background: #001534;
-  color: #B7C9E4;
-  padding: 1rem 4rem;
+  padding: 2.4rem 0;
   align-items: center;
   font-size: 1.4rem;
   font-weight: bold;
   letter-spacing: 0.02em;
+  margin: 0 auto;
+  max-width: 33.5rem;
+
+  @include respon(xl) {
+    max-width: 128rem;
+    flex-direction: row;
+    padding: 3rem 4rem;
+    height: 18rem;
+  }
 }
 
 .footer__container > * + * {
   margin-top: 1.5rem;
+
+  @include respon(xl) {
+    margin-top: 0;
+    margin-left: 10.2rem;
+  }
+}
+
+.footer__description {
+  @include respon(xl) {
+    font-weight: 400;
+    width: 56.1rem;
+  }
+}
+
+.footer__right {
+  width: 100%;
+
+  @include respon(xl) {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    width: 52.9rem;
+  }
+}
+
+.footer__right--top {
+  & > * + * {
+    margin-top: 1.8rem;
+  }
+
+  @include respon(xl) {
+    display: flex;
+    flex-direction: row;
+
+    & > * + * {
+      margin-top: 0;
+      margin-left: 10.6rem;
+    }
+  }
 }
 
 .footer-nav__section {
   width: 100%;
+
+  @include respon(xl) {
+    display: flex;
+    flex-direction: row;
+
+    & > * + * {
+      margin-left: 7.2rem;
+    }
+  }
 }
 
 .footer-nav__section > * + * {
-  margin-top: 0.8rem;
+  margin-top: 1.2rem;
+
+  @include respon(xl) {
+    margin-top: 0;
+  }
 }
 
 .footer-nav__menu {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+  @include respon(xl) {
+    flex-direction: column;
+    justify-content: flex-start;
+
+    & > * + * {
+      margin-top: 0.4rem;
+    }
+  }
+}
+
+.footer-nav__menu--items {
+  font-size: 1.2rem;
+  font-weight: 400;
+
+  & > * + * {
+    margin-top: 0.4rem;
+  }
 }
 
 .footer-nav__icon {
-  background: #B7C9E4;
-  color:  #001534;
+  background: #b7c9e4;
+  color: #001534;
   border-radius: 1.5rem;
 }
 
@@ -38,6 +122,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @include respon(xl) {
+    align-items: flex-start;
+  }
 }
 
 .footer-icon__section > * + * {
@@ -49,9 +137,12 @@
   flex-direction: row;
 }
 
-
 .footer-icon__container > * + * {
   margin-left: 1.5rem;
+
+  @include respon(xl) {
+    margin-left: 0.5rem;
+  }
 }
 
 .footer-icon__item {
@@ -61,13 +152,25 @@
   height: 3rem;
   padding: 0.5rem;
   border-radius: 1.5rem;
+
+  @include respon(xl) {
+    background: white;
+    color: var(--dark-blue);
+  }
 }
 
 .footer__copyright {
-  // font-size: 1.2rem;
+  font-size: 1.2rem;
   font-weight: 400;
+  text-align: center;
+  margin-top: 2rem;
 
-  // @include respon(s) {
-  //   font-size: 1.4rem;
-  // }
+  @include respon(sm) {
+    font-size: 1.4rem;
+  }
+
+  @include respon(xl) {
+    margin-top: 0;
+    text-align: right;
+  }
 }

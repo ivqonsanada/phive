@@ -3,8 +3,7 @@ function page(path) {
 }
 
 export default [
-  { path: '/', name: 'index', component: page('home.vue') },
-
+  { path: '/', name: 'index', component: page('Home.vue') },
   { path: '/login', name: 'login', meta: { title: 'Log In' }, component: page('auth/login.vue') },
   { path: '/register', name: 'register', meta: { title: 'Register' }, component: page('auth/register.vue') },
   { path: '/password/reset', name: 'password.request', component: page('auth/password/email.vue') },
@@ -24,11 +23,19 @@ export default [
     ]
   },
 
-  { path: '/leaderboard', name: 'leaderboard', meta: { title: 'Leaderboard' }, component: page('leaderboard.vue') },
-  { path: '/quest', name: 'quest', meta: { title: 'Quest' }, component: page('quest.vue') },
-  { path: '/inbox', name: 'inbox', meta: { title: 'Inbox' }, component: page('inbox.vue') },
-  { path: '/projectbox', name: 'projectbox', meta: { title: 'Project Box' }, component: page('projectbox.vue') },
+  { path: '/leaderboard', name: 'leaderboard', meta: { title: 'Leaderboard' }, component: page('Leaderboard.vue') },
+  { path: '/inbox', name: 'inbox', meta: { title: 'Inbox' }, component: page('Inbox.vue') },
+  { path: '/projectbox', name: 'projectbox', meta: { title: 'Project Box' }, component: page('ProjectBox.vue') },
 
+  {
+    path: '/party',
+    component: page('party'),
+    children: [
+      { path: '', redirect: { name: 'party.leader' } },
+      { path: 'leader', name: 'party.leader', meta: { title: 'Party' }, component: page('party/leader.vue') },
+      { path: 'member', name: 'party.member', meta: { title: 'Party' }, component: page('party/member.vue') },
+    ]
+  },
 
   {
     path: '/newcomer',
@@ -56,31 +63,33 @@ export default [
     component: page('visit'),
     children: [
       { path: '', redirect: { name: '@.info' } },
-      { path: 'projects', name: '@.projects', component: page('visit/projects.vue') },
-      { path: 'wishlists', name: '@.wishlist', component: page('visit/wishlist.vue') },
-      { path: 'info', name: '@.info', component: page('visit/info.vue') }
+      { path: 'projects', name: '@.projects', component: page('visit/Projects.vue') },
+      { path: 'wishlists', name: '@.wishlist', component: page('visit/Wishlist.vue') },
+      { path: 'info', name: '@.info', component: page('visit/Info.vue') }
     ]
   },
 
-  { path: '/@/:tagname/message', name: 'message', component: page('message.vue') },
+  { path: '/@/:tagname/message', name: 'message', component: page('Message.vue') },
+
+  { path: '/settings', name: 'settings', meta: { title: 'Settings' }, component: page('settings') },
+
+  { path: '/explore', name: 'explore', meta: { title: 'Explore' }, component: page('Explore.vue') },
+
+  { path: '/project/post', name: 'project.post', meta: { title: 'Post Project' }, component: page('project/ProjectPost.vue') },
+  { path: '/project/:id/edit-post', name: 'project.editpost', meta: { title: 'Edit Project' }, component: page('project/ProjectEdit.vue') },
+  { path: '/project/:id', name: 'project.details', meta: { title: 'Project' }, component: page('project/ProjectDetails.vue') },
+  { path: '/project/:id/review', name: 'project.review', meta: { title: 'Review Project' }, component: page('project/ProjectReview.vue') },
+  { path: '/project/:id/dashboard', name: 'project.dashboard', meta: { title: 'Project' }, component: page('project/dashboard') },
 
   {
-    path: '/settings',
-    component: page('settings'),
+    path: '/project/:id/shorlisted',
+    component: page('project/shortlist'),
     children: [
-      { path: '', redirect: { name: 'settings.profile' } },
-      { path: 'profile', name: 'settings.profile', meta: { title: 'Settings' }, component: page('settings/profile.vue') },
-      { path: 'password', name: 'settings.password', meta: { title: 'Settings' }, component: page('settings/password.vue') }
+      { path: '', redirect: { name: 'shortlist.individual' } },
+      { path: '/project/:id/shorlisted/individual', name: 'shortlist.individual', meta: { title: 'Apply Project' }, component: page('project/shortlist/ShortlistIndividual.vue') },
+      { path: '/project/:id/shorlisted/team', name: 'shortlist.team', meta: { title: 'Apply Project' }, component: page('project/shortlist/ShortlistTeam.vue') }
     ]
   },
-
-  { path: '/explore', name: 'explore', meta: {
-    title: 'Explore' }, component: page('explore.vue') },
-  { path: '/project/post', name: 'project.post', meta: {
-    title: 'Post Project' }, component: page('project/post.vue') },
-  { path: '/project/:id', name: 'project.details', meta: {
-    title: 'Project' }, component: page('project/details.vue') },
-    { path: '/project/:id/dashboard', name: 'project.dashboard', meta: { title: 'Project' }, component: page('project/dashboard') },
 
   {
     path: '/project/:id/apply',
@@ -93,8 +102,9 @@ export default [
   },
 
 
-  { path: '/project/create', name: 'project.create',
-    meta: { title: 'Post Project' }, component: page('project/details.vue') },
+  { path: '/project/create', name: 'project.create', meta: { title: 'Post Project' }, component: page('project/details.vue') },
+
+  { path: '/:url/404', name: '404', meta: { title: 'Error' }, component: page('errors/404.vue') },
 
   { path: '*', meta: { title: 'Error' }, component: page('errors/404.vue') }
 ]

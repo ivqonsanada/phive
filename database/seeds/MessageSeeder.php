@@ -14,7 +14,7 @@ class MessageSeeder extends Seeder
     {
         DB::table('message_headers')->insert([
             'user_one_id' => 1,
-            'user_two_id' => 2
+            'user_two_id' => 2,
         ]);
 
         DB::table('message_bodies')->insert([
@@ -37,16 +37,18 @@ class MessageSeeder extends Seeder
 
         DB::table('inboxes')->insert([
             'message_body_id' => 1,
-            'user_id' => 1,
-            'category' => 'message',
+            'sender_id' => 2,
+            'recipient_id' => 1,
+            'category' => 'Message',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
         DB::table('inboxes')->insert([
             'message_body_id' => 2,
-            'user_id' => 2,
-            'category' => 'message',
+            'sender_id' => 1,
+            'recipient_id' => 2,
+            'category' => 'Message',
             'created_at' => now(),
             'updated_at' => now(),
         ]);

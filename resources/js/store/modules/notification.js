@@ -6,8 +6,8 @@ import Axios from 'axios'
 export const state = {
   snackbar: null,
   overlay: null,
-  inbox: null,
-  projectbox: null
+  inbox: [],
+  projectbox: []
 }
 
 // getters
@@ -32,12 +32,12 @@ export const mutations = {
     state.inbox = inbox
   },
 
-  [types.FETCH_PROJECTBOX] (state, data) {
-    state.projectbox = data
+  [types.FETCH_PROJECTBOX] (state, { project_boxes: projectBoxes }) {
+    state.projectbox = projectBoxes
   },
 
-  [types.UPDATE_PROJECTBOX] (state, { projectbox }) {
-    state.projectbox = projectbox
+  [types.UPDATE_PROJECTBOX] (state, { projectBoxes }) {
+    state.projectbox = projectBoxes
   }
 }
 
@@ -51,7 +51,7 @@ export const actions = {
 
   async fetchInbox ({ commit }) {
     try {
-      const { data } = await Axios.post('/api/inbox')
+      const { data } = await Axios.get('/api/inbox')
 
       commit(types.FETCH_INBOX, data)
     } catch (e) { }
@@ -65,7 +65,7 @@ export const actions = {
 
   async fetchProjectBox ({ commit }) {
     try {
-      const { data } = await Axios.post('/api/projectbox')
+      const { data } = await Axios.get('/api/projectbox')
 
       commit(types.FETCH_PROJECTBOX, data)
     } catch (e) { }

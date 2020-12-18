@@ -1,8 +1,14 @@
 .project__card--container {
   width: 100%;
   height: auto;
-  box-shadow: 1px 4px 10px rgba(2, 2, 1, 0.1);
-  border-radius: 10px;
+  box-shadow: 0.1rem 0.4rem 1rem rgba(2, 2, 1, 0.1);
+  border-radius: 1rem;
+
+  @include respon(xl) {
+    box-shadow: unset;
+    border: 0.1rem solid #B0AEAE;
+    padding: 1.5rem 2.5rem 0;
+  }
 }
 
 .project__card--top-container {
@@ -11,41 +17,52 @@
 
   & img {
     width: 100%;
-    height: 150px;
+    height: 15rem;
     object-fit: cover;
+    border-radius: 1rem;
+    background-image: url('/images/img-placeholder.png');
+    background-size: cover;
+    background-position: center;
 
-    border-radius: 10px ;
+    @include respon(xl) {
+      border-radius: 0.5rem;
+    }
   }
 
   & button {
-    width: 20px;
-    height: 20px;
+    width: 2rem;
+    height: 2rem;
   }
 }
 
 .project__card--name {
   font-weight: bold;
-  font-size: 24px;
+  font-size: 2.4rem;
   line-height: 1.15;
   margin-top: 1.2rem;
   margin-bottom: 1.5rem;
+  word-break: break-word;
 }
 
 .project__card--body-container {
   display: flex;
   flex-direction: column;
   position: relative;
-  bottom: 23px;
+  bottom: 2.3rem;
   height: calc(100% - 15.2rem);
 }
 
 .project__card--info-container {
-  padding-left: 22px;
-  padding-right: 22px;
+  padding-left: 2.2rem;
+  padding-right: 2.2rem;
   display: flex;
   flex-direction: column;
   height: 100%;
   justify-content: space-between;
+
+  @include respon(xl) {
+    padding: 0;
+  }
 }
 
 .project__card--info--consistency {
@@ -53,6 +70,10 @@
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
+
+    @include respon(xl) {
+      justify-content: flex-end;
+    }
 }
 
 .project__card--body-salary {
@@ -60,16 +81,16 @@
   justify-content: center;
   align-self: center;
   // background-color: #001534;
-  background-color: var(--red-glow);
+  background-color: var(--dark-blue);
 
   color: #FFFFFF;
   font-weight: bold;
   font-size: 1.8rem;
 
-  height: 40px;
-  line-height: 40px;
-  padding: 0px 20px;
-  border-radius: 10px;
+  height: 4rem;
+  line-height: 4rem;
+  padding: 0 2rem;
+  border-radius: 1rem;
 }
 
 .project__card--post-info {
@@ -96,7 +117,7 @@
     margin-right: 0.9rem;
   }
 
-  @include respon(s) {
+  @include respon(sm) {
     & > :not(:last-child) {
       margin-right: 1.5rem;
     }
@@ -108,15 +129,26 @@
   font-weight: 800;
 }
 
-.project__card--extra-info {
+.project-card__extra-info--container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.project-card__extra-info {
   display: flex;
   color: #514848;
   flex-direction: row;
   font-size: 1.2rem;
 
-  & > :not(:last-child) {
-    margin-right: 1rem;
+  & > * + * {
+    margin-left: 1rem;
   }
+}
+
+.project-card__wish {
+  color: #C4C4C4;
 }
 
 .info-item--container {
@@ -127,7 +159,7 @@
     margin-right: 0.4rem;
   }
 
-  @include respon(s) {
+  @include respon(sm) {
     & > :not(:last-child) {
       margin-right: 0.5rem;
     }
@@ -138,4 +170,35 @@
   width: 1.3em;
   height: 1.3em;
   margin-right: -0.15rem;
+}
+
+
+.card-wish__container {
+  display: flex;
+  position: absolute;
+  right: 4rem;
+  justify-content: center;
+  text-align: center;
+  bottom: 0;
+  left: 0;
+  box-shadow: 0 0.4rem 0.8rem 0 rgba(0, 0, 0, 0.1);
+
+  background-color: #ffffff;
+  color: var(--dark-blue);
+  border: 0.1rem solid #B0AEAE;
+
+  &:active,
+  &:focus {
+    outline: none;
+    border: 0.1rem solid #B0AEAE;
+  }
+
+  border-radius: 0.5rem;
+}
+
+.card-wish__button {
+  height: 2rem;
+  font-size: 1.4rem;
+  width: 100%;
+  padding: 1.4rem 0;
 }

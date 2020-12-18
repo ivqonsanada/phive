@@ -22,9 +22,9 @@ class CreateTeamApplicantsTable extends Migration
             $table->text('self_describe')->nullable();
             $table->text('apply_reason')->nullable();
 
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->foreign('from_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('to_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
         });
     }
 

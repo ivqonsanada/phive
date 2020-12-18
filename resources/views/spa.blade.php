@@ -5,25 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>PHive</title>
   <link rel="stylesheet" href="{{ mix('dist/css/app.css') }}">
-  {{-- <link rel="stylesheet" href="/dist/css/app.667d9b.css"> --}}
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-  {{-- <link rel="manifest" href="/manifest.json"> --}}
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#FFFFFF">
 </head>
 <body>
   <div id="app"></div>
-
-  {{-- Load the application scripts --}}
   <script src="{{ mix('dist/js/app.js') }}"></script>
-  {{-- <script src="/dist/js/app.f857c7.js"></script> --}}
-  <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
-  {{-- <script>
-// Check that service workers are supported
-if ('serviceWorker' in navigator) {
-  // Use the window load event to keep the page load performant
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js');
-  });
-}
-</script> --}}
+  <script src="/iconify.min.js"></script>
+  <script src="/icon-bundle.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js');
+      });
+    }
+  </script>
+  <noscript>Your browser does not support JavaScript!</noscript>
 </body>
 </html>

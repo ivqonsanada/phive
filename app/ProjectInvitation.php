@@ -10,6 +10,12 @@ class ProjectInvitation extends Model
 
     public $timestamps = false;
 
+    protected $casts = [
+        'project_id' => 'integer',
+        'from_id' => 'integer',
+        'to_id' => 'integer',
+    ];
+
     public function project () {
         return $this->belongsTo('App\Project');
     }

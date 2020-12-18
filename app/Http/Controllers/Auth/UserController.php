@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Experience;
 use App\Http\Controllers\Controller;
 use App\Project;
 use App\ProjectBox;
 use App\Team;
 use App\User;
+use App\UserSkill;
 use App\Wishlist;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -23,20 +26,20 @@ class UserController extends Controller
         $user = $request->user();
 
         if ($user->role === 'Student') {
-            $projects = ProjectBox::with('project.user:id,tagname,first_name,last_name,photo_url,email')->where('user_id', $user->id)->latest()->get();
-            $wishlists = Wishlist::with('project.user:id,tagname,first_name,last_name,photo_url,email')->where('user_id', $user->id)->latest()->get();
-            $team = Team::with('members.member:id,tagname,first_name,last_name,photo_url,email')->where('leader_id', $user->id)->first();
+            $projects = ProjectBox::with('project.user:id,tagname,first_name,last_name,photo_url,email')->where('user_id', $user->id)->where('status', 'Finished')->latest()->get();
+            $wishlists = Wishlist::with('project.user:id,tagname,first_name,last_name,photo_url,email')->where('user_id', $user->id)->where('status', true)->latest()->get();
+            $user = User::with(['skills', 'experiences', 'leaderboards'])->withCount(['new_notifications'])->findOrFail($user->id);
 
             return response()->json(
                 [
                     'user' => $user,
                     'projects' => $projects,
                     'wishlists' => $wishlists,
-                    'team' => $team
                 ]
             );
         } else {
             $projects = Project::with('user:id,tagname,first_name,last_name,photo_url,email')->where('user_id', $user->id)->latest()->get();
+            $user = User::with(['skills', 'experiences'])->withCount(['new_notifications'])->findOrFail($user->id);
 
             return response()->json(
                 [
@@ -56,7 +59,7 @@ class UserController extends Controller
             'file' => 'required|image|mimes:jpeg,png,jpg|max:516',
         ]);
 
-        if ($request->hasFile('file')) {
+        if ($userAuth && $request->hasFile('file')) {
             $image = $request->file('file');
             $extension = $image->extension();
             $imgName = $this->generateRandomString(25) . '.' . $extension;
@@ -64,19 +67,35 @@ class UserController extends Controller
             $image->move($destinationPath, $imgName);
 
             if ($userAuth->photo_url) {
-                $path = storage_path() . 'app/public/images/avatar/' . $userAuth->photo_url;
+                $path = storage_path() . '/app/public/images/avatar/' . $userAuth->photo_url;
                 if (file_exists($path)) unlink($path);
             }
 
-            $user = User::findOrFail($userAuth->id);
-            $user->photo_url = $imgName;
-            $user->save();
+            $$userAuth->photo_url = $imgName;
+            $$userAuth->save();
+
+            return response()->json([
+                'message' => 'Photo has been Changed',
+                'avatar' => '/storage/images/avatar/' . $imgName
+                ]);
         }
+    }
+
+    public function deleteAvatar(Request $request)
+    {
+        $userAuth = $request->user();
+
+            if ($userAuth->photo_url) {
+                $path = storage_path() . '/app/public/images/avatar/' . $userAuth->photo_url;
+                if (file_exists($path)) unlink($path);
+            }
+
+            $userAuth->photo_url = null;
+            $userAuth->save();
 
         return response()->json([
-            'status' => 'success',
-            'message' => 'Photo has been Changed',
-            'avatar' => '/storage/images/avatar/' . $imgName
+            'message' => 'Avatar has been deleted',
+            'avatar' => $userAuth->avatar
         ]);
     }
 
@@ -85,29 +104,34 @@ class UserController extends Controller
         $userAuth = $request->user();
         $newUserData = $request->post('user');
 
-        $user = User::findOrFail($userAuth->id);
+        $this->validate($request, [
+            '*.tagname' => "unique:users,tagname,{$userAuth->id}",
+        ],[
+            '*.tagname.unique' => 'The tagname already been taken.'
+        ]);
 
-        $user->first_name = $newUserData['first_name'];
-        $user->last_name = $newUserData['last_name'];
-        $user->identity_number = $newUserData['identity_number'];
-        $user->university = $newUserData['university'];
-        $user->faculty = $newUserData['faculty'];
-        $user->major = $newUserData['major'];
-        $user->location = $newUserData['location'];
-        $user->biography = $newUserData['biography'];
+        $userAuth->first_name = $newUserData['first_name'];
+        $userAuth->last_name = $newUserData['last_name'];
+        $userAuth->identity_number = $newUserData['identity_number'];
+        $userAuth->university = $newUserData['university'];
+        $userAuth->faculty = $newUserData['faculty'];
+        $userAuth->major = $newUserData['major'];
+        $userAuth->location = $newUserData['location'];
+        $userAuth->biography = $newUserData['biography'];
 
-        $user->behance = $newUserData['behance'];
-        $user->github = $newUserData['github'];
-        $user->linkedin = $newUserData['linkedin'];
-        $user->dribbble = $newUserData['dribbble'];
-        $user->website = $newUserData['website'];
+        $userAuth->behance = $newUserData['behance'];
+        $userAuth->github = $newUserData['github'];
+        $userAuth->linkedin = $newUserData['linkedin'];
+        $userAuth->dribbble = $newUserData['dribbble'];
+        $userAuth->website = $newUserData['website'];
 
-        $user->tagname = $newUserData['tagname'];
+        $userAuth->tagname = $newUserData['tagname'];
 
-        $user->save();
+        $userAuth->save();
+
+        $user = User::with(['skills', 'experiences'])->findOrFail($userAuth->id);
 
         return response()->json([
-            'status' => 'success',
             'message' => 'Profile has been updated',
             'user' => $user
         ]);
@@ -116,14 +140,46 @@ class UserController extends Controller
     public function saveProfile2(Request $request)
     {
         $userAuth = $request->user();
-        $user = User::findOrFail($userAuth->id);
-        $user->save();
+        $newUserData = $request->post('user');
+        // if ($newUserData['is_open_hired'] === 'false') $newUserData['is_open_hired'] = false;
+        // else $newUserData['is_open_hired'] = true;
+
+        $userAuth->expertise = $newUserData['expertise'];
+        $userAuth->is_open_hired = $newUserData['is_open_hired'];
+        $userAuth->save();
+
+        $skills = $newUserData['skills'];
+        $experiences = $newUserData['experiences'];
+
+        for ($i = 0; $i < count($skills); $i++) {
+            $skills[$i]['user_id'] = $userAuth->id;
+        }
+
+        for ($i = 0; $i < count($experiences); $i++) {
+            $experiences[$i]['start_date'] = Carbon::createFromFormat('Y-m-d\TH:i:s+',  $experiences[$i]['start_date']);
+            $experiences[$i]['end_date'] = Carbon::createFromFormat('Y-m-d\TH:i:s+',  $experiences[$i]['end_date']);
+            $experiences[$i]['user_id'] = $userAuth->id;
+        }
+
+        // return response()->json($experiences);
+
+        UserSkill::where('user_id', $userAuth->id)->delete();
+        UserSkill::insert($skills);
+
+        Experience::where('user_id', $userAuth->id)->delete();
+        Experience::insert($experiences);
+
+        $user = User::with(['skills', 'experiences'])->findOrFail($userAuth->id);
 
         return response()->json([
-            'status' => 'success',
+
             'message' => 'Profile has been updated',
             'user' => $user
         ]);
+    }
+
+    public function uploadCV () {
+
     }
 
     private function generateRandomString($length = 10)

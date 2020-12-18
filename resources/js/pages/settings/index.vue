@@ -1,50 +1,63 @@
 <template>
-  <div class="row">
-    <div class="col-md-3">
-      <card title="Settings" class="settings-card">
-        <ul class="nav flex-column nav-pills">
-          <li v-for="tab in tabs" :key="tab.route" class="nav-item">
-            <router-link :to="{ name: tab.route }" class="nav-link" active-class="active">
-              {{ tab.name }}
-            </router-link>
-          </li>
-        </ul>
-      </card>
-    </div>
+  <div class="settings__container">
+    <TopImage :type="1" />
 
-    <div class="col-md-9">
-      <transition name="fade" mode="out-in">
-        <router-view />
-      </transition>
+    <div class="settings-form--container">
+      <form @submit.prevent="update" @keydown="form.onKeydown($event)">
+        <!-- Password -->
+        <h2 class="settings__h3">
+          Change Password
+        </h2>
+
+        <div class="login-input--container">
+          <input v-model="form.password" class="login-input" placeholder="New Password" type="password" required>
+          <has-error :form="form" field="password" />
+        </div>
+
+        <div class="login-input--container">
+          <input v-model="form.password_confirmation" class="login-input" placeholder="Re-Type New Password" type="password" required>
+          <has-error :form="form" field="password_confirmation" />
+        </div>
+
+        <v-button :loading="form.busy" class="btn btn--blue ml-auto">
+          Save Changes
+        </v-button>
+      </form>
     </div>
   </div>
 </template>
 
 <script>
+import Form from 'vform'
+import { mapGetters } from 'vuex'
+
 export default {
-  middleware: 'auth',
+  name: 'SettingsPage',
+
+  middleware: ['auth'],
+
+  metaInfo () { return { title: 'Settings' } },
+
+  data: () => ({
+    form: new Form({
+      password: '',
+      password_confirmation: ''
+    })
+  }),
 
   computed: {
-    tabs () {
-      return [
-        {
-          icon: 'user',
-          name: 'Profile',
-          route: 'settings.profile'
-        },
-        {
-          icon: 'lock',
-          name: 'Password',
-          route: 'settings.password'
-        }
-      ]
+    ...mapGetters({
+      snackbar: 'notification/snackbar'
+    })
+  },
+
+  methods: {
+    async update () {
+      this.form.patch('/api/settings/password')
+        .then(response => {
+          this.snackbar.open('Password has been changed')
+        })
     }
   }
 }
 </script>
-
-<style>
-.settings-card .card-body {
-  padding: 0;
-}
-</style>

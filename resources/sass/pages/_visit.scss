@@ -1,3 +1,14 @@
+.user__container {
+  margin-top: 0.7rem;
+  max-width: 110rem;
+  margin: 0 auto;
+  margin-top: 2.6rem;
+
+  @include respon(xl) {
+    margin-top: 2.6rem;
+  }
+}
+
 .user__info--container {
   display: flex;
   flex-direction: column;
@@ -10,8 +21,15 @@
   height: 15rem;
   border-radius: 50%;
   margin-bottom: 2rem;
-  box-shadow: 0px 3px 6px 1px rgba(2, 2, 1, 0.2);
+  box-shadow: 0rem 0.3rem 0.6rem 0.1rem rgba(2, 2, 1, 0.2);
   object-fit: cover;
+
+  @include respon(xl) {
+    width: 17.5rem;
+    height: 17.5rem;
+    box-shadow: unset;
+    margin-bottom: 1rem;
+  }
 }
 
 .user__info--name {
@@ -20,6 +38,14 @@
   line-height: 1.15;
   text-transform: uppercase;
   text-align: center;
+  color: var(--dark-blue);
+
+  @include respon(xl) {
+    font-size: 7.2rem;
+    width: 57.4rem;
+    line-height: 6.45rem;
+    margin-bottom: 1.4rem;
+  }
 }
 
 .user__info--occupation {
@@ -28,37 +54,70 @@
   margin-bottom: 2rem;
   text-align: center;
   line-height: 1.15;
+  color: var(--dark-blue);
+
+  // @include respon(xl) {
+  //   font-size: 7.2rem;
+  // }
 }
 
 .user__action--container {
- display: flex;
- flex-direction: row;
- font-weight: 700;
- font-size: 1.4rem;
- align-items: center;
- justify-content: center;
- margin-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 3rem;
+  line-height: 1.15;
 
- & > :not(:last-child) {
-   margin-right: 1rem;
- }
+  & > * + * {
+    margin-top: 1rem;
+  }
+
+  @include respon(sm) {
+    flex-direction: row;
+
+    & > * + * {
+      margin-top: 0;
+      margin-left: 1rem;
+    }
+  }
+
+  & > .action--button {
+    font-weight: 700;
+    font-size: 1.4rem;
+    height: 4.5rem;
+    width: 15rem;
+    border-radius: 1rem;
+
+    @include respon(xl) {
+      font-size: 1.8rem;
+      width: 18.5rem;
+    }
+  }
 }
 
-.action--invite-to-team {
-  padding: 1.5rem 2.2rem;
-  background-color: var(--dark-blue);
-  border: 1.5px solid var(--dark-blue);
-  color: #ffffff;
-  border-radius: 1rem;
-}
+// .action--invite-to-team {
+//   background-color: var(--dark-blue);
+//   border: 0.15rem solid var(--dark-blue);
+//   color: #ffffff;
+// }
 
-.action--direct-message {
-  padding: 1.5rem 2.2rem;
-  background-color: #ffffff;
-  border: 1.5px solid var(--dark-blue);
-  color: var(--dark-blue);
-  border-radius: 1rem;
-}
+// .action--direct-message {
+//   height: 4.5rem;
+//   width: 15rem;
+//   background-color: #ffffff;
+//   border: 0.15rem solid var(--dark-blue);
+//   color: var(--dark-blue);
+//   border-radius: 1rem;
+
+//   @include respon(xl) {
+//     font-size: 7.2rem;
+//     width: 57.4rem;
+//     line-height: 6.45rem;
+//     margin-bottom: 1.4rem;
+//   }
+// }
 
 .user__sub-menu--container {
   display: grid;
@@ -72,14 +131,44 @@
   font-size: 1.4rem;
   font-weight: 700;
   padding: 1rem;
-  background-color: #F9F9F9;
+  background-color: #f9f9f9;
   color: var(--dark-blue);
   border-radius: 1rem;
   text-decoration: none;
+
+  @include respon(xl) {
+    padding: 0;
+    font-size: 2.4rem;
+    color: #626262;
+  }
 }
 
 .user__sub-menu--active {
   background-color: var(--dark-blue);
   color: #ffffff;
+
+  @include respon(xl) {
+    background-color: white;
+    color: #001534;
+  }
 }
 
+.user__sub-menu {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 2rem;
+}
+
+.user__sub-menu--left {
+  @include respon(xl) {
+    & > * + * {
+      margin-left: 5rem;
+    }
+  }
+}
+
+.user__sub-menu--right {
+  margin-left: auto;
+  display: flex;
+  flex-direction: row;
+}

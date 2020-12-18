@@ -1,3 +1,53 @@
+.register-page--container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+  background: url(/images/login-lecturer.jpg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  transition: all 0.3s var(--bezier);
+  max-width: 117rem;
+  margin: 0 auto;
+
+  @include respon(xl) {
+    background: unset;
+    display: flex;
+    flex-direction: row;
+    transition: unset;
+
+    & > * + * {
+      margin-left: 0.5rem;
+    }
+  }
+}
+
+.resgiter-form--container {
+  min-height: 40rem;
+  padding: 2.2rem 3.2rem;
+  background-color: white;
+  border-radius: 1.5rem 1.5rem 0 0;
+
+  @include respon(xl) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 52.3rem;
+    padding: 0;
+  }
+}
+
+.register-input {
+  width: 100%;
+  border: unset;
+  background-color: #f1f1f1;
+  font-size: 1.8rem;
+  padding: 1rem 1.2rem;
+  border-radius: 1rem;
+  line-height: 1.65;
+  border-radius: 1rem;
+}
+
 .auth__input--label {
   font-size: 2.4rem;
   font-weight: 600;
@@ -9,10 +59,21 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-}
+  max-width: 72rem;
+  margin: 0 auto;
+  width: 100%;
 
-.email-check--container p {
-  font-size: 1.4rem;
+  & p {
+    font-size: 1.4rem;
+
+    @include respon(xl) {
+      text-align: center;
+    }
+  }
+
+  // @include respon(xl) {
+  //   justify-content: space-around;
+  // }
 }
 
 .text__link {
@@ -25,7 +86,7 @@
   font-weight: 800;
   text-align: center;
 
-  @include respon(s) {
+  @include respon(sm) {
     font-size: 3rem;
   }
 }
@@ -35,3 +96,47 @@
   max-height: 33vmax;
 }
 
+.register-extra {
+  text-align: center;
+  font-size: 1.3rem;
+  margin-top: 2rem;
+
+  @include respon(xl) {
+    margin-top: 3rem;
+  }
+}
+
+.desktop-register__left--img {
+  border-radius: 1.5rem;
+}
+
+.desktop-register__left-top--img {
+  width: 59.5rem;
+  height: 12.9rem;
+}
+
+.desktop-register__left-mid-small--img {
+  width: 19.2rem;
+  height: 38rem;
+  object-fit: cover;
+}
+
+.desktop-register__left-mid-big--img {
+  width: 38rem;
+  height: 38rem;
+}
+
+.desktop-register__left-mid-logo--img {
+  width: 17.3rem;
+  height: 17.3rem;
+}
+
+.form-input__info--email {
+  display: flex;
+  flex-direction: column;
+
+  @include respon(xl) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}

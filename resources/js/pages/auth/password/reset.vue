@@ -20,7 +20,7 @@
         <has-error :form="form" field="password_confirmation" />
       </div>
 
-      <v-button :loading="form.busy" class="btn btn--blue ml-auto mt-auto">
+      <v-button :loading="form.busy" class="btn btn--blue ml-auto mt-2">
         Reset Password
       </v-button>
     </form>
@@ -60,8 +60,8 @@ export default {
   methods: {
     async reset () {
       this.form.post('/api/password/reset')
-        .then(({ data }) => {
-          this.snackbar.open(data.message)
+        .then(response => {
+          this.snackbar.open(response.data.status)
           this.$router.push({ name: 'login' })
         })
         .catch(e => {

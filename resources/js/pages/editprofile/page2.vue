@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form @submit.prevent="saveProfile" @keydown="form.onKeydown($event)">
+    <form @submit.prevent="saveProfile" @keydown.enter.prevent>
       <div class="">
         <div class="form-group__container">
           <h4 class="form-group__input-name">
@@ -52,11 +52,9 @@
 
             <Modal ref="addSkillModal" :type="'small'">
               <template v-slot:header>
-                <div>
-                  <h4 class="post__modal--h4 my-0">
-                    Add Skills
-                  </h4>
-                </div>
+                <h4 class="post__modal--h4 my-0">
+                  Add Skills
+                </h4>
               </template>
 
               <template v-slot:body>
@@ -244,10 +242,6 @@ export default {
   },
 
   methods: {
-    async showSkills () {
-      this.toggleOverlay()
-    },
-
     async getUser () {
       this.form.user.expertise = this.user.expertise
       this.form.user.is_open_hired = this.user.is_open_hired
@@ -274,7 +268,7 @@ export default {
         })
     },
 
-    async toggleOverlay () {
+    toggleOverlay () {
       if (this.show) {
         this.show = false
         this.hide = true
@@ -286,11 +280,11 @@ export default {
       this.showEditSkill = !this.showEditSkill
     },
 
-    async showAddSkill () {
+    showAddSkill () {
       this.$refs.addSkillModal.openModal()
     },
 
-    async addSkill () {
+    addSkill () {
       let oldSkills = this.form.user.skills.map(skill => skill.name)
       oldSkills.push(...this.anotherSkills.split(',').map(skill => skill.trim()).filter(skill => skill !== ''))
 
@@ -310,16 +304,16 @@ export default {
       this.anotherSkills = ''
     },
 
-    async deleteSkill (e) {
+    deleteSkill (e) {
       let abc = this.form.user.skills.filter(a => a.name !== e)
       this.form.user.skills = abc
     },
 
-    async showAddExperience () {
+    showAddExperience () {
       this.$refs.addExperienceModal.openModal()
     },
 
-    async addExperience () {
+    addExperience () {
       let experience = {
         project_name: this.anotherExperience.name,
         project_role: this.anotherExperience.role,

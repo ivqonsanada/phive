@@ -157,6 +157,10 @@ export default {
       await axios.post('/api/projectbox/' + this.data.project.project_url + '/endapplication').then(({ data }) => {
         this.data.project.is_open_hiring = !this.data.project.is_open_hiring
         this.snackbar.open(data.message)
+
+        this.$store.dispatch('notification/updateProjectBox', {
+          projectBoxes: data.project_boxes
+        })
       })
     }
   }

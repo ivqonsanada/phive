@@ -12,7 +12,7 @@
       </h3>
     </div>
 
-    <form @submit.prevent="postReview" @keydown="form.onKeydown($event)">
+    <form @submit.prevent="postReview" @keydown.enter.prevent>
       <div class="">
         <div class="review__overall--container">
           <h4 class="review__overall--score">

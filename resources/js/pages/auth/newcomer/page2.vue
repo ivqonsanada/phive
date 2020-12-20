@@ -3,7 +3,7 @@
     <h2 class="newcomer__h2 mb-3">
       Expertise
     </h2>
-    <form @submit.prevent="saveProfile" @keydown="form.onKeydown($event)">
+    <form @submit.prevent="saveProfile" @keydown.enter.prevent>
       <div class="">
         <div class="form-group__container">
           <h4 class="form-group__input-name">
@@ -53,7 +53,7 @@
               <BubbleSkill v-for="skill in form.user.skills" :key="`skill-${skill.name}`" color="blue" :name="skill.name" :deletable="true" @click="deleteSkill" />
             </div>
 
-            <modal ref="addSkillModal">
+            <Modal ref="addSkillModal" :type="'small'">
               <template v-slot:header>
                 <div>
                   <h4 class="post__modal--h4 my-0">
@@ -77,11 +77,11 @@
               </template>
 
               <template v-slot:footer>
-                <div class="btn btn--blue" @click="addSkill">
+                <div class="btn btn--blue ml-auto" @click="addSkill">
                   Add Skills
                 </div>
               </template>
-            </modal>
+            </Modal>
           </div>
         </div>
 
@@ -102,7 +102,7 @@
               <p v-show="form.user.experiences.length === 0" class="info__p">
                 Add your experiences here
               </p>
-              <ExperienceItem v-for="(experience, index) in form.user.experiences" :key="`ExperienceItem-${index}`" :data="experience" />
+              <ExperienceItem v-for="(experience, index) in form.user.experiences" :key="`ExperienceItem-${index}`" :data="experience" :index="index" :deletable="true" @click="deleteExperience" />
             </div>
 
             <div class="flex-center unselectable post__add-skill pointer" @click="showAddExperience">
@@ -339,6 +339,10 @@ export default {
           from: new Date('Fri May 01 2050 00:00:00')
         }
       }
+    },
+
+    deleteExperience (index) {
+      this.form.user.experiences.splice(index, 1)
     }
   }
 }

@@ -25,7 +25,7 @@
       Max avatar size is 516KB
     </p>
 
-    <form @submit.prevent="saveProfile" @keydown="form.onKeydown($event)">
+    <form @submit.prevent="saveProfile" @keydown.enter.prevent>
       <div class="">
         <div class="form-group__container">
           <h4 class="form-group__input-name">

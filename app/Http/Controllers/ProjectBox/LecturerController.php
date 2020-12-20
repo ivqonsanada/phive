@@ -135,7 +135,7 @@ class LecturerController extends Controller
         ]);
     }
 
-    public function terminateProject(Request $request, Project $project)
+    public function cancelProject(Request $request, Project $project)
     {
         $this->authorize('update', $project);
         $user = $request->user();
@@ -146,7 +146,7 @@ class LecturerController extends Controller
         $projectBoxes = ProjectBox::lecturerProjectBoxes($user);
 
         return response()->json([
-            'message' => "$project->title has been cancelled.",
+            'message' => "Project has been cancelled.",
             'project_boxes' => $projectBoxes,
         ]);
     }
@@ -156,10 +156,8 @@ class LecturerController extends Controller
         $this->authorize('update', $project);
         $user = $request->user();
 
-        $project->update([
-            'is_open_hiring' => $project->is_open_hiring,
-            'status' => 'Confirmation'
-        ]);
+        $project->update(['is_open_hiring' => $project->is_open_hiring,]);
+        ProjectBox::where(['project_id' => $project->id])->update(['status' => 'Confirmation']);
 
         $projectBoxes = ProjectBox::lecturerProjectBoxes($user);
 

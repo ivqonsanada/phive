@@ -1,13 +1,38 @@
+// .slide-container {
+//   scroll-snap-type: y mandatory;
+
+//   @include respon(xl) {
+//     scroll-snap-type: y proximity;
+//   }
+// }
+
+.slide {
+  scroll-snap-align: center;
+}
+
+.slide-1__background {
+  background: #f2f4f6;
+}
+
 .slide-1__container {
   height: 100vh;
   min-height: 64rem;
-  background: #F2F4F6;
+  // background: #F2F4F6;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  // justify-content: space-between;
+  justify-content: space-evenly;
   overflow: hidden;
   letter-spacing: 0.02em;
+
+  @include respon(xl) {
+    flex-direction: row;
+    justify-content: unset;
+    max-width: 128rem;
+    margin: 0 auto;
+    padding-left: 9.5rem;
+  }
 }
 
 .slide-1__first-block {
@@ -22,6 +47,15 @@
 
   & a {
     text-decoration: none;
+  }
+
+  @include respon(xl) {
+    padding-top: 4rem;
+    top: 0;
+
+    align-items: flex-start;
+
+    margin-right: -10rem;
   }
 }
 
@@ -38,11 +72,22 @@
   @include respon(xs) {
     font-size: 4.8rem;
   }
+
+  @include respon(xl) {
+    text-align: left;
+    font-size: 8rem;
+    margin-bottom: 2rem;
+  }
 }
 
 .slide-1__paragraph {
   font-size: 1.4rem;
   margin-bottom: 2.5rem;
+
+  @include respon(xl) {
+    font-size: 1.8rem;
+    margin-left: 0.6rem;
+  }
 }
 
 .slide-1__button {
@@ -54,10 +99,12 @@
   font-weight: 700;
   padding: 1.5rem 3.5rem;
   border-radius: 4rem;
-  background: var(--red-glow);
-  border: unset;
+  border: none;
+  // background: var(--red-glow);
+  background-color: var(--dark-blue);
 
-  color: var(--dark-blue);
+  // color: var(--dark-blue);
+  color: white;
   text-decoration: unset;
 
   & svg {
@@ -67,6 +114,16 @@
 
   & :not(:last-child) {
     margin-right: 1rem;
+  }
+
+  &:active,
+  &:focus {
+    outline: none;
+    border: none;
+  }
+
+  @include respon(xl) {
+    margin-left: 0.6rem;
   }
 }
 
@@ -78,6 +135,14 @@
   position: absolute;
   transform: translate(150%, -100%);
   color: var(--red-glow);
+  width: 7.6rem;
+  height: 6.9rem;
+
+  @include respon(xl) {
+    width: 18.3rem;
+    height: 16.6rem;
+    transform: translate(312%, -194%);
+  }
 }
 
 .slide-1__left-dashed {
@@ -86,6 +151,11 @@
   max-width: 7.5rem;
   left: 0;
   transform: translateY(-25%);
+
+  @include respon(xl) {
+    max-width: unset;
+    bottom: -4rem;
+  }
 }
 
 .slide-1__right-dashed {
@@ -93,6 +163,11 @@
   right: 0;
   top: -10%;
   max-width: 8rem;
+
+  @include respon(xl) {
+    top: 24vh;
+    max-width: unset;
+  }
 }
 
 .slide-1__image-container {
@@ -100,32 +175,86 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
+  // overflow: hidden;
   position: relative;
   width: 100%;
+
+  @include respon(xl) {
+    z-index: 4;
+    height: 100%;
+  }
 }
 
 .slide-1__dot-1 {
   position: absolute;
   z-index: 1;
   transform: translate(-9rem, 10rem);
+
+  @include respon(xl) {
+    transform: translate(-20.6rem, 8rem);
+  }
 }
 
 .slide-1__dot-2 {
   position: absolute;
   z-index: 1;
-  transform: translate(8rem, 0px);
+  transform: translate(8rem, 0);
 }
 
 .slide-1__image {
   z-index: 2;
   max-height: 45vh;
+
+  @include respon(xl) {
+    max-height: unset;
+    width: 62.4rem;
+    z-index: 3;
+  }
 }
 
 .slide-2__container {
-  margin: 3.6rem 0 0 0;
   padding: 0 1.2rem;
   letter-spacing: 0.02em;
+  max-width: 128rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  @include respon(xl) {
+    min-height: 100vh;
+
+    & > * + * {
+      margin-left: 5.05rem;
+    }
+  }
+}
+
+.slide-2__image {
+  z-index: 2;
+  max-height: 45vh;
+
+  @include respon(xl) {
+    max-height: unset;
+    width: 45rem;
+    z-index: 3;
+  }
+}
+
+.slide-2__left {
+  @include respon(xl) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.slide-2__right {
+  @include respon(xl) {
+    width: 66.4rem;
+    // margin: 0 auto;
+  }
 }
 
 .slide-2__heading {
@@ -137,31 +266,54 @@
   line-height: 3.6rem;
   margin-bottom: 2rem;
 
-  @include respon(s) {
+  @include respon(sm) {
     font-size: 3.6rem;
     line-height: 3.72rem;
+  }
+
+  @include respon(xl) {
+    line-height: 0.96;
+    font-size: 8rem;
+    text-align: left;
   }
 }
 
 .slide-2__paragraph {
   font-size: 1.8rem;
   line-height: 2.35rem;
-  max-width: 292px;
+  max-width: 28.2rem;
   margin: 0 auto;
   text-align: center;
   margin-bottom: 4rem;
+
+  @include respon(xl) {
+    max-width: unset;
+    text-align: left;
+  }
 }
 
 .slide-2__facts {
   display: flex;
   flex-direction: row;
   justify-content: center;
+
+  @include respon(xl) {
+    width: 49.2rem;
+    margin: 0 auto;
+  }
 }
 
 .slide-2__facts > * + * {
-  margin-left: 4rem;
-}
+  margin-left: 2.4rem;
 
+  @include respon(xs) {
+    margin-left: 4rem;
+  }
+
+  @include respon(xl) {
+    margin-left: 8rem;
+  }
+}
 
 .slide-2__fact-item {
   display: flex;
@@ -169,6 +321,11 @@
   justify-content: center;
   align-items: center;
   color: var(--dark-blue);
+  width: 7.8em;
+
+  @include respon(xl) {
+    width: 10.8em;
+  }
 }
 
 .slide-2__fact-item > * + * {
@@ -176,29 +333,50 @@
 }
 
 .slide-2__fact--icon {
-  color: var(--red-glow);
+  color: var(--dark-blue);
   width: 5rem;
   height: 5rem;
+
+  @include respon(xl) {
+    width: 7.2rem;
+    height: 7.2rem;
+  }
 }
 
 .slide-2__fact--number {
   font-weight: 800;
   font-size: 2.4rem;
+
+  @include respon(xl) {
+    font-size: 4.8rem;
+  }
 }
 
 .slide-2__fact--name {
   font-weight: bold;
   font-size: 1.8rem;
   text-align: center;
+
+  @include respon(xl) {
+    font-size: 2.4rem;
+  }
 }
 
 .slide-3__container {
-  margin: 4.8rem 1.2rem 6rem;
+  // margin: 4.8rem 1.2rem 6rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   letter-spacing: 0.02em;
+  max-width: 128rem;
+  margin: 0 auto;
+  padding-top: 3rem;
+  margin-bottom: 6rem;
+
+  @include respon(xl) {
+    min-height: 100vh;
+  }
 }
 
 .slide-3__heading {
@@ -206,6 +384,11 @@
   font-weight: bold;
   margin-bottom: 1rem;
   text-transform: uppercase;
+
+  @include respon(xl) {
+    font-size: 4.8rem;
+    margin-bottom: 2.6rem;
+  }
 }
 
 .slide-3__paragraph {
@@ -213,11 +396,16 @@
   line-height: 2.35rem;
   text-align: center;
   margin-bottom: 1.4rem;
-  max-width: 35rem;
+  max-width: 34rem;
+
+  @include respon(xl) {
+    max-width: unset;
+    margin-bottom: 3.2rem;
+  }
 }
 
 .slide-3__leaderboard--card {
-  background: #F2F4F6;
+  background: #f2f4f6;
   border-radius: 1.5rem;
   max-width: 32.5rem;
   display: flex;
@@ -225,7 +413,8 @@
   justify-content: center;
   align-items: center;
   padding: 2rem 2.8rem 0 2.8rem;
-  box-shadow: 2px 16px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0.2rem 1.6rem 2rem rgba(0, 0, 0, 0.1);
+  margin-bottom: 3rem;
 }
 
 .slide-3__leaderboard--img {
@@ -243,7 +432,7 @@
 }
 
 .slide-3__leaderboard--hr {
-  border-top: 2.5px solid var(--dark-blue);
+  border-top: 0.25rem solid var(--dark-blue);
   width: 100%;
   margin: 1.5rem 0;
 }
@@ -271,7 +460,7 @@
   width: 4.5rem;
   height: 4.5rem;
   color: var(--red-glow);
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0rem 0.4rem 0.4rem rgba(0, 0, 0, 0.25));
 }
 
 .slide-3__leaderboard--fact-text {
@@ -311,3 +500,6 @@
   top: 2rem;
 }
 
+.slide-3__button {
+  width: 30rem;
+}

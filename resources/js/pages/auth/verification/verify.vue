@@ -1,27 +1,21 @@
 <template>
-  <div class="row">
-    <div class="col-lg-8 m-auto">
-      <card title="Verify Email">
-        <template v-if="success">
-          <div class="alert alert-success" role="alert">
-            {{ success }}
-          </div>
+  <div class="verify__container">
+    <router-link :to="{ name: 'index' }">
+      <TopImage :type="1" />
+    </router-link>
 
-          <router-link :to="{ name: 'login' }" class="btn btn-primary">
-            Log In
-          </router-link>
-        </template>
-        <template v-else>
-          <div class="alert alert-danger" role="alert">
-            {{ error || 'Failed to verify email.' }}
-          </div>
+    <Icon :icon="state.icon" :classes="'verify__icon'" :width="150" :height="150" />
 
-          <router-link :to="{ name: 'verification.resend' }" class="small float-right">
-            Resend Verification Link ?
-          </router-link>
-        </template>
-      </card>
-    </div>
+    <h2 class="verify__heading">
+      {{ state.heading }}
+    </h2>
+    <p class="text-center primary-color">
+      {{ state.subtitle }}
+    </p>
+
+    <router-link :to="{ name: state.route }" class="btn btn--blue verify__button" tag="button">
+      <span>{{ state.buttonText }}</span>
+    </router-link>
   </div>
 </template>
 
@@ -32,10 +26,9 @@ const qs = (params) => Object.keys(params).map(key => `${key}=${params[key]}`).j
 
 export default {
   middleware: 'guest',
+  layout: 'wide',
 
-  metaInfo () {
-    return { title: 'Verify Email' }
-  },
+  metaInfo () { return { title: 'Verify Email' } },
 
   async beforeRouteEnter (to, from, next) {
     try {
@@ -50,6 +43,28 @@ export default {
   data: () => ({
     error: '',
     success: ''
-  })
+  }),
+
+  computed: {
+    state () {
+      if (this.success) {
+        return {
+          heading: 'Activation Succeed!',
+          subtitle: "You’ve successfully activate your account! Let's Sign In to strengthen your password memory then you can explore projects that you liked!.",
+          icon: 'clarity:success-standard-solid',
+          buttonText: 'Sign In',
+          route: 'login'
+        }
+      }
+
+      return {
+        heading: 'Activation Failed!',
+        subtitle: this.error || 'Failed to verify email.',
+        icon: 'clarity:times-circle-solid',
+        buttonText: 'Resend Verification',
+        route: 'verification.resend'
+      }
+    }
+  }
 }
 </script>

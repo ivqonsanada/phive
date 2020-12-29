@@ -1,49 +1,66 @@
 <template>
   <div class="profile--container">
-    <div class="inbox__info--container">
+    <div class="profile__info--container">
       <img class="profile__info--img" :src="user.avatar" alt="">
       <div class="profile__info--desc">
         <p class="profile__info--name">
-          {{ getFullName }}
+          {{ user.full_name }}
         </p>
-        <p class="profile__info--occupation">
-          {{ user.major }}
-          <template v-if="user.role === 'Student'">
-            Major
-          </template>
-          <br>
+        <p v-if="!$matchMedia.xl" class="profile__info--occupation">
+          {{ major }} <br>
           {{ user.university }} <br>
           {{ user.location }}
         </p>
-        <p class="profile__info--expertise">
-          <span class="iconify" data-icon="fa-solid:paint-brush" data-inline="true" width="15" height="10" /> {{ user.expertise }}
+        <p v-else class="profile__info--occupation">
+          {{ major }} / {{ user.university }} <br>
+          {{ user.location }}
         </p>
-        <template v-if="user.role === 'Student'">
-          <p class="profile__info--available">
-            <span class="iconify" data-icon="carbon:dot-mark" data-inline="true" width="15" height="15" />
-            Available
-          </p>
-        </template>
-        <template v-else-if="user.role === 'Lecturer'">
-          <p class="profile__info--verified">
-            <span class="iconify" data-icon="bi:shield-fill-check" data-inline="true" width="15" height="15" />
-            Verified
-          </p>
-        </template>
+        <p class="profile__info--expertise">
+          <span class="iconify" data-icon="fa-solid:paint-brush" width="15" height="10" /> {{ user.expertise }}
+        </p>
+
+        <div v-if="$matchMedia.xl" class="profile__info--buttons">
+          <router-link :to="{ path: '/profile/edit' }" class="profile__info--edit-profile" tag="button">
+            Edit Profile
+          </router-link>
+        </div>
+
+        <p v-if="user.role === 'Student'" :class="userStatus.class">
+          <span class="iconify profile__info--icon" data-icon="carbon:dot-mark" />
+          <span>{{ userStatus.text }}</span>
+        </p>
+        <p v-else-if="user.role === 'Lecturer'" :class="userStatus.class">
+          <span class="iconify profile__info--icon" data-icon="bi:shield-fill-check" />
+          <span>{{ userStatus.text }}</span>
+        </p>
       </div>
     </div>
 
-    <router-link :to="{ path: '/profile/edit' }" class="edit-profile__link">
+    <router-link v-if="!$matchMedia.xl" :to="{ path: '/profile/edit' }" class="edit-profile__link">
       <div class="profile__info--edit-profile">
         Edit Profile
       </div>
     </router-link>
 
-    <div class="user__sub-menu--container">
-      <router-link v-for="tab in tabs" :key="`route-${tab.name}`" :to="{ name: tab.route }" class="profile__sub-menu--item" active-class="profile__sub-menu--active">
+    <div v-if="!$matchMedia.xl" class="user__sub-menu--container">
+      <router-link v-for="tab in tabs" :key="tab.route" :to="{ name: tab.route }" class="user__sub-menu--item" active-class="user__sub-menu--active">
         {{ tab.name }}
       </router-link>
     </div>
+
+    <div v-if="$matchMedia.xl" class="user__sub-menu">
+      <div class="user__sub-menu--left">
+        <router-link v-for="tab in tabs" :key="tab.route" :to="{ name: tab.route }" class="user__sub-menu--item" active-class="user__sub-menu--active">
+          {{ tab.name }}
+        </router-link>
+      </div>
+      <!-- <div class="user__sub-menu--right">
+        <div>filter</div>
+        <div>time</div>
+      </div> -->
+    </div>
+
+    <hr v-if="$matchMedia.xl" class="separator-short mt-2_5 mb-3">
 
     <div class="">
       <transition name="fade" mode="out-in">
@@ -57,69 +74,45 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  middleware: 'auth',
+  name: 'UserProfileIndex',
 
-  name: 'ProfileIndex',
-
-  data: function () {
-    return {
-
-    }
-  },
+  middleware: ['auth'],
 
   computed: {
     ...mapGetters({
       user: 'auth/user'
     }),
 
-    getFullName () {
-      return this.user.first_name + ' ' + this.user.last_name
-    },
-
     tabs () {
       if (this.user.role === 'Student') {
         return [
-          {
-            icon: 'user',
-            name: 'Projects',
-            route: 'profile.projects'
-          },
-          {
-            icon: 'lock',
-            name: 'Wishlist',
-            route: 'profile.wishlist'
-          },
-          {
-            icon: 'lock',
-            name: 'Info',
-            route: 'profile.info'
-          }
+          { name: 'Projects', route: 'profile.projects' },
+          { name: 'Wishlist', route: 'profile.wishlist' },
+          { name: 'Info', route: 'profile.info' }
         ]
       }
 
       return [
-        {
-          icon: 'user',
-          name: 'Projects',
-          route: 'profile.projects'
-        },
-        {
-          icon: 'lock',
-          name: 'Info',
-          route: 'profile.info'
-        }
+        { name: 'Projects', route: 'profile.projects' },
+        { name: 'Info', route: 'profile.info' }
       ]
+    },
+
+    major () {
+      if (this.user.role === 'Student') return this.user.major + ' Major'
+      else return this.user.major
+    },
+
+    userStatus () {
+      if (this.user.role === 'Student') {
+        return {
+          class: this.user.is_open_hired ? 'profile__info--available' : 'profile__info--unavailable',
+          text: this.user.is_open_hired ? 'Available' : 'Unavailable' }
+      }
+
+      return { class: 'profile__info--verified', text: 'Verified' }
     }
-  },
-
-  mounted () {
-
-  },
-
-  methods: {
-
   }
-
 }
 </script>
 

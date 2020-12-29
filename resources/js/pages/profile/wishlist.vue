@@ -4,23 +4,23 @@
       <ProjectCard v-for="project in wishlists" :key="project.id"
                    :data="project"
       />
+      <p v-if="wishlists.length === 0" class="info__p">
+        Show your interest towards some projects :)
+      </p>
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-// import axios from 'axios'
 import ProjectCard from '~/components/ProjectCard'
 
 export default {
-  components: {
-    ProjectCard
-  },
+  name: 'UserProfileWishlistsPage',
 
-  metaInfo () {
-    return { title: 'Wishlists' }
-  },
+  components: { ProjectCard },
+
+  metaInfo () { return { title: 'Profile Wishlists' } },
 
   data: () => ({
     wishlists: '',

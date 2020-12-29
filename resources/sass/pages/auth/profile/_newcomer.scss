@@ -2,50 +2,11 @@
   padding: 1.2rem 3.2rem 4rem;
   min-height: 100vh;
   display: flex;
+  max-width: 72rem;
+  width: 100%;
+  margin: 0 auto;
   flex-direction: column;
   justify-content: space-between;
-}
-
-.top-img__1--container {
-  margin-bottom: 2.5rem;
-}
-
-.top-img__1--background {
-  background: url(/images/top-img-blue.png);
-    height: 7.5rem;
-    background-size: cover;
-    background-repeat: no-repeat;
-    border-radius: 1.5rem;
-    margin: 2rem 0;
-}
-
-.top-img__1--logo {
-  background: url(/images/logo.svg);
-    height: 7.5rem;
-    background-size: 5.7rem;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-.top-img__2--container {
-  margin-bottom: 2.5rem;
-}
-
-.top-img__2--background {
-  background: url(/images/top-img-2.png);
-    height: 7.5rem;
-    background-size: cover;
-    background-repeat: no-repeat;
-    border-radius: 1.5rem;
-    margin: 2rem 0;
-}
-
-.top-img__2--logo {
-  background: url(/images/logo.svg);
-    height: 7.5rem;
-    background-size: 5.7rem;
-    background-position: center;
-    background-repeat: no-repeat;
 }
 
 .stepper-wrap {
@@ -57,7 +18,7 @@
   clear: both;
   height: 0;
   width: 100%;
-  content: '';
+  content: "";
   display: block;
 }
 
@@ -66,31 +27,42 @@
 }
 
 .stepper li {
-    counter-increment: step;
-    list-style-type: none;
-    float: left;
-    width: 33%;
-    position: relative;
-    text-align: center;
-    font-size: 1.4rem;
-    font-weight: bold;
-    color: #C8C8C8;
+  counter-increment: step;
+  list-style-type: none;
+  float: left;
+  width: 33%;
+  position: relative;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #c8c8c8;
+
+  @include respon(xl) {
+    font-size: 2.4rem;
+  }
 }
 
 .stepper li:before {
-    content: counter(step);
-    font-weight: 800;
-    font-size: 2.8rem;
-    line-height: 34px;
-    border-radius: 50%;
-    width: 36px;
-    height: 36Px;
-    border: 8px double #C8C8C8;
-    display: block;
-    text-align: center;
-    margin: 0 auto 10px;
-    background-color: white;
-    color: #C8C8C8;
+  content: counter(step);
+  font-weight: 800;
+  font-size: 2.8rem;
+  line-height: 3.4rem;
+  border-radius: 50%;
+  width: 3.6rem;
+  height: 3.6rem;
+  border: 0.8rem double #c8c8c8;
+  display: block;
+  text-align: center;
+  margin: 0 auto 1rem;
+  background-color: white;
+  color: #c8c8c8;
+
+  @include respon(xl) {
+    font-size: 4.8rem;
+    line-height: 7.2rem;
+    width: 7.2rem;
+    height: 7.2rem;
+  }
 }
 
 // .stepper li:first-child:before {
@@ -102,35 +74,43 @@
 // }
 
 .stepper li:after {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 3px;
-    background-color: #ddd;
-    top: 24px;
-    left: -50%;
-    z-index: -1;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 0.3rem;
+  background-color: #ddd;
+  top: 2.4rem;
+  left: -50%;
+  z-index: -1;
+
+  @include respon(xl) {
+    top: 4.4rem;
+  }
 }
 
 .stepper li:first-child:after {
-    content: none;
+  content: none;
 }
 
 .stepper li.active {
-    color: #020201;
+  color: #020201;
 }
 
 .stepper li.active:before {
-    border-color: #020201;
-    background-color: white;
-    color: #020201;
+  border-color: #020201;
+  background-color: white;
+  color: #020201;
 }
-
 
 .newcomer__h2 {
   font-weight: 800;
   font-size: 2.4rem;
   text-align: center;
+
+  @include respon(xl) {
+    font-size: 4.8rem;
+    font-weight: 800;
+  }
 }
 
 .newcomer__hire--container {
@@ -138,7 +118,7 @@
   grid-template-columns: 1.8fr 2fr;
   gap: 2.5rem;
   align-items: center;
-  background: #F1F1F1;
+  background: #f1f1f1;
   margin-bottom: 5rem;
   padding: 1.6rem;
   border-radius: 1rem;
@@ -160,12 +140,16 @@
 }
 
 .newcomer__hire--button {
+  display: block;
+  text-align: center;
   width: 6rem;
   height: 3rem;
   font-weight: bold;
   font-size: 1.8rem;
-  border: 1px solid #020201;
+  line-height: 3rem;
+  border: 0.1rem solid #020201;
   border-radius: 0.5rem;
+  cursor: pointer;
 }
 
 .newcomer__add-experience {
@@ -182,13 +166,11 @@
   margin-left: 0.5rem;
 }
 
-
 .newcomer__slide-3--container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
-
 
 .newcomer__slide-3--heading {
   margin-top: 0;
@@ -199,11 +181,10 @@
   // line-height: 3.5rem;
 }
 
-
 .newcomer__slide-3--text {
-font-size: 1.8rem;
-text-align: center;
-line-height: 2.15rem;
+  font-size: 1.8rem;
+  text-align: center;
+  line-height: 2.15rem;
 }
 
 .newcomer__footer {
@@ -214,4 +195,16 @@ line-height: 2.15rem;
 
 .newcomer__footer > * + * {
   margin-top: 0.6rem;
+}
+
+.newcomer__btn--upload {
+  @include respon(xl) {
+    width: 22.5rem;
+  }
+}
+
+.newcomer__btn--delete {
+  @include respon(xl) {
+    width: 12.5rem;
+  }
 }

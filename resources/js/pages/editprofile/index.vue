@@ -1,10 +1,6 @@
 <template>
-  <div>
-    <div class="apply__top--container">
-      <div class="edit-profile__top-decore">
-        <div class="edit-profile__inside-top-decore" />
-      </div>
-    </div>
+  <div class="edit-profile__container">
+    <TopImage :type="1" />
 
     <div>
       <transition name="fade" mode="out-in">
@@ -17,27 +13,12 @@
 <script>
 
 export default {
-  middleware: 'auth',
+  name: 'EditProfileIndex',
+
+  middleware: ['auth'],
 
   data: () => ({
     applicant_type: ''
-  }),
-
-  metaInfo () {
-    return { title: 'Apply' }
-  },
-
-  computed: {
-    // ...mapGetters({
-    //   user: 'auth/user'
-    // })
-  },
-
-  mounted () {
-    // this.getUserData()
-  },
-
-  methods: {
-  }
+  })
 }
 </script>

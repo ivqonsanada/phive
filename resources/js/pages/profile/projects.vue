@@ -4,6 +4,9 @@
       <ProjectCard v-for="project in projects" :key="`project-${project.id}`"
                    :data="project"
       />
+      <p v-if="projects.length === 0" class="info__p">
+        Let fill this page with some projects
+      </p>
     </div>
   </div>
 </template>
@@ -13,19 +16,11 @@ import ProjectCard from '~/components/ProjectCard'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'ProfileProjects',
+  name: 'UserProfileProjectsPage',
 
-  components: {
-    ProjectCard
-  },
+  components: { ProjectCard },
 
-  metaInfo () {
-    return { title: 'Profile' }
-  },
-
-  data: () => ({
-    loading: true
-  }),
+  metaInfo () { return { title: 'Profile Projects' } },
 
   computed: {
     ...mapGetters({

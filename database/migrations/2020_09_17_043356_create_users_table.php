@@ -30,6 +30,7 @@ class CreateUsersTable extends Migration
             $table->string('major')->nullable();
             $table->string('location')->nullable();
             $table->text('biography')->nullable();
+            $table->boolean('is_open_hired')->default(false);
 
             $table->string('behance')->nullable();
             $table->string('github')->nullable();

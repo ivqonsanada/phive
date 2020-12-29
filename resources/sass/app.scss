@@ -1,21 +1,11 @@
 @import "abstract/variables";
 @import "abstract/mixins";
-@import "abstract/utilities";
+@import "abstract/animations";
 
 @import "base/reset";
 @import "base/base";
 
-@import "elements/navbar";
-@import "elements/footer";
-@import "elements/project-box";
-@import "elements/card";
-@import "elements/buttons";
-@import "elements/transitions";
-@import "elements/bubbleSkill";
-@import "elements/selectBox";
-@import "elements/snackbar";
-@import "elements/checkbox";
-@import "elements/radio";
+@import "elements/";
 
 @import "pages/home";
 @import "pages/auth";
@@ -25,3 +15,8 @@
 @import "pages/inbox";
 @import "pages/message";
 @import "pages/leaderboard";
+@import "pages/party";
+@import "pages/404";
+@import "pages/settings";
+
+@import "abstract/utilities";

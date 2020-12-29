@@ -1,0 +1,57 @@
+.verify__container {
+  padding: 1.2rem 3.2rem 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 72rem;
+  width: 100%;
+  margin: 0 auto;
+
+  @include respon(xl) {
+    justify-content: flex-start;
+  }
+}
+
+.verify__icon {
+  display: flex;
+  width: 15rem;
+  height: 15rem;
+  margin-top: 5.4rem;
+  margin-left: auto;
+  margin-right: auto;
+  color: #00214D;
+
+  @include respon(xl) {
+    margin-top: 3rem;
+  }
+}
+
+.verify__button {
+  display: flex;
+  margin-top: auto;
+  margin-bottom: 4.2rem;
+
+  @include respon(xl) {
+    margin-top: 2rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    padding: 0 2.4rem;
+    height: 6rem;
+  }
+}
+
+.verify__heading {
+  margin-top: 2rem;
+  text-align: center;
+  font-weight: 800;
+  font-size: 3rem;
+  color: #00214D;
+
+
+  @include respon(xl) {
+    font-size: 4.8rem;
+    margin-bottom: 2rem;
+  }
+}

@@ -1,60 +1,40 @@
 <template>
-  <div class="row">
-    <div class="col-lg-8 m-auto">
-      <card title="Reset Password">
-        <form @submit.prevent="reset" @keydown="form.onKeydown($event)">
-          <alert-success :form="form" :message="status" />
+  <div class="forgot-password__container">
+    <TopImage :type="1" />
+    <h2 class="forgot-password__h2 mb-1_5">
+      Reset your password!
+    </h2>
 
-          <!-- Email -->
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label text-md-right">Email</label>
-            <div class="col-md-7">
-              <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }" class="form-control" type="email" name="email" readonly>
-              <has-error :form="form" field="email" />
-            </div>
-          </div>
+    <p class="mb-3">
+      One more step to reset your account password! Just fill the new password you want to on field down below.
+    </p>
 
-          <!-- Password -->
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label text-md-right">Password</label>
-            <div class="col-md-7">
-              <input v-model="form.password" :class="{ 'is-invalid': form.errors.has('password') }" class="form-control" type="password" name="password">
-              <has-error :form="form" field="password" />
-            </div>
-          </div>
+    <form class="settings-form--container" @submit.prevent="reset" @keydown="form.onKeydown($event)">
+      <div class="login-input--container">
+        <input v-model="form.password" class="login-input" placeholder="New Password" type="password" required>
+        <has-error :form="form" field="password" />
+      </div>
 
-          <!-- Password Confirmation -->
-          <div class="form-group row">
-            <label class="col-md-3 col-form-label text-md-right">Confirm Password</label>
-            <div class="col-md-7">
-              <input v-model="form.password_confirmation" :class="{ 'is-invalid': form.errors.has('password_confirmation') }" class="form-control" type="password" name="password_confirmation">
-              <has-error :form="form" field="password_confirmation" />
-            </div>
-          </div>
+      <div class="login-input--container">
+        <input v-model="form.password_confirmation" class="login-input" placeholder="Re-Type New Password" type="password" required>
+        <has-error :form="form" field="password_confirmation" />
+      </div>
 
-          <!-- Submit Button -->
-          <div class="form-group row">
-            <div class="col-md-9 ml-md-auto">
-              <v-button :loading="form.busy">
-                Reset Password
-              </v-button>
-            </div>
-          </div>
-        </form>
-      </card>
-    </div>
+      <v-button :loading="form.busy" class="btn btn--blue ml-auto mt-auto">
+        Reset Password
+      </v-button>
+    </form>
   </div>
 </template>
 
 <script>
 import Form from 'vform'
+import { mapGetters } from 'vuex'
 
 export default {
   middleware: 'guest',
 
-  metaInfo () {
-    return { title: 'Reset Password' }
-  },
+  metaInfo () { return { title: 'Reset Password' } },
 
   data: () => ({
     status: '',
@@ -66,6 +46,12 @@ export default {
     })
   }),
 
+  computed: {
+    ...mapGetters({
+      snackbar: 'notification/snackbar'
+    })
+  },
+
   created () {
     this.form.email = this.$route.query.email
     this.form.token = this.$route.params.token
@@ -73,11 +59,15 @@ export default {
 
   methods: {
     async reset () {
-      const { data } = await this.form.post('/api/password/reset')
-
-      this.status = data.status
-
-      this.form.reset()
+      this.form.post('/api/password/reset')
+        .then(({ data }) => {
+          this.snackbar.open(data.message)
+          this.$router.push({ name: 'login' })
+        })
+        .catch(e => {
+          this.snackbar.open(e.response.data.email)
+          this.$router.push({ name: 'password.request' })
+        })
     }
   }
 }

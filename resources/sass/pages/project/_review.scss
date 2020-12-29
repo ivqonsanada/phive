@@ -1,0 +1,184 @@
+.review__container {
+
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+
+  @include respon(xl) {
+    margin: 3rem auto 0;
+  }
+}
+
+.review__h2 {
+  font-size: 3rem;
+  font-weight: 800;
+  text-align: center;
+
+  @include respon(xl) {
+    font-size: 3.6rem;
+  }
+}
+
+.review-top__container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 3rem;
+    align-items: center;
+
+
+    & > * + * {
+      margin-top: 2rem;
+    }
+
+}
+
+.review__image {
+  width: 12.5rem;
+  height: 12.5rem;
+  margin: 0 auto 3rem;
+  display: block;
+  border-radius: 50%;
+  object-fit: cover;
+
+  background-image: url("/images/img-placeholder.png");
+  background-size: cover;
+  background-position: center;
+
+  @include respon(xl) {
+    margin: 0;
+    width: 20rem;
+    height: 20rem;
+  }
+}
+
+.review__title {
+  font-size: 2.4rem;
+  font-weight: bold;
+  text-align: center;
+  max-width: 25rem;
+
+  @include respon(xl) {
+    font-size: 6.4rem;
+    font-weight: 800;
+    max-width: unset;
+  }
+}
+
+.review__overall--container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 3rem;
+
+  & > * + * {
+    margin-left: 1rem;
+  }
+}
+
+.review__overall--score {
+  font-size: 2.4rem;
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 0;
+  text-align: right;
+  max-width: 9rem;
+
+  @include respon(xl) {
+    font-size: 4.8rem;
+    max-width: unset;
+    width: 100%;
+  }
+}
+
+.review__overall--dots {
+  font-size: 2.4rem;
+  font-weight: bold;
+  margin-left: 1.2rem;
+  margin-right: 2rem;
+}
+
+.review__participant--list {
+  & > * + * {
+    margin-top: 6rem;
+  }
+}
+
+.review-participant__left-container {
+  @include respon(xl) {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 2.4rem;
+  }
+}
+
+.review__participant--container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 1.5rem;
+
+  & > * + * {
+    margin-left: 1.6rem;
+  }
+}
+
+.review__participant--info {
+  & p {
+    font-size: 1.4rem;
+      line-height: 2rem
+    ;
+  }
+
+  & p:last-child {
+    font-size: 1.2rem;
+  }
+
+  @include respon(xl) {
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+
+    & p {
+      font-size: 1.8rem;
+      line-height: 1.25;
+    }
+
+    & p:last-child {
+      font-size: 1.8rem;
+    }
+  }
+}
+
+.review__h4 {
+  font-size: 1.4rem;
+  font-weight: bold;
+
+  @include respon(xl) {
+    font-size: 2.4rem;
+    margin-bottom: 3rem;
+  }
+}
+
+.review__participant--img {
+  width: 6.5rem;
+  height: 6.5rem;
+  border-radius: 50%;
+  background-image: url('/images/missing-avatar.svg');
+  background-size: cover;
+
+  @include respon(xl) {
+    width: 7.5rem;
+    height: 7.5rem;
+  }
+}
+
+.review-score__container {
+  @include respon(xl) {
+    width: 100%;
+    max-width: 40rem;
+    margin-bottom: 0;
+  }
+}

@@ -1,23 +1,21 @@
 import Vue from 'vue'
-import Card from './Card'
 import Modal from './Modal'
 import Child from './Child'
 import Button from './Button'
-import Checkbox from './Checkbox'
+import Icon from './Icon'
 import BubbleSkill from './BubbleSkill'
-import { HasError, AlertError, AlertSuccess } from 'vform'
+import TopImage from './TopImage.vue'
+import { HasError } from 'vform'
 
 // Components that are registered globaly.
 [
-  Card,
   Child,
   Modal,
   Button,
-  Checkbox,
+  Icon,
   HasError,
-  AlertError,
-  AlertSuccess,
-  BubbleSkill
+  BubbleSkill,
+  TopImage
 ].forEach(Component => {
   Vue.component(Component.name, Component)
 })

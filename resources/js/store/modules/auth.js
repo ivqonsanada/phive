@@ -6,7 +6,7 @@ import * as types from '../mutation-types'
 export const state = {
   user: null,
   data: null,
-  team: null,
+  party: null,
   token: Cookies.get('token')
 }
 
@@ -14,7 +14,9 @@ export const state = {
 export const getters = {
   user: state => state.user,
   data: state => state.data,
-  team: state => state.team,
+  projects: state => state.data.projects,
+  party: state => state.party,
+  partyMembers: state => state.party.leader.members,
   token: state => state.token,
   check: state => state.user !== null
 }
@@ -26,18 +28,28 @@ export const mutations = {
     Cookies.set('token', token, { expires: remember ? 365 : null })
   },
 
-  [types.FETCH_USER_SUCCESS] (state, { user, projects, wishlists, team }) {
+  [types.FETCH_USER_SUCCESS] (state, { user, projects, wishlists }) {
     state.user = user
     state.data = {
       projects: projects,
       wishlists: wishlists
     }
-    state.team = team
   },
 
   [types.FETCH_USER_FAILURE] (state) {
     state.token = null
     Cookies.remove('token')
+  },
+
+  [types.FETCH_USER_PARTY] (state, { leader, member }) {
+    state.party = {
+      leader: leader,
+      member: member
+    }
+  },
+
+  [types.UPDATE_USER_PARTY] (state, { leader }) {
+    state.party.leader = leader
   },
 
   [types.UPDATE_USER] (state, { user }) {
@@ -52,8 +64,13 @@ export const mutations = {
     state.data.wishlists = wishlists
   },
 
+  [types.UPDATE_USER_NOTIFICATIONS] (state, count) {
+    state.user.new_notifications_count = count
+  },
+
   [types.LOGOUT] (state) {
     state.user = null
+    state.data = null
     state.token = null
 
     Cookies.remove('token')
@@ -73,12 +90,19 @@ export const actions = {
       commit(types.FETCH_USER_SUCCESS, {
         user: data.user,
         projects: data.projects,
-        wishlists: data.wishlists,
-        team: data.team
+        wishlists: data.wishlists
       })
     } catch (e) {
       commit(types.FETCH_USER_FAILURE)
     }
+  },
+
+  async fetchUserParty ({ commit }) {
+    try {
+      const { data } = await axios.get('/api/party')
+
+      commit(types.FETCH_USER_PARTY, data)
+    } catch (e) {}
   },
 
   async updateAvatar ({ commit }, payload) {
@@ -93,9 +117,21 @@ export const actions = {
     } catch (e) { }
   },
 
+  async updateUserParty ({ commit }, payload) {
+    try {
+      commit(types.UPDATE_USER_PARTY, payload)
+    } catch (e) { }
+  },
+
   async updateWishlists ({ commit }, payload) {
     try {
       commit(types.UPDATE_USER_WISHLISTS, payload)
+    } catch (e) { }
+  },
+
+  async updateNotifications ({ commit }, payload) {
+    try {
+      commit(types.UPDATE_USER_NOTIFICATIONS, payload)
     } catch (e) { }
   },
 

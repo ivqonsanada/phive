@@ -16,7 +16,7 @@ class CreateProjectTeamsTable extends Migration
         Schema::create('project_teams', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('project_id');
-            $table->unsignedBigInteger('leader_id');
+            $table->unsignedBigInteger('leader_id')->nullable();
 
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->foreign('leader_id')->references('id')->on('users')->onDelete('cascade');

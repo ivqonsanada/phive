@@ -1,13 +1,9 @@
 <template>
   <div class="email-check--container">
     <div>
-      <div class="top-img__1--container">
-        <div class="top-img__1--background">
-          <router-link :to="{ name: 'index' }" class="login-link">
-            <div class="top-img__1--logo" />
-          </router-link>
-        </div>
-      </div>
+      <router-link :to="{ name: 'index' }">
+        <TopImage :type="1" />
+      </router-link>
 
       <h2 class="email-check--heading">
         Kindly Check Your Email for Activation
@@ -18,13 +14,18 @@
 
       <p class="text-center">
         Didn't get an email?
-        <span @click="resend">
+
+        <button v-debounce:400ms="resend" class="pointer btn--clear" :debounce-events="'click'">
           <b>Resend Activation Email</b>
-        </span>
+        </button>
       </p>
+
+      <!-- <has-error :form="form" field="email" /> -->
     </div>
 
-    <img src="/images/check-mail.png" class="email-check--img" alt="">
+    <router-link :to="{ name: 'index' }" class="text-center">
+      <img src="/images/email-check.png" class="email-check--img" alt="">
+    </router-link>
   </div>
 </template>
 
@@ -48,11 +49,6 @@ export default {
     })
   }),
 
-  // created () {
-  //   if (this.$route.query.email) {
-  //     this.form.email = this.$route.query.email
-  //   }
-  // },
   computed: {
     ...mapGetters({
       snackbar: 'notification/snackbar'
@@ -60,14 +56,21 @@ export default {
   },
 
   mounted () {
-    this.form.email = this.$route.params.email
+    if (this.$route.params.email) {
+      this.form.email = this.$route.params.email
+    }
   },
 
   methods: {
     async resend () {
-      const { data } = await this.form.post('/api/email/resend')
-
-      this.snackbar.open(data.status)
+      this.form.post('/api/email/resend')
+        .then(({ data }) => {
+          this.snackbar.open(data.status)
+        })
+        .catch(({ response }) => {
+          this.snackbar.open(response.data.message)
+          this.$router.push({ name: 'verification.resend' })
+        })
     }
   }
 }

@@ -1,15 +1,13 @@
 <template>
-  <form @submit.prevent="login" @keydown="form.onKeydown($event)">
+  <form @submit.prevent="submitTeam" @keydown="form.onKeydown($event)">
     <div class="">
       <!-- Expertise Role -->
-      <div class="form-group__container">
-        <h4 class="form-group__input-name">
+      <!-- <div class="form-group__container">
+        <h4 class="form-group__input-name form__input-name">
           How many people are you?
         </h4>
-        <div class="form-group__input-container">
-          <select v-model="form.person" class="form-group__input-select"
-                  placeholder="Select Expertise..." @change="checkMany"
-          >
+        <div class="select">
+          <select v-model="form.person" @change="checkMany">
             <option value="2">
               2 Person
             </option>
@@ -17,19 +15,18 @@
               3 Person
             </option>
           </select>
+          <span class="focus" />
         </div>
-      </div>
+      </div> -->
 
-      <div v-for="person in copyExpertises" :key="person.id">
+      <div v-for="(member, index) in form.team" :key="`TeamMember-${index}`">
         <!-- Expertise Role -->
         <div class="form-group__container">
-          <h4 class="form-group__input-name">
-            Expertise Role {{ person.who }}
+          <h4 class="form-group__input-name form__input-name">
+            {{ index === 0 ? 'Leader' : `Member ${index}` }} Expertise
           </h4>
-          <div class="form-group__input-container">
-            <select v-model="form.slot[person.id].expertise" class="form-group__input-select"
-                    placeholder="Select Expertise..."
-            >
+          <div class="select">
+            <select v-model="form.team[index].expertise">
               <option value="UI/UX Designer">
                 UI / UX Designer
               </option>
@@ -43,15 +40,17 @@
                 Data Expert
               </option>
             </select>
+            <span class="focus" />
           </div>
         </div>
 
-        <div class="form-group__container">
-          <h4 class="form-group__input-name">
-            Tag Name {{ person.who }}
+        <div class="form-group__container mb-5">
+          <h4 class="form-group__input-name form__input-name">
+            {{ index === 0 ? 'Leader' : `Member ${index}` }} Tag Name
           </h4>
-          <div class="form-group__input-container">
-            <input v-model="form.slot[person.id].tagname" class="form-group__input-text" value="@ivqonsanada">
+          <div class=" form-tag__group">
+            <input v-model="form.team[index].tagname" class="form-tag__input" disabled>
+            <label class="form-tag"><span class="iconify" data-icon="entypo:email" /></label>
           </div>
         </div>
       </div>
@@ -60,31 +59,31 @@
 
       <!-- Tell me about yourself! -->
       <div class="form-group__container">
-        <h4 class="form-group__input-name">
-          Tell me about yourself!
+        <h4 class="form-group__input-name form__input-name">
+          Tell me about your team!
         </h4>
-        <div class="form-group__input-container">
-          <textarea v-model="form.message" class="form-group__input-textarea" placeholder="Max. 300 words" rows="5" />
+        <div class=" form__input-name">
+          <textarea v-model="form.self_describe" class="form-group__input-textarea" placeholder="Max. 300 words" rows="5" />
         </div>
       </div>
 
       <!-- Why you ? -->
       <div class="form-group__container">
-        <h4 class="form-group__input-name">
+        <h4 class="form-group__input-name form__input-name">
           Why the team interested in joining this project?
         </h4>
-        <div class="form-group__input-container">
-          <textarea v-model="form.interest" class="form-group__input-textarea" placeholder="Max. 300 words" rows="5" />
+        <div class="">
+          <textarea v-model="form.apply_reason" class="form-group__input-textarea" placeholder="Max. 300 words" rows="5" />
         </div>
       </div>
 
       <div class="">
         <!-- Submit Button -->
-        <v-button :loading="form.busy" class="btn btn--red btn--large">
+        <v-button :loading="form.busy" class="btn btn--blue btn--large apply__btn-submit">
           <span>
             Submit
           </span>
-          <span class="iconify" data-icon="si-glyph:paper-plane" data-inline="true" />
+          <span class="iconify" data-icon="si-glyph:paper-plane" />
         </v-button>
       </div>
     </div>
@@ -93,38 +92,30 @@
 
 <script>
 import Form from 'vform'
+import { mapGetters } from 'vuex'
 
 export default {
-  middleware: 'auth',
+  name: 'ApplyTeamPage',
+
+  middleware: ['auth', 'student'],
+
+  metaInfo () { return { title: 'Apply - Team' } },
 
   data: () => ({
-    copyExpertises: [],
-    expertises: [
-      { id: 0, who: 'Team Leader' },
-      { id: 1, who: 'Member 1' },
-      { id: 2, who: 'Member 2' }
-    ],
     form: new Form({
       applicant: 'Team',
-      person: '3',
-      slot: [
-        { expertise: 'UI/UX Designer', tagname: '@ivqonsanada' },
-        { expertise: 'Frontend Engineer', tagname: '@verrel' },
-        { expertise: 'Data Expert', tagname: '@aji' }
-      ],
-      description: '',
-      interest: ''
+      team: [],
+      self_describe: '',
+      apply_reason: ''
     })
   }),
 
   computed: {
-    peoples () {
-      return ''
-    }
-  },
-
-  metaInfo () {
-    return { title: 'Apply - Team' }
+    ...mapGetters({
+      user: 'auth/user',
+      members: 'auth/partyMembers',
+      snackbar: 'notification/snackbar'
+    })
   },
 
   mounted () {
@@ -132,21 +123,40 @@ export default {
       this.$router.push({ path: `/project/${this.$route.params.id}` })
     }
 
-    this.checkMany()
+    this.form.team.push({ expertise: this.user.expertise, tagname: this.user.tagname, member_id: this.user.id })
+
+    this.getParty()
   },
 
   methods: {
-    async update () {
-      await this.form.post('/api/project/')
 
-      this.form.reset()
+    addMember () {
+      this.form.team.push({ expertise: '', tagname: '' })
     },
-    checkMany () {
-      this.copyExpertises = []
-      for (let i = 0; i < this.form.person; i++) {
-        this.copyExpertises.push(this.expertises[i])
-      }
+
+    async getParty () {
+      await this.$store.dispatch('auth/fetchUserParty')
+
+      let member = this.members.map(member => {
+        return { expertise: member.expertise, tagname: member.member.tagname, member_id: member.member_id }
+      })
+
+      this.form.team.push(...member)
+    },
+
+    async submitTeam () {
+      await this.form.post('/api' + this.$route.path)
+        .then(({ data }) => {
+          this.snackbar.open(data.message)
+        })
+        .then(e => {
+          this.$router.push({ path: `/project/${this.$route.params.id}` })
+        })
+        .catch(e => {
+          this.snackbar.open(e.response.data.message)
+        })
     }
+
   }
 }
 </script>

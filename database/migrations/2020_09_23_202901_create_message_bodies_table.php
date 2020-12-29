@@ -21,7 +21,7 @@ class CreateMessageBodiesTable extends Migration
             $table->text('message');
             $table->timestamps();
 
-            $table->foreign('message_header_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('message_header_id')->references('id')->on('message_headers')->onDelete('cascade');
             $table->foreign('sender_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('recipient_id')->references('id')->on('users')->onDelete('cascade');
         });

@@ -10,6 +10,11 @@ class ApplicantTeamMember extends Model
 
     public $timestamps = false;
 
+    protected $casts = [
+        'team_applicant_id' => 'integer',
+        'member_id' => 'integer',
+    ];
+
     public function team_applicant () {
         return $this->belongsTo('App\TeamApplicant');
     }

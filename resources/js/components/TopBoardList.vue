@@ -1,34 +1,26 @@
 <template>
-  <div class="leaderboard__container">
-    <div ref="leaderboardlist" class="lederboard-list_container">
-      <div :style="{ 'min-width': `${dummyWidth}px` }" />
-      <TopBoardItem :class="{ 'leaderboard-item--active': expertise === 0 }"
-                    :user="top.designer" :leader="leader.designer"
+  <div class="topboard__container">
+    <div ref="topBoardList" v-touch:swipe="swipeTopLeaderboard" class="topboard-list_container" :class="{ 'topboard-list--showAll': showAll, 'topboard-list_container--leaderboard': leaderboard }">
+      <div :class="{'none' : showAll}" :style="{ 'min-width': `${dummyWidth / 10}rem` }" />
+      <TopBoardItem v-for="(e, index) in topBoards" :key="`TopBoardItem-${index}`" :class="isDisabled[index].class"
+                    :data="e.data" :leader="leader[index]" :disabled="!isDisabled[index].active" :expertise="index" :leaderboard="leaderboard" @click="changeExpertise"
       />
-      <TopBoardItem :class="{ 'leaderboard-item--active': expertise === 1 }"
-                    :user="top.frontend" :leader="leader.frontend"
-      />
-      <TopBoardItem :class="{ 'leaderboard-item--active': expertise === 2 }"
-                    :user="top.backend" :leader="leader.backend"
-      />
-      <TopBoardItem :class="{ 'leaderboard-item--active': expertise === 3 }"
-                    :user="top.data" :leader="leader.data"
-      />
-      <div :style="{ 'min-width': `${dummyWidth}px` }" />
+      <div :class="{'none' : showAll}" :style="{ 'min-width': `${dummyWidth / 10}rem` }" />
     </div>
 
-    <div class="leaderboard-list__nav--container">
-      <button :class="{ invisible: expertise === 0 }" class="btn--clear leaderboard-list__nav" :style="{ 'right': `${navPos}px` }" @click="navigate('left')">
-        <span class="iconify leaderboard-list__nav--item" data-icon="bi:arrow-left-short" data-inline="true" />
+    <div v-if="arrow" class="topboard-list__nav--container">
+      <button :class="{ invisible: expertise === 0 }" class="btn--clear topboard-list__nav" :style="{ 'right': `${navPos / 10}rem` }" @click="navigate('left')">
+        <span class="iconify topboard-list__nav--item" data-icon="bi:arrow-left-short" />
       </button>
-      <button :class="{ invisible: expertise === 3 }" class="btn--clear leaderboard-list__nav" :style="{ 'left': `${navPos}px` }" @click="navigate('right')">
-        <span class="iconify leaderboard-list__nav--item" data-icon="bi-arrow-right-short" data-inline="true" />
+      <button :class="{ invisible: expertise === 3 }" class="btn--clear topboard-list__nav" :style="{ 'left': `${navPos / 10}rem` }" @click="navigate('right')">
+        <span class="iconify topboard-list__nav--item" data-icon="bi-arrow-right-short" />
       </button>
     </div>
   </div>
 </template>
 
 <script>
+// import { mapGetters } from 'vuex'
 import TopBoardItem from '~/components/TopBoardItem'
 
 export default {
@@ -38,52 +30,73 @@ export default {
     TopBoardItem
   },
 
-  metaInfo () {
-    return { title: 'Leaderboard' }
+  props: {
+    arrow: { type: Boolean, default: true },
+    differ: { type: Boolean, default: true },
+    showAll: { type: Boolean, default: false },
+    data: { type: Object, default: null },
+    leaderboard: { type: Boolean, default: false }
   },
 
   data: () => ({
     expertise: 0,
-    top: {
-      designer: { 'id': 1, 'first_name': 'Verrel', 'last_name': 'Radiman', 'tagname': 'verrelradiman', 'expertise': 'UI / UX Designer', 'avatar': 'https://www.gravatar.com/avatar/7fc93cea09e4b8c225baac9b80875fab.jpg?s=200&d=mm' },
-      frontend: { 'id': 1, 'first_name': 'Ivqonnada', 'last_name': 'Al Mufarrih', 'tagname': 'Ivqonnada1', 'expertise': 'Frontend Engineer', 'avatar': 'https://www.gravatar.com/avatar/7fc93cea09e4b8c225baac9b80875fab.jpg?s=200&d=mm' },
-      backend: { 'id': 1, 'first_name': 'Ivqonnada', 'last_name': 'Al Mufarrih', 'tagname': 'Ivqonnada1', 'expertise': 'Backend Engineer', 'avatar': 'https://www.gravatar.com/avatar/7fc93cea09e4b8c225baac9b80875fab.jpg?s=200&d=mm' },
-      data: { 'id': 1, 'first_name': 'Rangga', 'last_name': 'Aji Gumiwang', 'tagname': 'ajigumiwang', 'expertise': 'Data Expert', 'avatar': 'https://www.gravatar.com/avatar/7fc93cea09e4b8c225baac9b80875fab.jpg?s=200&d=mm' }
-    },
+    leader: [
+      { icon: 'whh:painting', title: 'Picasso' },
+      { icon: 'bx:bx-code', title: 'Front Row' },
+      { icon: 'bx:bx-code-curly', title: 'Mastermind' },
+      { icon: 'bx:bxs-data', title: 'Snowden' }
+    ],
 
-    leader: {
-      designer: {
-        icon: 'whh:painting',
-        title: 'Picasso'
-      },
-      frontend: {
-        icon: 'bx:bx-code',
-        title: 'Front Row'
-      },
-      backend: {
-        icon: 'bx:bx-code-curly',
-        title: 'Mastermind'
-      },
-      data: {
-        icon: 'bx:bxs-data',
-        title: 'Snowden'
-      }
-    },
-
-    dummyWidth: (window.innerWidth - 255) / 2,
-    navPos: (window.innerWidth / 2) - 50
+    dummyWidth: '',
+    navPos: ''
   }),
 
+  computed: {
+    isDisabled () {
+      if (this.showAll) {
+        return [
+          { active: true, class: 'opacity-1' },
+          { active: true, class: 'opacity-1' },
+          { active: true, class: 'opacity-1' },
+          { active: true, class: 'opacity-1' }
+        ]
+      }
+      if (!this.differ) {
+        return [
+          { active: true, class: 'leaderboard-item--active' },
+          { active: true, class: 'leaderboard-item--active' },
+          { active: true, class: 'leaderboard-item--active' },
+          { active: true, class: 'leaderboard-item--active' }
+        ]
+      }
+      return [
+        { active: this.expertise === 0, class: this.expertise === 0 ? 'leaderboard-item--active' : '' },
+        { active: this.expertise === 1, class: this.expertise === 1 ? 'leaderboard-item--active' : '' },
+        { active: this.expertise === 2, class: this.expertise === 2 ? 'leaderboard-item--active' : '' },
+        { active: this.expertise === 3, class: this.expertise === 3 ? 'leaderboard-item--active' : '' }
+      ]
+    },
+
+    topBoards () {
+      return [
+        { data: this.data.ui_ux_designer },
+        { data: this.data.frontend_engineer },
+        { data: this.data.backend_engineer },
+        { data: this.data.data_expert }
+      ]
+    }
+  },
+
   mounted () {
+    this.onResize()
+
     this.$nextTick(() => {
       window.addEventListener('resize', this.onResize)
-      window.addEventListener('scroll', this.onScroll)
     })
   },
 
   beforeDestroy () {
     window.removeEventListener('resize', this.onResize)
-    window.removeEventListener('scroll', this.onScroll)
   },
 
   methods: {
@@ -91,16 +104,38 @@ export default {
       if (direction === 'left') this.expertise--
       else this.expertise++
 
-      this.$refs.leaderboardlist.scrollLeft = this.expertise * 235
+      this.$refs.topBoardList.scrollLeft = this.expertise * 235
     },
 
     onResize () {
-      this.dummyWidth = (window.innerWidth - 255) / 2
-      this.navPos = (window.innerWidth / 2) - 50
+      const app = document.querySelector('html')
+
+      this.dummyWidth = (app.scrollWidth - 235) / 2
+      this.navPos = (app.scrollWidth / 2) - 50
     },
 
-    onScroll () {
-      console.log(this.$refs.leaderboardlist.scrollLeft)
+    swipeTopLeaderboard (direction) {
+      if (!this.$matchMedia.xl) {
+        let expertise = this.expertise
+        if (direction === 'right' && expertise > 0) expertise--
+        else if (direction === 'left' && expertise < 3) expertise++
+        this.$refs.topBoardList.scrollLeft = expertise * 235
+
+        // setTimeout(() => {
+        this.expertise = expertise
+        // }, 160)
+
+        if (this.leaderboard) {
+          this.$emit('change', this.expertise)
+        }
+      }
+    },
+
+    changeExpertise (e) {
+      if (this.leaderboard && this.$matchMedia.xl) {
+        this.expertise = e
+        this.$emit('change', e)
+      }
     }
   }
 }

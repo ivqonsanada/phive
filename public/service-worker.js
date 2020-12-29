@@ -1,1 +1,70 @@
-if (!self.define) { const s = s => { s !== 'require' && (s += '.js'); let e = Promise.resolve(); return d[s] || (e = new Promise(async e => { if ('document' in self) { const d = document.createElement('script'); d.src = s, document.head.appendChild(d), d.onload = e } else importScripts(s), e() })), e.then(() => { if (!d[s]) throw new Error(`Module ${s} didn’t register its module`); return d[s] }) }; const e = (e, d) => { Promise.all(e.map(s)).then(s => d(s.length === 1 ? s[0] : s)) }; const d = { require: Promise.resolve(e) }; self.define = (e, i, r) => { d[e] || (d[e] = Promise.resolve().then(() => { let d = {}; const c = { uri: location.origin + e.slice(1) }; return Promise.all(i.map(e => { switch (e) { case 'exports':return d; case 'module':return c; default:return s(e) } })).then(s => { const e = r(...s); return d.default || (d.default = e), d }) })) } }define('./service-worker.js', ['./workbox-69b5a3b7'], function (s) { 'use strict'; self.addEventListener('message', s => { s.data && s.data.type === 'SKIP_WAITING' && self.skipWaiting() }), s.precacheAndRoute([{ url: '/dist/css/app.9ac0be.css', revision: '41c97b48523c63d15418d613070b921d' }, { url: '/dist/js/app.4a076b.js', revision: '881db32b03f67c32e574b906a3d62004' }, { url: '/dist/js/0.7c0d11.js', revision: '2fd784f1a16827736201564e830f74c5' }, { url: '/dist/js/1.3cb2e9.js', revision: '3e810d5ced213cbcb85d63795219e459' }, { url: '/dist/js/10.7a3c62.js', revision: 'f88603401169e37d50d4332b39db998f' }, { url: '/dist/js/11.b698ed.js', revision: 'b8260d4ed9d0ddd525e880cc798e45a4' }, { url: '/dist/js/12.76e278.js', revision: 'cc0aaa43a938d234bed57885bd5df793' }, { url: '/dist/js/13.9f7843.js', revision: '43410118ce0c3619e02962d970dde7e8' }, { url: '/dist/js/14.934574.js', revision: '3c8df475a66c2475b5318de4ca606f38' }, { url: '/dist/js/15.1000c4.js', revision: '72325988ab9f363030c440e9b2e92471' }, { url: '/dist/js/16.a0df6f.js', revision: '5f333676a8d31d90b2a5d050f63309c1' }, { url: '/dist/js/17.6729b3.js', revision: '085ede119250d4b51ddc964ef9bbcb48' }, { url: '/dist/js/18.ac5998.js', revision: '850f77889fe76111638c8cd2510d13a0' }, { url: '/dist/js/19.05f699.js', revision: '8a6993549afc5bb44d88656aae32904b' }, { url: '/dist/js/2.5ba645.js', revision: '07922b12acb22ec38f3150adea482d7d' }, { url: '/dist/js/20.d08555.js', revision: 'ec6a62c1c04cd1e346ec703c50118e81' }, { url: '/dist/js/21.8a12e1.js', revision: '2287d26ac40a0fc175a4339dd8af160c' }, { url: '/dist/js/22.746bda.js', revision: '8db0a7073cd7aea3933cccc543e77c55' }, { url: '/dist/js/23.744902.js', revision: '38058ef5127a97db9fb4399173bcb659' }, { url: '/dist/js/24.d51b7a.js', revision: '89462e378d04652c7440178a33d1ea04' }, { url: '/dist/js/25.c55095.js', revision: 'f9b588b22d29271002587e4c19a1b8fb' }, { url: '/dist/js/26.2ed81a.js', revision: '11ff394be155455103f0f0979ed40c11' }, { url: '/dist/js/27.81c78f.js', revision: '3d5cb92f930725d0ac615be57e028ca2' }, { url: '/dist/js/28.de8137.js', revision: 'd692b3b2add37ad6472338fc15ee55e0' }, { url: '/dist/js/29.b1bdee.js', revision: '49d4cb3c9e2bbb729899f21f6865ceed' }, { url: '/dist/js/3.f094b9.js', revision: '0e8d831e86b241329f38d08096526949' }, { url: '/dist/js/30.cb5cdd.js', revision: '1761dd11ffa7a7d287a741c84d8f9580' }, { url: '/dist/js/4.6fbb2e.js', revision: '4fb3546c244a663aed500f526cc3ab51' }, { url: '/dist/js/5.ac0895.js', revision: 'efdffb0cff735241718ff8c1c1389660' }, { url: '/dist/js/6.f5c8cb.js', revision: '8d8a6698ce814b482caffc5b5be99536' }, { url: '/dist/js/7.33c49b.js', revision: '81a12dc096d33935ae907d94d54d452c' }, { url: '/dist/js/8.af83b7.js', revision: '3cb1f44e9bdd013319539f9ebcf5d33e' }, { url: '/dist/js/9.30353c.js', revision: 'a3e2c035243af30a02a8faa876145434' }], {}) })
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js')
+
+if (workbox) {
+  console.log('Workbox berhasil dimuat')
+} else {
+  console.log('Workbox gagal dimuat')
+}
+
+// workbox.precaching.precacheAndRoute([
+//   { url: '/', revision: '5' },
+//   { url: '/dist/js/app.e58caa.js', revision: '1' },
+//   { url: '/dist/css/app.f0814a.css', revision: '1' },
+// ])
+
+// workbox.routing.registerRoute(
+//   new RegExp('/dist/js/'),
+//   workbox.strategies.cacheFirst({
+//     cacheName: 'pages'
+//   })
+// )
+
+workbox.routing.registerRoute(
+  new RegExp('/api/(leaderboard|home|project/[^.]*/similar)'),
+  workbox.strategies.staleWhileRevalidate({
+    cacheName: 'apis'
+  })
+)
+
+workbox.routing.registerRoute(
+  new RegExp('/api/'),
+  workbox.strategies.networkFirst({
+    cacheName: 'apis'
+  })
+)
+
+// workbox.routing.registerRoute(
+//   /\.(?:png|gif|jpg|jpeg|svg)$/,
+//   workbox.strategies.cacheFirst({
+//     cacheName: 'images',
+//     plugins: [
+//       new workbox.expiration.Plugin({
+//         maxEntries: 30,
+//         maxAgeSeconds: 30 * 24 * 60 * 60 // 30 hari
+//       })
+//     ]
+//   })
+// )
+
+workbox.routing.registerRoute(
+  /^https:\/\/fonts\.googleapis\.com/,
+  workbox.strategies.staleWhileRevalidate({
+    cacheName: 'google-fonts-stylesheets'
+  })
+)
+
+workbox.routing.registerRoute(
+  /^https:\/\/fonts\.gstatic\.com/,
+  workbox.strategies.cacheFirst({
+    cacheName: 'google-fonts-webfonts',
+    plugins: [
+      new workbox.cacheableResponse.Plugin({
+        statuses: [0, 200]
+      }),
+      new workbox.expiration.Plugin({
+        maxAgeSeconds: 60 * 60 * 24 * 365,
+        maxEntries: 30
+      })
+    ]
+  })
+)

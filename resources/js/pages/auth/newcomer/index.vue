@@ -1,13 +1,9 @@
 <template>
   <div class="newcomer__container">
     <div>
-      <div class="top-img__1--container">
-        <div class="top-img__1--background">
-          <div class="top-img__1--logo" />
-        </div>
-      </div>
+      <TopImage :type="2" />
       <h2 class="newcomer__h2">
-        Hello, {{ fullName }}
+        Hello, {{ user.full_name }}
       </h2>
 
       <div class="stepper-wrap">
@@ -42,26 +38,14 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  middleware: 'auth',
-
+  name: 'NewcomerIndex',
   layout: 'wide',
-
-  data: () => ({
-    applicant_type: ''
-  }),
-
-  metaInfo () {
-    return { title: 'Newcomer' }
-  },
+  middleware: 'auth',
 
   computed: {
     ...mapGetters({
       user: 'auth/user'
     }),
-
-    fullName () {
-      return this.user.first_name + ' ' + this.user.last_name
-    },
 
     page () {
       return this.$route.path.split('/')[2]

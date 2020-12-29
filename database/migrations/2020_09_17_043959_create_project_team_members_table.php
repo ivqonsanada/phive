@@ -18,7 +18,10 @@ class CreateProjectTeamMembersTable extends Migration
             $table->unsignedBigInteger('project_team_id');
             $table->unsignedBigInteger('member_id');
             $table->string('expertise')->nullable();
+            $table->text('assessment')->nullable();
+            $table->string('score')->nullable();
 
+            $table->unique(['project_team_id', 'member_id']);
             $table->foreign('project_team_id')->references('id')->on('project_teams')->onDelete('cascade');
             $table->foreign('member_id')->references('id')->on('users')->onDelete('cascade');
         });

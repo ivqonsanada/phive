@@ -1,0 +1,40 @@
+.top-img__container {
+  margin-bottom: 2.5rem;
+
+  @include respon(xl) {
+    margin-bottom: 3.2rem;
+  }
+}
+
+.top-img__background {
+  height: 7.5rem;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 1.5rem;
+  margin: 2rem 0;
+
+  @include respon(xl) {
+    height: 10rem;
+  }
+}
+
+.top-img__logo {
+  background: url(/images/logo.svg);
+  height: 7.5rem;
+  background-size: 5.7rem;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  @include respon(xl) {
+    height: 10rem;
+    background-size: 8.7rem;
+  }
+}
+
+.top-img__type--1 {
+  background: url(/images/top-img-1.png);
+}
+
+.top-img__type--2 {
+  background: url(/images/top-img-2.png);
+}

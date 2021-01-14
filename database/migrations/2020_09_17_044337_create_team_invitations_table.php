@@ -20,6 +20,7 @@ class CreateTeamInvitationsTable extends Migration
             $table->unsignedBigInteger('to_id');
             $table->string('status')->default('Pending');
 
+            $table->unique(['team_id', 'from_id', 'to_id']);
             $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
             $table->foreign('from_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('to_id')->references('id')->on('users')->onDelete('cascade');

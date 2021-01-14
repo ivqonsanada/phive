@@ -1,26 +1,30 @@
 @keyframes studentRole {
-  0%   { left: 50%; background-color: var(--red-glow); }
-  50%  { left:  0%; width: 100%;}
-  100% { left:  0%; background-color: var(--dark-blue); width: 50%; }
+  0% {
+    left: 50%;
+  }
+  50% {
+    left: 0%;
+    width: 100%;
+  }
+  100% {
+    left: 0%;
+    width: 50%;
+  }
 }
 
 @keyframes lecturerRole {
-  0%   { left:  0%; background-color: var(--dark-blue); }
-  50%  { left:  0%; width: 100%;}
-  100% { left: 50%; background-color: var(--red-glow); width: 50%;}
+  0% {
+    left: 0%;
+  }
+  50% {
+    left: 0%;
+    width: 100%;
+  }
+  100% {
+    left: 50%;
+    width: 50%;
+  }
 }
-
-// .login-page--container::before {
-//   content: "";
-//   position: absolute;
-//   width: 100%;
-//   height: 100%;
-//   // min-height: 40rem;
-//   background: url(/images/login-student.png), var(--dark-blue);
-//   background-size: contain;
-//   background-repeat: no-repeat;
-//   transition: all 0.3s var(--bezier);
-// }
 
 .login-page--container {
   display: flex;
@@ -28,10 +32,27 @@
   justify-content: space-between;
   height: 100vh;
   min-height: 40rem;
-  background: url(/images/login-student.png), var(--dark-blue);
-  background-size: contain;
+  background: url(/images/login-student.jpg);
+  background-size: cover;
+  background-position-y: -5vw;
+  background-position-x: right;
   background-repeat: no-repeat;
   transition: all 0.3s var(--bezier);
+  max-width: 113rem;
+  margin: 0 auto;
+
+  @include respon(xl) {
+    flex-direction: row;
+    background: unset;
+    display: flex;
+    flex-direction: row;
+    transition: unset;
+    min-height: 62rem;
+
+    & > * + * {
+      margin-left: 10rem;
+    }
+  }
 }
 
 .login-page--logo {
@@ -39,6 +60,7 @@
   font-size: 1.8rem;
   font-weight: 700;
   margin-top: 1rem;
+  margin-bottom: 1rem;
 
   & a {
     text-decoration: none;
@@ -53,15 +75,32 @@
   margin-bottom: 1rem;
   font-weight: 800;
   font-size: 2.4rem;
+
+  @include respon(xl) {
+    text-align: left;
+    text-transform: capitalize;
+    margin-bottom: 1.5rem;
+  }
 }
 
 .login-role--container {
   display: grid;
   grid-template-columns: 1fr 1fr;
+
+  @include respon(xl) {
+    gap: 2rem;
+  }
 }
 
 .login-radio {
   display: none;
+}
+
+input:checked + .login-radio--label {
+  @include respon(xl) {
+    background-color: var(--dark-blue);
+    color: white;
+  }
 }
 
 .login-radio--label {
@@ -71,13 +110,22 @@
   font-size: 1.4rem;
   font-weight: 800;
   text-align: center;
+  cursor: pointer;
+  user-select: none;
+
+  @include respon(xl) {
+    font-size: 1.8rem;
+    font-weight: 700;
+    border: 0.16rem solid var(--dark-blue);
+    border-radius: 1rem;
+  }
 }
 
 .role--choose-effect {
   margin-bottom: 2rem;
   display: inline-block;
   width: 50%;
-  height: 4px;
+  height: 0.4rem;
   position: relative;
   left: 0%;
   background-color: var(--dark-blue);
@@ -86,19 +134,29 @@
 
 .role--student {
   animation: studentRole 0.3s var(--bezier) forwards;
+
+  @include respon(xl) {
+    animation: unset;
+  }
 }
 
 .is-lecturer {
-  background: var(--red-glow) !important;
-  color: var(--dark-blue) !important;
+  // background: var(--red-glow) !important;
+  // color: var(--dark-blue) !important;
 }
 
 .lecturer-bg {
   // background: var(--red-glow) !important;
 
-  background: url(/images/login-lecturer.png), var(--red-glow);
-  background-size: contain;
+  background: url(/images/login-lecturer.jpg);
+  background-size: cover;
+  background-position-x: right;
+  background-position-y: -25vw;
   background-repeat: no-repeat;
+
+  @include respon(xl) {
+    background: unset;
+  }
 }
 
 .lecturer-color {
@@ -107,6 +165,10 @@
 
 .role--lecturer {
   animation: lecturerRole 0.3s var(--bezier) forwards;
+
+  @include respon(xl) {
+    animation: unset;
+  }
 }
 
 .login-form--container {
@@ -114,6 +176,14 @@
   padding: 2.2rem 3.2rem;
   background-color: white;
   border-radius: 1.5rem 1.5rem 0 0;
+
+  @include respon(xl) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 42rem;
+    padding: 0;
+  }
 }
 
 .login-input--container {
@@ -123,11 +193,31 @@
 .login-input {
   width: 100%;
   border: unset;
-  background-color: #F1F1F1;
+  background-color: #f1f1f1;
   font-size: 1.8rem;
-  padding: 1rem 1.2rem;
+  padding: 0 1.2rem;
+  height: 4.5rem;
   border-radius: 1rem;
   line-height: 1.65;
+
+  border-left: 0.6rem solid var(--dark-blue);
+
+  &:active,
+  &:focus {
+    // border: none;
+    outline: none;
+  }
+}
+
+.password--container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #f1f1f1;
+}
+
+.password__hide-icon {
+  margin-right: 1.5rem;
 }
 
 .input-remember {
@@ -158,9 +248,169 @@
   text-align: center;
   font-size: 1.3rem;
   margin-top: 2rem;
+
+  @include respon(xl) {
+    margin-top: 5rem;
+  }
 }
 
 .login-link {
   text-decoration: none;
   color: #020201;
+}
+
+.desktop-login__left--container {
+  @include respon(xl) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 59.3rem;
+  }
+}
+
+.desktop-login__left--img {
+  border-radius: 1.5rem;
+}
+
+.desktop-login__left-top--img {
+  width: 59.3rem;
+  height: 10rem;
+}
+
+.desktop-login__left-mid-small--img {
+  width: 19.3rem;
+  height: 19.3rem;
+}
+
+.desktop-login__left-mid-big--img {
+  width: 37.9rem;
+  height: 37.9rem;
+}
+
+.desktop-login__left-mid-logo--img {
+  width: 17.3rem;
+  height: 17.3rem;
+}
+
+.desktop-login__left--h2 {
+  @include respon(xl) {
+    font-size: 4.8rem;
+    font-weight: 800;
+    margin-top: 0;
+    margin-bottom: 0;
+    text-transform: uppercase;
+  }
+}
+
+.desktop-login__footer {
+  @include respon(xl) {
+    font-size: 1.4rem;
+    text-align: center;
+    margin-top: 2.7rem;
+  }
+}
+
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  @include respon(xl) {
+    font-size: 1.4rem;
+  }
+}
+.separator::before,
+.separator::after {
+  content: "";
+  flex: 1;
+  border-bottom: 0.1rem solid #000;
+}
+.separator::before {
+  margin-right: 0.4em;
+}
+.separator::after {
+  margin-left: 0.4em;
+}
+
+.login--left-border {
+  border: unset;
+  border-left: 0.6rem solid var(--dark-blue) !important;
+}
+
+.right-tag__group {
+  display: flex;
+  flex-direction: row;
+  font-size: 1.4rem;
+  align-items: center;
+  background: #f1f1f1;
+  border-radius: 1rem;
+
+  @include respon(xl) {
+    font-size: 1.8rem;
+
+    & > .form-tag {
+      padding: 0 1rem 0 1.8rem;
+    }
+  }
+}
+
+.right-tag__input {
+  border: unset;
+  border-radius: 1rem 0 0 1rem;
+  background-color: #f1f1f1;
+  padding: 0 0 0 1.4rem;
+  width: 100%;
+  font-size: 1.8rem;
+  line-height: 4.1rem;
+  height: 4.5rem;
+  border-top: 0.2rem solid transparent;
+  border-left: 0.2rem solid transparent;
+  border-bottom: 0.2rem solid transparent;
+}
+
+.right-tag__input--form {
+  font-size: 1.4rem;
+
+  @include respon(xl) {
+    font-size: 1.8rem;
+  }
+}
+
+.right-tag__input:focus {
+  outline: none !important;
+  border-top: 0.2rem solid var(--dark-blue);
+  border-left: 0.2rem solid var(--dark-blue);
+  border-bottom: 0.2rem solid var(--dark-blue);
+}
+
+.right-tag__input:focus ~ .right-tag {
+  border-top: 0.2rem solid var(--dark-blue);
+  border-right: 0.2rem solid var(--dark-blue);
+  border-bottom: 0.2rem solid var(--dark-blue);
+}
+
+.right-tag {
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.6rem;
+  color: #484848;
+  padding: 0 0.5rem 0 1.8rem;
+  border-radius: 0 1rem 1rem 0;
+  line-height: 4.1rem;
+  height: 4.5rem;
+  border-top: 0.2rem solid transparent;
+  border-right: 0.2rem solid transparent;
+  border-bottom: 0.2rem solid transparent;
+  margin-right: -0.5rem;
+  display: flex;
+  align-items: center;
+  height: 4.5rem;
+
+  @include respon(xl) {
+    font-size: 2rem;
+  }
+}
+
+.is-invalid {
+  border: 0.2rem solid var(--red-glow);
 }

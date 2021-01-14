@@ -4,10 +4,11 @@
 
     <div class="main-container">
       <div class="container">
-        <child />
+        <Child />
       </div>
 
-      <Footer />
+      <Footer v-if="$matchMedia.xl" />
+      <Footer v-else-if="$route.name === 'index'" />
     </div>
   </div>
 </template>
@@ -26,9 +27,15 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import './resources/sass/abstract/_mixins.scss';
+
 .container {
-  padding: 6rem 3rem 3rem
+  padding: calc(var(--mobile-nav-height) + 0.5rem) 3rem 3rem;
+
+  @include respon(xl) {
+    padding-top: calc(var(--desktop-nav-height) + 0.5rem);
+  }
 }
 
 .main-layout {

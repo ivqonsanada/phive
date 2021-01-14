@@ -47,13 +47,25 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'first_name' => 'required|max:255',
-            'last_name' => 'required|max:255',
-            'role' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6',
-        ]);
+        if ($data['role'] === 'Lecturer') {
+            return Validator::make($data, [
+                'first_name' => 'required|max:255',
+                'last_name' => 'max:255',
+                'role' => 'required|max:255|in:Student,Lecturer',
+                'email' => 'required|email|max:255|unique:users|regex:/^[a-zA-Z0-9.]+@(?!.*(student)).*.ac.id.*$/',
+                'password' => 'required|min:8',
+            ], [
+                'email.regex' => 'You were using student academic email address or not using an academic email at all.'
+            ]);
+        } else {
+            return Validator::make($data, [
+                'first_name' => 'required|max:255',
+                'last_name' => 'max:255',
+                'role' => 'required|max:255|in:Student,Lecturer',
+                'email' => 'required|email|max:255|unique:users',
+                'password' => 'required|min:8',
+            ]);
+        }
     }
 
     /**
@@ -64,8 +76,6 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        // return print_r($data);
-
         return User::create([
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],

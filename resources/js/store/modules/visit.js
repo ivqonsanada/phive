@@ -48,6 +48,8 @@ export const actions = {
       const { data } = await axios.get('/api/project/' + payload.id)
 
       commit(types.FETCH_VISITED_PROJECT, { project: data })
-    } catch (e) { }
+    } catch (e) {
+
+    }
   }
 }

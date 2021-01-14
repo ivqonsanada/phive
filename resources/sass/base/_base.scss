@@ -4,8 +4,32 @@
 
 html {
   font-size: 10px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   overflow-x: hidden;
+  overflow-y: scroll;
   background-color: white;
   scroll-behavior: smooth;
+}
+
+@media (-webkit-min-device-pixel-ratio: 1.25) and (min-width: 1280px) {
+  html {
+    font-size: 8px;
+  }
+}
+
+img {
+  width: auto;
+}
+
+h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  margin-top: 0rem;
+}
+
+p {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.65;
 }

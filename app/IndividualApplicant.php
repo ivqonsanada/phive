@@ -10,6 +10,12 @@ class IndividualApplicant extends Model
 
     public $timestamps = false;
 
+    protected $casts = [
+        'project_id' => 'integer',
+        'from_id' => 'integer',
+        'to_id' => 'integer',
+    ];
+
     public function inbox() {
         return $this->hasOne('App\Inbox');
     }

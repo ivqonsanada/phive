@@ -4,9 +4,9 @@ namespace App;
 
 use App\Notifications\ResetPassword;
 use App\Notifications\VerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject, MustVerifyEmail
@@ -22,6 +22,8 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         'id',
     ];
 
+    protected $withCount = ['finished_project'];
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -30,7 +32,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     protected $hidden = [
         'password', 'remember_token',
 
-        'email_verified_at', 'created_at', 'updated_at', 'email', 'photo_url'
+        'email_verified_at', 'created_at', 'updated_at', 'email', 'photo_url',
     ];
 
     /**
@@ -40,6 +42,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'is_open_hired' => 'boolean',
     ];
 
     /**
@@ -48,8 +51,10 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
      * @var array
      */
     protected $appends = [
-        'avatar', 'joined_since'
+        'avatar', 'joined_since', 'full_name', 'cv'
     ];
+
+    // protected $withCount = ['finishedProject'];
 
     /**
      * Get the profile photo URL attribute.
@@ -58,14 +63,31 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
      */
     public function getAvatarAttribute()
     {
-        if ($this->photo_url == null) {
-            return 'https://www.gravatar.com/avatar/'.md5(strtolower($this->email)).'.jpg?s=200&d=mm';
-        } else return '/storage/images/avatar/' . $this->photo_url;
+        if ($this->photo_url === null) {
+            // return 'https://www.gravatar.com/avatar/'.md5(strtolower($this->email)).'.jpg?s=200&d=mm';
+            return 'https://i.pravatar.cc/150?u=' . $this->id;
+
+        } else {
+            return '/storage/images/avatar/' . $this->photo_url;
+        }
+
+    }
+
+    public function getCvAttribute()
+    {
+        if ($this->cv_url === null) return null;
+
+        return '/storage/images/cv/' . $this->cv_url;
     }
 
     public function getJoinedSinceAttribute()
     {
         return $this->email_verified_at;
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
     }
 
     /**
@@ -115,19 +137,63 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         return [];
     }
 
-    public function projects() {
+    public function ownsProject(Project $project)
+    {
+        return auth()->id() === $project->user_id;
+    }
+
+    public function project_boxes()
+    {
+        return $this->hasMany('App\ProjectBox');
+    }
+
+    public function projects()
+    {
         return $this->hasMany('App\Project');
     }
 
-    public function student() {
+    public function student()
+    {
         return $this->hasOne('App\Student');
     }
 
-    public function lecturer() {
+    public function lecturer()
+    {
         return $this->hasOne('App\Lecturer');
     }
 
-    public function inboxes() {
+    public function inboxes()
+    {
         return $this->hasMany('App\Inbox');
+    }
+
+    public function skills()
+    {
+        return $this->hasMany('App\UserSkill', 'user_id');
+    }
+
+    public function experiences()
+    {
+        return $this->hasMany('App\Experience', 'user_id');
+    }
+
+    public function finished_project()
+    {
+        return $this->hasMany('App\ProjectBox')->where('status', 'Finished');
+    }
+
+    public function leaderboards()
+    {
+        return $this->hasMany('App\Leaderboard');
+    }
+
+    public function new_notifications()
+    {
+        return $this->hasMany('App\Inbox', 'recipient_id')->where('is_read', false);
+    }
+
+    public function getTopBoards()
+    {
+        // return $this->
     }
 }

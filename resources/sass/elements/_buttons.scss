@@ -1,6 +1,7 @@
 button {
   cursor: pointer;
-  font-family: 'Open Sans', sans-serif;
+  user-select: none;
+  font-family: "Open Sans", sans-serif;
   font-weight: 700;
 }
 
@@ -11,7 +12,7 @@ button {
 
   &:after {
     animation: spinAround 500ms infinite linear;
-    border: 2px solid #fff;
+    border: 0.2rem solid #fff;
     border-radius: 50%;
     border-right-color: transparent;
     border-top-color: transparent;
@@ -26,10 +27,13 @@ button {
 }
 
 @keyframes spinAround {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(359deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
 }
-
 
 .btn {
   font-size: 1.8rem;
@@ -42,16 +46,34 @@ button {
   align-items: center;
   height: 4.5rem;
   text-decoration: none;
+  user-select: none;
   cursor: pointer;
   letter-spacing: 0.02em;
 
+  @include respon(xl) {
+    width: 20rem;
+  }
+
   & > :not(:last-child) {
     margin-right: 0.5rem;
+  }
+
+  &:disabled {
+    color: #80807e;
+    background-color: #f1f1f1;
+    border-color: #f1f1f1;
+  }
+
+  &:active,
+  &:focus {
+    outline: none;
+    border: none;
   }
 }
 
 .btn--min {
   cursor: pointer;
+  user-select: none;
 }
 
 .btn--red {
@@ -61,8 +83,14 @@ button {
 }
 
 .btn--decline {
-  background-color: #EB2D2D;
-  color: #ffffff;
+  // background-color: #EB2D2D;
+  // color: #ffffff;
+
+  // background-color: #FFCDD2;
+  // color: #B71C1C;
+
+  background-color: #ffc7d1;
+  color: #c50000;
 }
 
 .btn--blue {
@@ -72,22 +100,104 @@ button {
 
 .btn--white {
   background-color: #ffffff;
-  color: #020201;
-  border: 1px solid #020201;
+  color: var(--dark-blue);
+  border: 0.1rem solid var(--dark-blue);
+
+  &:active,
+  &:focus {
+    outline: none;
+    border: 0.1rem solid var(--dark-blue);
+  }
+}
+
+.btn--border {
+  color: var(--dark-blue);
+  border: 0.1rem solid var(--dark-blue);
+  background-color: transparent;
 }
 
 .btn--grey {
-  background: #F1F1F1;
-  color: #001534;
+  background: #f1f1f1;
+  // color: #001534;
+  color: var(--dark-blue);
 }
 
-.btn--grey {
-  background: #F1F1F1;
-  color: #001534;
+.btn--green {
+  background-color: #dcedc8;
+  color: #558b2f;
+}
+
+.btn--accepted {
+  width: 9rem;
+  height: 3rem;
+  background-color: #dcedc8;
+  color: #558b2f;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.4rem;
+
+  // background-color: #50CD24;
+  // color: white;
+
+  @include respon(xl) {
+    width: 12rem;
+    height: 3.5rem;
+    font-size: 1.8rem;
+  }
+}
+
+.btn--accept {
+  width: 9rem;
+  height: 3rem;
+  background-color: var(--dark-blue);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.4rem;
+  user-select: none;
+
+  @include respon(xl) {
+    width: 12rem;
+    height: 3.5rem;
+    font-size: 1.8rem;
+  }
+}
+
+.btn--cancel {
+  width: 9rem;
+  height: 3rem;
+  background-color: #ffc7d1;
+  color: #c50000;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.4rem;
+  user-select: none;
+
+  @include respon(xl) {
+    width: 12rem;
+    height: 3.5rem;
+    font-size: 1.8rem;
+  }
+}
+
+.btn--details {
+  width: 9rem;
+  height: 3rem;
+  background-color: var(--dark-blue);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.4rem;
+
+  @include respon(xl) {
+    width: 12rem;
+    height: 3.5rem;
+    font-size: 1.8rem;
+  }
 }
 
 .btn--grey-2 {
-  background: #C6C5C5;
+  background: #c6c5c5;
   color: #020201;
 }
 
@@ -105,5 +215,41 @@ button {
 .btn--clear {
   background: none;
   border: none;
+  padding: 0;
   cursor: pointer;
+
+  &:active,
+  &:focus {
+    outline: none;
+    border: none;
+  }
+}
+
+.btn--link {
+  text-decoration: underline;
+  border: unset;
+  background-color: unset;
+  font-weight: 400;
+  color: var(--dark-blue);
+}
+
+// .btn--desktop {
+
+// }
+
+.btn--group {
+  display: flex;
+  flex-direction: column;
+
+  @include respon(xl) {
+    flex-direction: row;
+  }
+}
+
+.btn__small--xl {
+  @include respon(xl) {
+    height: 4rem;
+    border-radius: 1rem;
+    font-size: 1.4rem;
+  }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="wide-layout">
-    <child />
+    <Child />
   </div>
 </template>
 

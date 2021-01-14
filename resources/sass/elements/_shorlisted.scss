@@ -1,0 +1,214 @@
+.shortlisted__container {
+  max-width: 107rem;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.shorlisted-top__container {
+  display: flex;
+  flex-direction: column;
+
+  @include respon(xl) {
+    flex-direction: row-reverse;
+    margin-bottom: 5.8rem;
+  }
+}
+
+.shortlisted-top__left {
+  display: flex;
+  flex-direction: column;
+
+  @include respon(xl) {
+    justify-content: flex-end;
+  }
+}
+
+.shortlisted--h1 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 0;
+
+  @include respon(sm) {
+    font-size: 3.6rem;
+  }
+
+  @include respon(md) {
+    margin-top: 2rem;
+  }
+
+  @include respon(xl) {
+    font-size: 9.6rem;
+    font-weight: 800;
+    line-height: 8rem;
+    text-align: left;
+    z-index: 1;
+    // word-break: break-word;
+    margin: 0;
+    margin-right: -14rem;
+    max-width: 76.8rem;
+  }
+}
+
+.shortlisted--h3 {
+  font-weight: 800;
+  font-size: 2.4rem;
+  text-align: center;
+
+  @include respon(xl) {
+    font-size: 3.6rem;
+    font-weight: 800;
+    text-align: left;
+  }
+}
+
+.shortlisted-top__image-container {
+  & img {
+    background-image: url("/images/img-placeholder.png");
+    background-size: cover;
+    background-position: center;
+  }
+
+  & > .shortlisted--image {
+    height: 22rem;
+
+    @include respon(sm) {
+      height: 26rem;
+    }
+
+    @include respon(xl) {
+      height: 37.4rem;
+    }
+  }
+
+  @include respon(xl) {
+    width: 50.9rem;
+  }
+}
+
+.shortlist-container {
+  height: max(38.5rem, 30vh);
+  overflow-y: scroll;
+
+  & > * + * {
+    margin-top: 1.5rem;
+  }
+
+  @include respon(xl) {
+    overflow-y: auto;
+    height: unset;
+    max-height: 38rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 44rem);
+    justify-content: space-between;
+  }
+}
+
+.shortlist-avatar {
+  width: 6.5rem;
+  height: 6.5rem;
+  object-fit: cover;
+  border-radius: 50%;
+  background-image: url("/images/missing-avatar.svg");
+  background-size: cover;
+
+  @include respon(xl) {
+    width: 7.5rem;
+    height: 7.5rem;
+  }
+}
+
+.shortlist-item__left-container {
+  display: flex;
+  flex-direction: row;
+
+  & > * + * {
+    margin-left: 1.5rem;
+  }
+
+  @include respon(xl) {
+    align-items: center;
+  }
+}
+
+.shortlist-item__container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  // @include respon(xl) {
+  //   margin-right: 1rem;
+  // }
+  // & > * + * {
+  //   margin-left: 1.5rem;
+  // }
+}
+
+.shortlist-item__body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 7.5rem;
+  line-height: 1.15;
+}
+
+.shortlist-item__body-top {
+  & > * + * {
+    margin-top: 0.2rem;
+  }
+}
+
+.shortlist-item__name {
+  font-size: 1.2rem;
+  font-weight: 700;
+
+  @include respon(sm) {
+    font-size: 1.4rem;
+  }
+
+  @include respon(xl) {
+    font-size: 1.8rem;
+  }
+}
+
+.shortlist-item__expertise {
+  font-size: 1.2rem;
+  font-weight: 600;
+
+  @include respon(sm) {
+    font-size: 1.4rem;
+  }
+
+  @include respon(xl) {
+    font-size: 1.8rem;
+  }
+}
+
+.shortlist-item__details {
+  text-decoration: underline;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.4rem;
+  user-select: none;
+  cursor: pointer;
+
+  @include respon(xl) {
+    font-size: 1.8rem;
+  }
+}
+
+.shortlist-modal__heading {
+  font-size: 1.8rem;
+  font-weight: 800;
+  text-align: center;
+  width: 14rem;
+  text-transform: uppercase;
+}
+
+.shortlist-modal__stabilizier {
+  visibility: none;
+  width: 3rem;
+}

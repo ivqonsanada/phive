@@ -5,8 +5,13 @@ import App from '~/components/App'
 import Snackbar from 'vuejs-snackbar'
 
 // import LogRocket from 'logrocket'
-
+// import VueInputDropdown from 'vue-input-dropdown'
+import vueDebounce from 'vue-debounce'
 import VueContentPlaceholders from 'vue-content-placeholders'
+import VueExpandableImage from 'vue-expandable-image'
+import Vue2TouchEvents from 'vue2-touch-events'
+import VueSocialSharing from 'vue-social-sharing'
+import Paginate from 'vuejs-paginate'
 
 import '~/plugins'
 import '~/components'
@@ -24,6 +29,16 @@ import '~/components'
 
 // LogRocket.init('i0tmx9/phive')
 
+import VueMatchMedia from '@webqam/vue-match-media'
+const breakpoints = {
+  xs: '360px',
+  sm: '410px',
+  md: '768px',
+  lg: '992px',
+  xl: '1280px',
+  xxl: '1366px'
+}
+
 const VueScrollTo = require('vue-scrollto')
 
 Vue.use(VueScrollTo, {
@@ -33,11 +48,18 @@ Vue.use(VueScrollTo, {
   force: true,
   cancelable: true
 })
+Vue.use(VueSocialSharing)
+Vue.use(Vue2TouchEvents)
 Vue.use(VueContentPlaceholders)
+Vue.use(VueExpandableImage)
+Vue.use(VueMatchMedia, { breakpoints })
+Vue.use(vueDebounce)
+// Vue.use(VueInputDropdown)
 
 Vue.component('snackbar', Snackbar)
+Vue.component('paginate', Paginate)
 
-Vue.config.productionTip = false
+Vue.config.productionTip = true
 
 /* eslint-disable no-new */
 new Vue({

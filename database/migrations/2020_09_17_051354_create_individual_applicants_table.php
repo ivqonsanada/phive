@@ -19,13 +19,14 @@ class CreateIndividualApplicantsTable extends Migration
             $table->unsignedBigInteger('from_id');
             $table->unsignedBigInteger('to_id');
             $table->string('expertise');
-            $table->string('status')->default('Pending');
+            $table->string('status')->default('Applying');
             $table->text('self_describe')->nullable();
             $table->text('apply_reason')->nullable();
 
+            $table->unique(['project_id', 'from_id', 'to_id']);
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->foreign('from_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('to_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
         });
     }
 

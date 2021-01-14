@@ -1,0 +1,240 @@
+.party__container {
+  display: flex;
+  flex-direction: column;
+  max-width: 72rem;
+  margin: 0 auto;
+  width: 100%;
+
+  @include respon(xl) {
+    justify-content: center;
+    max-width: 112.5rem;
+    margin-bottom: 2rem;
+  }
+}
+
+.party-body__container {
+  display: flex;
+  flex-direction: column;
+  max-width: 72rem;
+  width: 100%;
+  min-height: calc(100vh - (var(--mobile-nav-height) + 0.5rem + 3rem));
+
+  @include respon(xl) {
+    flex-direction: row;
+    justify-content: flex-start;
+    max-width: 112.5rem;
+    margin: 0;
+    min-height: unset;
+
+    & > * + * {
+      margin-left: 2.4rem;
+    }
+  }
+}
+
+.party-info__container {
+  margin-top: 1rem;
+  margin-bottom: 3.2rem;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1rem;
+  align-items: center;
+  justify-content: center;
+  background: #f2f4f6;
+  border-radius: 2rem;
+  box-shadow: 0rem 0.2rem 0.6rem rgba(119, 114, 114, 0.2);
+
+  @include respon(sm) {
+    padding: 1.5rem 2.5rem 1.5rem 1.5rem;
+    flex-direction: row;
+  }
+
+  @include respon(xl) {
+    padding: 2.4rem 2rem;
+    flex-direction: column;
+    text-align: center;
+    height: 100%;
+    width: 28rem;
+    margin-bottom: 0;
+
+    & > * + * {
+      margin-top: 1.6rem;
+    }
+  }
+}
+
+.party-right__container {
+  width: 100%;
+  max-width: 72rem;
+
+  @include respon(xl) {
+    max-width: 60rem;
+  }
+}
+
+.party-item__container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  & > * + * {
+    margin-left: 2rem;
+  }
+}
+
+.party-item__left-container {
+  display: flex;
+  flex-direction: row;
+  overflow-x: scroll;
+
+  & > * + * {
+    margin-left: 1rem;
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.party-item__left-container--shortlist {
+  max-width: 28.5rem;
+}
+
+.party-item__avatar {
+  width: 6.5rem;
+  height: 6.5rem;
+  border-radius: 50%;
+  background-image: url("/images/missing-avatar.svg");
+  background-size: cover;
+
+  @include respon(xl) {
+    margin-right: 1rem;
+  }
+}
+
+.party-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  @include respon(xl) {
+    margin-right: 1rem;
+  }
+  // & > * + * {
+  //   margin-left: 1.5rem;
+  // }
+}
+
+.party-item--accepted {
+  border: 3px solid #50CD24;
+}
+
+.member-item__list {
+  @include respon(xl) {
+    & > * + * {
+      margin-top: 1.5rem;
+    }
+  }
+}
+
+.member-item_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  @include respon(xl) {
+    margin-right: 1rem;
+  }
+  // & > * + * {
+  //   margin-left: 1.5rem;
+  // }
+}
+
+.member-item__left-container {
+  display: flex;
+  flex-direction: row;
+
+  & > * + * {
+    margin-left: 1.5rem;
+  }
+
+  @include respon(xl) {
+    align-items: center;
+  }
+}
+
+.member-item__avatar {
+  width: 4.5rem;
+  height: 4.5rem;
+  object-fit: cover;
+  border-radius: 50%;
+  background-image: url("/images/missing-avatar.svg");
+  background-size: cover;
+
+  @include respon(xl) {
+    width: 6.5rem;
+    height: 6.5rem;
+  }
+}
+
+.party-members__container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(24rem, 1fr));
+  gap: 1.2rem;
+
+  // & > * + * {
+  //   margin-top: 1.2rem;
+  // }
+
+  @include respon(xl) {
+    // flex-direction: row;
+    // justify-content: center;
+
+    // & > * + * {
+    //   margin-top: 0;
+    //   margin-left: 2.4rem;
+    // }
+  }
+}
+
+.party-member__left-container {
+  display: flex;
+  flex-direction: row;
+
+  & > * + * {
+    margin-left: 1.5rem;
+  }
+
+  @include respon(xl) {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    & > * + * {
+      margin-left: 0;
+    }
+  }
+}
+
+.party-member__avatar {
+  width: 6.5rem;
+  height: 6.5rem;
+  object-fit: cover;
+  border-radius: 50%;
+  background-image: url("/images/missing-avatar.svg");
+  background-size: cover;
+
+  @include respon(xl) {
+    width: 8.5rem;
+    height: 8.5rem;
+  }
+}
+
+.party-member__info {
+  & > * + * {
+    margin-top: 0.4rem;
+  }
+}

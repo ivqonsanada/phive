@@ -3,11 +3,11 @@
     <div v-if="show" class="modal">
       <div class="modal__backdrop" @click="closeModal()" />
 
-      <div class="modal__dialog">
+      <div class="modal__dialog" :class="modalClass">
         <div class="modal__header">
           <slot name="header" />
           <button type="button" class="modal__close btn--clear" @click="closeModal()">
-            <span class="iconify" data-icon="maki:cross-11" data-inline="false" width="20" height="20" />
+            <span class="iconify" data-icon="maki:cross-11" width="20" height="20" />
           </button>
         </div>
 
@@ -15,7 +15,7 @@
           <slot name="body" />
         </div>
 
-        <div class="modal__footer">
+        <div v-if="footer" class="modal__footer">
           <slot name="footer" />
         </div>
       </div>
@@ -26,23 +26,41 @@
 <script>
 export default {
   name: 'Modal',
+  props: {
+    footer: { type: Boolean, default: true },
+    type: { type: String, default: 'default' }
+  },
   data () {
     return {
       show: false
     }
   },
+  computed: {
+    modalClass () {
+      if (this.type === 'small') return 'modal__dialog--small'
+      if (this.type === 'medium') return 'modal__dialog--medium'
+      return ''
+    }
+  },
+  beforeDestroy () {
+    this.closeModal()
+  },
   methods: {
     closeModal () {
       this.show = false
+      document.querySelector('html').classList.remove('overflow-hidden')
     },
     openModal () {
       this.show = true
+      document.querySelector('html').classList.add('overflow-hidden')
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+@import './resources/sass/abstract/_mixins.scss';
+
 .modal {
   overflow-x: hidden;
   overflow-y: auto;
@@ -64,38 +82,47 @@ export default {
   &__dialog {
     background-color: #ffffff;
     position: relative;
-    width: 600px;
-    margin: 50px auto;
+    width: 90%;
+    margin: 5rem auto;
     display: flex;
     flex-direction: column;
-    border-radius: 10px;
+    border-radius: 1rem;
     z-index: 2;
-    @media screen and (max-width: 992px) {
-      width: 90%;
+
+    @include respon(xl) {
+      max-width: 108rem
     }
+
+          &--small {
+         max-width: 48rem
+      }
+      &--medium {
+         max-width: 72rem
+      }
   }
   &__close {
     position: relative;
-    bottom: 10px;
-    width: 30px;
-    height: 30px;
+    bottom: 1.5rem;
+    width: 3rem;
+    height: 3rem;
     color: #9D9D9D;
   }
   &__header {
-    padding: 34px 20px 10px;
+    padding: 3.4rem 2rem 1rem;
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
   }
   &__body {
-    padding: 10px 20px 10px;
+    padding: 1rem 2rem 1rem;
     overflow: auto;
     display: flex;
     flex-direction: column;
     align-items: stretch;
   }
   &__footer {
-    padding: 10px 20px 26px;
+    padding: 1rem 2rem 2.6rem;
+    display: flex;
   }
 }
 .fade-enter-active,

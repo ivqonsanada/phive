@@ -1,5 +1,11 @@
 .profile--container {
   margin-top: 0.7rem;
+  max-width: 111rem;
+  margin: 0 auto;
+
+  @include respon(xl) {
+    margin-top: 2rem;
+  }
 }
 
 .profile__info--container {
@@ -10,14 +16,16 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #F2F4F6;
-  border-radius: 2rem;
-  box-shadow: 0px 2px 6px rgba(119, 114, 114, 0.2);
-  padding: 2rem 1rem;
 
-  @include respon(s) {
+  @include respon(sm) {
     padding: 1.5rem 2.5rem 1.5rem 1.5rem;
     flex-direction: row;
+  }
+
+  @include respon(xl) {
+    & > * + * {
+      margin-left: 4rem;
+    }
   }
 }
 
@@ -27,10 +35,28 @@
   border-radius: 50%;
   object-fit: cover;
   margin-bottom: 2rem;
+  background-image: url("/images/missing-avatar.svg");
+  background-size: cover;
 
-  @include respon(s) {
+  @include respon(sm) {
     margin-right: 3rem;
     margin-bottom: 0;
+  }
+
+  @include respon(xl) {
+    margin-right: 0;
+    width: 17.5rem;
+    height: 17.5rem;
+  }
+}
+
+.profile__info--desc {
+  @include respon(xl) {
+    & > p + p,
+    p + div,
+    div + p {
+      margin-top: 1.2rem;
+    }
   }
 }
 
@@ -39,12 +65,20 @@
   font-weight: 600;
   line-height: 1.15;
   margin: 0 0 0.3rem;
+
+  @include respon(xl) {
+    font-size: 3.6rem;
+  }
 }
 
 .profile__info--occupation {
   color: #757575;
   margin: 0 0 0.5rem;
   line-height: 1.45;
+
+  @include respon(xl) {
+    font-size: 1.8rem;
+  }
 }
 
 .profile__info--expertise {
@@ -54,45 +88,120 @@
   align-items: center;
   gap: 0.5rem;
   line-height: 1.45;
+
+  @include respon(xl) {
+    font-size: 1.8rem;
+  }
+}
+
+.profile__info--icon {
+  width: 1.5rem;
+  height: 1.5rem;
+
+  @include respon(xl) {
+    width: 2rem;
+    height: 2rem;
+  }
 }
 
 .profile__info--available {
-  color: #7FFA53;
+  color: #7ffa53;
   font-weight: 700;
   margin: 0;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   line-height: 1.45;
+
+  @include respon(xl) {
+    font-size: 1.8rem;
+  }
+}
+
+.profile__info--unavailable {
+  color: #eb2d2d;
+  font-weight: 700;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  line-height: 1.45;
+
+  & > * + * {
+    margin-left: 0.5rem;
+  }
+
+  @include respon(xl) {
+    font-size: 1.8rem;
+  }
 }
 
 .profile__info--verified {
-  color: #3051DF;
+  color: #3051df;
   font-weight: 700;
   margin: 0;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
   line-height: 1.45;
   font-style: italic;
+
+  & > * + * {
+    margin-left: 0.5rem;
+  }
+
+  @include respon(xl) {
+    font-size: 1.8rem;
+  }
+}
+
+.profile__info--buttons {
+  display: flex;
+  flex-direction: row;
+
+  & > * + * {
+    margin-left: 1.2rem;
+  }
 }
 
 .profile__info--edit-profile {
   margin-bottom: 3.5rem;
   width: 100%;
   padding: 1rem 2rem;
-  background: var(--red-glow);
+  background: var(--dark-blue);
   text-align: center;
   font-size: 1.4rem;
   font-weight: 700;
   border-radius: 0.5rem;
-
   color: white;
+  border: unset;
+
+  @include respon(xl) {
+    justify-content: center;
+    margin-bottom: inherit;
+    padding: 0;
+    width: 15rem;
+    height: 4.5rem;
+    font-size: 1.8rem;
+  }
 }
 
-.edit-profile__link {
-  color: #001534;
-  text-decoration: none;
+.profile__info--settings {
+  margin-bottom: 3.5rem;
+  width: 100%;
+  padding: 1rem 2rem;
+  background: var(--dark-blue);
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  border-radius: 0.5rem;
+  color: white;
+
+  @include respon(xl) {
+    justify-content: center;
+    margin-bottom: inherit;
+    padding: 0;
+    width: 4.5rem;
+    height: 4.5rem;
+  }
 }
 
 .profile__sub-menu--container {
@@ -103,7 +212,7 @@
 }
 
 .profile__sub-menu--item {
-  background-color: #F9F9F9;
+  background-color: #f9f9f9;
   padding: 0.8rem;
   border-radius: 0.5rem;
   font-size: 1.4rem;
@@ -114,7 +223,7 @@
 }
 
 .profile__sub-menu--active {
-  background-color: var(--red-glow);
+  background-color: var(--dark-blue);
   font-weight: 700;
 
   color: white;

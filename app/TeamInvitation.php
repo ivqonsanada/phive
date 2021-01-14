@@ -10,6 +10,12 @@ class TeamInvitation extends Model
 
     public $timestamps = false;
 
+    protected $casts = [
+        'team_id' => 'integer',
+        'from_id' => 'integer',
+        'to_id' => 'integer',
+    ];
+
     public function team () {
         return $this->belongsTo('App\Team');
     }

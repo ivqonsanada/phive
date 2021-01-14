@@ -1,0 +1,30 @@
+.pagination {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  & > * + * {
+    margin-left: 0.5rem;
+  }
+}
+
+.page-item {
+  list-style: none;
+  background: #C4C4C4;
+  color: #020201;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  border-radius: 0.5rem;
+  user-select: none;
+}
+
+.page-item--link {
+  padding: 0.5em 0.8em;
+}
+
+.page-item--active {
+  background: #001534;
+  color: #FFFFFF;
+}

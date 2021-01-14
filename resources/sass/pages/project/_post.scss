@@ -1,3 +1,8 @@
+.post__container {
+  max-width: 72rem;
+  width: 100%;
+}
+
 .post__h1 {
   font-size: 3rem;
   font-weight: 800;
@@ -18,8 +23,48 @@
 }
 
 .post__requirements {
-  font-size: 14px;
+  font-size: 1.4rem;
   line-height: 1.65;
-  padding-left: 20px;
+  padding-left: 0rem;
   margin-top: 0;
+
+  & > * + * {
+    margin-top: 1rem;
+  }
+
+  @include respon(xl) {
+    font-size: 1.8rem;
+  }
+}
+
+.post-salary__group {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+
+  & .form-group__input-name {
+    font-size: 1.4rem;
+    margin-bottom: 0.6rem;
+  }
+
+  & > * + * {
+    margin-top: 1rem;
+  }
+
+  @include respon(xl) {
+    display: flex;
+    margin-top: 1.5rem;
+
+    & > * + * {
+      margin-top: 0;
+      margin-left: 1.5rem;
+    }
+  }
+}
+
+.post__form--parent > .form-group__container {
+  margin-bottom: 0;
+}
+
+.form-info__p {
+  // font-size: ;
 }

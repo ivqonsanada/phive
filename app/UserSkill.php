@@ -10,6 +10,11 @@ class UserSkill extends Model
 
     public $timestamps = false;
 
+    protected $casts = [
+        'user_id' => 'integer',
+        'skill_id' => 'integer'
+    ];
+
     public function user () {
         return $this->belongsTo('App\User');
     }

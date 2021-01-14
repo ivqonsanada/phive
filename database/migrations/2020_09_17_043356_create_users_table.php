@@ -30,6 +30,7 @@ class CreateUsersTable extends Migration
             $table->string('major')->nullable();
             $table->string('location')->nullable();
             $table->text('biography')->nullable();
+            $table->boolean('is_open_hired')->default(false);
 
             $table->string('behance')->nullable();
             $table->string('github')->nullable();
@@ -37,7 +38,7 @@ class CreateUsersTable extends Migration
             $table->string('dribbble')->nullable();
             $table->string('website')->nullable();
 
-            $table->string('cv')->nullable();
+            $table->string('cv_url')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

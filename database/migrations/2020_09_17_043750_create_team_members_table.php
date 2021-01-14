@@ -19,6 +19,7 @@ class CreateTeamMembersTable extends Migration
             $table->unsignedBigInteger('member_id');
             $table->string('expertise')->nullable();
 
+            $table->unique(['team_id', 'member_id']);
             $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
             $table->foreign('member_id')->references('id')->on('users')->onDelete('cascade');
         });

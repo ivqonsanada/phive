@@ -10,6 +10,11 @@ class TeamMember extends Model
 
     public $timestamps = false;
 
+    protected $casts = [
+        'team_id' => 'integer',
+        'member_id' => 'integer',
+    ];
+
     public function team () {
         return $this->belongsTo('App\Team');
     }

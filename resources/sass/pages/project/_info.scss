@@ -1,109 +1,315 @@
-h3 {
+.info__h3 {
   font-size: 1.4rem;
   font-weight: 700;
   margin-bottom: 1rem;
   margin-top: 0rem;
+
+  @include respon(xl) {
+    font-size: 2.4rem;
+  }
 }
 
-p {
+.info__p {
   margin: 0;
   font-size: 1.2rem;
   line-height: 1.65;
+
+  @include respon(xl) {
+    font-size: 1.4rem;
+  }
 }
 
 .info-container {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 3rem;
+  display: flex;
+  flex-direction: column;
+
+  @include respon(xl) {
+    flex-direction: row;
+    justify-content: space-between;
+
+    & > * + * {
+      margin-left: 4.5rem;
+    }
+  }
+}
+
+.info--left {
+  & > * + * {
+    margin-top: 2.5rem;
+  }
+
+  @include respon(xl) {
+    max-width: 72.8rem;
+    & > * + * {
+      margin-top: 2.5rem;
+    }
+  }
+}
+
+.info--right {
+  & > * + * {
+    margin-top: 2.5rem;
+  }
+
+  @include respon(xl) {
+    // max-width: 32.4rem;
+    width: 32.4rem;
+    & > * + * {
+      margin-top: 2.5rem;
+    }
+  }
+}
+
+.info__share--button {
+  background-color: var(--dark-blue);
+  color: white;
+  font-size: 1.4rem;
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  line-height: 2rem;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  & > * + * {
+    margin-left: 0.6rem;
+  }
+
+  @include respon(xl) {
+    padding: 0.6rem 1.6rem;
+  }
 }
 
 .info__skill-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
   font-size: 1.2rem;
+
+  margin: -0.5rem;
+
+  & div.bubble-wrap {
+    margin: 0.5rem;
+  }
 }
 
 .record--items {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
   font-size: 1.2rem;
   padding-left: 0.8rem;
+
+  & > * + * {
+    margin-top: 1rem;
+  }
 }
 
 .record--container {
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  // & > * + * {
+  //   margin-left: 1.4rem;
+  // }
 }
 
 .record--icon {
   min-width: 3.5rem;
-  color: var(--red-glow);
+  color: var(--dark-blue);
 }
 
 .record--icon-visited {
   min-width: 3.5rem;
   color: var(--dark-blue);
+
+  // @include respon(xl) {
+  //   min-width: 4rem;
+  // }
 }
 
-.experience__item {
+.experience-item {
   display: flex;
   flex-direction: row;
-  gap: 1rem;
   align-items: center;
+  justify-content: space-between;
+
+  & > * + * {
+    margin-left: 1rem;
+  }
+}
+
+
+
+.experience__image--container {
+  & img {
+    width: 5rem;
+    height: 5rem;
+    object-fit: cover;
+
+    background-image: url('/images/img-placeholder.png');
+    background-size: cover;
+    background-position: center;
+
+    @include respon(xl) {
+      width: 7.5rem;
+      height: 7.5rem;
+    }
+  }
+
+
 }
 
 .experience__desc {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+
+  & > * + * {
+    margin-top: 0.5rem;
+  }
+
+  @include respon(xl) {
+    & > * + * {
+      margin-top: 1rem;
+    }
+  }
 }
 
 .experience__heading {
   font-size: 1.1rem;
   font-weight: 700;
+
+  @include respon(xl) {
+    font-size: 1.8rem;
+  }
 }
 
 .experience__job {
   font-size: 1rem;
+
+  @include respon(xl) {
+    font-size: 1.4rem;
+  }
 }
 
 .experience__date {
   font-size: 1rem;
   color: #757575;
+
+  @include respon(xl) {
+    font-size: 1.2rem;
+  }
+}
+
+.social-media__edit-input--container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  & > * + * {
+    margin-left: 2rem;
+  }
+
+  // @include respon(xl) {
+  //   background-color: var(--dark-blue);
+  //   border-radius: 50%;
+  // }
 }
 
 .social-media__input-container {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 2rem;
+
+  & > * + * {
+    margin-left: 2rem;
+  }
+
+  @include respon(xl) {
+    background-color: var(--dark-blue);
+    border-radius: 50%;
+  }
 }
 
 .social-media__heading {
   font-size: 2.4rem;
   font-weight: 800;
   text-align: center;
+  margin-bottom: 3rem;
+
+  @include respon(xl) {
+    font-size: 4.8rem;
+  }
+}
+
+.social-media__edit--container {
+  display: flex;
+  flex-direction: column;
+
+  & > * + * {
+    margin-top: 2.4rem;
+  }
+
+  // @include respon(xl) {
+  //   flex-direction: row;
+
+  //   & > * + * {
+  //     margin-top: 0;
+  //     margin-left: 1rem;
+  //   }
+  // }
 }
 
 .social-media__container {
   display: flex;
   flex-direction: column;
-  gap: 2.4rem;
+
+  & > * + * {
+    margin-top: 2.4rem;
+  }
+
+  @include respon(xl) {
+    flex-direction: row;
+
+    & > * + * {
+      margin-top: 0;
+      margin-left: 1rem;
+    }
+  }
+}
+
+.social-media__edit--icon {
+  width: 3rem;
+  height: 3rem;
+  color: var(--dark-blue);
+
+  @include respon(xl) {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
 }
 
 .social-media__icon {
-  width: 3em;
-  height: 3em;
-  color: var(--red-glow);
+  width: 3rem;
+  height: 3rem;
+  color: var(--dark-blue);
+
+  @include respon(xl) {
+    color: white;
+  }
 }
 
 .social-media__icon-visited {
   width: 3em;
   height: 3em;
   color: var(--dark-blue);
+
+  @include respon(xl) {
+    color: white;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
 }
 
 .social-media__input {
@@ -114,10 +320,56 @@ p {
   padding: 1rem 1.2rem;
   border-radius: 1rem;
   line-height: 1.65;
+
+  @include respon(xl) {
+    font-size: 1.8rem;
+  }
 }
 
 .social-media__a {
   width: 100%;
+
+  @include respon(xl) {
+    width: 4.5rem;
+    height: 4.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.info__cv--container {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background: #f1f1f1;
+  padding: 0.8rem;
+  border-radius: 1rem;
+
+  & * + * {
+    margin-left: 1rem;
+  }
+}
+
+.info__cv--heading {
+  font-size: 1.4rem;
+  font-weight: bold;
+
+  @include respon(xl) {
+    font-size: 1.8rem;
+  }
+}
+
+.info__cv--icon {
+  width: 2.4rem;
+  height: 2.4rem;
+
+  @include respon(xl) {
+    width: 3.2rem;
+    height: 3.2rem;
+  }
 }
 
 .last-sub--h3 {

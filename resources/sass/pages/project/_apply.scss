@@ -1,3 +1,15 @@
+.apply__container {
+  // @include respon(xl) {
+  max-width: 72rem;
+  margin: 0 auto;
+  width: 100%;
+
+  @include respon(xl) {
+    padding: 2rem 0 6rem;
+  }
+  // }
+}
+
 .apply__top--container {
   margin-bottom: 2.5rem;
 }
@@ -16,39 +28,74 @@
 }
 
 .form-group__container {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
 }
 
 .form-group__input-name {
-  font-size: 2.4rem;
+  font-size: 1.8rem;
   font-weight: 600;
   line-height: 1.15;
   margin-top: 0;
   margin-bottom: 1.2rem;
+
+  @include respon(xl) {
+    font-size: 2.4rem;
+  }
+}
+
+.form__input-name {
+  font-size: 1.8rem;
+
+  @include respon(xl) {
+    font-size: 2.4rem;
+  }
 }
 
 .form-group__radio-container {
   display: grid;
-  grid-template-columns: repeat( auto-fit, minmax(125px, 1fr) );
+  grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr));
 
   gap: 1rem;
+
+  @include respon(xl) {
+    gap: 2.2rem;
+  }
 }
 
 .form-group__radio {
   display: none;
 
   & + a {
-    border: 1.2px solid #020201;
+    border: 0.12rem solid #020201;
     color: #020201;
     text-decoration: none;
   }
 }
 
-button.active-type {
-  border-color: var(--red-glow);
-  background-color: var(--red-glow);
+.btn--apply {
+  width: 100%;
+  font-size: 1.4rem;
+
+  @include respon(xl) {
+    font-size: 2.4rem;
+    font-weight: bold;
+    height: 6rem;
+  }
 }
 
+.apply__btn-submit {
+  @include respon(xl) {
+    margin-top: 5rem;
+    width: 20rem;
+    margin-left: auto;
+  }
+}
+
+button.active-type {
+  border-color: var(--dark-blue);
+  background-color: var(--dark-blue);
+  color: white;
+}
 
 .radio__square {
   font-size: 1.4rem;
@@ -59,57 +106,80 @@ button.active-type {
   border-radius: 1rem;
   width: 100%;
   text-align: center;
-  border: 1.2px solid #020201;
+  border: 0.12rem solid #020201;
 }
 
-.form-group__input-container {
-  margin-bottom: 1rem;
+.form__input--group {
+  display: grid;
+  grid-template-columns: 1fr;
+
+  @include respon(xl) {
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+  }
 }
 
 .form-group__input-select {
   border: unset;
   border-radius: 1rem;
-  background-color: #F1F1F1;
+  background-color: #f1f1f1;
   color: #484848;
   padding: 1.4rem 1.8rem;
   width: 100%;
   font-size: 1.4rem;
   line-height: 1.65;
+
+  @include respon(xl) {
+    & p {
+      font-size: 1.8rem;
+    }
+  }
 }
 
 .form-group__input-text {
   border: unset;
   border-radius: 1rem;
-  background-color: #F1F1F1;
+  background-color: #f1f1f1;
   padding: 0 1.8rem;
   width: 100%;
   font-size: 1.4rem;
   line-height: 4.5rem;
+
+  @include respon(xl) {
+    font-size: 1.8rem;
+  }
 }
 
 .form-group__input-textarea {
   border: unset;
   border-radius: 1rem;
-  background-color: #F1F1F1;
+  background-color: #f1f1f1;
   width: 100%;
   padding: 1.5rem;
   font-size: 1.4rem;
   line-height: 1.65;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
+
+  @include respon(xl) {
+    font-size: 1.8rem;
+  }
+}
+
+.form-group__input-info {
+  margin-top: 0.3rem;
+  margin-left: 0.3rem;
+  font-size: 1.1rem;
+  font-weight: 300;
+
+  @include respon(xl) {
+    margin-top: 1rem;
+    margin-left: 0.6rem;
+    font-size: 1.4rem;
+    font-weight: 400;
+  }
 }
 
 .form--hr {
   margin-top: 3rem;
   margin-bottom: 3rem;
-}
-
-.form__submit-button {
-  font-size: 1.8rem;
-  font-weight: 600;
-  width: 100%;
-  height: 6rem;
-  border: unset;
-  border-radius: 1rem;
-  background-color: var(--red-glow);
-  color: #020201;
 }

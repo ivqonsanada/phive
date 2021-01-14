@@ -108,8 +108,12 @@ To get a local copy up and running follow these simple steps.
 
 
 <!-- USAGE EXAMPLES -->
-<!-- ## Usage -->
+<!-- ## Usage
 
+1. Add L Application Key
+   ```sh
+   git clone https://github.com/ivqonsanada/phive.git
+   ``` -->
 
 
 
@@ -143,7 +147,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Ivqonnada Al Mufarrih - [@ivqonsanada](https://twitter.com/ivqonsanada) - email
+Ivqonnada Al Mufarrih - [@ivqonsanada](https://twitter.com/ivqonsanada) - ivqonnada@gmail.com
 
 Project Link: [https://github.com/ivqonsanada/phive](https://github.com/ivqonsanada/phive)
 

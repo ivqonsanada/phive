@@ -90,11 +90,15 @@ To get a local copy up and running follow these simple steps.
    ```sh
    git clone https://github.com/ivqonsanada/phive.git
    ```
-2. Install NPM packages
+2. Get into the project
+   ```sh
+   cd phive
+   ```
+3. Install NPM packages
    ```sh
    npm install
    ```
-3. Install PHP packages
+4. Install PHP packages
    ```sh
    composer install
    ```
@@ -103,9 +107,31 @@ To get a local copy up and running follow these simple steps.
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-1. Add L Application Key
+1. Make .env by copy the .env.example
    ```sh
-   git clone https://github.com/ivqonsanada/phive.git
+   cp .env.example .env
+   ```
+2. Edit .env to setup database connection 
+   ```dosini
+   DB_DATABASE=db_name
+   DB_USERNAME=user_to_access_the_db
+   DB_PASSWORD=user_password
+   ```
+3. Set Application key
+   ```sh
+   php artisan generate:key
+   ```
+4. Create tables using migration with dummy data
+   ```sh
+   php artisan migrate:fresh --seed
+   ```
+5. Create the frontend production ready files 
+   ```sh
+   npm run prod
+   ```
+6. Run the app
+   ```sh
+   php artisan serve
    ```
 
 

@@ -38,6 +38,6 @@ class Inbox extends Model
     }
 
     public static function getInboxes ($user) {
-        return Inbox::where('recipient_id', $user->id)->with(['individual_applicant.from', 'individual_applicant.project', 'team_applicant.members', 'message_body.sender:id,photo_url,tagname,first_name,last_name,email', 'team_invitation.from', 'project_invitation.project', 'project_invitation.from'])->latest()->get();
+        return Inbox::where('recipient_id', $user->id)->with(['message_body.sender:id,photo_url,tagname,first_name,last_name,email', 'team_invitation.from', 'project_invitation.project', 'project_invitation.from'])->latest()->get();
     }
 }

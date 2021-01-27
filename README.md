@@ -119,7 +119,7 @@ To get a local copy up and running follow these simple steps.
    ```
 3. Set Application key
    ```sh
-   php artisan generate:key
+   php artisan key:generate
    ```
 4. Create tables using migration with dummy data
    ```sh

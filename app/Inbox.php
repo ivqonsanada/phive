@@ -17,16 +17,6 @@ class Inbox extends Model
         'is_read' => 'boolean'
     ];
 
-    public function individual_applicant()
-    {
-        return $this->belongsTo('App\IndividualApplicant');
-    }
-
-    public function team_applicant()
-    {
-        return $this->belongsTo('App\TeamApplicant');
-    }
-
     public function team_invitation()
     {
         return $this->belongsTo('App\TeamInvitation');

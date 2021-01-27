@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Experience extends Model
 {
-    public $guarded = [];
-    public $hidden = ['id', 'user_id'];
+    protected $guarded = [];
+    protected $hidden = ['id', 'user_id'];
 
     protected $casts = [
         'user_id' => 'integer',

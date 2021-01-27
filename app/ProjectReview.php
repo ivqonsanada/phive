@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProjectReview extends Model
 {
-    public $guarded = [];
+    protected $guarded = [];
 
     protected $casts = [
         'project_id' => 'integer',

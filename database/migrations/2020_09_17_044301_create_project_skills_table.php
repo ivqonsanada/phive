@@ -16,11 +16,11 @@ class CreateProjectSkillsTable extends Migration
         Schema::create('project_skills', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('project_id');
-            $table->unsignedBigInteger('skill_id')->nullable();
+            // $table->unsignedBigInteger('skill_id')->nullable();
             $table->string('name')->nullable();
 
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
-            $table->foreign('skill_id')->references('id')->on('skills')->onDelete('cascade');
+            // $table->foreign('skill_id')->references('id')->on('skills')->onDelete('cascade');
         });
     }
 

@@ -1,11 +1,4 @@
 <!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
@@ -73,7 +66,7 @@
 
 [![PHive Landing Page](public/github/landing-page.png)](https://pkl-demo.ivqonsanada.com)
 
-A kind of freelancing website for College. Where Lecturer has project that he/she need help from Student to finish it. Student will get some kind of rewards like salary and/or certification. 
+A kind of freelancing website for College. Where Lecturer can publish his/her project here waiting students apply to work on the project. Student will get some kind of rewards like salary and/or certification. 
 
 ### Built With
 
@@ -108,12 +101,12 @@ To get a local copy up and running follow these simple steps.
 
 
 <!-- USAGE EXAMPLES -->
-<!-- ## Usage
+## Usage
 
 1. Add L Application Key
    ```sh
    git clone https://github.com/ivqonsanada/phive.git
-   ``` -->
+   ```
 
 
 
@@ -157,8 +150,6 @@ Project Link: [https://github.com/ivqonsanada/phive](https://github.com/ivqonsan
 ## Acknowledgements
 
 * [Laravel-Vue SPA starter kit](https://github.com/cretueusebiu/laravel-vue-spa)
-
-
 
 
 

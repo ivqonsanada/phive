@@ -72,7 +72,7 @@ class UserSeeder extends Seeder
         $users[] = [
             'first_name' => 'Ivqonnada ',
             'last_name' => 'Al Mufarrih',
-            'email' => 'student@gmail.com',
+            'email' => 'student@example.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
@@ -106,7 +106,7 @@ class UserSeeder extends Seeder
         $users[] = [
             'first_name' => 'Stephen ',
             'last_name' => 'R. Covey, Ph.D.',
-            'email' => 'lecturer@ub.ac.id',
+            'email' => 'lecturer@example.ac.id',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
@@ -156,7 +156,7 @@ class UserSeeder extends Seeder
         $users[] = [
             'first_name' => 'M. Verrel',
             'last_name' => ' Radiman',
-            'email' => 'verrel@gmail.com',
+            'email' => 'verrel@example.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
@@ -198,7 +198,7 @@ class UserSeeder extends Seeder
         $users[] = [
             'first_name' => 'Rangga',
             'last_name' => 'Aji Gumiwang',
-            'email' => 'aji@gmail.com',
+            'email' => 'aji@example.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),

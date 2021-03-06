@@ -23,7 +23,7 @@
     <a href="https://github.com/ivqonsanada/phive"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://pkl-demo.ivqonsanada.com/">View Demo</a>
+    <a href="https://phive.ivqonsanada.com/">View Demo</a>
     ·
     <a href="https://github.com/ivqonsanada/phive/issues">Report Bug</a>
     ·
@@ -64,7 +64,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![PHive Landing Page](public/github/landing-page.png)](https://pkl-demo.ivqonsanada.com)
+[![PHive Landing Page](public/github/landing-page.png)](https://phive.ivqonsanada.com)
 
 A kind of freelancing website for College. Where Lecturer can publish his/her project here waiting students apply to work on the project. Student will get some kind of rewards like salary and/or certification. 
 
@@ -133,7 +133,15 @@ To get a local copy up and running follow these simple steps.
    ```sh
    php artisan serve
    ```
+7. Try dummy account
+   ```dosini
+   # student
+   username = student@gmail.com
+   password = password
 
+   # lecturer
+   username = lecturer@example.ac.id
+   ```
 
 
 <!-- ROADMAP -->
@@ -171,7 +179,6 @@ Ivqonnada Al Mufarrih - [@ivqonsanada](https://twitter.com/ivqonsanada) - ivqonn
 Project Link: [https://github.com/ivqonsanada/phive](https://github.com/ivqonsanada/phive)
 
 
-
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 
@@ -190,6 +197,6 @@ Project Link: [https://github.com/ivqonsanada/phive](https://github.com/ivqonsan
 [issues-shield]: https://img.shields.io/github/issues/ivqonsanada/phive.svg?style=for-the-badge
 [issues-url]: https://github.com/ivqonsanada/phive/issues
 [license-shield]: https://img.shields.io/github/license/ivqonsanada/phive.svg?style=for-the-badge
-[license-url]: https://github.com/ivqonsanada/phive/blob/master/LICENSE.txt
+[license-url]: https://github.com/ivqonsanada/phive/blob/master/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/ivqonnada

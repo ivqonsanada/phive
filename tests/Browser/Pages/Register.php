@@ -27,7 +27,7 @@ class Register extends Page
             $browser->type($key, $value);
         }
 
-        $browser->press('Register')
-            ->pause(1000);
+        $browser->script('window.scrollTo(0, 500);');
+        $browser->press('Sign Up')->pause(10000);
     }
 }

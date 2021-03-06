@@ -6,7 +6,7 @@
           Biography
         </h3>
         <p class="info__p">
-          {{ data.user.biography ? data.user.biography : '-' }}
+          {{ user.biography ? user.biography : '-' }}
         </p>
       </div>
 
@@ -15,8 +15,8 @@
           Skills
         </h3>
         <div class="info__skill-container">
-          <BubbleSkill v-for="(skill, index) in data.user.skills" :key="`UserSkill-${index}`" :color="`blue`" :name="skill.name" />
-          <p v-if="data.user.skills && data.user.skills.length === 0" class="info__p margin-0_5">
+          <BubbleSkill v-for="(skill, index) in user.skills" :key="`UserSkill-${index}`" :color="bgBubble" :name="skill.name" />
+          <p v-show="user.skills.length === 0" class="info__p margin-0_5">
             No skills to show yet
           </p>
         </div>
@@ -41,8 +41,8 @@
           Experience
         </h3>
         <div class="mb-2 experiences-list">
-          <ExperienceItem v-for="(experience, index) in data.user.experiences" :key="`ExperienceItem-${index}`" :data="experience" />
-          <p v-if="data.user.experiences && data.user.experiences.length === 0" class="info__p">
+          <ExperienceItem v-for="(experience, index) in user.experiences" :key="`ExperienceItem-${index}`" :data="experience" />
+          <p v-show="user.experiences.length === 0" class="info__p">
             No experiences to show yet
           </p>
         </div>
@@ -59,7 +59,6 @@
           <span>{{ copyText }}</span>
         </div>
       </div>
-
       <div v-if="$matchMedia.xl" class="info__sub--container">
         <h3 class="info__h3">
           Records
@@ -79,14 +78,13 @@
         <h3 class="info__h3">
           Social Media
         </h3>
-
         <div v-if="$matchMedia.xl" class="social-media__container">
           <div v-for="(socmed, index) in socmeds" :key="`SocialMedia-${index}`" class="social-media__input-container">
             <a :href="socmed.link" class="social-media__a" target="_blank">
               <span class="iconify social-media__icon-visited" :data-icon="socmed.icon" />
             </a>
           </div>
-          <p v-if="socmeds.length === 0" class="info__p">
+          <p v-show="socmeds.length === 0" class="info__p ">
             No social medias to show yet
           </p>
         </div>
@@ -105,24 +103,24 @@
         <h3 class="info__h3">
           Curriculum Vitae
         </h3>
-        <div v-if="data.user && data.user.cv">
+        <div v-if="user && user.cv">
           <p class="info__cv--container pointer">
-            <Icon :icon="'bx-bxs-file-pdf'" :width="32" :height="32" />
+            <Icon :icon="'bx-bxs-file-pdf'" :width="32" :height="32" :classes="'info__cv--icon'" />
             <a :href="user.cv" target="_blank" class="info__cv--heading link--clean">{{ user.first_name }} CV.pdf</a>
           </p>
         </div>
         <p v-else class="info__p">
-          He/She has not upload the CV yet.
+          You have not upload the CV yet.
         </p>
       </div>
 
       <div v-if="!$matchMedia.xl" class="info__sub--container">
         <h3 class="last-sub--h3">
-          Tag Name
+          TagName
         </h3>
         <p class="info__p tagname">
           <span class="iconify" data-icon="entypo:email" />
-          <span>{{ data.user.tagname }}</span>
+          <span>{{ user.tagname }}</span>
         </p>
       </div>
     </div>
@@ -135,34 +133,41 @@ import * as timeago from 'timeago.js'
 import ExperienceItem from '~/components/ExperienceItem'
 
 export default {
-  name: 'VisitedUserInfos',
+  name: 'UserProfileInfosPage',
 
   components: { ExperienceItem },
 
-  metaInfo () { return { title: `${this.data.user.full_name} - Info` } },
+  metaInfo () { return { title: 'Profile Info' } },
 
   data: () => ({
-    copyText: 'Copy'
+    bgBubble: 'blue',
+    copyText: 'Copy',
+
+    badges: [
+      { 'name': 'Top 5 Designer' },
+      { 'name': 'Best Student Review' },
+      { 'name': 'Painter Specialist' }
+    ]
   }),
 
   computed: {
     socmeds () {
       const socmeds = [
         { 'icon': 'ant-design:behance-outlined',
-          'link': this.data.user.behance ? this.data.user.behance : '',
-          'linkFiltered': this.data.user.behance ? this.filterLink(this.data.user.behance) : '' },
+          'link': this.user.behance ? this.user.behance : '',
+          'linkFiltered': this.user.behance ? this.filterLink(this.user.behance) : '' },
         { 'icon': 'ant-design:github-filled',
-          'link': this.data.user.github ? this.data.user.github : '',
-          'linkFiltered': this.data.user.github ? this.filterLink(this.data.user.github) : '' },
+          'link': this.user.github ? this.user.github : '',
+          'linkFiltered': this.user.github ? this.filterLink(this.user.github) : '' },
         { 'icon': 'bx-bxl-linkedin',
-          'link': this.data.user.linkedin ? this.data.user.linkedin : '',
-          'linkFiltered': this.data.user.linkedin ? this.filterLink(this.data.user.linkedin) : '' },
+          'link': this.user.linkedin ? this.user.linkedin : '',
+          'linkFiltered': this.user.linkedin ? this.filterLink(this.user.linkedin) : '' },
         { 'icon': 'whh:dribbblealt',
-          'link': this.data.user.dribbble ? this.data.user.dribbble : '',
-          'linkFiltered': this.data.user.dribbble ? this.filterLink(this.data.user.dribbble) : '' },
+          'link': this.user.dribbble ? this.user.dribbble : '',
+          'linkFiltered': this.user.dribbble ? this.filterLink(this.user.dribbble) : '' },
         { 'icon': 'whh:website',
-          'link': this.data.user.website ? this.data.user.website : '',
-          'linkFiltered': this.data.user.website ? this.filterLink(this.data.user.website) : '' }
+          'link': this.user.website ? this.user.website : '',
+          'linkFiltered': this.user.website ? this.filterLink(this.user.website) : '' }
       ]
 
       if (this.$matchMedia.xl) return socmeds.filter(e => e.link !== '')
@@ -171,8 +176,8 @@ export default {
     },
 
     theStudentHighestPoints () {
-      if (this.data.user && this.data.user.leaderboards) {
-        return Math.max(this.data.user.leaderboards.map(e => e.points))
+      if (this.user && this.user.leaderboards) {
+        return Math.max(this.user.leaderboards.map(e => e.points))
       }
 
       return 0
@@ -187,42 +192,47 @@ export default {
     },
 
     records () {
-      if (this.data.user.role === 'Student') {
+      if (this.user.role === 'Student') {
         return [
-          { 'icon': 'bx:bxs-id-card', 'content': this.data.user.identity_number, 'type': 'icon' },
+          { 'icon': 'bx:bxs-id-card', 'content': this.user.identity_number, 'type': 'icon' },
           { 'icon': 'Pts', 'content': `${this.theStudentHighestPoints} Points Collected`, 'type': 'not-icon' },
           { 'icon': 'LVL', 'content': this.level, 'type': 'not-icon' },
-          { 'icon': 'fa-solid:building', 'content': `${this.data.user.faculty}, ${this.data.user.university}`, 'type': 'icon' },
-          { 'icon': 'ic:baseline-card-membership', 'content': `Joined since ${timeago.format(this.data.user.joined_since)}`, 'type': 'icon' },
-          { 'icon': 'icons8:finish-flag', 'content': `${this.data.user.finished_project_count} Finished Project`, 'type': 'icon' },
+          { 'icon': 'fa-solid:building', 'content': `${this.user.faculty}, ${this.user.university}`, 'type': 'icon' },
+          { 'icon': 'ic:baseline-card-membership', 'content': `Joined since ${timeago.format(this.user.joined_since)}`, 'type': 'icon' },
+          { 'icon': 'icons8:finish-flag', 'content': `${this.user.finished_project_count} Finished Project`, 'type': 'icon' },
           { 'icon': 'entypo:squared-cross', 'content': '0 Failed Project', 'type': 'icon' }
         ]
       }
 
       return [
-        { 'icon': 'bx:bxs-id-card', 'content': this.data.user.identity_number, 'type': 'icon' },
-        { 'icon': 'fa-solid:building', 'content': `${this.data.user.faculty}, ${this.data.user.university}`, 'type': 'icon' },
-        { 'icon': 'ic:baseline-card-membership', 'content': `Joined since ${timeago.format(this.data.user.joined_since)}`, 'type': 'icon' },
-        { 'icon': 'dashicons-admin-post', 'content': `${this.data.projects ? this.data.projects.length : 0} Project Posted`, 'type': 'icon' },
-        { 'icon': 'entypo:squared-cross', 'content': `0 Failed Project`, 'type': 'icon' }
+        { 'icon': 'bx:bxs-id-card', 'content': this.user.identity_number, 'type': 'icon' },
+        { 'icon': 'fa-solid:building', 'content': `${this.user.faculty}, ${this.user.university}`, 'type': 'icon' },
+        { 'icon': 'ic:baseline-card-membership', 'content': `Joined since ${timeago.format(this.user.joined_since)}`, 'type': 'icon' },
+        { 'icon': 'dashicons-admin-post', 'content': `${this.projects ? this.projects.length : 0} Project Posted`, 'type': 'icon' },
+        { 'icon': 'entypo:squared-cross', 'content': '0 Failed Project', 'type': 'icon' }
       ]
     },
 
     ...mapGetters({
-      data: 'visit/user',
+      user: 'auth/user',
+      projects: 'auth/projects',
       snackbar: 'notification/snackbar'
     })
   },
 
+  mounted: function () {
+    // this.getInfo()
+  },
+
   methods: {
     filterLink (link) {
-      const filter = link.split('//')
+      let filter = link.split('//')
       return filter[filter.length - 1]
     },
 
     copyToClipboard () {
       const el = document.createElement('textarea')
-      el.value = window.location.href
+      el.value = window.location.href.replace('profile/info', `@/${this.user.tagname}`)
       el.setAttribute('readonly', '')
       el.style = { position: 'absolute', left: '-999.9rem' }
       document.body.appendChild(el)
@@ -231,7 +241,11 @@ export default {
       document.body.removeChild(el)
 
       this.copyText = 'Copied'
-      this.snackbar.open('User Profile link copied.')
+      this.snackbar.open('Project link copied')
+
+      setTimeout(() => {
+        this.copyText = 'Copy'
+      }, 2000)
     }
   }
 }

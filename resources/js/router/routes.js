@@ -17,9 +17,9 @@ export default [
     component: page('profile'),
     children: [
       { path: '', redirect: { name: 'profile.projects' } },
-      { path: 'projects', name: 'profile.projects', meta: { title: 'Profile' }, component: page('profile/Projects.vue') },
-      { path: 'wishlists', name: 'profile.wishlist', meta: { title: 'Profile' }, component: page('profile/Wishlist.vue') },
-      { path: 'info', name: 'profile.info', meta: { title: 'Profile' }, component: page('profile/Info.vue') }
+      { path: 'projects', name: 'profile.projects', meta: { title: 'Profile' }, component: page('profile/ProfileProjects.vue') },
+      { path: 'wishlists', name: 'profile.wishlist', meta: { title: 'Profile' }, component: page('profile/ProfileWishlist.vue') },
+      { path: 'info', name: 'profile.info', meta: { title: 'Profile' }, component: page('profile/ProfileInfo.vue') }
     ]
   },
 
@@ -63,9 +63,9 @@ export default [
     component: page('visit'),
     children: [
       { path: '', redirect: { name: '@.info' } },
-      { path: 'projects', name: '@.projects', component: page('visit/Projects.vue') },
-      { path: 'wishlists', name: '@.wishlist', component: page('visit/Wishlist.vue') },
-      { path: 'info', name: '@.info', component: page('visit/Info.vue') }
+      { path: 'projects', name: '@.projects', component: page('visit/VisitProjects.vue') },
+      { path: 'wishlists', name: '@.wishlist', component: page('visit/VisitWishlist.vue') },
+      { path: 'info', name: '@.info', component: page('visit/VisitInfo.vue') }
     ]
   },
 

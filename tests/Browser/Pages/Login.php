@@ -26,7 +26,7 @@ class Login extends Page
     {
         $browser->type('email', $email)
                 ->type('password', $password)
-                ->press('Log In')
+                ->press('Sign In')
                 ->pause(500);
     }
 }

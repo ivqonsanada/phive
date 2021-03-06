@@ -23,8 +23,7 @@ class SettingsTest extends TestCase
     {
         $this->actingAs($this->user)
             ->patchJson('/api/settings/profile', [
-                'name' => 'Test User',
-                'email' => 'test@test.app',
+                'first_name' => 'Joni',
             ])
             ->assertSuccessful()
             ->assertJsonStructure(['id', 'name', 'email']);

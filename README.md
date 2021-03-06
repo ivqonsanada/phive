@@ -136,11 +136,12 @@ To get a local copy up and running follow these simple steps.
 7. Try dummy account
    ```dosini
    # student
-   username = student@gmail.com
+   username = student@example.com
    password = password
 
    # lecturer
    username = lecturer@example.ac.id
+   password = password
    ```
 
 

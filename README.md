@@ -68,6 +68,24 @@
 
 A kind of freelancing website for College. Where Lecturer can publish his/her project here waiting students apply to work on the project. Student will get some kind of rewards like salary and/or certification. 
 
+Features:
+- Commons
+  - Explore Project
+  - Leaderboard
+  - Profile
+  - Message
+  - Inbox
+- Lecturer
+  - Project Publications (Posting - Recruit - Review)
+  - Project Box (to Organize Project)
+  - Hire Student
+- Student
+  - Apply Project (as Individual / as Team)
+  - Party (for make the Team)
+  - Project Box (to See current Apply/Ongoing/Finished projects)
+  - Wishlist Project
+- Experiment
+  - Adaptive while being Responsive (Mobile version is Mobile Apps-like)
 ### Built With
 
 * [Laravel](https://laravel.com/)
@@ -175,7 +193,10 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Ivqonnada Al Mufarrih - [@ivqonsanada](https://twitter.com/ivqonsanada) - ivqonnada@gmail.com
+Team:
+- Ivqonnada Al Mufarrih - Full Stack Engineer - [@ivqonsanada](https://twitter.com/ivqonsanada) - ivqonnada@gmail.com
+- Verrel Radiman - Designer - [@verrel](https://www.linkedin.com/in/muhammad-verrel-radiman-61178314a)
+- Aji R. Gumiwang - Tester
 
 Project Link: [https://github.com/ivqonsanada/phive](https://github.com/ivqonsanada/phive)
 

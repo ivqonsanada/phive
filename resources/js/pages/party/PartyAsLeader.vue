@@ -27,6 +27,7 @@ import MemberItem from '~/components/Party/MemberItem'
 
 export default {
   name: 'PartyAsLeaderPage',
+  scrollToTop: false,
 
   components: { MemberItem },
 

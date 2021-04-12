@@ -134,6 +134,7 @@ import ExperienceItem from '~/components/ExperienceItem'
 
 export default {
   name: 'UserProfileInfosPage',
+  scrollToTop: false,
 
   components: { ExperienceItem },
 

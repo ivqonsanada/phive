@@ -17,6 +17,7 @@ import ProjectCard from '~/components/ProjectCard'
 
 export default {
   name: 'UserProfileWishlistsPage',
+  scrollToTop: false,
 
   components: { ProjectCard },
 

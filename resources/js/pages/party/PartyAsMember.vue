@@ -25,6 +25,7 @@ import PartyItem from '~/components/Party/PartyItem'
 
 export default {
   name: 'PartyAsMemberPage',
+  scrollToTop: false,
 
   components: { PartyItem },
 

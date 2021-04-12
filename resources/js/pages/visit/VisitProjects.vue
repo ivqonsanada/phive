@@ -17,6 +17,7 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'VisitedUserProjectsPage',
+  scrollToTop: false,
 
   components: { ProjectCard },
 

@@ -28,7 +28,7 @@
     "vue-month-picker": "^1.4.0",
     "vue-router": "^3.0.6",
     "vue-scrollto": "^2.18.2",
-    "vue-social-sharing": "^3.0.3",
+    "vue-social-sharing": "3.0.9",
     "vue2-touch-events": "^2.3.2",
     "vuejs-paginate": "^2.1.0",
     "vuejs-snackbar": "^4.0.1",

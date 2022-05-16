@@ -19,7 +19,7 @@
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.4.0",
-        "doctrine/dbal": "^2.9",
+        "doctrine/dbal": "2.13.9",
         "facade/ignition": "^2.0",
         "fzaninotto/faker": "^1.9.1",
         "laravel/dusk": "^6.11",

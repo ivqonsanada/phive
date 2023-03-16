@@ -55,7 +55,7 @@
     "sass": "^1.20.1",
     "sass-loader": "^7.1.0",
     "vue-template-compiler": "^2.6.10",
-    "webpack-bundle-analyzer": "^3.3.2",
-    "workbox-webpack-plugin": "^5.1.4"
+    "webpack-bundle-analyzer": "^4.0.0",
+    "workbox-webpack-plugin": "^6.0.0"
   }
 }

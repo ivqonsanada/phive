@@ -51,7 +51,7 @@
     "laravel-mix": "^4.0.15",
     "laravel-mix-versionhash": "^1.0.7",
     "laravel-mix-workbox": "^0.1.2",
-    "resolve-url-loader": "^2.3.1",
+    "resolve-url-loader": "^3.0.0",
     "sass": "^1.20.1",
     "sass-loader": "^7.1.0",
     "vue-template-compiler": "^2.6.10",

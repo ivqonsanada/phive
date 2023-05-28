@@ -1,19 +1,23 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\Project;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Project::class, function (Faker $faker) {
-    return [
-        'user_id' => 1,
-        'name' => $faker->streetName,
-        'description' => $faker->text,
-        'salary' => $faker->numberBetween,
-        'certificate' => $faker->boolean,
-        'max_person' => $faker->randomDigit,
-        'image' => $faker->imageUrl
-    ];
-});
-
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Project>
+ */
+class ProjectFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            //
+        ];
+    }
+}

@@ -1,61 +1,13 @@
 {
-  "private": true,
-  "scripts": {
-    "dev": "npm run development",
-    "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "watch": "npm run development -- --watch",
-    "watch-poll": "npm run watch -- --watch-poll",
-    "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --disable-host-check --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "prod": "npm run production",
-    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "lint": "eslint --fix --ext .js,.vue resources/js"
-  },
-  "dependencies": {
-    "@swayable/vue-snarkdown": "^1.1.1",
-    "@webqam/vue-match-media": "^2.0.1",
-    "axios": "^0.21.1",
-    "axios-progress-bar": "^1.2.0",
-    "js-cookie": "^2.2.0",
-    "object-to-formdata": "^4.1.0",
-    "timeago.js": "^4.0.2",
-    "vform": "^1.0.0",
-    "vue": "^2.7.14",
-    "vue-content-placeholders": "^0.2.1",
-    "vue-debounce": "^2.5.7",
-    "vue-expandable-image": "^0.1.0",
-    "vue-input-dropdown": "^0.1.9",
-    "vue-meta": "^1.6.0",
-    "vue-month-picker": "^1.4.0",
-    "vue-router": "^3.0.6",
-    "vue-scrollto": "^2.18.2",
-    "vue-social-sharing": "^3.0.3",
-    "vue2-touch-events": "^2.3.2",
-    "vuejs-paginate": "^2.1.0",
-    "vuejs-snackbar": "^4.0.1",
-    "vuex": "^3.1.0",
-    "vuex-router-sync": "^5.0.0"
-  },
-  "devDependencies": {
-    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@babel/preset-env": "^7.4.4",
-    "@iconify/vue": "^1.0.5",
-    "babel-eslint": "^10.0.1",
-    "cross-env": "^5.2.0",
-    "eslint": "^5.16.0",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.17.2",
-    "eslint-plugin-node": "^9.0.1",
-    "eslint-plugin-promise": "^4.1.1",
-    "eslint-plugin-standard": "^4.0.0",
-    "eslint-plugin-vue": "^5.2.2",
-    "laravel-mix": "^4.0.15",
-    "laravel-mix-versionhash": "^1.0.7",
-    "laravel-mix-workbox": "^0.1.2",
-    "resolve-url-loader": "^2.3.1",
-    "sass": "^1.20.1",
-    "sass-loader": "^7.1.0",
-    "vue-template-compiler": "^2.7.14",
-    "webpack-bundle-analyzer": "^3.3.2",
-    "workbox-webpack-plugin": "^5.1.4"
-  }
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build"
+    },
+    "devDependencies": {
+        "axios": "^1.6.4",
+        "laravel-vite-plugin": "^1.0",
+        "vite": "^5.0"
+    }
 }

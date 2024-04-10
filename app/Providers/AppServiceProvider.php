@@ -2,38 +2,23 @@
 
 namespace App\Providers;
 
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Dusk\DuskServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
     /**
-     * Bootstrap any application services.
-     *
-     * @return void
+     * Register any application services.
      */
-    public function boot()
+    public function register(): void
     {
-        if ($this->app->runningUnitTests()) {
-            Schema::defaultStringLength(191);
-        }
-
-        config(['app.locale' => 'id']);
-        Carbon::setLocale('id');
-        date_default_timezone_set('Asia/Jakarta');
+        //
     }
 
     /**
-     * Register any application services.
-     *
-     * @return void
+     * Bootstrap any application services.
      */
-    public function register()
+    public function boot(): void
     {
-        if ($this->app->environment('local', 'testing') && class_exists(DuskServiceProvider::class)) {
-            $this->app->register(DuskServiceProvider::class);
-        }
+        //
     }
 }

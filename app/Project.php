@@ -28,7 +28,7 @@ class Project extends Model
     public function getThumbnailUrlAttribute()
     {
         if ($this->thumbnail === null) {
-            return "https://placeimg.com/680/500/tech/{$this->id}";
+            return "https://picsum.photos/id/{$this->id}/680/500/";
         } else return "/storage/images/project/{$this->thumbnail}";
     }
 

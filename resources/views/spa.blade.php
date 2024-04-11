@@ -14,6 +14,7 @@
   <script src="{{ mix('dist/js/app.js') }}"></script>
   <script src="/iconify.min.js"></script>
   <script src="/icon-bundle.js"></script>
+  @production
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
@@ -21,6 +22,7 @@
       });
     }
   </script>
+  @endproduction
   <noscript>Your browser does not support JavaScript!</noscript>
 </body>
 </html>

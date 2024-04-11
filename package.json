@@ -9,7 +9,7 @@
   "dependencies": {
     "@swayable/vue-snarkdown": "^1.1.1",
     "@webqam/vue-match-media": "^2.0.1",
-    "axios": "^0.21.1",
+    "axios": "^0.28.0",
     "axios-progress-bar": "^1.2.0",
     "js-cookie": "^2.2.0",
     "object-to-formdata": "^4.1.0",

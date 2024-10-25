@@ -15,7 +15,7 @@
     "object-to-formdata": "^4.1.0",
     "timeago.js": "^4.0.2",
     "vform": "^1.0.0",
-    "vue": "^2.7.14",
+    "vue": "^3.0.0",
     "vue-content-placeholders": "^0.2.1",
     "vue-debounce": "^2.5.7",
     "vue-expandable-image": "^0.1.0",

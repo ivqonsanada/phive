@@ -130,6 +130,13 @@ the whole restriction could be sidestepped by signing up through Google.
 Set `SOCIAL_PROVIDERS=google,apple` on the frontend to match whatever the API has
 credentials for.
 
+### Demo mode
+
+`DEMO_MODE=true` enables `php artisan phive:demo-reset`, which drops every table,
+reseeds, and clears uploads — and schedules it nightly. Without the flag the command
+refuses to run and the schedule is never registered, because the whole point of a
+destructive command is that it must be impossible to trigger by accident.
+
 ### Admin panel
 
 Filament 5, at `http://localhost:8000/admin`. Access is gated on an `is_admin`

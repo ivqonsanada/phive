@@ -46,8 +46,22 @@ class UserResource extends JsonResource
                 'website' => $this->website,
             ],
             'skills' => $this->whenLoaded('skills', fn () => $this->skills->pluck('name')),
-            'experiences' => $this->whenLoaded('experiences'),
-            'leaderboard' => $this->whenLoaded('leaderboard'),
+            'experiences' => $this->whenLoaded(
+                'experiences',
+                fn () => $this->experiences->map(fn ($experience) => [
+                    'uuid' => $experience->uuid,
+                    'project_name' => $experience->project_name,
+                    'project_role' => $experience->project_role,
+                    'start_date' => $experience->start_date,
+                    'end_date' => $experience->end_date,
+                ]),
+            ),
+            // Shaped rather than passed through: a raw model carries the internal id.
+            'leaderboard' => $this->whenLoaded('leaderboard', fn () => $this->leaderboard ? [
+                'uuid' => $this->leaderboard->uuid,
+                'expertise' => $this->leaderboard->expertise,
+                'points' => $this->leaderboard->points,
+            ] : null),
             'unread_inbox_count' => $this->whenCounted('unread_inbox'),
             'created_at' => $this->created_at,
         ];

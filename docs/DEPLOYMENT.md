@@ -170,6 +170,32 @@ and must be reachable, which it is by default.
 Leaving `NEXT_PUBLIC_REVERB_APP_KEY` unset disables realtime cleanly; messages still
 send and threads still load, they just do not push.
 
+## Demo instances
+
+A public demo drifts: people post nonsense, delete each other's things, upload junk.
+`phive:demo-reset` drops every table, reseeds, and clears uploaded files.
+
+```
+DEMO_MODE=true
+DEMO_RESET_AT=03:00
+```
+
+With `DEMO_MODE=true` the reset is scheduled nightly at that local time; without it the
+schedule is not even registered, and running the command by hand refuses with an error.
+That gate is the whole safety story — **never set `DEMO_MODE` on an instance holding
+real data.**
+
+The scheduler has to be running for the nightly job to fire; the Docker image already
+runs `schedule:work`. To reset on demand:
+
+```bash
+php artisan phive:demo-reset            # prompts first
+php artisan phive:demo-reset --force    # no prompt, what the scheduler uses
+```
+
+Seeded demo accounts all use the password `password`, including `admin@phive.test`
+for the Filament panel — fine for a throwaway demo, unacceptable anywhere else.
+
 ## Post-deploy checklist
 
 - [ ] `GET https://api.example.com/up` returns 200
@@ -179,5 +205,6 @@ send and threads still load, they just do not push.
 - [ ] Mail transport configured (`MAIL_MAILER=log` silently swallows every email)
 - [ ] Reverb reachable over `wss://` if realtime is enabled, with matching app keys
 - [ ] `NIGHTWATCH_TOKEN` set if you want monitoring — it is silently off without one
+- [ ] `DEMO_MODE` is **false** anywhere holding real data
 - [ ] File uploads have somewhere durable to live — set `FILESYSTEM_DISK=s3` if the
       container filesystem is ephemeral, which it is on Fly, Railway and Render

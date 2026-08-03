@@ -105,7 +105,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('party', [PartyController::class, 'index']);
     Route::post('users/{user}/invite/party', [PartyController::class, 'invite']);
     Route::delete('party/members/{user}', [PartyController::class, 'kick']);
-    Route::delete('party/{team}/leave', [PartyController::class, 'leave']);
+    Route::delete('party/{team}/leave', [PartyController::class, 'leave'])->whereUuid('team');
 
     Route::post('projects/{project}/apply/individual', [ApplicationController::class, 'applyAsIndividual']);
     Route::post('projects/{project}/apply/team', [ApplicationController::class, 'applyAsTeam']);
@@ -113,7 +113,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Project box: the shared workflow surface for both sides.
     Route::get('project-box', [ProjectBoxController::class, 'index']);
-    Route::post('project-box/{projectBox}/confirm', [ProjectBoxController::class, 'confirm']);
+    Route::post('project-box/{projectBox}/confirm', [ProjectBoxController::class, 'confirm'])->whereUuid('projectBox');
 
     Route::get('my/projects/{project}/shortlist', [ShortlistController::class, 'index']);
     Route::post('my/projects/{project}/shortlist', [ShortlistController::class, 'store']);
@@ -128,10 +128,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('messages/{user}', [MessageController::class, 'store']);
 
     Route::get('inbox', [InboxController::class, 'index']);
-    Route::post('inbox/{inbox}/read', [InboxController::class, 'markRead']);
-    Route::post('inbox/{inbox}/respond', [InboxController::class, 'respond']);
+    Route::post('inbox/{inbox}/read', [InboxController::class, 'markRead'])->whereUuid('inbox');
+    Route::post('inbox/{inbox}/respond', [InboxController::class, 'respond'])->whereUuid('inbox');
 
     Route::post('settings/experiences', [ExperienceController::class, 'store']);
-    Route::patch('settings/experiences/{experience}', [ExperienceController::class, 'update']);
-    Route::delete('settings/experiences/{experience}', [ExperienceController::class, 'destroy']);
+    Route::patch('settings/experiences/{experience}', [ExperienceController::class, 'update'])->whereUuid('experience');
+    Route::delete('settings/experiences/{experience}', [ExperienceController::class, 'destroy'])->whereUuid('experience');
 });

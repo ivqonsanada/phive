@@ -34,6 +34,22 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Demo Mode
+    |--------------------------------------------------------------------------
+    |
+    | Marks this instance as a throwaway demo. It is the single gate on
+    | `phive:demo-reset`, which drops every table — so it defaults to false and
+    | has to be turned on deliberately, per environment.
+    |
+    */
+
+    'demo_mode' => (bool) env('DEMO_MODE', false),
+
+    // Local time of the nightly reset, when demo mode is on.
+    'demo_reset_at' => env('DEMO_RESET_AT', '03:00'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Uploads
     |--------------------------------------------------------------------------
     */

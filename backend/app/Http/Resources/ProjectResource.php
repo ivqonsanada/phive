@@ -62,7 +62,12 @@ class ProjectResource extends JsonResource
                 fn () => $this->requirements->pluck('requirement'),
             ),
             'team' => new ProjectTeamResource($this->whenLoaded('projectTeam')),
-            'review' => $this->whenLoaded('review'),
+            'review' => $this->whenLoaded('review', fn () => $this->review ? [
+                'uuid' => $this->review->uuid,
+                'overall_score' => $this->review->overall_score,
+                'overall_review' => $this->review->overall_review,
+                'project_result' => $this->review->project_result,
+            ] : null),
         ];
     }
 }

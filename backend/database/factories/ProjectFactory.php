@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\ApplicantType;
+use App\Enums\ProjectLevel;
 use App\Enums\ProjectStatus;
 use App\Models\Project;
 use App\Models\User;
@@ -28,7 +29,7 @@ class ProjectFactory extends Factory
             'status' => ProjectStatus::Hiring,
             'applicant_type' => ApplicantType::IndividualAndTeam,
             'max_person' => (string) fake()->numberBetween(2, 6),
-            'level_applicant' => fake()->randomElement(['Beginner', 'Intermediate', 'Advanced']),
+            'level_applicant' => fake()->randomElement(ProjectLevel::cases())->value,
             'ui_ux_designer' => fake()->boolean(),
             'front_end_engineer' => fake()->boolean(),
             'back_end_engineer' => fake()->boolean(),

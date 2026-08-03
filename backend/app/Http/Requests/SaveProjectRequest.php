@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Enums\ApplicantType;
+use App\Enums\ProjectLevel;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
@@ -33,7 +34,9 @@ class SaveProjectRequest extends FormRequest
 
             'applicant_type' => ['nullable', Rule::enum(ApplicantType::class)],
             'max_person' => ['nullable', 'string', 'max:50'],
-            'level_applicant' => ['nullable', 'string', 'max:50'],
+            // Difficulty decides how many leaderboard points the project can award,
+            // so it has to be one of the known levels.
+            'level_applicant' => ['nullable', Rule::enum(ProjectLevel::class)],
 
             'ui_ux_designer' => ['nullable', 'boolean'],
             'front_end_engineer' => ['nullable', 'boolean'],

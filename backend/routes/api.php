@@ -11,11 +11,14 @@ use App\Http\Controllers\Api\InboxController;
 use App\Http\Controllers\Api\LeaderboardController;
 use App\Http\Controllers\Api\PartyController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\ProjectBoxController;
 use App\Http\Controllers\Api\ProjectController;
 use App\Http\Controllers\Api\ProjectManagementController;
+use App\Http\Controllers\Api\ProjectWorkflowController;
 use App\Http\Controllers\Api\Settings\ExperienceController;
 use App\Http\Controllers\Api\Settings\MediaController;
 use App\Http\Controllers\Api\Settings\ProfileController as SettingsProfileController;
+use App\Http\Controllers\Api\ShortlistController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\WishlistController;
 use Illuminate\Support\Facades\Route;
@@ -100,6 +103,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('projects/{project}/apply/individual', [ApplicationController::class, 'applyAsIndividual']);
     Route::post('projects/{project}/apply/team', [ApplicationController::class, 'applyAsTeam']);
     Route::delete('projects/{project}/apply', [ApplicationController::class, 'withdraw']);
+
+    // Project box: the shared workflow surface for both sides.
+    Route::get('project-box', [ProjectBoxController::class, 'index']);
+    Route::post('project-box/{projectBox}/confirm', [ProjectBoxController::class, 'confirm']);
+
+    Route::get('my/projects/{project}/shortlist', [ShortlistController::class, 'index']);
+    Route::post('my/projects/{project}/shortlist', [ShortlistController::class, 'store']);
+    Route::post('my/projects/{project}/start', [ProjectWorkflowController::class, 'start']);
+    Route::get('my/projects/{project}/review', [ProjectWorkflowController::class, 'reviewForm']);
+    Route::post('my/projects/{project}/review', [ProjectWorkflowController::class, 'review']);
 
     Route::get('inbox', [InboxController::class, 'index']);
     Route::post('inbox/{inbox}/read', [InboxController::class, 'markRead']);

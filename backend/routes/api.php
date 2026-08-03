@@ -9,10 +9,12 @@ use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\InboxController;
 use App\Http\Controllers\Api\LeaderboardController;
+use App\Http\Controllers\Api\MessageController;
 use App\Http\Controllers\Api\PartyController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\ProjectBoxController;
 use App\Http\Controllers\Api\ProjectController;
+use App\Http\Controllers\Api\ProjectInvitationController;
 use App\Http\Controllers\Api\ProjectManagementController;
 use App\Http\Controllers\Api\ProjectWorkflowController;
 use App\Http\Controllers\Api\Settings\ExperienceController;
@@ -113,6 +115,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('my/projects/{project}/start', [ProjectWorkflowController::class, 'start']);
     Route::get('my/projects/{project}/review', [ProjectWorkflowController::class, 'reviewForm']);
     Route::post('my/projects/{project}/review', [ProjectWorkflowController::class, 'review']);
+
+    Route::post('my/projects/{project}/invite/{user}', [ProjectInvitationController::class, 'store']);
+
+    Route::get('messages', [MessageController::class, 'index']);
+    Route::get('messages/{user}', [MessageController::class, 'show']);
+    Route::post('messages/{user}', [MessageController::class, 'store']);
 
     Route::get('inbox', [InboxController::class, 'index']);
     Route::post('inbox/{inbox}/read', [InboxController::class, 'markRead']);

@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\InboxCategory;
 use App\Enums\InvitationStatus;
+use App\Enums\ProjectBoxStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserSummaryResource;
 use App\Models\Inbox;
+use App\Models\ProjectBox;
 use App\Models\TeamMember;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -61,9 +63,11 @@ class InboxController extends Controller
                     $status,
                     $request,
                 ),
-                InboxCategory::ProjectInvitation => $inbox->projectInvitation?->update([
-                    'status' => $status,
-                ]),
+                InboxCategory::ProjectInvitation => $this->respondToProjectInvitation(
+                    $inbox,
+                    $accepted,
+                    $status,
+                ),
                 default => abort(422, 'This message cannot be responded to.'),
             };
 
@@ -91,6 +95,29 @@ class InboxController extends Controller
             TeamMember::firstOrCreate(
                 ['team_id' => $invitation->team_id, 'member_id' => $request->user()->id],
                 ['expertise' => $request->user()->expertise],
+            );
+        }
+    }
+
+    /**
+     * A direct invitation from the lecturer skips the application queue: accepting it
+     * is itself the confirmation, so the student lands straight on "Waiting to Start".
+     */
+    private function respondToProjectInvitation(
+        Inbox $inbox,
+        bool $accepted,
+        InvitationStatus $status,
+    ): void {
+        $invitation = $inbox->projectInvitation;
+
+        abort_unless($invitation, 422, 'That invitation no longer exists.');
+
+        $invitation->update(['status' => $status]);
+
+        if ($accepted) {
+            ProjectBox::updateOrCreate(
+                ['project_id' => $invitation->project_id, 'user_id' => $invitation->to_id],
+                ['status' => ProjectBoxStatus::WaitingToStart],
             );
         }
     }

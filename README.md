@@ -177,6 +177,8 @@ Base URL `/api`. Authenticated routes expect `Authorization: Bearer <token>`.
 | `POST`  | `/inbox/{id}/read`                | ✓    | Mark as read                      |
 | `GET`   | `/project-box`                    | ✓    | Everything you're involved in     |
 | `POST`  | `/project-box/{box}/confirm`      | ✓    | Take or decline a shortlisted seat |
+| `GET`   | `/messages`                       | ✓    | Your conversations                |
+| `GET` `POST` | `/messages/{tagname}`        | ✓    | Read or add to a thread           |
 
 **Lecturer project management** — all require a lecturer token, and a policy scopes
 every one of them to that lecturer's own projects. They live under `/my` so none of
@@ -195,6 +197,7 @@ them collide with the public `{project_url}` routes:
 | `GET` `POST` | `/my/projects/{project_url}/shortlist` | See applicants, and choose who goes through |
 | `POST`   | `/my/projects/{project_url}/start`   | Start with whoever confirmed          |
 | `GET` `POST` | `/my/projects/{project_url}/review` | Close out, score participants, award points |
+| `POST`   | `/my/projects/{project_url}/invite/{tagname}` | Invite a student directly     |
 
 Resource wrapping is off, so a resource is returned at the top level. Paginated
 collections keep Laravel's `{ data, links, meta }` envelope.
@@ -217,11 +220,19 @@ field). Progress so far:
 - [x] Publishing: draft, edit, publish, close applications, withdraw
 - [x] Publishing extras: thumbnail upload
 - [x] Profile editing: avatar and CV upload, skills, experiences
-- [ ] Inviting students to a project directly
+- [x] Inviting students to a project directly
 - [x] Party recruitment and the inbox invitation flow
 - [x] Applying: as an individual or with your party
 - [x] Project box: shortlist, confirm, start, review and leaderboard points
-- [ ] Inbox and direct messaging (Laravel Reverb replaces the old Pusher setup)
+- [x] Inbox and direct messaging
+
+Everything the original app did is ported. Direct messages broadcast a
+`MessageSent` event on the recipient's private channel — with
+`BROADCAST_CONNECTION=log` that is a no-op, and pointing it at
+[Reverb](https://laravel.com/docs/reverb) (which replaces the old Pusher setup)
+makes them live without touching application code. The frontend currently reads
+threads on request rather than subscribing; wiring Echo to that channel is the
+remaining step for realtime delivery.
 
 ---
 

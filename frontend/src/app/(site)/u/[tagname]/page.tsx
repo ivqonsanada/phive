@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
+import { ProfileActions } from "@/app/(site)/u/[tagname]/profile-actions";
 import { ProjectCard } from "@/components/project-card";
 import { ApiError } from "@/lib/api";
 import { getProfile } from "@/lib/projects";
@@ -68,6 +70,10 @@ export default async function ProfilePage({ params }: Params) {
             ))}
           </div>
         )}
+
+        <Suspense fallback={null}>
+          <ProfileActions profile={user} />
+        </Suspense>
 
         <div className="mt-4 flex flex-wrap gap-4 text-sm">
           {Object.entries(user.links)

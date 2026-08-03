@@ -31,7 +31,7 @@ export default async function InboxPage() {
       ) : (
         <ul className="space-y-3">
           {items.map((item) => (
-            <InboxRow key={item.id} item={item} />
+            <InboxRow key={item.uuid} item={item} />
           ))}
         </ul>
       )}

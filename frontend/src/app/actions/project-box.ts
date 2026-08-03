@@ -6,8 +6,8 @@ import { redirect } from "next/navigation";
 import { api, toFormState } from "@/lib/api";
 import type { FormState } from "@/lib/types";
 
-export async function confirmSeat(boxId: number, accept: boolean): Promise<void> {
-  await api(`/project-box/${boxId}/confirm`, { method: "POST", body: { accept } });
+export async function confirmSeat(boxUuid: string, accept: boolean): Promise<void> {
+  await api(`/project-box/${boxUuid}/confirm`, { method: "POST", body: { accept } });
 
   revalidatePath("/project-box");
 }
@@ -17,13 +17,13 @@ export async function shortlistApplicants(
   _state: FormState | undefined,
   formData: FormData,
 ): Promise<FormState> {
-  const individual_ids = formData.getAll("individual_ids").map(Number).filter(Boolean);
-  const team_ids = formData.getAll("team_ids").map(Number).filter(Boolean);
+  const individual_uuids = formData.getAll("individual_uuids").map(String).filter(Boolean);
+  const team_uuids = formData.getAll("team_uuids").map(String).filter(Boolean);
 
   try {
     await api(`/my/projects/${encodeURIComponent(projectUrl)}/shortlist`, {
       method: "POST",
-      body: { individual_ids, team_ids },
+      body: { individual_uuids, team_uuids },
     });
   } catch (error) {
     return toFormState(error);
@@ -48,13 +48,13 @@ export async function submitReview(
   formData: FormData,
 ): Promise<FormState> {
   // One score/assessment field per participant, keyed by member id.
-  const participants: Record<number, Record<string, string>> = {};
+  const participants: Record<string, Record<string, string>> = {};
 
   for (const [key, value] of formData.entries()) {
-    const match = key.match(/^participants\[(\d+)]\[(\w+)]$/);
+    const match = key.match(/^participants\[([\w-]+)]\[(\w+)]$/);
 
     if (match && typeof value === "string") {
-      const id = Number(match[1]);
+      const id = match[1];
       participants[id] ??= {};
       participants[id][match[2]] = value;
     }
@@ -68,7 +68,7 @@ export async function submitReview(
         overall_review: formData.get("overall_review") || null,
         project_result: formData.get("project_result") || null,
         participants: Object.entries(participants).map(([id, fields]) => ({
-          member_id: Number(id),
+          member_uuid: id,
           expertise: fields.expertise,
           score: fields.score,
           assessment: fields.assessment || null,

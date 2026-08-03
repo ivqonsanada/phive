@@ -53,7 +53,7 @@ class ProjectInvitationTest extends TestCase
 
         $studentToken = $student->createToken('t')->plainTextToken;
         $inboxId = $this->forgetAuthState()->withToken($studentToken)
-            ->getJson('/api/inbox')->json('items.0.id');
+            ->getJson('/api/inbox')->json('items.0.uuid');
 
         $this->forgetAuthState()->withToken($studentToken)
             ->postJson("/api/inbox/$inboxId/respond", ['accept' => true])
@@ -81,7 +81,7 @@ class ProjectInvitationTest extends TestCase
 
         $studentToken = $student->createToken('t')->plainTextToken;
         $inboxId = $this->forgetAuthState()->withToken($studentToken)
-            ->getJson('/api/inbox')->json('items.0.id');
+            ->getJson('/api/inbox')->json('items.0.uuid');
 
         $this->forgetAuthState()->withToken($studentToken)
             ->postJson("/api/inbox/$inboxId/respond", ['accept' => false])

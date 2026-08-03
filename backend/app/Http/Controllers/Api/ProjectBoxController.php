@@ -24,7 +24,7 @@ class ProjectBoxController extends Controller
 
         return response()->json([
             'boxes' => $boxes->map(fn (ProjectBox $box) => [
-                'id' => $box->id,
+                'uuid' => $box->uuid,
                 'status' => $box->status,
                 'can_confirm' => $box->status === ProjectBoxStatus::Accepted,
                 'updated_at' => $box->updated_at,

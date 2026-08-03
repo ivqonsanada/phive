@@ -7,7 +7,7 @@ export type Expertise =
   | "Data Expert";
 
 export interface User {
-  id: number;
+  uuid: string;
   tagname: string;
   first_name: string;
   last_name: string;
@@ -39,7 +39,7 @@ export interface User {
 }
 
 export interface Experience {
-  id: number;
+  uuid: string;
   project_name: string;
   project_role: string;
   start_date: string;
@@ -54,7 +54,7 @@ export interface AuthPayload {
 
 /** The compact user card embedded in projects and leaderboard rows. */
 export interface UserSummary {
-  id: number;
+  uuid: string;
   tagname: string;
   first_name: string;
   last_name: string;
@@ -69,7 +69,7 @@ export type ProjectStatus = "Draft" | "Hiring" | "Ongoing" | "Finished";
 export type ApplicantType = "Individual" | "Team" | "Individual & Team";
 
 export interface Project {
-  id: number;
+  uuid: string;
   title: string | null;
   description: string | null;
   project_url: string | null;
@@ -100,7 +100,7 @@ export interface Project {
 }
 
 export interface ProjectTeam {
-  id: number;
+  uuid: string;
   leader?: UserSummary;
   members?: {
     expertise: Expertise | null;
@@ -117,7 +117,7 @@ export interface ProjectReview {
 }
 
 export interface LeaderboardEntry {
-  id: number;
+  uuid: string;
   expertise: Expertise;
   points: number;
   user?: UserSummary;
@@ -148,7 +148,7 @@ export interface PartyMember {
 }
 
 export interface Party {
-  id: number;
+  uuid: string;
   leader: UserSummary;
   members: PartyMember[];
 }
@@ -163,12 +163,12 @@ export type InboxCategory = "Message" | "Team Invitation" | "Project Invitation"
 export type InvitationStatus = "Pending" | "Accepted" | "Rejected";
 
 export interface InboxItem {
-  id: number;
+  uuid: string;
   category: InboxCategory;
   is_read: boolean;
   created_at: string;
   sender: UserSummary;
-  team: { id: number; leader: UserSummary; status: InvitationStatus } | null;
+  team: { uuid: string; leader: UserSummary; status: InvitationStatus } | null;
   project: { title: string | null; project_url: string | null; status: InvitationStatus } | null;
   message: string | null;
 }

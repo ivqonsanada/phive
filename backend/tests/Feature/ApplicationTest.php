@@ -132,8 +132,8 @@ class ApplicationTest extends TestCase
         $this->withToken($token)
             ->postJson("/api/projects/{$project->project_url}/apply/team", [
                 'members' => [
-                    ['member_id' => $leader->id, 'expertise' => Expertise::FrontendEngineer->value],
-                    ['member_id' => $member->id, 'expertise' => Expertise::DataExpert->value],
+                    ['member_uuid' => $leader->uuid, 'expertise' => Expertise::FrontendEngineer->value],
+                    ['member_uuid' => $member->uuid, 'expertise' => Expertise::DataExpert->value],
                 ],
             ])
             ->assertCreated();
@@ -159,7 +159,7 @@ class ApplicationTest extends TestCase
         $this->withToken($token)
             ->postJson("/api/projects/{$project->project_url}/apply/team", [
                 'members' => [
-                    ['member_id' => $outsider->id, 'expertise' => Expertise::DataExpert->value],
+                    ['member_uuid' => $outsider->uuid, 'expertise' => Expertise::DataExpert->value],
                 ],
             ])
             ->assertStatus(422);
@@ -175,7 +175,7 @@ class ApplicationTest extends TestCase
 
         $this->withToken($token)
             ->postJson("/api/projects/{$project->project_url}/apply/team", [
-                'members' => [['member_id' => 1, 'expertise' => Expertise::DataExpert->value]],
+                'members' => [['member_uuid' => '00000000-0000-7000-8000-000000000000', 'expertise' => Expertise::DataExpert->value]],
             ])
             ->assertStatus(422);
     }

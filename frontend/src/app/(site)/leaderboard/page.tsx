@@ -50,7 +50,7 @@ function Board({
       ) : (
         <ol className="space-y-2">
           {entries.map((entry, index) => (
-            <li key={entry.id} className="flex items-center gap-3 text-sm">
+            <li key={entry.uuid} className="flex items-center gap-3 text-sm">
               <span className="w-5 shrink-0 text-right font-semibold text-ink/40">{index + 1}</span>
 
               {entry.user ? (

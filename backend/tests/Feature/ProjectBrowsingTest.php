@@ -26,7 +26,7 @@ class ProjectBrowsingTest extends TestCase
 
         $response->assertOk()
             ->assertJsonCount(3, 'data')
-            ->assertJsonStructure(['data' => [['id', 'title', 'project_url', 'user' => ['tagname']]]]);
+            ->assertJsonStructure(['data' => [['uuid', 'title', 'project_url', 'user' => ['tagname']]]]);
     }
 
     #[Test]
@@ -149,7 +149,7 @@ class ProjectBrowsingTest extends TestCase
 
         foreach ($response->json() as $similar) {
             $this->assertContains('Data Expert', $similar['looking_for']);
-            $this->assertNotSame($project->id, $similar['id']);
+            $this->assertNotSame($project->uuid, $similar['uuid']);
         }
     }
 }

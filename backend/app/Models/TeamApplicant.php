@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ApplicationStatus;
+use App\Models\Concerns\HasUuid;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,6 +12,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 #[Fillable(['project_id', 'from_id', 'to_id', 'status', 'self_describe', 'apply_reason'])]
 class TeamApplicant extends Model
 {
+    use HasUuid;
+
     /**
      * @return array<string, string>
      */

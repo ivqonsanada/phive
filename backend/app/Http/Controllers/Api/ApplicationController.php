@@ -13,6 +13,7 @@ use App\Models\ProjectBox;
 use App\Models\Team;
 use App\Models\TeamApplicant;
 use App\Models\TeamMember;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -76,21 +77,23 @@ class ApplicationController extends Controller
             'self_describe' => ['nullable', 'string', 'max:2000'],
             'apply_reason' => ['nullable', 'string', 'max:2000'],
             'members' => ['required', 'array', 'min:1'],
-            'members.*.member_id' => ['required', 'integer'],
+            'members.*.member_uuid' => ['required', 'uuid'],
             'members.*.expertise' => ['required', Rule::enum(Expertise::class)],
         ]);
 
-        $partyMemberIds = TeamMember::where('team_id', $team->id)->pluck('member_id')->all();
+        // Resolve the public identifiers to internal ones, scoped to this party.
+        $partyMembers = User::whereIn('id', TeamMember::where('team_id', $team->id)->pluck('member_id'))
+            ->pluck('id', 'uuid');
 
         foreach ($data['members'] as $member) {
             abort_unless(
-                in_array($member['member_id'], $partyMemberIds, strict: true),
+                $partyMembers->has($member['member_uuid']),
                 422,
                 'Every applicant has to be a member of your party.',
             );
         }
 
-        DB::transaction(function () use ($project, $leader, $data) {
+        DB::transaction(function () use ($project, $leader, $data, $partyMembers) {
             $application = TeamApplicant::create([
                 'project_id' => $project->id,
                 'from_id' => $leader->id,
@@ -102,12 +105,12 @@ class ApplicationController extends Controller
             foreach ($data['members'] as $member) {
                 ApplicantTeamMember::create([
                     'team_applicant_id' => $application->id,
-                    'member_id' => $member['member_id'],
+                    'member_id' => $partyMembers[$member['member_uuid']],
                     'expertise' => $member['expertise'],
                 ]);
 
                 // Every listed member gets their own project box row.
-                $this->openProjectBox($project, $member['member_id']);
+                $this->openProjectBox($project, $partyMembers[$member['member_uuid']]);
             }
         });
 

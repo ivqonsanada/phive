@@ -12,7 +12,7 @@ type Params = { params: Promise<{ projectUrl: string }> };
 export const metadata: Metadata = { title: "Review project" };
 
 export interface Participant {
-  member_id: number;
+  member_uuid: string;
   expertise: Expertise | null;
   score: string | null;
   assessment: string | null;

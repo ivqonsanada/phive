@@ -40,7 +40,7 @@ export default async function MyProjectsPage() {
       ) : (
         <ul className="space-y-3">
           {projects.map((project) => (
-            <ProjectRow key={project.id} project={project} />
+            <ProjectRow key={project.uuid} project={project} />
           ))}
         </ul>
       )}

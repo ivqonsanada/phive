@@ -17,6 +17,7 @@ use App\Models\ProjectReview;
 use App\Models\ProjectTeam;
 use App\Models\ProjectTeamMember;
 use App\Models\TeamApplicant;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -137,7 +138,7 @@ class ProjectWorkflowController extends Controller
             'overall_review' => ['nullable', 'string', 'max:5000'],
             'project_result' => ['nullable', 'string', 'max:2000'],
             'participants' => ['required', 'array', 'min:1'],
-            'participants.*.member_id' => ['required', 'integer'],
+            'participants.*.member_uuid' => ['required', 'uuid'],
             'participants.*.expertise' => ['required', Rule::enum(Expertise::class)],
             'participants.*.score' => ['required', 'numeric', 'min:0', 'max:5'],
             'participants.*.assessment' => ['nullable', 'string', 'max:2000'],
@@ -146,11 +147,26 @@ class ProjectWorkflowController extends Controller
         $team = ProjectTeam::firstWhere('project_id', $project->id);
         abort_unless($team, 409, 'This project has no team to review.');
 
+        // Participants arrive as public identifiers; map them to internal ids, scoped
+        // to this project's team so a stray uuid cannot be scored onto it.
+        $memberIds = User::whereIn(
+            'id',
+            ProjectTeamMember::where('project_team_id', $team->id)->pluck('member_id'),
+        )->pluck('id', 'uuid');
+
+        foreach ($data['participants'] as $participant) {
+            abort_unless(
+                $memberIds->has($participant['member_uuid']),
+                422,
+                'Everyone scored has to be on this project team.',
+            );
+        }
+
         $level = $project->level_applicant
             ? ProjectLevel::tryFrom($project->level_applicant)
             : null;
 
-        DB::transaction(function () use ($project, $team, $data, $level) {
+        DB::transaction(function () use ($project, $team, $data, $level, $memberIds) {
             $project->update([
                 'status' => ProjectStatus::Finished,
                 'finish_time' => now(),
@@ -171,7 +187,7 @@ class ProjectWorkflowController extends Controller
 
             foreach ($data['participants'] as $participant) {
                 ProjectTeamMember::updateOrCreate(
-                    ['project_team_id' => $team->id, 'member_id' => $participant['member_id']],
+                    ['project_team_id' => $team->id, 'member_id' => $memberIds[$participant['member_uuid']]],
                     [
                         'expertise' => $participant['expertise'],
                         'score' => (string) $participant['score'],
@@ -188,7 +204,7 @@ class ProjectWorkflowController extends Controller
                 // The legacy version issued a bare UPDATE, so a student without a
                 // leaderboard row silently earned nothing. Create it if missing.
                 $board = Leaderboard::firstOrCreate(
-                    ['user_id' => $participant['member_id'], 'expertise' => $participant['expertise']],
+                    ['user_id' => $memberIds[$participant['member_uuid']], 'expertise' => $participant['expertise']],
                     ['points' => 0],
                 );
 

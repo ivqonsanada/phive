@@ -15,7 +15,7 @@ export function ExperienceManager({ experiences }: { experiences: Experience[] }
         <ul className="space-y-2">
           {experiences.map((experience) => (
             <li
-              key={experience.id}
+              key={experience.uuid}
               className="flex items-center gap-3 rounded-xl border border-navy/10 p-3"
             >
               <div className="min-w-0 flex-1">
@@ -25,7 +25,7 @@ export function ExperienceManager({ experiences }: { experiences: Experience[] }
                 </p>
               </div>
 
-              <form action={removeExperience.bind(null, experience.id)}>
+              <form action={removeExperience.bind(null, experience.uuid)}>
                 <button type="submit" className="text-sm font-semibold text-glow hover:underline">
                   Remove
                 </button>

@@ -114,8 +114,8 @@ export async function addExperience(
   return { success: "Experience added." };
 }
 
-export async function removeExperience(id: number): Promise<void> {
-  await api(`/settings/experiences/${id}`, { method: "DELETE" });
+export async function removeExperience(uuid: string): Promise<void> {
+  await api(`/settings/experiences/${uuid}`, { method: "DELETE" });
 
   revalidateProfile();
 }

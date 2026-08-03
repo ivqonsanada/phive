@@ -36,7 +36,7 @@ class ShortlistController extends Controller
 
         return response()->json([
             'individuals' => $individuals->map(fn (IndividualApplicant $applicant) => [
-                'id' => $applicant->id,
+                'uuid' => $applicant->uuid,
                 'status' => $applicant->status,
                 'expertise' => $applicant->expertise,
                 'self_describe' => $applicant->self_describe,
@@ -44,7 +44,7 @@ class ShortlistController extends Controller
                 'user' => new UserSummaryResource($applicant->applicant),
             ]),
             'teams' => $teams->map(fn (TeamApplicant $applicant) => [
-                'id' => $applicant->id,
+                'uuid' => $applicant->uuid,
                 'status' => $applicant->status,
                 'self_describe' => $applicant->self_describe,
                 'apply_reason' => $applicant->apply_reason,
@@ -66,27 +66,27 @@ class ShortlistController extends Controller
         $this->authorize('update', $project);
 
         $data = $request->validate([
-            'individual_ids' => ['array'],
-            'individual_ids.*' => ['integer'],
-            'team_ids' => ['array'],
-            'team_ids.*' => ['integer'],
+            'individual_uuids' => ['array'],
+            'individual_uuids.*' => ['uuid'],
+            'team_uuids' => ['array'],
+            'team_uuids.*' => ['uuid'],
         ]);
 
-        $individualIds = $data['individual_ids'] ?? [];
-        $teamIds = $data['team_ids'] ?? [];
+        $individualUuids = $data['individual_uuids'] ?? [];
+        $teamUuids = $data['team_uuids'] ?? [];
 
         abort_if(
-            $individualIds === [] && $teamIds === [],
+            $individualUuids === [] && $teamUuids === [],
             422,
             'Pick at least one applicant to shortlist.',
         );
 
-        DB::transaction(function () use ($project, $individualIds, $teamIds) {
+        DB::transaction(function () use ($project, $individualUuids, $teamUuids) {
             $chosen = collect();
 
-            if ($individualIds !== []) {
+            if ($individualUuids !== []) {
                 $applicants = IndividualApplicant::where('project_id', $project->id)
-                    ->whereKey($individualIds)
+                    ->whereIn('uuid', $individualUuids)
                     ->get();
 
                 IndividualApplicant::whereKey($applicants->modelKeys())
@@ -95,9 +95,9 @@ class ShortlistController extends Controller
                 $chosen = $chosen->merge($applicants->pluck('from_id'));
             }
 
-            if ($teamIds !== []) {
+            if ($teamUuids !== []) {
                 $applicants = TeamApplicant::where('project_id', $project->id)
-                    ->whereKey($teamIds)
+                    ->whereIn('uuid', $teamUuids)
                     ->with('members')
                     ->get();
 

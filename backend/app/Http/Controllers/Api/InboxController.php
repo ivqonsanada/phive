@@ -133,13 +133,13 @@ class InboxController extends Controller
     private function present(Inbox $item): array
     {
         return [
-            'id' => $item->id,
+            'uuid' => $item->uuid,
             'category' => $item->category,
             'is_read' => $item->is_read,
             'created_at' => $item->created_at,
             'sender' => new UserSummaryResource($item->sender),
             'team' => $item->teamInvitation?->team ? [
-                'id' => $item->teamInvitation->team->id,
+                'uuid' => $item->teamInvitation->team->uuid,
                 'leader' => new UserSummaryResource($item->teamInvitation->team->leader),
                 'status' => $item->teamInvitation->status,
             ] : null,

@@ -197,7 +197,7 @@ async function SimilarProjects({ projectUrl }: { projectUrl: string }) {
       <h2 className="mb-3 font-semibold text-navy">You might also like</h2>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {projects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
+          <ProjectCard key={project.uuid} project={project} />
         ))}
       </div>
     </section>

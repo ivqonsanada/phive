@@ -30,12 +30,12 @@ export function ShortlistForm({
           <h2 className="mb-3 font-semibold text-navy">Individuals</h2>
           <ul className="space-y-3">
             {individuals.map((application) => (
-              <li key={application.id} className="rounded-xl border border-navy/10 p-4">
+              <li key={application.uuid} className="rounded-xl border border-navy/10 p-4">
                 <label className="flex items-start gap-3">
                   <input
                     type="checkbox"
-                    name="individual_ids"
-                    value={application.id}
+                    name="individual_uuids"
+                    value={application.uuid}
                     defaultChecked={application.status !== "Applying"}
                     className="mt-1"
                   />
@@ -65,12 +65,12 @@ export function ShortlistForm({
           <h2 className="mb-3 font-semibold text-navy">Teams</h2>
           <ul className="space-y-3">
             {teams.map((application) => (
-              <li key={application.id} className="rounded-xl border border-navy/10 p-4">
+              <li key={application.uuid} className="rounded-xl border border-navy/10 p-4">
                 <label className="flex items-start gap-3">
                   <input
                     type="checkbox"
-                    name="team_ids"
-                    value={application.id}
+                    name="team_uuids"
+                    value={application.uuid}
                     defaultChecked={application.status !== "Applying"}
                     className="mt-1"
                   />
@@ -81,7 +81,7 @@ export function ShortlistForm({
                     </span>
                     <ul className="mt-1 space-y-0.5 text-sm text-ink/60">
                       {application.members.map((member) => (
-                        <li key={member.user.id}>
+                        <li key={member.user.uuid}>
                           {member.user.name} — {member.expertise ?? "No expertise"}
                         </li>
                       ))}

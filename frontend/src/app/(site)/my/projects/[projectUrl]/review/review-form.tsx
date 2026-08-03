@@ -64,7 +64,7 @@ export function ReviewForm({
         <h2 className="mb-3 font-semibold text-navy">Participants</h2>
         <ul className="space-y-4">
           {participants.map((participant) => (
-            <li key={participant.member_id} className="rounded-xl border border-navy/10 p-4">
+            <li key={participant.member_uuid} className="rounded-xl border border-navy/10 p-4">
               <p className="mb-3 font-semibold text-navy">
                 {participant.user.name}{" "}
                 <span className="font-normal text-ink/50">@{participant.user.tagname}</span>
@@ -74,7 +74,7 @@ export function ReviewForm({
                 <label className="block">
                   <span className="mb-1.5 block text-sm font-semibold text-navy">Expertise</span>
                   <select
-                    name={`participants[${participant.member_id}][expertise]`}
+                    name={`participants[${participant.member_uuid}][expertise]`}
                     defaultValue={participant.expertise ?? EXPERTISE_OPTIONS[0]}
                     className="w-full rounded-lg border border-navy/15 px-3 py-2.5 outline-none focus:border-navy"
                   >
@@ -90,7 +90,7 @@ export function ReviewForm({
                   <span className="mb-1.5 block text-sm font-semibold text-navy">Score (0–5)</span>
                   <input
                     type="number"
-                    name={`participants[${participant.member_id}][score]`}
+                    name={`participants[${participant.member_uuid}][score]`}
                     min={0}
                     max={5}
                     step={0.5}
@@ -104,7 +104,7 @@ export function ReviewForm({
               <label className="mt-3 block">
                 <span className="mb-1.5 block text-sm font-semibold text-navy">Assessment</span>
                 <textarea
-                  name={`participants[${participant.member_id}][assessment]`}
+                  name={`participants[${participant.member_uuid}][assessment]`}
                   rows={2}
                   defaultValue={participant.assessment ?? ""}
                   className="w-full rounded-lg border border-navy/15 px-3.5 py-2.5 outline-none focus:border-navy"

@@ -37,8 +37,8 @@ export async function kickFromParty(tagname: string): Promise<void> {
   revalidatePath("/party");
 }
 
-export async function leaveParty(teamId: number): Promise<void> {
-  await api(`/party/${teamId}/leave`, { method: "DELETE" });
+export async function leaveParty(teamUuid: string): Promise<void> {
+  await api(`/party/${teamUuid}/leave`, { method: "DELETE" });
 
   revalidatePath("/party");
 }

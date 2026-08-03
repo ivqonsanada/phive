@@ -49,7 +49,7 @@ class ProfileTest extends TestCase
         $this->getJson('/api/users/ada')
             ->assertOk()
             ->assertJsonCount(1, 'projects')
-            ->assertJsonPath('projects.0.id', $finished->id);
+            ->assertJsonPath('projects.0.uuid', $finished->uuid);
     }
 
     #[Test]

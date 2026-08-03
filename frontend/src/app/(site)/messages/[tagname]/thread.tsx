@@ -5,16 +5,16 @@ import { useEffect, useRef, useState } from "react";
 import { getEcho } from "@/lib/echo";
 
 export interface ThreadMessage {
-  id: number;
+  uuid: string;
   message: string;
   is_mine: boolean;
   created_at: string;
 }
 
 interface Incoming {
-  id: number;
+  uuid: string;
   message: string;
-  sender_id: number;
+  sender_uuid: string;
   created_at: string;
 }
 
@@ -25,12 +25,12 @@ interface Incoming {
  */
 export function Thread({
   initialMessages,
-  viewerId,
-  partnerId,
+  viewerUuid,
+  partnerUuid,
 }: {
   initialMessages: ThreadMessage[];
-  viewerId: number;
-  partnerId: number;
+  viewerUuid: string;
+  partnerUuid: string;
 }) {
   const [messages, setMessages] = useState(initialMessages);
   const [seeded, setSeeded] = useState(initialMessages);
@@ -50,25 +50,25 @@ export function Thread({
       return;
     }
 
-    const channel = echo.private(`user.${viewerId}`);
+    const channel = echo.private(`user.${viewerUuid}`);
 
     channel.listen(".message.sent", (event: Incoming) => {
       // Only messages from the person whose thread is open belong here.
-      if (event.sender_id !== partnerId) {
+      if (event.sender_uuid !== partnerUuid) {
         return;
       }
 
       setMessages((current) =>
-        current.some((message) => message.id === event.id)
+        current.some((message) => message.uuid === event.uuid)
           ? current
           : [...current, { ...event, is_mine: false }],
       );
     });
 
     return () => {
-      echo.leave(`user.${viewerId}`);
+      echo.leave(`user.${viewerUuid}`);
     };
-  }, [viewerId, partnerId]);
+  }, [viewerUuid, partnerUuid]);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ block: "nearest" });
@@ -86,7 +86,7 @@ export function Thread({
     <ul className="mb-6 space-y-2">
       {messages.map((message) => (
         <li
-          key={message.id}
+          key={message.uuid}
           className={`max-w-[80%] rounded-xl px-3.5 py-2.5 text-sm ${
             message.is_mine ? "ml-auto bg-navy text-white" : "mr-auto bg-navy/5 text-ink"
           }`}

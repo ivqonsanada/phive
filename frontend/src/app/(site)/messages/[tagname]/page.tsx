@@ -47,8 +47,8 @@ export default async function ConversationPage({ params }: Params) {
 
       <Thread
         initialMessages={thread.messages}
-        viewerId={viewer.id}
-        partnerId={thread.with.id}
+        viewerUuid={viewer.uuid}
+        partnerUuid={thread.with.uuid}
       />
 
       <MessageComposer tagname={thread.with.tagname} />

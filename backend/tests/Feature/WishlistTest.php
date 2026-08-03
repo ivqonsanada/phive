@@ -47,7 +47,7 @@ class WishlistTest extends TestCase
             ->getJson('/api/wishlist')
             ->assertOk()
             ->assertJsonCount(1, 'projects')
-            ->assertJsonPath('projects.0.id', $starred->id);
+            ->assertJsonPath('projects.0.uuid', $starred->uuid);
     }
 
     #[Test]

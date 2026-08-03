@@ -17,7 +17,7 @@ class LeaderboardEntryResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
+            'uuid' => $this->uuid,
             'expertise' => $this->expertise,
             'points' => $this->points,
             'user' => new UserSummaryResource($this->whenLoaded('user')),

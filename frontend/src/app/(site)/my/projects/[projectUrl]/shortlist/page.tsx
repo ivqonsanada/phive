@@ -12,7 +12,7 @@ type Params = { params: Promise<{ projectUrl: string }> };
 export const metadata: Metadata = { title: "Applicants" };
 
 export interface IndividualApplication {
-  id: number;
+  uuid: string;
   status: string;
   expertise: Expertise;
   self_describe: string | null;
@@ -21,7 +21,7 @@ export interface IndividualApplication {
 }
 
 export interface TeamApplication {
-  id: number;
+  uuid: string;
   status: string;
   self_describe: string | null;
   apply_reason: string | null;

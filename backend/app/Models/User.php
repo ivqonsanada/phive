@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\Expertise;
 use App\Enums\ProjectBoxStatus;
 use App\Enums\UserRole;
+use App\Models\Concerns\HasUuid;
 use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
@@ -29,6 +30,8 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmailContr
 {
     /** @use HasFactory<UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
+
+    use HasUuid;
 
     /**
      * Only explicitly flagged administrators reach the Filament panel. Every other

@@ -123,7 +123,7 @@ class PartyController extends Controller
     private function present(Team $team): array
     {
         return [
-            'id' => $team->id,
+            'uuid' => $team->uuid,
             'leader' => new UserSummaryResource($team->leader),
             'members' => $team->members->map(fn (TeamMember $member) => [
                 'expertise' => $member->expertise,

@@ -18,17 +18,17 @@ class ExperienceTest extends TestCase
         $user = User::factory()->student()->create();
         $token = $user->createToken('t')->plainTextToken;
 
-        $id = $this->withToken($token)
+        $uuid = $this->withToken($token)
             ->postJson('/api/settings/experiences', [
                 'project_name' => 'Campus App',
                 'project_role' => 'Frontend Engineer',
                 'start_date' => '2025-01-01',
             ])
             ->assertCreated()
-            ->json('experience.id');
+            ->json('experience.uuid');
 
         $this->forgetAuthState()->withToken($token)
-            ->patchJson("/api/settings/experiences/$id", [
+            ->patchJson("/api/settings/experiences/$uuid", [
                 'project_name' => 'Campus App v2',
                 'project_role' => 'Lead',
                 'start_date' => '2025-01-01',
@@ -38,10 +38,10 @@ class ExperienceTest extends TestCase
             ->assertJsonPath('experience.project_name', 'Campus App v2');
 
         $this->forgetAuthState()->withToken($token)
-            ->deleteJson("/api/settings/experiences/$id")
+            ->deleteJson("/api/settings/experiences/$uuid")
             ->assertOk();
 
-        $this->assertDatabaseMissing('experiences', ['id' => $id]);
+        $this->assertDatabaseMissing('experiences', ['uuid' => $uuid]);
     }
 
     #[Test]
@@ -76,7 +76,7 @@ class ExperienceTest extends TestCase
         $token = $intruder->createToken('t')->plainTextToken;
 
         $this->withToken($token)
-            ->patchJson("/api/settings/experiences/{$experience->id}", [
+            ->patchJson("/api/settings/experiences/{$experience->uuid}", [
                 'project_name' => 'Stolen',
                 'project_role' => 'Thief',
                 'start_date' => '2025-01-01',
@@ -84,7 +84,7 @@ class ExperienceTest extends TestCase
             ->assertForbidden();
 
         $this->forgetAuthState()->withToken($token)
-            ->deleteJson("/api/settings/experiences/{$experience->id}")
+            ->deleteJson("/api/settings/experiences/{$experience->uuid}")
             ->assertForbidden();
 
         $this->assertDatabaseHas('experiences', ['id' => $experience->id, 'project_name' => 'Private']);

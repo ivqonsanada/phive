@@ -33,7 +33,7 @@ export function InboxRow({ item }: { item: InboxItem }) {
       <div className="mt-3 flex flex-wrap items-center gap-3">
         {pending ? (
           <>
-            <form action={respondToInvitation.bind(null, item.id, true)}>
+            <form action={respondToInvitation.bind(null, item.uuid, true)}>
               <button
                 type="submit"
                 className="rounded-lg bg-navy px-3.5 py-1.5 text-sm font-semibold text-white hover:bg-navy/90"
@@ -41,7 +41,7 @@ export function InboxRow({ item }: { item: InboxItem }) {
                 Accept
               </button>
             </form>
-            <form action={respondToInvitation.bind(null, item.id, false)}>
+            <form action={respondToInvitation.bind(null, item.uuid, false)}>
               <button type="submit" className="text-sm font-semibold text-glow hover:underline">
                 Decline
               </button>
@@ -54,7 +54,7 @@ export function InboxRow({ item }: { item: InboxItem }) {
         )}
 
         {!item.is_read && (
-          <form action={markInboxRead.bind(null, item.id)} className="ml-auto">
+          <form action={markInboxRead.bind(null, item.uuid)} className="ml-auto">
             <button type="submit" className="text-sm text-ink/60 hover:text-glow">
               Mark as read
             </button>

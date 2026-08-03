@@ -17,7 +17,7 @@ export function PartyCard({ party, viewerIsLeader }: { party: Party; viewerIsLea
 
       <ul className="space-y-2">
         {party.members.map((member) => (
-          <li key={member.user.id} className="flex items-center gap-3 text-sm">
+          <li key={member.user.uuid} className="flex items-center gap-3 text-sm">
             <Link href={`/u/${member.user.tagname}`} className="text-navy hover:text-glow">
               {member.user.name}
             </Link>
@@ -42,7 +42,7 @@ export function PartyCard({ party, viewerIsLeader }: { party: Party; viewerIsLea
       </ul>
 
       {!viewerIsLeader && (
-        <form action={leaveParty.bind(null, party.id)} className="mt-3">
+        <form action={leaveParty.bind(null, party.uuid)} className="mt-3">
           <button type="submit" className="text-sm font-semibold text-glow hover:underline">
             Leave this party
           </button>

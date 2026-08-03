@@ -37,13 +37,13 @@ export async function applyAsTeam(
   _state: FormState | undefined,
   formData: FormData,
 ): Promise<FormState> {
-  const members: { member_id: number; expertise: Expertise }[] = [];
+  const members: { member_uuid: string; expertise: Expertise }[] = [];
 
   for (const [key, value] of formData.entries()) {
-    const match = key.match(/^expertise\[(\d+)\]$/);
+    const match = key.match(/^expertise\[([\w-]+)\]$/);
 
     if (match && typeof value === "string" && value) {
-      members.push({ member_id: Number(match[1]), expertise: value as Expertise });
+      members.push({ member_uuid: match[1], expertise: value as Expertise });
     }
   }
 

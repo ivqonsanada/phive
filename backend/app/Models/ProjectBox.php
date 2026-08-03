@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ProjectBoxStatus;
+use App\Models\Concerns\HasUuid;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,6 +15,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[Fillable(['project_id', 'user_id', 'status'])]
 class ProjectBox extends Model
 {
+    use HasUuid;
+
     /**
      * @return array<string, string>
      */

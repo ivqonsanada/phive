@@ -30,7 +30,7 @@ class RegistrationTest extends TestCase
         $response->assertCreated()
             ->assertJsonPath('user.email', 'ada@student.example.ac.id')
             ->assertJsonPath('user.role', 'Student')
-            ->assertJsonStructure(['token', 'user' => ['id', 'tagname', 'name']]);
+            ->assertJsonStructure(['token', 'user' => ['uuid', 'tagname', 'name']]);
 
         $user = User::firstWhere('email', 'ada@student.example.ac.id');
 

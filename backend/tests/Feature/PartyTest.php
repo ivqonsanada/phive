@@ -57,7 +57,7 @@ class PartyTest extends TestCase
             ->getJson('/api/inbox')
             ->assertOk()
             ->assertJsonPath('unread_count', 1)
-            ->json('items.0.id');
+            ->json('items.0.uuid');
 
         $this->forgetAuthState()->withToken($inviteeToken)
             ->postJson("/api/inbox/$inboxId/respond", ['accept' => true])
@@ -79,7 +79,7 @@ class PartyTest extends TestCase
             ->postJson("/api/users/{$invitee->tagname}/invite/party");
 
         $token = $invitee->createToken('t')->plainTextToken;
-        $inboxId = $this->forgetAuthState()->withToken($token)->getJson('/api/inbox')->json('items.0.id');
+        $inboxId = $this->forgetAuthState()->withToken($token)->getJson('/api/inbox')->json('items.0.uuid');
 
         $this->forgetAuthState()->withToken($token)
             ->postJson("/api/inbox/$inboxId/respond", ['accept' => false])
@@ -100,7 +100,7 @@ class PartyTest extends TestCase
 
         $inboxId = $this->forgetAuthState()
             ->withToken($invitee->createToken('t')->plainTextToken)
-            ->getJson('/api/inbox')->json('items.0.id');
+            ->getJson('/api/inbox')->json('items.0.uuid');
 
         $this->forgetAuthState()->withToken($stranger->createToken('t')->plainTextToken)
             ->postJson("/api/inbox/$inboxId/respond", ['accept' => true])
@@ -164,8 +164,8 @@ class PartyTest extends TestCase
         $this->withToken($user->createToken('t')->plainTextToken)
             ->getJson('/api/party')
             ->assertOk()
-            ->assertJsonPath('led.id', $own->id)
+            ->assertJsonPath('led.uuid', $own->uuid)
             ->assertJsonCount(1, 'member_of')
-            ->assertJsonPath('member_of.0.id', $theirs->id);
+            ->assertJsonPath('member_of.0.uuid', $theirs->uuid);
     }
 }

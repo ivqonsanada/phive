@@ -32,7 +32,7 @@ class MessageSent implements ShouldBroadcastNow
      */
     public function broadcastOn(): array
     {
-        return [new PrivateChannel('user.'.$this->message->recipient_id)];
+        return [new PrivateChannel('user.'.$this->message->recipient->uuid)];
     }
 
     public function broadcastAs(): string
@@ -46,9 +46,9 @@ class MessageSent implements ShouldBroadcastNow
     public function broadcastWith(): array
     {
         return [
-            'id' => $this->message->id,
+            'uuid' => $this->message->uuid,
             'message' => $this->message->message,
-            'sender_id' => $this->message->sender_id,
+            'sender_uuid' => $this->message->sender->uuid,
             'created_at' => $this->message->created_at?->toIso8601String(),
         ];
     }

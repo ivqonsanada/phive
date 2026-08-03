@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\ApplicantType;
 use App\Enums\ProjectStatus;
+use App\Models\Concerns\HasUuid;
 use Database\Factories\ProjectFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
@@ -23,6 +24,8 @@ class Project extends Model
 {
     /** @use HasFactory<ProjectFactory> */
     use HasFactory;
+
+    use HasUuid;
 
     public function getRouteKeyName(): string
     {

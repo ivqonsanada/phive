@@ -33,7 +33,7 @@ export default async function MessagesPage() {
       ) : (
         <ul className="space-y-2">
           {conversations.map((conversation) => (
-            <li key={conversation.with.id}>
+            <li key={conversation.with.uuid}>
               <Link
                 href={`/messages/${conversation.with.tagname}`}
                 className="flex items-center gap-3 rounded-xl border border-navy/10 p-4 transition hover:border-navy/30"

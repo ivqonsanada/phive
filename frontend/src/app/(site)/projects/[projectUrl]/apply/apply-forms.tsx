@@ -124,10 +124,10 @@ function TeamForm({
 
         <div className="space-y-3">
           {party.members.map((member) => (
-            <div key={member.user.id} className="flex flex-wrap items-center gap-3">
+            <div key={member.user.uuid} className="flex flex-wrap items-center gap-3">
               <span className="min-w-32 flex-1 text-sm text-navy">{member.user.name}</span>
               <ExpertiseSelect
-                name={`expertise[${member.user.id}]`}
+                name={`expertise[${member.user.uuid}]`}
                 label=""
                 lookingFor={lookingFor}
                 defaultValue={member.expertise ?? ""}

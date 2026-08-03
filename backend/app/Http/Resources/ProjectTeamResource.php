@@ -18,7 +18,7 @@ class ProjectTeamResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
+            'uuid' => $this->uuid,
             'leader' => new UserSummaryResource($this->whenLoaded('leader')),
             'members' => $this->whenLoaded(
                 'members',

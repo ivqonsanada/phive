@@ -23,7 +23,7 @@ class LoginTest extends TestCase
             'device_name' => 'integration-test',
         ])
             ->assertOk()
-            ->assertJsonPath('user.id', $user->id)
+            ->assertJsonPath('user.uuid', $user->uuid)
             ->assertJsonStructure(['token']);
 
         $this->assertSame('integration-test', $user->tokens()->sole()->name);

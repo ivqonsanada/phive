@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasUuid;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,6 +10,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[Fillable(['message_header_id', 'sender_id', 'recipient_id', 'message'])]
 class MessageBody extends Model
 {
+    use HasUuid;
+
     /** @return BelongsTo<MessageHeader, $this> */
     public function header(): BelongsTo
     {

@@ -12,7 +12,7 @@ import type { Project, User } from "@/lib/types";
 export async function ProfileActions({ profile }: { profile: User }) {
   const viewer = await getCurrentUser();
 
-  if (!viewer || viewer.id === profile.id) {
+  if (!viewer || viewer.uuid === profile.uuid) {
     return null;
   }
 

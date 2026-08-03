@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\InvitationStatus;
+use App\Models\Concerns\HasUuid;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[Fillable(['project_id', 'from_id', 'to_id', 'status'])]
 class ProjectInvitation extends Model
 {
+    use HasUuid;
+
     /**
      * @return array<string, string>
      */

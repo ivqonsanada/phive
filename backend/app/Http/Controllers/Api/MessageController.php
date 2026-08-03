@@ -65,7 +65,7 @@ class MessageController extends Controller
         return response()->json([
             'with' => new UserSummaryResource($user),
             'messages' => $messages->map(fn (MessageBody $message) => [
-                'id' => $message->id,
+                'uuid' => $message->uuid,
                 'message' => $message->message,
                 'is_mine' => $message->sender_id === $viewer->id,
                 'created_at' => $message->created_at,
@@ -116,7 +116,7 @@ class MessageController extends Controller
 
         return response()->json([
             'message' => [
-                'id' => $body->id,
+                'uuid' => $body->uuid,
                 'message' => $body->message,
                 'is_mine' => true,
                 'created_at' => $body->created_at,

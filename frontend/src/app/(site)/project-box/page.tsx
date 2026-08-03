@@ -9,7 +9,7 @@ import type { Project } from "@/lib/types";
 export const metadata: Metadata = { title: "Project box" };
 
 interface Box {
-  id: number;
+  uuid: string;
   status: string;
   can_confirm: boolean;
   updated_at: string;
@@ -40,7 +40,7 @@ export default async function ProjectBoxPage() {
       ) : (
         <ul className="space-y-3">
           {boxes.map((box) => (
-            <li key={box.id} className="rounded-xl border border-navy/10 p-4">
+            <li key={box.uuid} className="rounded-xl border border-navy/10 p-4">
               <div className="flex flex-wrap items-center gap-3">
                 <div className="min-w-0 flex-1">
                   <Link
@@ -62,7 +62,7 @@ export default async function ProjectBoxPage() {
                 )}
               </div>
 
-              {box.can_confirm && <ConfirmSeat boxId={box.id} />}
+              {box.can_confirm && <ConfirmSeat boxUuid={box.uuid} />}
             </li>
           ))}
         </ul>

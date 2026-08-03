@@ -4,8 +4,8 @@ import { revalidatePath } from "next/cache";
 
 import { api } from "@/lib/api";
 
-export async function respondToInvitation(id: number, accept: boolean): Promise<void> {
-  await api(`/inbox/${id}/respond`, { method: "POST", body: { accept } });
+export async function respondToInvitation(uuid: string, accept: boolean): Promise<void> {
+  await api(`/inbox/${uuid}/respond`, { method: "POST", body: { accept } });
 
   revalidatePath("/inbox");
   revalidatePath("/party");
@@ -13,8 +13,8 @@ export async function respondToInvitation(id: number, accept: boolean): Promise<
   revalidatePath("/", "layout");
 }
 
-export async function markInboxRead(id: number): Promise<void> {
-  await api(`/inbox/${id}/read`, { method: "POST" });
+export async function markInboxRead(uuid: string): Promise<void> {
+  await api(`/inbox/${uuid}/read`, { method: "POST" });
 
   revalidatePath("/inbox");
   revalidatePath("/", "layout");

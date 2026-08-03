@@ -26,7 +26,7 @@ export function InviteToProject({
         className="rounded-lg border border-navy/15 px-3 py-2 text-sm outline-none focus:border-navy"
       >
         {projects.map((project) => (
-          <option key={project.id} value={project.project_url ?? ""}>
+          <option key={project.uuid} value={project.project_url ?? ""}>
             {project.title ?? "Untitled draft"}
           </option>
         ))}

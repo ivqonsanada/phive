@@ -68,7 +68,7 @@ class ProjectWorkflowTest extends TestCase
 
         $this->forgetAuthState()->withToken($this->lecturerToken)
             ->postJson("/api/my/projects/{$this->project->project_url}/shortlist", [
-                'individual_ids' => [$applicant->id],
+                'individual_uuids' => [$applicant->uuid],
             ])->assertOk();
     }
 
@@ -77,7 +77,7 @@ class ProjectWorkflowTest extends TestCase
         $box = ProjectBox::where('user_id', $this->student->id)->sole();
 
         $this->forgetAuthState()->withToken($this->studentToken)
-            ->postJson("/api/project-box/{$box->id}/confirm", ['accept' => $accept])
+            ->postJson("/api/project-box/{$box->uuid}/confirm", ['accept' => $accept])
             ->assertOk();
     }
 
@@ -138,7 +138,7 @@ class ProjectWorkflowTest extends TestCase
 
         $this->forgetAuthState()->withToken($this->lecturerToken)
             ->postJson("/api/my/projects/{$this->project->project_url}/shortlist", [
-                'individual_ids' => [],
+                'individual_uuids' => [],
             ])
             ->assertStatus(422);
     }
@@ -179,7 +179,7 @@ class ProjectWorkflowTest extends TestCase
         $stranger = User::factory()->student()->create();
 
         $this->forgetAuthState()->withToken($stranger->createToken('t')->plainTextToken)
-            ->postJson("/api/project-box/{$box->id}/confirm", ['accept' => true])
+            ->postJson("/api/project-box/{$box->uuid}/confirm", ['accept' => true])
             ->assertForbidden();
     }
 
@@ -191,7 +191,7 @@ class ProjectWorkflowTest extends TestCase
         $box = ProjectBox::where('user_id', $this->student->id)->sole();
 
         $this->forgetAuthState()->withToken($this->studentToken)
-            ->postJson("/api/project-box/{$box->id}/confirm", ['accept' => true])
+            ->postJson("/api/project-box/{$box->uuid}/confirm", ['accept' => true])
             ->assertStatus(409);
     }
 
@@ -264,7 +264,7 @@ class ProjectWorkflowTest extends TestCase
                 'overall_score' => 5,
                 'overall_review' => 'Shipped on time.',
                 'participants' => [[
-                    'member_id' => $this->student->id,
+                    'member_uuid' => $this->student->uuid,
                     'expertise' => Expertise::FrontendEngineer->value,
                     'score' => 4,
                     'assessment' => 'Strong work.',
@@ -304,7 +304,7 @@ class ProjectWorkflowTest extends TestCase
             ->postJson("/api/my/projects/{$this->project->project_url}/review", [
                 'overall_score' => 5,
                 'participants' => [[
-                    'member_id' => $this->student->id,
+                    'member_uuid' => $this->student->uuid,
                     'expertise' => Expertise::FrontendEngineer->value,
                     'score' => 5,
                 ]],
@@ -322,7 +322,7 @@ class ProjectWorkflowTest extends TestCase
             ->postJson("/api/my/projects/{$this->project->project_url}/review", [
                 'overall_score' => 5,
                 'participants' => [[
-                    'member_id' => $this->student->id,
+                    'member_uuid' => $this->student->uuid,
                     'expertise' => Expertise::FrontendEngineer->value,
                     'score' => 5,
                 ]],

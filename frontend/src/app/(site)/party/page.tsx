@@ -53,7 +53,7 @@ export default async function PartyPage() {
         ) : (
           <div className="space-y-3">
             {member_of.map((party) => (
-              <PartyCard key={party.id} party={party} viewerIsLeader={false} />
+              <PartyCard key={party.uuid} party={party} viewerIsLeader={false} />
             ))}
           </div>
         )}

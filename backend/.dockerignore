@@ -13,3 +13,6 @@ tests
 .phpunit.result.cache
 Dockerfile
 .dockerignore
+
+# Locally downloaded Octane binary — the image provides its own FrankenPHP.
+frankenphp

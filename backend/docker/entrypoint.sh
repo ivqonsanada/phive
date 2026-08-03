@@ -11,6 +11,11 @@ php artisan config:cache
 php artisan route:cache
 php artisan event:cache
 
+# Tell Nightwatch a new version is live, so metrics can be attributed to a deploy.
+if [ -n "${NIGHTWATCH_TOKEN:-}" ]; then
+  php artisan nightwatch:deploy || true
+fi
+
 # Only useful when FILESYSTEM_DISK=public and storage is on a persistent volume.
 php artisan storage:link 2>/dev/null || true
 

@@ -40,7 +40,7 @@ blocks in `open-next.config.ts` and `wrangler.jsonc` show exactly what to uncomm
 
 ### Vercel
 
-Zero config. Import the repo, set the root directory to `frontend`, add `API_URL`.
+Import the repo and set the root directory to `frontend`; `vercel.json` covers the rest.
 
 ### Any Node host / Docker
 
@@ -49,12 +49,21 @@ docker build -t phive-web ./frontend
 docker run -p 3000:3000 -e API_URL=https://api.example.com phive-web
 ```
 
+Full instructions for all three targets, including the environment variables and their
+build-time/runtime distinction, are in [`frontend/DEPLOY.md`](../frontend/DEPLOY.md).
+
 ---
 
 ## Backend
 
-Every option below uses the same `backend/Dockerfile` — nginx + php-fpm + queue worker +
-scheduler under supervisord, listening on port **8080**, health check at **`/up`**.
+Every option below uses the same `backend/Dockerfile` — Laravel Octane on FrankenPHP,
+plus the queue worker, scheduler and Nightwatch agent under supervisord, listening on
+port **8080** with a health check at **`/up`**.
+
+Octane keeps the framework booted between requests instead of rebuilding it each time.
+Workers recycle every 500 requests, which bounds anything a long-lived worker might
+accumulate. If you deploy without Docker, `php artisan octane:start` replaces
+php-fpm — but plain php-fpm still works, and nothing in the app depends on Octane.
 
 Generate `APP_KEY` once and keep it stable; rotating it invalidates encrypted data:
 
@@ -116,6 +125,21 @@ supervisor.
 
 ---
 
+## Monitoring (Nightwatch)
+
+[Nightwatch](https://nightwatch.laravel.com) reports requests, queries, queue jobs and
+exceptions. Set a token and the agent starts reporting; leave it empty and the agent
+exits immediately and the app is unaffected.
+
+```
+NIGHTWATCH_TOKEN=<from nightwatch.laravel.com>
+NIGHTWATCH_ENABLED=true
+```
+
+The Docker image runs `nightwatch:agent` under supervisord, and the entrypoint sends
+deploy metadata on boot so metrics can be attributed to a release. Without Docker, run
+the agent as its own long-lived process next to the app.
+
 ## Realtime (Reverb)
 
 Direct messages are pushed over WebSockets. The API image already runs the queue and
@@ -154,5 +178,6 @@ send and threads still load, they just do not push.
 - [ ] `APP_DEBUG=false` and `APP_ENV=production` in production
 - [ ] Mail transport configured (`MAIL_MAILER=log` silently swallows every email)
 - [ ] Reverb reachable over `wss://` if realtime is enabled, with matching app keys
+- [ ] `NIGHTWATCH_TOKEN` set if you want monitoring — it is silently off without one
 - [ ] File uploads have somewhere durable to live — set `FILESYSTEM_DISK=s3` if the
       container filesystem is ephemeral, which it is on Fly, Railway and Render

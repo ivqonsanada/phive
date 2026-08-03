@@ -1,4 +1,6 @@
-# Single-image PHive API: nginx + php-fpm behind supervisord.
+# Single-image PHive API: Octane on FrankenPHP, plus the queue worker, scheduler and
+# (optionally) the Nightwatch agent under supervisord.
+#
 # Works unchanged on Fly.io, Railway, Render, Coolify, or any Docker host.
 
 FROM composer:2 AS vendor
@@ -16,17 +18,17 @@ COPY . .
 RUN composer dump-autoload --optimize --no-dev
 
 
-FROM php:8.4-fpm-alpine AS runtime
+FROM dunglas/frankenphp:php8.4 AS runtime
 
-RUN apk add --no-cache nginx supervisor postgresql-dev icu-dev libzip-dev \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        supervisor libpq-dev libicu-dev libzip-dev unzip \
     && docker-php-ext-install pdo_pgsql pgsql intl zip opcache bcmath pcntl \
-    && rm -rf /var/cache/apk/*
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /var/www/html
+WORKDIR /app
 
-COPY --from=vendor /app /var/www/html
+COPY --from=vendor /app /app
 
-COPY docker/nginx.conf /etc/nginx/nginx.conf
 COPY docker/php.ini /usr/local/etc/php/conf.d/99-phive.ini
 COPY docker/supervisord.conf /etc/supervisord.conf
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint

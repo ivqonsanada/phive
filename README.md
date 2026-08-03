@@ -25,7 +25,7 @@ two independently deployable apps that talk over a JSON API.
 
 ```
 phive/
-├── backend/     Laravel 13 · PHP 8.3+ · PostgreSQL · Sanctum tokens · Filament 5 admin
+├── backend/     Laravel 13 · PHP 8.3+ · PostgreSQL · Sanctum · Filament 5 · Octane
 ├── frontend/    Next.js 16 · React 19 · TypeScript · Tailwind 4
 ├── docs/        Deployment guide and assets
 └── docker-compose.yml
@@ -135,6 +135,7 @@ docker compose up --build
 | Task            | Backend                | Frontend         |
 | --------------- | ---------------------- | ---------------- |
 | Dev server      | `composer dev`         | `pnpm dev`       |
+| Dev on Octane   | `composer dev:octane`  | —                |
 | Tests           | `php artisan test`     | —                |
 | Lint / format   | `composer lint` (Pint) | `pnpm lint`      |
 | Types           | —                      | `pnpm typecheck` |

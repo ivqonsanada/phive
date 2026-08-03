@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\LeaderboardController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\ProjectController;
+use App\Http\Controllers\Api\ProjectManagementController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\WishlistController;
 use Illuminate\Support\Facades\Route;
@@ -65,4 +66,13 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('wishlist', [WishlistController::class, 'index']);
     Route::post('projects/{project}/wishlist', [WishlistController::class, 'toggle']);
+
+    // Lecturer project management. Kept under /my so none of these collide with the
+    // public {project} slug routes above.
+    Route::get('my/projects', [ProjectManagementController::class, 'index']);
+    Route::post('my/projects', [ProjectManagementController::class, 'store']);
+    Route::patch('my/projects/{project}', [ProjectManagementController::class, 'update']);
+    Route::delete('my/projects/{project}', [ProjectManagementController::class, 'destroy']);
+    Route::post('my/projects/{project}/publish', [ProjectManagementController::class, 'publish']);
+    Route::post('my/projects/{project}/close', [ProjectManagementController::class, 'closeApplications']);
 });

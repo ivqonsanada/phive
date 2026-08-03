@@ -67,16 +67,21 @@ class Project extends Model
         return $this->belongsTo(User::class);
     }
 
-    /** @return HasMany<ProjectRequirement, $this> */
+    /**
+     * Ordered by id so the list comes back the way the lecturer entered it. Without
+     * this the database is free to answer from an index and reorder them.
+     *
+     * @return HasMany<ProjectRequirement, $this>
+     */
     public function requirements(): HasMany
     {
-        return $this->hasMany(ProjectRequirement::class);
+        return $this->hasMany(ProjectRequirement::class)->orderBy('id');
     }
 
     /** @return HasMany<ProjectSkill, $this> */
     public function skills(): HasMany
     {
-        return $this->hasMany(ProjectSkill::class);
+        return $this->hasMany(ProjectSkill::class)->orderBy('id');
     }
 
     /** @return HasOne<ProjectTeam, $this> */

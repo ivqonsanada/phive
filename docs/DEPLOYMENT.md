@@ -116,6 +116,36 @@ supervisor.
 
 ---
 
+## Realtime (Reverb)
+
+Direct messages are pushed over WebSockets. The API image already runs the queue and
+scheduler; Reverb is a separate long-running process on its own port:
+
+```bash
+php artisan reverb:start --host=0.0.0.0 --port=8080
+```
+
+Set the same app credentials on both sides — `REVERB_APP_ID`, `REVERB_APP_KEY`,
+`REVERB_APP_SECRET` on the API, and on the frontend:
+
+```
+NEXT_PUBLIC_REVERB_APP_KEY=<same as REVERB_APP_KEY>
+NEXT_PUBLIC_REVERB_HOST=realtime.example.com
+NEXT_PUBLIC_REVERB_PORT=443
+NEXT_PUBLIC_REVERB_SCHEME=https
+```
+
+Terminate TLS in front of Reverb and allow WebSocket upgrades. On Fly.io add a second
+service on the Reverb port; on Railway or Render run it as a second service from the
+same image with `reverb:start` as the command.
+
+**Cloudflare Workers note:** the browser connects to Reverb directly, so the Worker
+does not proxy WebSocket traffic — but `/api/broadcasting/auth` is served by Next.js
+and must be reachable, which it is by default.
+
+Leaving `NEXT_PUBLIC_REVERB_APP_KEY` unset disables realtime cleanly; messages still
+send and threads still load, they just do not push.
+
 ## Post-deploy checklist
 
 - [ ] `GET https://api.example.com/up` returns 200
@@ -123,5 +153,6 @@ supervisor.
 - [ ] Registering a user delivers a verification email whose link opens the **frontend**
 - [ ] `APP_DEBUG=false` and `APP_ENV=production` in production
 - [ ] Mail transport configured (`MAIL_MAILER=log` silently swallows every email)
+- [ ] Reverb reachable over `wss://` if realtime is enabled, with matching app keys
 - [ ] File uploads have somewhere durable to live — set `FILESYSTEM_DISK=s3` if the
       container filesystem is ephemeral, which it is on Fly, Railway and Render

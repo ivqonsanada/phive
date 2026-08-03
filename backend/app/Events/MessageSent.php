@@ -6,7 +6,7 @@ use App\Models\MessageBody;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
@@ -16,8 +16,12 @@ use Illuminate\Queue\SerializesModels;
  * The transport is configuration, not code: with BROADCAST_CONNECTION=log this is a
  * no-op, and pointing it at Reverb (which replaces the legacy Pusher setup) makes
  * messages live without touching this class.
+ *
+ * Broadcast *now* rather than queued: a chat message that waits for a worker is not
+ * realtime, and with the default database queue it would never arrive unless one
+ * happened to be running. The payload is a few fields, so there is nothing to defer.
  */
-class MessageSent implements ShouldBroadcast
+class MessageSent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 

@@ -224,15 +224,28 @@ field). Progress so far:
 - [x] Party recruitment and the inbox invitation flow
 - [x] Applying: as an individual or with your party
 - [x] Project box: shortlist, confirm, start, review and leaderboard points
-- [x] Inbox and direct messaging
+- [x] Inbox and direct messaging, delivered live over WebSockets
 
-Everything the original app did is ported. Direct messages broadcast a
-`MessageSent` event on the recipient's private channel — with
-`BROADCAST_CONNECTION=log` that is a no-op, and pointing it at
-[Reverb](https://laravel.com/docs/reverb) (which replaces the old Pusher setup)
-makes them live without touching application code. The frontend currently reads
-threads on request rather than subscribing; wiring Echo to that channel is the
-remaining step for realtime delivery.
+Everything the original app did is ported.
+
+### Realtime
+
+Direct messages broadcast on the recipient's private channel over
+[Reverb](https://laravel.com/docs/reverb), which replaces the old Pusher setup.
+Laravel Echo subscribes in the browser and appends incoming messages to an open
+thread without a reload.
+
+Channel authorisation is proxied. The Sanctum token lives in an httpOnly cookie the
+browser cannot read, so Echo authorises against `/api/broadcasting/auth` on the
+Next.js side, which forwards to Laravel with the bearer token attached — the token
+never reaches client JavaScript.
+
+Realtime is additive: leave `NEXT_PUBLIC_REVERB_APP_KEY` empty and the app behaves
+exactly as before, reading threads on request.
+
+```bash
+cd backend && php artisan reverb:start   # or `composer dev`, which runs it for you
+```
 
 ---
 

@@ -59,6 +59,11 @@ differently from Node in ways `next dev` will not show you:
 pnpm cf:preview
 ```
 
+This has been exercised: public and authenticated pages render, the httpOnly session
+cookie resolves the right user, server-rendered API data comes through, guest redirects
+work, and `/api/broadcasting/auth` returns 401 without a session — all inside `workerd`,
+not just under `next start`.
+
 Public variables go in the `vars` block of `wrangler.jsonc` (they are not secret);
 `API_URL` is better as a secret since it is server-side only.
 

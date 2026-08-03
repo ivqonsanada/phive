@@ -97,6 +97,26 @@ Seeded accounts — password `password` for all three:
 | `student@phive.test`  | Student  | Frontend           |
 | `admin@phive.test`    | Admin    | `/admin` panel     |
 
+### Social sign-in
+
+Google and Apple, via Socialite. Both are optional — without credentials the buttons
+are hidden and the routes return 503.
+
+The OAuth round trip is a browser redirect flow, so those two routes live on the web
+routes rather than under `/api`, where they have a session to carry state across the
+hop. The callback finishes by redirecting to the frontend with a **single-use code
+valid for two minutes**, never the token: URLs end up in browser history, server logs
+and `Referer` headers. The frontend's server swaps that code for the token and puts it
+straight into the httpOnly cookie.
+
+Signing in with a provider whose email already exists links to that account instead of
+creating a duplicate. New accounts are created verified, without a password, and as
+students — choosing "lecturer" still has to satisfy the academic email rule, otherwise
+the whole restriction could be sidestepped by signing up through Google.
+
+Set `SOCIAL_PROVIDERS=google,apple` on the frontend to match whatever the API has
+credentials for.
+
 ### Admin panel
 
 Filament 5, at `http://localhost:8000/admin`. Access is gated on an `is_admin`
@@ -171,6 +191,9 @@ Base URL `/api`. Authenticated routes expect `Authorization: Bearer <token>`.
 | ------- | --------------------------------- | ---- | --------------------------------- |
 | `POST`  | `/register`                       | —    | Create an account, get a token    |
 | `POST`  | `/login`                          | —    | Exchange credentials for a token  |
+| `GET`   | `/auth/{provider}/redirect`       | —    | Start Google/Apple sign-in (not under `/api`) |
+| `GET`   | `/auth/{provider}/callback`       | —    | Provider returns here (not under `/api`) |
+| `POST`  | `/auth/exchange`                  | —    | Swap the single-use code for a token |
 | `POST`  | `/logout`                         | ✓    | Revoke the calling token only     |
 | `GET`   | `/user`                           | ✓    | The signed-in user                |
 | `PATCH` | `/settings/password`              | ✓    | Change password, keep this device |
@@ -234,6 +257,7 @@ The data model is fully ported (24 tables, typed Eloquent models, enums for ever
 field). Progress so far:
 
 - [x] Auth: register, login, logout, email verification, password reset and change
+- [x] Social sign-in with Google and Apple
 - [x] Projects: explore, search, filter by expertise, detail, similar projects
 - [x] Wishlist: star from anywhere, review it on its own page
 - [x] Profiles: public view — finished work for students, published projects for lecturers

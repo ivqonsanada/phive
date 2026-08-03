@@ -3,6 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { LoginForm } from "@/app/(auth)/login/login-form";
+import { SocialButtons } from "@/components/social-buttons";
 import { getCurrentUser } from "@/lib/dal";
 
 export const metadata: Metadata = { title: "Sign in" };
@@ -22,6 +23,8 @@ export default async function LoginPage({
     <>
       <h1 className="mb-1 text-xl font-bold text-navy">Welcome back</h1>
       <p className="mb-6 text-sm text-ink/70">Sign in to keep working on your projects.</p>
+
+      <SocialButtons />
 
       <LoginForm justResetPassword={reset === "1"} />
 

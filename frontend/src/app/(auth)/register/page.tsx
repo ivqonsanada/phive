@@ -3,6 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { RegisterForm } from "@/app/(auth)/register/register-form";
+import { SocialButtons } from "@/components/social-buttons";
 import { getCurrentUser } from "@/lib/dal";
 
 export const metadata: Metadata = { title: "Create an account" };
@@ -19,6 +20,10 @@ export default async function RegisterPage() {
         Students apply to projects. Lecturers publish them — that needs a staff academic
         address.
       </p>
+
+      {/* Social sign-ups land as students; a lecturer still needs an academic
+          address, which the API re-checks on the callback. */}
+      <SocialButtons role="Student" />
 
       <RegisterForm />
 

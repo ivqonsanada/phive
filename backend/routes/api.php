@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\PasswordController;
 use App\Http\Controllers\Api\Auth\PasswordResetController;
 use App\Http\Controllers\Api\Auth\RegisterController;
+use App\Http\Controllers\Api\Auth\SocialAuthController;
 use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\InboxController;
 use App\Http\Controllers\Api\LeaderboardController;
@@ -54,6 +55,10 @@ Route::post('login', [LoginController::class, 'store']);
 
 Route::post('password/email', [PasswordResetController::class, 'sendResetLink'])->middleware('throttle:6,1');
 Route::post('password/reset', [PasswordResetController::class, 'reset']);
+
+// Swaps the single-use code from a social callback for an API token. Called by the
+// frontend's server, never by the browser.
+Route::post('auth/exchange', [SocialAuthController::class, 'exchange'])->middleware('throttle:10,1');
 
 Route::get('email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])
     ->middleware(['signed', 'throttle:6,1'])

@@ -7,8 +7,11 @@ use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use SocialiteProviders\Apple\AppleExtendSocialite;
+use SocialiteProviders\Manager\SocialiteWasCalled;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,6 +28,9 @@ class AppServiceProvider extends ServiceProvider
         // same resource embedded in a response array would not. The frontend's typed
         // client expects one shape, so drop the wrapper everywhere.
         JsonResource::withoutWrapping();
+
+        // Apple is a community Socialite provider and has to register itself.
+        Event::listen(SocialiteWasCalled::class, [AppleExtendSocialite::class, 'handle']);
 
         $this->configureNotificationLinks();
     }

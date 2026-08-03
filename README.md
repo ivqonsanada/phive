@@ -175,6 +175,8 @@ Base URL `/api`. Authenticated routes expect `Authorization: Bearer <token>`.
 | `GET`   | `/inbox`                          | ✓    | Invitations and messages          |
 | `POST`  | `/inbox/{id}/respond`             | ✓    | Accept or decline (`accept: bool`) |
 | `POST`  | `/inbox/{id}/read`                | ✓    | Mark as read                      |
+| `GET`   | `/project-box`                    | ✓    | Everything you're involved in     |
+| `POST`  | `/project-box/{box}/confirm`      | ✓    | Take or decline a shortlisted seat |
 
 **Lecturer project management** — all require a lecturer token, and a policy scopes
 every one of them to that lecturer's own projects. They live under `/my` so none of
@@ -190,6 +192,9 @@ them collide with the public `{project_url}` routes:
 | `DELETE` | `/my/projects/{project_url}`         | Withdraw (blocked while ongoing)         |
 | `POST`   | `/my/projects/{project_url}/thumbnail` | Upload a cover image (multipart `file`) |
 | `DELETE` | `/my/projects/{project_url}/thumbnail` | Remove the cover image               |
+| `GET` `POST` | `/my/projects/{project_url}/shortlist` | See applicants, and choose who goes through |
+| `POST`   | `/my/projects/{project_url}/start`   | Start with whoever confirmed          |
+| `GET` `POST` | `/my/projects/{project_url}/review` | Close out, score participants, award points |
 
 Resource wrapping is off, so a resource is returned at the top level. Paginated
 collections keep Laravel's `{ data, links, meta }` envelope.
@@ -215,7 +220,7 @@ field). Progress so far:
 - [ ] Inviting students to a project directly
 - [x] Party recruitment and the inbox invitation flow
 - [x] Applying: as an individual or with your party
-- [ ] Project Box: shortlist, confirmation, start, terminate, review
+- [x] Project box: shortlist, confirm, start, review and leaderboard points
 - [ ] Inbox and direct messaging (Laravel Reverb replaces the old Pusher setup)
 
 ---

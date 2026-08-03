@@ -18,6 +18,11 @@ export async function SiteHeader() {
         <Link href="/leaderboard" className="text-sm text-ink/70 hover:text-glow">
           Leaderboard
         </Link>
+        {user?.role === "Lecturer" && (
+          <Link href="/my/projects" className="text-sm text-ink/70 hover:text-glow">
+            My projects
+          </Link>
+        )}
 
         <div className="ml-auto flex items-center gap-4">
           {user ? (

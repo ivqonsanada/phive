@@ -23,6 +23,21 @@ export async function SiteHeader() {
             My projects
           </Link>
         )}
+        {user?.role === "Student" && (
+          <Link href="/party" className="text-sm text-ink/70 hover:text-glow">
+            Party
+          </Link>
+        )}
+        {user && (
+          <Link href="/inbox" className="flex items-center gap-1.5 text-sm text-ink/70 hover:text-glow">
+            Inbox
+            {(user.unread_inbox_count ?? 0) > 0 && (
+              <span className="rounded-full bg-glow px-1.5 py-0.5 text-xs font-semibold text-white">
+                {user.unread_inbox_count}
+              </span>
+            )}
+          </Link>
+        )}
 
         <div className="ml-auto flex items-center gap-4">
           {user ? (

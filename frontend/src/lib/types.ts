@@ -141,6 +141,43 @@ export interface ProfilePayload {
   projects: Project[];
 }
 
+export interface PartyMember {
+  expertise: Expertise | null;
+  is_leader: boolean;
+  user: UserSummary;
+}
+
+export interface Party {
+  id: number;
+  leader: UserSummary;
+  members: PartyMember[];
+}
+
+export interface PartyPayload {
+  /** The party this user leads, if they have started one. */
+  led: Party | null;
+  member_of: Party[];
+}
+
+export type InboxCategory = "Message" | "Team Invitation" | "Project Invitation";
+export type InvitationStatus = "Pending" | "Accepted" | "Rejected";
+
+export interface InboxItem {
+  id: number;
+  category: InboxCategory;
+  is_read: boolean;
+  created_at: string;
+  sender: UserSummary;
+  team: { id: number; leader: UserSummary; status: InvitationStatus } | null;
+  project: { title: string | null; project_url: string | null; status: InvitationStatus } | null;
+  message: string | null;
+}
+
+export interface InboxPayload {
+  unread_count: number;
+  items: InboxItem[];
+}
+
 /** Laravel's `simplePaginate` envelope, as rendered by a resource collection. */
 export interface Paginated<T> {
   data: T[];

@@ -215,7 +215,6 @@ field). Progress so far:
 - [ ] Inviting students to a project directly
 - [x] Party recruitment and the inbox invitation flow
 - [x] Applying: as an individual or with your party
-- [ ] Applying UI (the API is done; the screens are not)
 - [ ] Project Box: shortlist, confirmation, start, terminate, review
 - [ ] Inbox and direct messaging (Laravel Reverb replaces the old Pusher setup)
 

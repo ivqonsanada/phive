@@ -7,10 +7,14 @@ import { Suspense } from "react";
 import { ProjectCard } from "@/components/project-card";
 import { WishlistButton } from "@/components/wishlist-button";
 import { ApiError } from "@/lib/api";
+import { getCurrentUser } from "@/lib/dal";
 import { getProject, getSimilarProjects } from "@/lib/projects";
 import type { Project } from "@/lib/types";
 
-type Params = { params: Promise<{ projectUrl: string }> };
+type Params = {
+  params: Promise<{ projectUrl: string }>;
+  searchParams: Promise<{ applied?: string }>;
+};
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { projectUrl } = await params;
@@ -22,9 +26,11 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   };
 }
 
-export default async function ProjectPage({ params }: Params) {
+export default async function ProjectPage({ params, searchParams }: Params) {
   const { projectUrl } = await params;
+  const { applied } = await searchParams;
   const project = await load(projectUrl);
+  const justApplied = applied === "1";
 
   return (
     <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-10">
@@ -76,6 +82,10 @@ export default async function ProjectPage({ params }: Params) {
 
       <section className="mb-8 whitespace-pre-line text-ink/80">{project.description}</section>
 
+      <Suspense fallback={null}>
+        <ApplyCallToAction project={project} justApplied={justApplied} />
+      </Suspense>
+
       <div className="mb-8 grid gap-4 sm:grid-cols-2">
         <Panel title="Reward">
           <ul className="space-y-1 text-sm text-ink/70">
@@ -123,6 +133,57 @@ export default async function ProjectPage({ params }: Params) {
         <SimilarProjects projectUrl={projectUrl} />
       </Suspense>
     </main>
+  );
+}
+
+/**
+ * Rendered separately so the session lookup does not hold up the project itself.
+ * Guests get a prompt to sign in; lecturers get nothing.
+ */
+async function ApplyCallToAction({
+  project,
+  justApplied,
+}: {
+  project: Project;
+  justApplied: boolean;
+}) {
+  const user = await getCurrentUser();
+  const open = project.is_open_hiring && project.status === "Hiring";
+
+  if (justApplied) {
+    return (
+      <p className="mb-8 rounded-xl bg-navy/5 px-4 py-3 text-sm text-navy">
+        Application sent. You&apos;ll hear back through your{" "}
+        <Link href="/inbox" className="font-semibold hover:text-glow">
+          inbox
+        </Link>
+        .
+      </p>
+    );
+  }
+
+  if (!open || user?.role === "Lecturer") {
+    return null;
+  }
+
+  return (
+    <div className="mb-8">
+      {user ? (
+        <Link
+          href={`/projects/${project.project_url}/apply`}
+          className="inline-block rounded-lg bg-navy px-5 py-2.5 font-semibold text-white transition hover:bg-navy/90"
+        >
+          Apply to this project
+        </Link>
+      ) : (
+        <Link
+          href="/login"
+          className="inline-block rounded-lg border border-navy/15 px-5 py-2.5 font-semibold text-navy transition hover:border-navy"
+        >
+          Sign in to apply
+        </Link>
+      )}
+    </div>
   );
 }
 

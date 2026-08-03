@@ -62,6 +62,19 @@ The token lives in an httpOnly cookie and is only ever read on the server, so cl
 JavaScript can never touch it. `src/proxy.ts` does a cheap cookie-presence check for
 routing; `requireUser()` in `src/lib/dal.ts` is what actually verifies against the API.
 
+### Mobile clients
+
+The httpOnly cookie is a *browser* concern. A native app talks to the same API the same
+way: `POST /api/login` returns a token, and every later request sends
+`Authorization: Bearer <token>`. Nothing needs adding for that.
+
+JWT was considered and deliberately not used. Its real advantage is stateless
+verification across several services, which a single API does not need — and it would
+cost the two things this app relies on today: revoking one device's token on logout,
+and signing every device out when a password changes. Both are one indexed delete
+against `personal_access_tokens`; with JWTs they would need a denylist, which puts the
+database lookup back and loses the only benefit.
+
 ---
 
 ## Getting started

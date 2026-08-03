@@ -65,6 +65,10 @@ Public variables go in the `vars` block of `wrangler.jsonc` (they are not secret
 For ISR that survives across isolates, switch on the R2 incremental cache — the
 commented blocks in `open-next.config.ts` and `wrangler.jsonc` show what to uncomment.
 
+**No Proxy/Middleware:** Next 16's Proxy runs on the Node.js runtime and cannot be
+switched to edge, which OpenNext cannot deploy. This app has none — every protected page
+enforces auth itself through `requireUser()`. Adding a `proxy.ts` will break `cf:build`.
+
 **Realtime note:** the browser connects to Reverb directly, so the Worker never
 proxies WebSocket traffic. `/api/broadcasting/auth` is served by Next itself and works
 on both targets.

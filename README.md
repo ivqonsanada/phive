@@ -59,8 +59,13 @@ Browser ──▶ Next.js Server Component ──▶ Authorization: Bearer ─�
 ```
 
 The token lives in an httpOnly cookie and is only ever read on the server, so client-side
-JavaScript can never touch it. `src/proxy.ts` does a cheap cookie-presence check for
-routing; `requireUser()` in `src/lib/dal.ts` is what actually verifies against the API.
+JavaScript can never touch it. `requireUser()` in `src/lib/dal.ts` verifies it against the
+API and is called by every protected page — authorisation lives next to the data, not in
+a routing layer that can be bypassed.
+
+There is deliberately no `proxy.ts`. Next 16 runs Proxy on the Node.js runtime and
+forbids opting into edge, which the Cloudflare adapter cannot deploy. It was only doing
+an optimistic cookie check anyway, so removing it cost nothing and unblocked Workers.
 
 ### Mobile clients
 

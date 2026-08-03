@@ -93,6 +93,43 @@ export async function closeApplications(projectUrl: string): Promise<void> {
   revalidatePath("/my/projects");
 }
 
+export async function uploadThumbnail(
+  projectUrl: string,
+  _state: FormState | undefined,
+  formData: FormData,
+): Promise<FormState> {
+  const file = formData.get("file");
+
+  if (!(file instanceof File) || file.size === 0) {
+    return { message: "Choose an image first." };
+  }
+
+  const body = new FormData();
+  body.set("file", file);
+
+  try {
+    await api(`/my/projects/${encodeURIComponent(projectUrl)}/thumbnail`, {
+      method: "POST",
+      body,
+      multipart: true,
+    });
+  } catch (error) {
+    return toFormState(error);
+  }
+
+  revalidatePath(`/my/projects/${projectUrl}/edit`);
+  revalidatePath(`/projects/${projectUrl}`);
+
+  return { success: "Thumbnail updated." };
+}
+
+export async function removeThumbnail(projectUrl: string): Promise<void> {
+  await api(`/my/projects/${encodeURIComponent(projectUrl)}/thumbnail`, { method: "DELETE" });
+
+  revalidatePath(`/my/projects/${projectUrl}/edit`);
+  revalidatePath(`/projects/${projectUrl}`);
+}
+
 export async function withdrawProject(projectUrl: string): Promise<void> {
   await api(`/my/projects/${encodeURIComponent(projectUrl)}`, { method: "DELETE" });
 

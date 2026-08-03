@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
@@ -27,6 +28,18 @@ export default async function ProjectPage({ params }: Params) {
 
   return (
     <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-10">
+      {project.thumbnail && (
+        <Image
+          src={project.thumbnail}
+          alt=""
+          width={960}
+          height={360}
+          className="mb-6 h-56 w-full rounded-xl object-cover"
+          priority
+          unoptimized
+        />
+      )}
+
       <header className="mb-6">
         <div className="mb-2 flex items-start justify-between gap-4">
           <h1 className="text-3xl font-bold text-navy">{project.title}</h1>

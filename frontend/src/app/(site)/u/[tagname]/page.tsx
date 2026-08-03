@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -25,11 +26,30 @@ export default async function ProfilePage({ params }: Params) {
   return (
     <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-10">
       <header className="mb-8">
-        <h1 className="text-2xl font-bold text-navy">{user.name}</h1>
-        <p className="text-sm text-ink/60">
-          @{user.tagname} · {user.role}
-          {user.expertise ? ` · ${user.expertise}` : ""}
-        </p>
+        <div className="mb-3 flex items-center gap-4">
+          {user.photo_url ? (
+            <Image
+              src={user.photo_url}
+              alt=""
+              width={72}
+              height={72}
+              className="size-[72px] rounded-full object-cover"
+              unoptimized
+            />
+          ) : (
+            <div className="grid size-[72px] place-items-center rounded-full bg-navy/10 text-xl font-bold text-navy/40">
+              {user.first_name.charAt(0)}
+            </div>
+          )}
+
+          <div>
+            <h1 className="text-2xl font-bold text-navy">{user.name}</h1>
+            <p className="text-sm text-ink/60">
+              @{user.tagname} · {user.role}
+              {user.expertise ? ` · ${user.expertise}` : ""}
+            </p>
+          </div>
+        </div>
 
         {(user.university || user.location) && (
           <p className="mt-1 text-sm text-ink/60">

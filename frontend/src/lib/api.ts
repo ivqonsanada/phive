@@ -28,6 +28,8 @@ interface RequestOptions extends Omit<RequestInit, "body"> {
   body?: unknown;
   /** Skip the Authorization header even when a session exists. */
   anonymous?: boolean;
+  /** Send `body` as-is (a FormData) instead of JSON — for file uploads. */
+  multipart?: boolean;
 }
 
 /**
@@ -35,12 +37,13 @@ interface RequestOptions extends Omit<RequestInit, "body"> {
  * the browser.
  */
 export async function api<T>(path: string, options: RequestOptions = {}): Promise<T> {
-  const { body, anonymous, headers, ...init } = options;
+  const { body, anonymous, multipart, headers, ...init } = options;
 
   const requestHeaders = new Headers(headers);
   requestHeaders.set("Accept", "application/json");
 
-  if (body !== undefined) {
+  // Never set Content-Type for multipart: fetch has to generate the boundary itself.
+  if (body !== undefined && !multipart) {
     requestHeaders.set("Content-Type", "application/json");
   }
 
@@ -54,7 +57,12 @@ export async function api<T>(path: string, options: RequestOptions = {}): Promis
   const response = await fetch(`${API_URL}/api${path}`, {
     ...init,
     headers: requestHeaders,
-    body: body === undefined ? undefined : JSON.stringify(body),
+    body:
+      body === undefined
+        ? undefined
+        : multipart
+          ? (body as BodyInit)
+          : JSON.stringify(body),
     cache: init.cache ?? "no-store",
   });
 

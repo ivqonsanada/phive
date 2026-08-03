@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
+import { ThumbnailManager } from "@/app/(site)/my/projects/[projectUrl]/edit/thumbnail-manager";
 import { updateProject } from "@/app/actions/manage-projects";
 import { ProjectForm } from "@/components/project-form";
 import { api, ApiError } from "@/lib/api";
@@ -38,6 +39,8 @@ export default async function EditProjectPage({ params }: Params) {
           ← All projects
         </Link>
       </div>
+
+      <ThumbnailManager projectUrl={projectUrl} current={project.thumbnail} />
 
       <ProjectForm action={action} project={project} />
     </main>

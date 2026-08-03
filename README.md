@@ -160,6 +160,11 @@ Base URL `/api`. Authenticated routes expect `Authorization: Bearer <token>`.
 | `POST`  | `/email/resend`                   | ✓    | Resend the verification email     |
 | `GET`   | `/wishlist`                       | ✓    | Projects the student starred      |
 | `POST`  | `/projects/{project_url}/wishlist`| ✓    | Toggle a project on the wishlist  |
+| `PATCH` | `/settings/profile`               | ✓    | Partial profile update, plus skills |
+| `POST`  | `/settings/avatar` · `/settings/cv` | ✓  | Upload (multipart `file`)         |
+| `DELETE`| `/settings/avatar` · `/settings/cv` | ✓  | Remove                            |
+| `POST`  | `/settings/experiences`           | ✓    | Add a CV entry                    |
+| `PATCH` `DELETE` | `/settings/experiences/{id}` | ✓ | Edit or remove your own entry  |
 
 **Lecturer project management** — all require a lecturer token, and a policy scopes
 every one of them to that lecturer's own projects. They live under `/my` so none of
@@ -173,6 +178,8 @@ them collide with the public `{project_url}` routes:
 | `POST`   | `/my/projects/{project_url}/publish` | Publish an existing draft as-is          |
 | `POST`   | `/my/projects/{project_url}/close`   | Stop accepting applications              |
 | `DELETE` | `/my/projects/{project_url}`         | Withdraw (blocked while ongoing)         |
+| `POST`   | `/my/projects/{project_url}/thumbnail` | Upload a cover image (multipart `file`) |
+| `DELETE` | `/my/projects/{project_url}/thumbnail` | Remove the cover image               |
 
 Resource wrapping is off, so a resource is returned at the top level. Paginated
 collections keep Laravel's `{ data, links, meta }` envelope.
@@ -193,8 +200,9 @@ field). Progress so far:
 - [x] Profiles: public view — finished work for students, published projects for lecturers
 - [x] Leaderboard and home page stats
 - [x] Publishing: draft, edit, publish, close applications, withdraw
-- [ ] Publishing extras: thumbnail upload, inviting students directly
-- [ ] Profile editing: avatar and CV upload, skills, experiences
+- [x] Publishing extras: thumbnail upload
+- [x] Profile editing: avatar and CV upload, skills, experiences
+- [ ] Inviting students to a project directly
 - [ ] Applying: as an individual, as a team, party recruitment
 - [ ] Project Box: shortlist, confirmation, start, terminate, review
 - [ ] Inbox and direct messaging (Laravel Reverb replaces the old Pusher setup)

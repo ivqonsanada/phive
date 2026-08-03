@@ -33,8 +33,18 @@ export interface User {
     website: string | null;
   };
   skills?: string[];
+  experiences?: Experience[];
   unread_inbox_count?: number;
   created_at: string;
+}
+
+export interface Experience {
+  id: number;
+  project_name: string;
+  project_role: string;
+  start_date: string;
+  /** Null means "still ongoing". */
+  end_date: string | null;
 }
 
 export interface AuthPayload {

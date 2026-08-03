@@ -5,7 +5,7 @@ import { NextResponse, type NextRequest } from "next/server";
  * never calls the API, because the proxy runs on every request including prefetches.
  * The real check lives in `requireUser()`, next to the data.
  */
-const PROTECTED_PREFIXES = ["/dashboard", "/my"];
+const PROTECTED_PREFIXES = ["/dashboard", "/my", "/settings"];
 const GUEST_ONLY_PATHS = ["/login", "/register", "/forgot-password"];
 
 export function proxy(request: NextRequest) {

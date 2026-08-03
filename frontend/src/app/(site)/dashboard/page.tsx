@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { ResendVerification } from "@/app/(site)/dashboard/resend-verification";
 import { logout } from "@/app/actions/auth";
@@ -21,14 +22,22 @@ export default async function DashboardPage() {
           </p>
         </div>
 
-        <form action={logout}>
-          <button
-            type="submit"
-            className="rounded-lg border border-navy/15 px-3.5 py-2 text-sm font-semibold text-navy transition hover:border-glow hover:text-glow"
+        <div className="flex items-center gap-3">
+          <Link
+            href="/settings"
+            className="rounded-lg border border-navy/15 px-3.5 py-2 text-sm font-semibold text-navy transition hover:border-navy"
           >
-            Sign out
-          </button>
-        </form>
+            Settings
+          </Link>
+          <form action={logout}>
+            <button
+              type="submit"
+              className="rounded-lg border border-navy/15 px-3.5 py-2 text-sm font-semibold text-navy transition hover:border-glow hover:text-glow"
+            >
+              Sign out
+            </button>
+          </form>
+        </div>
       </header>
 
       {!user.email_verified && <ResendVerification email={user.email} />}

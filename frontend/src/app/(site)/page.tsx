@@ -1,36 +1,44 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 
+import { LeaderboardCard } from "@/components/leaderboard-card";
 import { ProjectCard } from "@/components/project-card";
-import { BOARD_KEYS, BOARD_LABELS } from "@/lib/board-labels";
+import { BOARD_KEYS } from "@/lib/board-labels";
 import { getCurrentUser } from "@/lib/dal";
 import { getHome } from "@/lib/projects";
 
 export default function HomePage() {
   return (
-    <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-14">
-      <section className="mb-14 max-w-2xl">
-        <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-glow">
-          Freelancing, for college
-        </p>
-        <h1 className="mb-4 text-4xl font-bold leading-tight text-navy sm:text-5xl">
-          Lecturers publish projects.
-          <br />
-          Students get hired.
-        </h1>
-        <p className="mb-8 text-ink/70">
-          PHive is where lecturers post real work and students apply — on their own or with
-          a party they recruit. Finish a project, earn a salary and a certificate, climb the
-          leaderboard.
-        </p>
+    <main className="flex-1">
+      <section className="bg-navy/5">
+        <div className="mx-auto grid w-full max-w-5xl items-center gap-8 px-4 py-16 md:grid-cols-2">
+          <div>
+            <h1 className="mb-4 text-4xl font-extrabold uppercase leading-[1.05] tracking-tight text-navy sm:text-5xl">
+              Expand your career by doing projects.
+            </h1>
+            <p className="mb-8 text-ink/70">Fill up your college life with expectation.</p>
 
-        <Suspense fallback={<div className="h-11" />}>
-          <PrimaryActions />
-        </Suspense>
+            <Suspense fallback={<div className="h-11" />}>
+              <PrimaryActions />
+            </Suspense>
+          </div>
+
+          <Image
+            src="/images/smiling-woman-looking-desktop.png"
+            alt=""
+            width={560}
+            height={440}
+            className="mx-auto h-auto w-full max-w-md"
+            priority
+          />
+        </div>
       </section>
 
       {/* The API call is isolated so a slow or cold backend cannot block the hero. */}
-      <Suspense fallback={<p className="text-sm text-ink/50">Loading the latest…</p>}>
+      <Suspense
+        fallback={<p className="mx-auto max-w-5xl px-4 py-14 text-sm text-ink/50">Loading…</p>}
+      >
         <Highlights />
       </Suspense>
     </main>
@@ -44,14 +52,14 @@ async function PrimaryActions() {
     <div className="flex flex-wrap gap-3">
       <Link
         href="/explore"
-        className="rounded-lg bg-navy px-5 py-2.5 font-semibold text-white transition hover:bg-navy/90"
+        className="rounded-lg bg-navy px-6 py-3 font-semibold text-white transition hover:bg-navy/90"
       >
-        Explore projects
+        Get started →
       </Link>
       {!user && (
         <Link
           href="/register"
-          className="rounded-lg border border-navy/15 px-5 py-2.5 font-semibold text-navy transition hover:border-navy"
+          className="rounded-lg border border-navy/20 px-6 py-3 font-semibold text-navy transition hover:border-navy"
         >
           Create an account
         </Link>
@@ -65,21 +73,43 @@ async function Highlights() {
 
   return (
     <>
-      <section className="mb-14 grid gap-4 sm:grid-cols-3">
-        <Stat label="Hiring now" value={stats.hiring} />
-        <Stat label="In progress" value={stats.ongoing} />
-        <Stat label="Finished" value={stats.finished} />
+      <section className="mx-auto grid w-full max-w-5xl items-center gap-10 px-4 py-16 md:grid-cols-2">
+        <Image
+          src="/images/slide-2.png"
+          alt=""
+          width={520}
+          height={420}
+          className="mx-auto h-auto w-full max-w-sm"
+        />
+
+        <div>
+          <h2 className="mb-3 text-3xl font-extrabold uppercase leading-tight tracking-tight text-navy">
+            See the available projects on the platform
+          </h2>
+          <p className="mb-6 text-sm text-ink/70">
+            Knowing which projects are posted right now — and which are already finished —
+            will determine your spirit.
+          </p>
+
+          <div className="grid grid-cols-3 gap-4 text-center">
+            <Stat icon="◆" label="Active projects" value={stats.hiring} />
+            <Stat icon="➤" label="Ongoing projects" value={stats.ongoing} />
+            <Stat icon="✓" label="Finished projects" value={stats.finished} />
+          </div>
+        </div>
       </section>
 
       {latest_projects.length > 0 && (
-        <section className="mb-14">
-          <div className="mb-4 flex items-baseline justify-between">
-            <h2 className="text-xl font-bold text-navy">Open for applications</h2>
+        <section className="mx-auto w-full max-w-5xl px-4 pb-16">
+          <div className="mb-5 flex items-baseline justify-between">
+            <h2 className="text-2xl font-extrabold uppercase tracking-tight text-navy">
+              Open for applications
+            </h2>
             <Link href="/explore" className="text-sm font-semibold text-navy hover:text-glow">
               See all →
             </Link>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {latest_projects.map((project) => (
               <ProjectCard key={project.id} project={project} />
             ))}
@@ -87,49 +117,40 @@ async function Highlights() {
         </section>
       )}
 
-      <section>
-        <div className="mb-4 flex items-baseline justify-between">
-          <h2 className="text-xl font-bold text-navy">Top of each board</h2>
-          <Link href="/leaderboard" className="text-sm font-semibold text-navy hover:text-glow">
-            Full leaderboard →
-          </Link>
-        </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {BOARD_KEYS.map((key) => {
-            const entry = top_boards[key];
+      <section className="mx-auto w-full max-w-5xl px-4 pb-16 text-center">
+        <h2 className="mb-2 text-3xl font-extrabold uppercase tracking-tight text-navy">
+          Leaderboard
+        </h2>
+        <p className="mx-auto mb-8 max-w-2xl text-sm text-ink/70">
+          These are the highest achievers. Set them as examples, or beat their records — the
+          choice is yours.
+        </p>
 
-            return (
-              <div key={key} className="rounded-xl border border-navy/10 p-4">
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink/50">
-                  {BOARD_LABELS[key]}
-                </p>
-                {entry?.user ? (
-                  <>
-                    <Link
-                      href={`/u/${entry.user.tagname}`}
-                      className="font-semibold text-navy hover:text-glow"
-                    >
-                      {entry.user.name}
-                    </Link>
-                    <p className="text-sm text-glow">{entry.points} pts</p>
-                  </>
-                ) : (
-                  <p className="text-sm text-ink/40">Nobody yet</p>
-                )}
-              </div>
-            );
-          })}
+        <div className="mb-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {BOARD_KEYS.map((key) => (
+            <LeaderboardCard key={key} board={key} entry={top_boards[key]} />
+          ))}
         </div>
+
+        <Link
+          href="/leaderboard"
+          className="inline-block rounded-lg bg-navy px-6 py-3 font-semibold text-white transition hover:bg-navy/90"
+        >
+          See all leaderboard
+        </Link>
       </section>
     </>
   );
 }
 
-function Stat({ label, value }: { label: string; value: number }) {
+function Stat({ icon, label, value }: { icon: string; label: string; value: number }) {
   return (
-    <div className="rounded-xl bg-navy/5 p-5">
-      <p className="text-3xl font-bold text-navy">{value}</p>
-      <p className="text-sm text-ink/60">{label}</p>
+    <div>
+      <p className="mb-1 text-xl text-navy" aria-hidden>
+        {icon}
+      </p>
+      <p className="text-3xl font-extrabold text-navy">{value}</p>
+      <p className="text-sm font-semibold leading-tight text-navy/70">{label}</p>
     </div>
   );
 }

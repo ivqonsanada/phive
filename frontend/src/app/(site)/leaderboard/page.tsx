@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { BOARD_KEYS, BOARD_LABELS } from "@/lib/board-labels";
+import { BOARD_CODENAMES, BOARD_KEYS, BOARD_LABELS } from "@/lib/board-labels";
 import { getLeaderboards } from "@/lib/projects";
 import type { LeaderboardEntry } from "@/lib/types";
 
@@ -19,17 +19,31 @@ export default async function LeaderboardPage() {
 
       <div className="grid gap-6 md:grid-cols-2">
         {BOARD_KEYS.map((key) => (
-          <Board key={key} title={BOARD_LABELS[key]} entries={boards[key] ?? []} />
+          <Board
+            key={key}
+            codename={BOARD_CODENAMES[key]}
+            title={BOARD_LABELS[key]}
+            entries={boards[key] ?? []}
+          />
         ))}
       </div>
     </main>
   );
 }
 
-function Board({ title, entries }: { title: string; entries: LeaderboardEntry[] }) {
+function Board({
+  codename,
+  title,
+  entries,
+}: {
+  codename: string;
+  title: string;
+  entries: LeaderboardEntry[];
+}) {
   return (
     <section className="rounded-xl border border-navy/10 p-5">
-      <h2 className="mb-4 font-semibold text-navy">{title}</h2>
+      <h2 className="font-bold uppercase tracking-wide text-navy">{codename}</h2>
+      <p className="mb-4 text-sm text-ink/60">{title}</p>
 
       {entries.length === 0 ? (
         <p className="text-sm text-ink/50">No ranked students yet.</p>

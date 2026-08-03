@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { getCurrentUser } from "@/lib/dal";
@@ -7,29 +8,23 @@ export async function SiteHeader() {
 
   return (
     <header className="border-b border-navy/10">
-      <nav className="mx-auto flex w-full max-w-5xl items-center gap-6 px-4 py-4">
-        <Link href="/" className="text-lg font-bold text-navy">
-          PH<span className="text-glow">ive</span>
+      {/* Wraps to a second row on narrow screens rather than squeezing labels until
+          they break mid-word. */}
+      <nav className="mx-auto flex w-full max-w-5xl flex-wrap items-center gap-x-5 gap-y-2 px-4 py-4">
+        <Link href="/" aria-label="PHive home" className="shrink-0">
+          {/* logo.svg is white-filled and only works on the dark footer. */}
+          <Image src="/images/logo-blue.svg" alt="PHive" width={72} height={28} priority />
         </Link>
 
-        <Link href="/explore" className="text-sm text-ink/70 hover:text-glow">
-          Explore
-        </Link>
-        <Link href="/leaderboard" className="text-sm text-ink/70 hover:text-glow">
-          Leaderboard
-        </Link>
-        {user?.role === "Lecturer" && (
-          <Link href="/my/projects" className="text-sm text-ink/70 hover:text-glow">
-            My projects
-          </Link>
-        )}
-        {user?.role === "Student" && (
-          <Link href="/party" className="text-sm text-ink/70 hover:text-glow">
-            Party
-          </Link>
-        )}
+        <NavLink href="/explore">Explore</NavLink>
+        <NavLink href="/leaderboard">Leaderboard</NavLink>
+        {user?.role === "Lecturer" && <NavLink href="/my/projects">My projects</NavLink>}
+        {user?.role === "Student" && <NavLink href="/party">Party</NavLink>}
         {user && (
-          <Link href="/inbox" className="flex items-center gap-1.5 text-sm text-ink/70 hover:text-glow">
+          <Link
+            href="/inbox"
+            className="flex shrink-0 items-center gap-1.5 whitespace-nowrap text-sm text-ink/70 hover:text-glow"
+          >
             Inbox
             {(user.unread_inbox_count ?? 0) > 0 && (
               <span className="rounded-full bg-glow px-1.5 py-0.5 text-xs font-semibold text-white">
@@ -39,34 +34,42 @@ export async function SiteHeader() {
           </Link>
         )}
 
-        <div className="ml-auto flex items-center gap-4">
+        <div className="ml-auto flex shrink-0 items-center gap-3">
           {user ? (
             <>
-              <Link href={`/u/${user.tagname}`} className="text-sm text-ink/70 hover:text-glow">
-                @{user.tagname}
-              </Link>
-              <Link
-                href="/dashboard"
-                className="rounded-lg bg-navy px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-navy/90"
-              >
-                Dashboard
-              </Link>
+              <NavLink href={`/u/${user.tagname}`}>@{user.tagname}</NavLink>
+              <CtaLink href="/dashboard">Dashboard</CtaLink>
             </>
           ) : (
             <>
-              <Link href="/login" className="text-sm text-ink/70 hover:text-glow">
-                Sign in
-              </Link>
-              <Link
-                href="/register"
-                className="rounded-lg bg-navy px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-navy/90"
-              >
-                Join
-              </Link>
+              <NavLink href="/login">Sign in</NavLink>
+              <CtaLink href="/register">Join</CtaLink>
             </>
           )}
         </div>
       </nav>
     </header>
+  );
+}
+
+function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <Link
+      href={href}
+      className="shrink-0 whitespace-nowrap text-sm text-ink/70 transition hover:text-glow"
+    >
+      {children}
+    </Link>
+  );
+}
+
+function CtaLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <Link
+      href={href}
+      className="shrink-0 whitespace-nowrap rounded-lg bg-navy px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-navy/90"
+    >
+      {children}
+    </Link>
   );
 }

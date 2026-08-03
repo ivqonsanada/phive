@@ -165,6 +165,16 @@ Base URL `/api`. Authenticated routes expect `Authorization: Bearer <token>`.
 | `DELETE`| `/settings/avatar` · `/settings/cv` | ✓  | Remove                            |
 | `POST`  | `/settings/experiences`           | ✓    | Add a CV entry                    |
 | `PATCH` `DELETE` | `/settings/experiences/{id}` | ✓ | Edit or remove your own entry  |
+| `GET`   | `/party`                          | ✓    | The party you lead, and ones you're in |
+| `POST`  | `/users/{tagname}/invite/party`    | ✓    | Invite a student to your party    |
+| `DELETE`| `/party/members/{tagname}`        | ✓    | Remove a member                   |
+| `DELETE`| `/party/{team}/leave`             | ✓    | Leave a party you don't lead      |
+| `POST`  | `/projects/{project_url}/apply/individual` | ✓ | Apply on your own          |
+| `POST`  | `/projects/{project_url}/apply/team` | ✓  | Apply with your party           |
+| `DELETE`| `/projects/{project_url}/apply`   | ✓    | Withdraw your application         |
+| `GET`   | `/inbox`                          | ✓    | Invitations and messages          |
+| `POST`  | `/inbox/{id}/respond`             | ✓    | Accept or decline (`accept: bool`) |
+| `POST`  | `/inbox/{id}/read`                | ✓    | Mark as read                      |
 
 **Lecturer project management** — all require a lecturer token, and a policy scopes
 every one of them to that lecturer's own projects. They live under `/my` so none of
@@ -203,7 +213,9 @@ field). Progress so far:
 - [x] Publishing extras: thumbnail upload
 - [x] Profile editing: avatar and CV upload, skills, experiences
 - [ ] Inviting students to a project directly
-- [ ] Applying: as an individual, as a team, party recruitment
+- [x] Party recruitment and the inbox invitation flow
+- [x] Applying: as an individual or with your party
+- [ ] Applying UI (the API is done; the screens are not)
 - [ ] Project Box: shortlist, confirmation, start, terminate, review
 - [ ] Inbox and direct messaging (Laravel Reverb replaces the old Pusher setup)
 

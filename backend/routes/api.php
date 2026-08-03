@@ -1,12 +1,15 @@
 <?php
 
+use App\Http\Controllers\Api\ApplicationController;
 use App\Http\Controllers\Api\Auth\EmailVerificationController;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\PasswordController;
 use App\Http\Controllers\Api\Auth\PasswordResetController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\HomeController;
+use App\Http\Controllers\Api\InboxController;
 use App\Http\Controllers\Api\LeaderboardController;
+use App\Http\Controllers\Api\PartyController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\ProjectController;
 use App\Http\Controllers\Api\ProjectManagementController;
@@ -87,6 +90,20 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('settings/avatar', [MediaController::class, 'deleteAvatar']);
     Route::post('settings/cv', [MediaController::class, 'uploadCv']);
     Route::delete('settings/cv', [MediaController::class, 'deleteCv']);
+
+    // Party (team building) and applications.
+    Route::get('party', [PartyController::class, 'index']);
+    Route::post('users/{user}/invite/party', [PartyController::class, 'invite']);
+    Route::delete('party/members/{user}', [PartyController::class, 'kick']);
+    Route::delete('party/{team}/leave', [PartyController::class, 'leave']);
+
+    Route::post('projects/{project}/apply/individual', [ApplicationController::class, 'applyAsIndividual']);
+    Route::post('projects/{project}/apply/team', [ApplicationController::class, 'applyAsTeam']);
+    Route::delete('projects/{project}/apply', [ApplicationController::class, 'withdraw']);
+
+    Route::get('inbox', [InboxController::class, 'index']);
+    Route::post('inbox/{inbox}/read', [InboxController::class, 'markRead']);
+    Route::post('inbox/{inbox}/respond', [InboxController::class, 'respond']);
 
     Route::post('settings/experiences', [ExperienceController::class, 'store']);
     Route::patch('settings/experiences/{experience}', [ExperienceController::class, 'update']);

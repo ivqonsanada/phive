@@ -26,7 +26,9 @@ class ProjectTeamResource extends JsonResource
                     'expertise' => $member->expertise,
                     'score' => $member->score,
                     'assessment' => $member->assessment,
-                    'user' => new UserSummaryResource($member->whenLoaded('member')),
+                    // `whenLoaded` belongs to JsonResource, not to the model — the
+                    // relation is eager-loaded by the controller, so read it directly.
+                    'user' => new UserSummaryResource($member->member),
                 ]),
             ),
         ];

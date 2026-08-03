@@ -15,6 +15,7 @@ export async function toggleWishlist(projectUrl: string): Promise<boolean> {
   );
 
   revalidatePath("/explore");
+  revalidatePath("/wishlist");
   revalidatePath(`/projects/${projectUrl}`);
 
   return is_wished;

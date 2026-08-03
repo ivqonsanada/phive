@@ -234,7 +234,8 @@ The data model is fully ported (24 tables, typed Eloquent models, enums for ever
 field). Progress so far:
 
 - [x] Auth: register, login, logout, email verification, password reset and change
-- [x] Projects: explore, search, filter by expertise, detail, similar projects, wishlist
+- [x] Projects: explore, search, filter by expertise, detail, similar projects
+- [x] Wishlist: star from anywhere, review it on its own page
 - [x] Profiles: public view — finished work for students, published projects for lecturers
 - [x] Leaderboard and home page stats
 - [x] Publishing: draft, edit, publish, close applications, withdraw

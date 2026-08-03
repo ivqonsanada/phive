@@ -13,6 +13,7 @@ const PROTECTED_PREFIXES = [
   "/inbox",
   "/project-box",
   "/messages",
+  "/wishlist",
 ];
 const GUEST_ONLY_PATHS = ["/login", "/register", "/forgot-password"];
 

@@ -19,6 +19,7 @@ export async function SiteHeader() {
         <NavLink href="/explore">Explore</NavLink>
         <NavLink href="/leaderboard">Leaderboard</NavLink>
         {user?.role === "Lecturer" && <NavLink href="/my/projects">My projects</NavLink>}
+        {user?.role === "Student" && <NavLink href="/wishlist">Wishlist</NavLink>}
         {user?.role === "Student" && <NavLink href="/party">Party</NavLink>}
         {user && <NavLink href="/project-box">Project box</NavLink>}
         {user && <NavLink href="/messages">Messages</NavLink>}

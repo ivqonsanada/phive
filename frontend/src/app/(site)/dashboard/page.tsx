@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { ResendVerification } from "@/app/(app)/dashboard/resend-verification";
+import { ResendVerification } from "@/app/(site)/dashboard/resend-verification";
 import { logout } from "@/app/actions/auth";
 import { requireUser } from "@/lib/dal";
 

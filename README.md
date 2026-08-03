@@ -133,17 +133,36 @@ rather than relying on older tutorials.
 
 Base URL `/api`. Authenticated routes expect `Authorization: Bearer <token>`.
 
-| Method  | Endpoint                        | Auth | Purpose                        |
-| ------- | ------------------------------- | ---- | ------------------------------ |
-| `POST`  | `/register`                     | —    | Create an account, get a token |
-| `POST`  | `/login`                        | —    | Exchange credentials for a token |
-| `POST`  | `/logout`                       | ✓    | Revoke the calling token only  |
-| `GET`   | `/user`                         | ✓    | The signed-in user             |
-| `PATCH` | `/settings/password`            | ✓    | Change password, keep this device |
-| `POST`  | `/password/email`               | —    | Send a reset link              |
-| `POST`  | `/password/reset`               | —    | Consume a reset token          |
-| `GET`   | `/email/verify/{id}/{hash}`     | —    | Signed verification link       |
-| `POST`  | `/email/resend`                 | ✓    | Resend the verification email  |
+**Reads** — these work for guests, but personalise themselves when a token is present
+(for example `is_wished` only appears for a signed-in student):
+
+| Method | Endpoint                       | Purpose                                          |
+| ------ | ------------------------------ | ------------------------------------------------ |
+| `GET`  | `/home`                        | Project counts, top of each board, latest projects |
+| `GET`  | `/projects`                    | Explore + search: `?query=`, `?expertise=`, `?status=`, `?open_only=`, `?page=` |
+| `GET`  | `/projects/{project_url}`      | Detail, with skills, requirements, team, review   |
+| `GET`  | `/projects/{project_url}/similar` | Three related projects, matched to your expertise |
+| `GET`  | `/users/{tagname}`             | Public profile plus that user's projects          |
+| `GET`  | `/leaderboards`                | One ranked board per expertise                    |
+
+**Auth and writes:**
+
+| Method  | Endpoint                          | Auth | Purpose                           |
+| ------- | --------------------------------- | ---- | --------------------------------- |
+| `POST`  | `/register`                       | —    | Create an account, get a token    |
+| `POST`  | `/login`                          | —    | Exchange credentials for a token  |
+| `POST`  | `/logout`                         | ✓    | Revoke the calling token only     |
+| `GET`   | `/user`                           | ✓    | The signed-in user                |
+| `PATCH` | `/settings/password`              | ✓    | Change password, keep this device |
+| `POST`  | `/password/email`                 | —    | Send a reset link                 |
+| `POST`  | `/password/reset`                 | —    | Consume a reset token             |
+| `GET`   | `/email/verify/{id}/{hash}`       | —    | Signed verification link          |
+| `POST`  | `/email/resend`                   | ✓    | Resend the verification email     |
+| `GET`   | `/wishlist`                       | ✓    | Projects the student starred      |
+| `POST`  | `/projects/{project_url}/wishlist`| ✓    | Toggle a project on the wishlist  |
+
+Resource wrapping is off, so a resource is returned at the top level. Paginated
+collections keep Laravel's `{ data, links, meta }` envelope.
 
 Lecturer sign-ups are restricted to non-student academic addresses. That rule is
 Indonesian-university-specific and lives in `config/phive.php` — change
@@ -154,15 +173,17 @@ Indonesian-university-specific and lives in `config/phive.php` — change
 ## Roadmap
 
 The data model is fully ported (24 tables, typed Eloquent models, enums for every status
-field). Auth is complete end to end. Remaining features, roughly in dependency order:
+field). Progress so far:
 
-- [ ] Profile: view, edit, avatar and CV upload, skills, experiences
-- [ ] Projects: explore, search, detail, similar projects, wishlist
+- [x] Auth: register, login, logout, email verification, password reset and change
+- [x] Projects: explore, search, filter by expertise, detail, similar projects, wishlist
+- [x] Profiles: public view — finished work for students, published projects for lecturers
+- [x] Leaderboard and home page stats
+- [ ] Profile editing: avatar and CV upload, skills, experiences
 - [ ] Publishing: draft, post, thumbnail upload, invite students
 - [ ] Applying: as an individual, as a team, party recruitment
 - [ ] Project Box: shortlist, confirmation, start, terminate, review
 - [ ] Inbox and direct messaging (Laravel Reverb replaces the old Pusher setup)
-- [ ] Leaderboard
 
 ---
 

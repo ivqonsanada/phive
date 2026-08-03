@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Expertise;
+use App\Enums\ProjectBoxStatus;
 use App\Enums\UserRole;
 use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
@@ -95,6 +96,12 @@ class User extends Authenticatable implements MustVerifyEmailContract
     public function projectBoxes(): HasMany
     {
         return $this->hasMany(ProjectBox::class);
+    }
+
+    /** Work this user actually completed — the public portfolio. @return HasMany<ProjectBox, $this> */
+    public function finishedProjects(): HasMany
+    {
+        return $this->projectBoxes()->where('status', ProjectBoxStatus::Finished);
     }
 
     /** @return HasMany<Wishlist, $this> */

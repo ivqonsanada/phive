@@ -1,0 +1,9 @@
+ignoredBuiltDependencies:
+  - sharp
+  - unrs-resolver
+
+# esbuild and workerd ship prebuilt binaries that their install scripts unpack.
+# Without this, `opennextjs-cloudflare build` and `wrangler dev` fail to start.
+onlyBuiltDependencies:
+  - esbuild
+  - workerd

@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+/* Carried over from the original PHive palette. */
+@theme {
+  --color-navy: #00214d;
+  --color-glow: #ff5470;
+  --color-paper: #ffffff;
+  --color-ink: #12203a;
+
+  --font-sans: var(--font-open-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+}

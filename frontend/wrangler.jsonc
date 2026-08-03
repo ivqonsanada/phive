@@ -1,0 +1,31 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "phive-frontend",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-07-30",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "images": {
+    "binding": "IMAGES"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    // Points at the deployed Laravel API. Override per environment, or set it as a
+    // secret with: pnpm wrangler secret put API_URL
+    "API_URL": "http://localhost:8000"
+  }
+
+  // Enable these together with the R2 incremental cache in open-next.config.ts:
+  //
+  // "services": [
+  //   { "binding": "WORKER_SELF_REFERENCE", "service": "phive-frontend" }
+  // ],
+  // "r2_buckets": [
+  //   { "binding": "NEXT_INC_CACHE_R2_BUCKET", "bucket_name": "phive-frontend-opennext-cache" }
+  // ]
+}

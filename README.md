@@ -1,199 +1,171 @@
-<!-- PROJECT SHIELDS -->
-
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
-<!-- PROJECT LOGO -->
-<br />
 <p align="center">
-  <a href="https://github.com/ivqonsanada/phive">
-    <img src="public/icon-192x192.png" alt="Logo" width="80" height="80">
-  </a>
-
-  <h3 align="center">PHive</h3>
-
-  <p align="center">
-    A kind of freelancing website for College
-    <br />
-    <a href="https://github.com/ivqonsanada/phive"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://phive.ivqonsanada.com/">View Demo</a>
-    ·
-    <a href="https://github.com/ivqonsanada/phive/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/ivqonsanada/phive/issues">Request Feature</a>
-  </p>
+  <img src="frontend/public/icons/icon-192x192.png" alt="PHive" width="80" height="80">
 </p>
 
-<!-- ABOUT THE PROJECT -->
+<h1 align="center">PHive</h1>
 
-## About The Project
+<p align="center">
+  A freelancing platform for college — lecturers publish real projects, students apply
+  alone or with a party they recruit, and get paid and certified for finishing them.
+</p>
 
-[![PHive Landing Page](public/github/landing-page.png)](https://phive.ivqonsanada.com)
+<p align="center">
+  <a href="#getting-started">Getting started</a> ·
+  <a href="docs/DEPLOYMENT.md">Deployment</a> ·
+  <a href="#roadmap">Roadmap</a> ·
+  <a href="https://github.com/ivqonsanada/phive/tree/legacy">Legacy version</a>
+</p>
 
-A kind of freelancing website for College. Where Lecturer can publish his/her project here waiting students apply to work on the project. Student will get some kind of rewards like salary and/or certification.
+---
 
-Features:
+## What this is
 
--   Commons
-    -   Explore Project
-    -   Leaderboard
-    -   Profile
-    -   Message
-    -   Inbox
--   Lecturer
-    -   Project Publications (Posting - Recruit - Review)
-    -   Project Box (to Organize Project)
-    -   Hire Student
--   Student
-    -   Apply Project (as Individual / as Team)
-    -   Party (for make the Team)
-    -   Project Box (to See current Apply/Ongoing/Finished projects)
-    -   Wishlist Project
--   Experiment
-    -   Adaptive while being Responsive (Mobile version is Mobile Apps-like)
+PHive started in 2020 as a Laravel 7 + Vue 2 monolith. This repository is the rewrite:
+two independently deployable apps that talk over a JSON API.
 
-### Built With
+```
+phive/
+├── backend/     Laravel 13 · PHP 8.3+ · PostgreSQL · Sanctum tokens
+├── frontend/    Next.js 16 · React 19 · TypeScript · Tailwind 4
+├── docs/        Deployment guide and assets
+└── docker-compose.yml
+```
 
--   [Laravel](https://laravel.com/)
--   [VueJS](https://vuejs.org/)
--   [Sass](https://sass-lang.com/)
+The original code is preserved on the [`legacy`](https://github.com/ivqonsanada/phive/tree/legacy)
+branch, untouched.
 
-<!-- GETTING STARTED -->
+### Why two apps
 
-## Getting Started
+The frontend is edge-deployable (Cloudflare Workers by default) while the API needs PHP
+and a database. Splitting them lets each go where it runs best, and makes the API usable
+by anything else you want to build later.
 
-To get a local copy up and running follow these simple steps.
+### How auth works
 
-### Prerequisites
+Sanctum **personal access tokens**, not stateful cookies — so the two apps never need to
+share a root domain.
 
--   [npm](https://nodejs.org/)
--   [composer](https://getcomposer.org/download/)
--   AMP stack
-    -   Apache HTTP Server
-    -   MySQL
-    -   [PHP](https://www.php.net/downloads)
+```
+Browser ──▶ Next.js server action ──▶ POST /api/login ──▶ Laravel
+                    │                                        │
+                    │◀──────────── { user, token } ──────────┘
+                    ▼
+          httpOnly cookie (phive_token)
+                    │
+Browser ──▶ Next.js Server Component ──▶ Authorization: Bearer ──▶ Laravel
+```
 
-### Installation
+The token lives in an httpOnly cookie and is only ever read on the server, so client-side
+JavaScript can never touch it. `src/proxy.ts` does a cheap cookie-presence check for
+routing; `requireUser()` in `src/lib/dal.ts` is what actually verifies against the API.
 
-1. Clone the repo
-    ```sh
-    git clone https://github.com/ivqonsanada/phive.git
-    ```
-2. Get into the project
-    ```sh
-    cd phive
-    ```
-3. Install the frontend packages (NPM)
-    ```sh
-    npm install
-    ```
-4. Install the backend packages
-    ```sh
-    composer install
-    ```
+---
 
-<!-- USAGE EXAMPLES -->
+## Getting started
 
-## Usage
+**Requirements:** PHP 8.3+, Composer 2, Node 24+, pnpm 10+, PostgreSQL 14+.
 
-1. Make `.env` file by copy the `.env.example`
-    ```sh
-    cp .env.example .env
-    ```
-2. Edit `.env` file to setup database connection
-    ```dosini
-    DB_DATABASE=db_name
-    DB_USERNAME=user_to_access_the_db
-    DB_PASSWORD=user_password
-    ```
-3. Set application key
-    ```sh
-    php artisan key:generate
-    ```
-4. Create tables using migration with dummy data
-    ```sh
-    php artisan migrate:fresh --seed
-    ```
-5. Create the frontend production ready files
-    ```sh
-    npm run prod
-    ```
-6. Run the app
-    ```sh
-    php artisan serve
-    ```
-7. Try dummy account
+```bash
+git clone https://github.com/ivqonsanada/phive.git
+cd phive
+```
 
-    ```dosini
-    # student
-    username = student@example.com
-    password = password
+### Backend
 
-    # lecturer
-    username = lecturer@example.ac.id
-    password = password
-    ```
+```bash
+cd backend
+composer install
+php artisan phive:install     # env file, app key, database, migrations, demo data
+composer dev                  # serve + queue worker + log tail on :8000
+```
 
-<!-- ROADMAP -->
+`phive:install` asks which database to use and writes the credentials into `.env` for
+you. Non-interactively (CI, containers):
+
+```bash
+php artisan phive:install --no-interaction-defaults --seed
+```
+
+Seeded accounts — password `password` for both:
+
+| Email                 | Role     |
+| --------------------- | -------- |
+| `lecturer@phive.test` | Lecturer |
+| `student@phive.test`  | Student  |
+
+### Frontend
+
+```bash
+cd frontend
+pnpm install
+cp .env.example .env.local    # API_URL=http://localhost:8000
+pnpm dev                      # :3000
+```
+
+### Everything at once
+
+```bash
+cp backend/.env.example backend/.env
+docker compose up --build
+```
+
+---
+
+## Development
+
+| Task            | Backend                | Frontend         |
+| --------------- | ---------------------- | ---------------- |
+| Dev server      | `composer dev`         | `pnpm dev`       |
+| Tests           | `php artisan test`     | —                |
+| Lint / format   | `composer lint` (Pint) | `pnpm lint`      |
+| Types           | —                      | `pnpm typecheck` |
+| Production build| —                      | `pnpm build`     |
+
+### A note on Next.js 16
+
+Next 16 renamed `middleware.ts` to `proxy.ts` and made `cookies()` async. `frontend/AGENTS.md`
+points at the version-accurate docs bundled in `node_modules/next/dist/docs/` — read those
+rather than relying on older tutorials.
+
+---
+
+## API
+
+Base URL `/api`. Authenticated routes expect `Authorization: Bearer <token>`.
+
+| Method  | Endpoint                        | Auth | Purpose                        |
+| ------- | ------------------------------- | ---- | ------------------------------ |
+| `POST`  | `/register`                     | —    | Create an account, get a token |
+| `POST`  | `/login`                        | —    | Exchange credentials for a token |
+| `POST`  | `/logout`                       | ✓    | Revoke the calling token only  |
+| `GET`   | `/user`                         | ✓    | The signed-in user             |
+| `PATCH` | `/settings/password`            | ✓    | Change password, keep this device |
+| `POST`  | `/password/email`               | —    | Send a reset link              |
+| `POST`  | `/password/reset`               | —    | Consume a reset token          |
+| `GET`   | `/email/verify/{id}/{hash}`     | —    | Signed verification link       |
+| `POST`  | `/email/resend`                 | ✓    | Resend the verification email  |
+
+Lecturer sign-ups are restricted to non-student academic addresses. That rule is
+Indonesian-university-specific and lives in `config/phive.php` — change
+`lecturer_email_pattern`, or set it to `null` to accept anything.
+
+---
 
 ## Roadmap
 
-See the [open issues](https://github.com/ivqonsanada/phive/issues) for a list of proposed features (and known issues).
+The data model is fully ported (24 tables, typed Eloquent models, enums for every status
+field). Auth is complete end to end. Remaining features, roughly in dependency order:
 
-<!-- CONTRIBUTING -->
+- [ ] Profile: view, edit, avatar and CV upload, skills, experiences
+- [ ] Projects: explore, search, detail, similar projects, wishlist
+- [ ] Publishing: draft, post, thumbnail upload, invite students
+- [ ] Applying: as an individual, as a team, party recruitment
+- [ ] Project Box: shortlist, confirmation, start, terminate, review
+- [ ] Inbox and direct messaging (Laravel Reverb replaces the old Pusher setup)
+- [ ] Leaderboard
 
-## Contributing
-
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-<!-- LICENSE -->
+---
 
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
-
-<!-- CONTACT -->
-
-## Contact
-
-Team:
-
--   Ivqonnada Al Mufarrih - Full Stack Engineer - [@ivqonsanada](https://twitter.com/ivqonsanada) - ivqonnada@gmail.com
--   Verrel Radiman - Designer - [@verrel](https://www.linkedin.com/in/muhammad-verrel-radiman-61178314a)
--   Aji R. Gumiwang - Tester
-
-Project Link: [https://github.com/ivqonsanada/phive](https://github.com/ivqonsanada/phive)
-
-<!-- ACKNOWLEDGEMENTS -->
-
-## Acknowledgements
-
--   [Laravel-Vue SPA starter kit](https://github.com/cretueusebiu/laravel-vue-spa)
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-
-[contributors-shield]: https://img.shields.io/github/contributors/ivqonsanada/phive.svg?style=for-the-badge
-[contributors-url]: https://github.com/ivqonsanada/phive/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/ivqonsanada/phive.svg?style=for-the-badge
-[forks-url]: https://github.com/ivqonsanada/phive/network/members
-[stars-shield]: https://img.shields.io/github/stars/ivqonsanada/phive.svg?style=for-the-badge
-[stars-url]: https://github.com/ivqonsanada/phive/stargazers
-[issues-shield]: https://img.shields.io/github/issues/ivqonsanada/phive.svg?style=for-the-badge
-[issues-url]: https://github.com/ivqonsanada/phive/issues
-[license-shield]: https://img.shields.io/github/license/ivqonsanada/phive.svg?style=for-the-badge
-[license-url]: https://github.com/ivqonsanada/phive/blob/master/LICENSE
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/ivqonnada
+MIT — see [LICENSE](LICENSE).

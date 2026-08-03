@@ -10,6 +10,9 @@ use App\Http\Controllers\Api\LeaderboardController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\ProjectController;
 use App\Http\Controllers\Api\ProjectManagementController;
+use App\Http\Controllers\Api\Settings\ExperienceController;
+use App\Http\Controllers\Api\Settings\MediaController;
+use App\Http\Controllers\Api\Settings\ProfileController as SettingsProfileController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\WishlistController;
 use Illuminate\Support\Facades\Route;
@@ -75,4 +78,17 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('my/projects/{project}', [ProjectManagementController::class, 'destroy']);
     Route::post('my/projects/{project}/publish', [ProjectManagementController::class, 'publish']);
     Route::post('my/projects/{project}/close', [ProjectManagementController::class, 'closeApplications']);
+    Route::post('my/projects/{project}/thumbnail', [MediaController::class, 'uploadThumbnail']);
+    Route::delete('my/projects/{project}/thumbnail', [MediaController::class, 'deleteThumbnail']);
+
+    // Own profile and media.
+    Route::patch('settings/profile', [SettingsProfileController::class, 'update']);
+    Route::post('settings/avatar', [MediaController::class, 'uploadAvatar']);
+    Route::delete('settings/avatar', [MediaController::class, 'deleteAvatar']);
+    Route::post('settings/cv', [MediaController::class, 'uploadCv']);
+    Route::delete('settings/cv', [MediaController::class, 'deleteCv']);
+
+    Route::post('settings/experiences', [ExperienceController::class, 'store']);
+    Route::patch('settings/experiences/{experience}', [ExperienceController::class, 'update']);
+    Route::delete('settings/experiences/{experience}', [ExperienceController::class, 'destroy']);
 });

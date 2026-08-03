@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\User;
+use App\Support\StoredFile;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -26,7 +27,7 @@ class UserSummaryResource extends JsonResource
             'last_name' => $this->last_name,
             'name' => $this->name,
             'role' => $this->role,
-            'photo_url' => $this->photo_url,
+            'photo_url' => StoredFile::url($this->photo_url),
             'expertise' => $this->expertise,
             'finished_project_count' => $this->whenCounted('finishedProjects'),
         ];

@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\User;
+use App\Support\StoredFile;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -26,7 +27,9 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'email_verified' => $this->hasVerifiedEmail(),
             'identity_number' => $this->identity_number,
-            'photo_url' => $this->photo_url,
+            // Stored as a disk path; the absolute URL is derived here so the disk can
+            // change without rewriting rows.
+            'photo_url' => StoredFile::url($this->photo_url),
             'expertise' => $this->expertise,
             'university' => $this->university,
             'faculty' => $this->faculty,
@@ -34,7 +37,7 @@ class UserResource extends JsonResource
             'location' => $this->location,
             'biography' => $this->biography,
             'is_open_hired' => $this->is_open_hired,
-            'cv_url' => $this->cv_url,
+            'cv_url' => StoredFile::url($this->cv_url),
             'links' => [
                 'behance' => $this->behance,
                 'github' => $this->github,

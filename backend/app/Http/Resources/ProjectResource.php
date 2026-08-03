@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\Project;
+use App\Support\StoredFile;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -25,7 +26,7 @@ class ProjectResource extends JsonResource
             'description' => $this->description,
             'project_url' => $this->project_url,
             'status' => $this->status,
-            'thumbnail' => $this->thumbnail,
+            'thumbnail' => StoredFile::url($this->thumbnail),
 
             'applicant_type' => $this->applicant_type,
             'max_person' => $this->max_person,

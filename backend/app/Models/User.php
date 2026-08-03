@@ -68,16 +68,21 @@ class User extends Authenticatable implements MustVerifyEmailContract
         return $this->role === UserRole::Lecturer;
     }
 
-    /** @return HasMany<UserSkill, $this> */
+    /**
+     * Ordered by id so the list comes back the way it was entered — the unique index
+     * on (user_id, name) would otherwise let the database answer alphabetically.
+     *
+     * @return HasMany<UserSkill, $this>
+     */
     public function skills(): HasMany
     {
-        return $this->hasMany(UserSkill::class);
+        return $this->hasMany(UserSkill::class)->orderBy('id');
     }
 
-    /** @return HasMany<Experience, $this> */
+    /** Most recent first — that is how a CV reads. @return HasMany<Experience, $this> */
     public function experiences(): HasMany
     {
-        return $this->hasMany(Experience::class);
+        return $this->hasMany(Experience::class)->orderByDesc('start_date');
     }
 
     /** @return HasOne<Leaderboard, $this> */

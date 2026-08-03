@@ -6,6 +6,8 @@ use App\Enums\Expertise;
 use App\Enums\ProjectBoxStatus;
 use App\Enums\UserRole;
 use Database\Factories\UserFactory;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
@@ -23,10 +25,19 @@ use Laravel\Sanctum\HasApiTokens;
     'is_open_hired', 'behance', 'github', 'linkedin', 'dribbble', 'website', 'cv_url',
 ])]
 #[Hidden(['password', 'remember_token'])]
-class User extends Authenticatable implements MustVerifyEmailContract
+class User extends Authenticatable implements FilamentUser, MustVerifyEmailContract
 {
     /** @use HasFactory<UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
+
+    /**
+     * Only explicitly flagged administrators reach the Filament panel. Every other
+     * account — including lecturers — is refused even with valid credentials.
+     */
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->is_admin === true;
+    }
 
     /**
      * Route model binding resolves users by their public handle, not their id.
@@ -47,6 +58,7 @@ class User extends Authenticatable implements MustVerifyEmailContract
             'role' => UserRole::class,
             'expertise' => Expertise::class,
             'is_open_hired' => 'boolean',
+            'is_admin' => 'boolean',
         ];
     }
 

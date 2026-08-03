@@ -25,11 +25,14 @@ two independently deployable apps that talk over a JSON API.
 
 ```
 phive/
-├── backend/     Laravel 13 · PHP 8.3+ · PostgreSQL · Sanctum tokens
+├── backend/     Laravel 13 · PHP 8.3+ · PostgreSQL · Sanctum tokens · Filament 5 admin
 ├── frontend/    Next.js 16 · React 19 · TypeScript · Tailwind 4
 ├── docs/        Deployment guide and assets
 └── docker-compose.yml
 ```
+
+There are two front doors: the Next.js app that students and lecturers use, and a
+[Filament](https://filamentphp.com) admin panel served by Laravel itself at `/admin`.
 
 The original code is preserved on the [`legacy`](https://github.com/ivqonsanada/phive/tree/legacy)
 branch, untouched.
@@ -86,12 +89,28 @@ you. Non-interactively (CI, containers):
 php artisan phive:install --no-interaction-defaults --seed
 ```
 
-Seeded accounts — password `password` for both:
+Seeded accounts — password `password` for all three:
 
-| Email                 | Role     |
-| --------------------- | -------- |
-| `lecturer@phive.test` | Lecturer |
-| `student@phive.test`  | Student  |
+| Email                 | Role     | Where              |
+| --------------------- | -------- | ------------------ |
+| `lecturer@phive.test` | Lecturer | Frontend           |
+| `student@phive.test`  | Student  | Frontend           |
+| `admin@phive.test`    | Admin    | `/admin` panel     |
+
+### Admin panel
+
+Filament 5, at `http://localhost:8000/admin`. Access is gated on an `is_admin`
+flag rather than the platform `role` — being a lecturer says what you do on the
+platform, not that you may administer it. The panel is the one session-based
+surface in an otherwise token-authenticated API, so it runs on the `web` guard
+explicitly; a bearer token is not a way in.
+
+For a real deployment, seed your own administrator instead of the demo one:
+
+```bash
+ADMIN_EMAIL=you@example.com ADMIN_PASSWORD='...' \
+  php artisan db:seed --class=AdminSeeder
+```
 
 ### Frontend
 

@@ -39,6 +39,9 @@ class UserFactory extends Factory
             'major' => 'Informatics',
             'location' => fake()->city(),
             'biography' => fake()->paragraph(),
+            // Explicit rather than leaning on the column default, so a freshly built
+            // model reports the same thing as one read back from the database.
+            'is_admin' => false,
             'remember_token' => Str::random(10),
         ];
     }
@@ -60,5 +63,10 @@ class UserFactory extends Factory
     public function unverified(): static
     {
         return $this->state(fn (array $attributes) => ['email_verified_at' => null]);
+    }
+
+    public function admin(): static
+    {
+        return $this->state(fn (array $attributes) => ['is_admin' => true]);
     }
 }

@@ -2,11 +2,16 @@
     "$schema": "https://getcomposer.org/schema.json",
     "name": "ivqonsanada/phive-api",
     "type": "project",
-    "description": "PHive API — a freelancing platform for college projects.",
-    "keywords": ["laravel", "api", "phive"],
+    "description": "PHive API \u2014 a freelancing platform for college projects.",
+    "keywords": [
+        "laravel",
+        "api",
+        "phive"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.3",
+        "filament/filament": "^5.0",
         "laravel/framework": "^13.8",
         "laravel/reverb": "^1.11",
         "laravel/sanctum": "^4.0",
@@ -51,7 +56,8 @@
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@php artisan package:discover --ansi",
+            "@php artisan filament:upgrade"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"

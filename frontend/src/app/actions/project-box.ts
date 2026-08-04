@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { api, toFormState } from "@/lib/api";
+import { parseReviewParticipants } from "@/lib/form-parsing";
 import type { FormState } from "@/lib/types";
 
 export async function confirmSeat(boxUuid: string, accept: boolean): Promise<void> {
@@ -47,18 +48,7 @@ export async function submitReview(
   _state: FormState | undefined,
   formData: FormData,
 ): Promise<FormState> {
-  // One score/assessment field per participant, keyed by member id.
-  const participants: Record<string, Record<string, string>> = {};
-
-  for (const [key, value] of formData.entries()) {
-    const match = key.match(/^participants\[([\w-]+)]\[(\w+)]$/);
-
-    if (match && typeof value === "string") {
-      const id = match[1];
-      participants[id] ??= {};
-      participants[id][match[2]] = value;
-    }
-  }
+  const participants = parseReviewParticipants(formData);
 
   try {
     await api(`/my/projects/${encodeURIComponent(projectUrl)}/review`, {
@@ -67,12 +57,7 @@ export async function submitReview(
         overall_score: formData.get("overall_score"),
         overall_review: formData.get("overall_review") || null,
         project_result: formData.get("project_result") || null,
-        participants: Object.entries(participants).map(([id, fields]) => ({
-          member_uuid: id,
-          expertise: fields.expertise,
-          score: fields.score,
-          assessment: fields.assessment || null,
-        })),
+        participants,
       },
     });
   } catch (error) {

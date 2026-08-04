@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 
 import { api, toFormState } from "@/lib/api";
+import { parseLines } from "@/lib/form-parsing";
 import type { FormState, User } from "@/lib/types";
 
 function revalidateProfile(tagname?: string) {
@@ -41,10 +42,7 @@ export async function updateProfile(
         linkedin: text("linkedin") || null,
         dribbble: text("dribbble") || null,
         website: text("website") || null,
-        skills: text("skills")
-          .split("\n")
-          .map((line) => line.trim())
-          .filter(Boolean),
+        skills: parseLines(text("skills")),
       },
     });
 

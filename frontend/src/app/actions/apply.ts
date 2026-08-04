@@ -4,7 +4,8 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { api, toFormState } from "@/lib/api";
-import type { Expertise, FormState } from "@/lib/types";
+import { parseTeamApplicants } from "@/lib/form-parsing";
+import type { FormState } from "@/lib/types";
 
 export async function applyAsIndividual(
   projectUrl: string,
@@ -37,15 +38,7 @@ export async function applyAsTeam(
   _state: FormState | undefined,
   formData: FormData,
 ): Promise<FormState> {
-  const members: { member_uuid: string; expertise: Expertise }[] = [];
-
-  for (const [key, value] of formData.entries()) {
-    const match = key.match(/^expertise\[([\w-]+)\]$/);
-
-    if (match && typeof value === "string" && value) {
-      members.push({ member_uuid: match[1], expertise: value as Expertise });
-    }
-  }
+  const members = parseTeamApplicants(formData);
 
   if (members.length === 0) {
     return { message: "Pick an expertise for at least one party member." };

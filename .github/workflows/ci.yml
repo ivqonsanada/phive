@@ -92,6 +92,7 @@ jobs:
 
       - run: pnpm lint
       - run: pnpm typecheck
+      - run: pnpm test
       - run: pnpm build
         env:
           API_URL: http://localhost:8000

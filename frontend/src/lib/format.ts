@@ -17,9 +17,14 @@ export function timeAgo(iso: string): string {
   let duration = (new Date(iso).getTime() - Date.now()) / 1000;
 
   for (const division of DIVISIONS) {
-    if (Math.abs(duration) < division.amount) {
-      return formatter.format(Math.round(duration), division.unit);
+    const rounded = Math.round(duration);
+
+    // Carry when rounding lands exactly on the boundary, so a year ago reads as
+    // "last year" rather than "12 months ago".
+    if (Math.abs(rounded) < division.amount) {
+      return formatter.format(rounded, division.unit);
     }
+
     duration /= division.amount;
   }
 

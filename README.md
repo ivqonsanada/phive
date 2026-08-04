@@ -181,7 +181,7 @@ docker compose up --build
 | --------------- | ---------------------- | ---------------- |
 | Dev server      | `composer dev`         | `pnpm dev`       |
 | Dev on Octane   | `composer dev:octane`  | —                |
-| Tests           | `php artisan test`     | —                |
+| Tests           | `php artisan test`     | `pnpm test`      |
 | Lint / format   | `composer lint` (Pint) | `pnpm lint`      |
 | Types           | —                      | `pnpm typecheck` |
 | Production build| —                      | `pnpm build`     |

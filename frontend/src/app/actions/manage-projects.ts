@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { api, toFormState } from "@/lib/api";
+import { parseLines } from "@/lib/form-parsing";
 import type { FormState, Project } from "@/lib/types";
 
 /**
@@ -11,11 +12,7 @@ import type { FormState, Project } from "@/lib/types";
  * builder. Checkboxes are absent from FormData when unticked, hence the coercion.
  */
 function payload(formData: FormData, publish: boolean) {
-  const list = (name: string) =>
-    String(formData.get(name) ?? "")
-      .split("\n")
-      .map((line) => line.trim())
-      .filter(Boolean);
+  const list = (name: string) => parseLines(formData.get(name));
 
   return {
     publish,

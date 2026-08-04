@@ -16,8 +16,26 @@ class BroadcastAuthorizationTest extends TestCase
 {
     use RefreshDatabase;
 
+    private const OVERRIDDEN = [
+        'BROADCAST_CONNECTION',
+        'REVERB_APP_KEY',
+        'REVERB_APP_SECRET',
+        'REVERB_APP_ID',
+    ];
+
+    /** @var array<string, string|false> */
+    private array $originalEnv = [];
+
     protected function setUp(): void
     {
+        // Remember what was there. Unsetting instead of restoring would be worse than
+        // it sounds: PHPUnit applies phpunit.xml's <env> once at startup, and Laravel
+        // loads .env immutably, so a variable that is unset here stops being shadowed
+        // and every later boot picks up the value from .env instead.
+        foreach (self::OVERRIDDEN as $key) {
+            $this->originalEnv[$key] = getenv($key);
+        }
+
         // phpunit.xml runs with the null broadcaster, which does not check channels at
         // all. This has to be set *before* the app boots: channels are registered onto
         // whichever broadcaster is resolved at boot, so flipping the config afterwards
@@ -38,9 +56,17 @@ class BroadcastAuthorizationTest extends TestCase
 
     protected function tearDown(): void
     {
-        foreach (['BROADCAST_CONNECTION', 'REVERB_APP_KEY', 'REVERB_APP_SECRET', 'REVERB_APP_ID'] as $key) {
-            putenv($key);
-            unset($_ENV[$key], $_SERVER[$key]);
+        foreach ($this->originalEnv as $key => $value) {
+            if ($value === false) {
+                putenv($key);
+                unset($_ENV[$key], $_SERVER[$key]);
+
+                continue;
+            }
+
+            putenv("$key=$value");
+            $_ENV[$key] = $value;
+            $_SERVER[$key] = $value;
         }
 
         parent::tearDown();

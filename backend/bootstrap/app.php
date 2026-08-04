@@ -38,7 +38,11 @@ return Application::configure(basePath: dirname(__DIR__))
         );
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+        // Everything except the Filament panel is consumed by a machine. Without
+        // `broadcasting/*` here an unauthenticated channel request tried to redirect
+        // to a `login` route this app does not have, turning a 401 into a 500 — and
+        // an HTML error page in place of JSON.
         $exceptions->shouldRenderJsonWhen(
-            fn (Request $request) => $request->is('api/*'),
+            fn (Request $request) => $request->is('api/*') || $request->is('broadcasting/*'),
         );
     })->create();

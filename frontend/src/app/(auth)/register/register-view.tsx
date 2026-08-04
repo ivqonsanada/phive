@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
+import { ScrollArea } from "@/components/ui/scroll-area";
+
 import { RegisterForm } from "@/app/(auth)/register/register-form";
 import type { UserRole } from "@/lib/types";
 
@@ -79,8 +81,10 @@ export function RegisterView({ social }: { social: React.ReactNode }) {
         </h2>
       </div>
 
-      <div className="w-full py-10 xl:h-dvh xl:w-[420px] xl:overflow-y-auto xl:overscroll-contain">
-        <div className="flex min-h-full flex-col justify-center">
+      {/* The column is 420px of content plus a 48px gutter, so the drawn
+          scrollbar never sits against the form. */}
+      <ScrollArea className="w-full xl:h-dvh xl:w-[468px]">
+        <div className="flex min-h-full flex-col justify-center py-10 xl:pr-12">
         <Link href="/" className="mx-auto mb-6">
           <Image src="/images/logo-blue.svg" alt="PHive" width={95} height={42} priority />
         </Link>
@@ -126,7 +130,7 @@ export function RegisterView({ social }: { social: React.ReactNode }) {
           PHive, All Rights Reserved. © {new Date().getFullYear()} . | Created by FILKOM
         </div>
         </div>
-      </div>
+      </ScrollArea>
     </main>
   );
 }

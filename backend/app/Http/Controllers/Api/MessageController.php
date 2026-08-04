@@ -25,7 +25,14 @@ class MessageController extends Controller
 
         $conversations = MessageHeader::query()
             ->where(fn ($query) => $query->forUser($user->id))
-            ->with(['userOne', 'userTwo', 'messages' => fn ($q) => $q->latest()->limit(1)])
+            // `latest()` alone ties when two messages share a timestamp, and the tie
+            // breaks differently per database — so the preview could show an older
+            // message. Falling back to the id makes "latest" mean one thing.
+            ->with([
+                'userOne',
+                'userTwo',
+                'messages' => fn ($q) => $q->latest()->latest('id')->limit(1),
+            ])
             ->get()
             ->map(function (MessageHeader $header) use ($user) {
                 $other = $header->user_one_id === $user->id ? $header->userTwo : $header->userOne;

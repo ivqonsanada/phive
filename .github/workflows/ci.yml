@@ -51,13 +51,21 @@ jobs:
       - name: Check formatting
         run: vendor/bin/pint --test
 
-      # The suite runs on in-memory SQLite (see phpunit.xml); the Postgres service
-      # above verifies the migrations against the database production actually uses.
-      - name: Verify migrations on PostgreSQL
+      - name: Prepare environment
         run: |
           cp .env.example .env
           php artisan key:generate
-          php artisan migrate --force
+
+      # Fast feedback: in-memory SQLite, as phpunit.xml configures.
+      - name: Tests (SQLite)
+        run: php artisan test
+
+      # Then the same suite against the engine production actually runs, because
+      # SQLite hides dialect differences — an earlier ILIKE in a search query passed
+      # here and would only have failed in production. PHPUnit's <env> entries do not
+      # override real environment variables, so these win over phpunit.xml.
+      - name: Tests (PostgreSQL)
+        run: php artisan test
         env:
           DB_CONNECTION: pgsql
           DB_HOST: 127.0.0.1
@@ -65,8 +73,6 @@ jobs:
           DB_DATABASE: phive_test
           DB_USERNAME: phive
           DB_PASSWORD: phive
-
-      - run: php artisan test
 
   frontend:
     name: Frontend

@@ -16,13 +16,12 @@ export default async function ExplorePage({
   const { query, expertise } = await searchParams;
 
   return (
-    <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10">
-      <h1 className="mb-1 text-2xl font-bold text-navy">Explore projects</h1>
-      <p className="mb-6 text-sm text-ink/70">
-        Everything lecturers have published, newest first.
-      </p>
-
-      <ExploreFiltersBar query={query} expertise={expertise} />
+    <main className="mx-auto w-full max-w-[1280px] flex-1 px-6 py-10">
+      {/* The heading lives inside the filter bar — the original pairs the prompt with
+          the search field, and "Available Projects" titles the results below it. */}
+      <Suspense fallback={<div className="h-[220px]" />}>
+        <ExploreFiltersBar query={query} expertise={expertise} />
+      </Suspense>
 
       {/* useSearchParams needs a Suspense boundary above it during prerender. */}
       <Suspense fallback={null}>

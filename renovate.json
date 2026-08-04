@@ -1,0 +1,13 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "enabled": false,
+  "description": [
+    "Renovate is off. It was configured against the Laravel 7 tree and spent years",
+    "opening pull requests for that dependency graph — thirteen were still open, all",
+    "for packages this repository no longer has.",
+    "Turning it back on means deleting `enabled` and letting it re-onboard against",
+    "the current backend/ and frontend/ manifests, which it will not do while this",
+    "flag is set. Note that a file cannot stop the app from being installed: to remove",
+    "it entirely, uninstall Renovate under the repository's GitHub app settings."
+  ]
+}

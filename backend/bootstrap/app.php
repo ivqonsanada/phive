@@ -20,7 +20,22 @@ return Application::configure(basePath: dirname(__DIR__))
         attributes: ['middleware' => ['auth:sanctum']],
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Every supported deployment target — Fly, Railway, Render, a Cloudflare or
+        // nginx front — puts this app behind a proxy that terminates TLS. Without
+        // trusting it, `$request->ip()` is the proxy's address for everyone, so the
+        // IP-keyed throttles on register and password reset become one shared global
+        // limit, and `isSecure()` reports false behind HTTPS.
         //
+        // Trusting `*` is right when the platform assigns proxy addresses you cannot
+        // enumerate; set TRUSTED_PROXIES to a specific list if you run your own.
+        $middleware->trustProxies(
+            at: env('TRUSTED_PROXIES', '*'),
+            headers: Request::HEADER_X_FORWARDED_FOR
+                | Request::HEADER_X_FORWARDED_HOST
+                | Request::HEADER_X_FORWARDED_PORT
+                | Request::HEADER_X_FORWARDED_PROTO
+                | Request::HEADER_X_FORWARDED_AWS_ELB,
+        );
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

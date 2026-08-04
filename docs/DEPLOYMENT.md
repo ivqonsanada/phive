@@ -212,5 +212,7 @@ for the Filament panel — fine for a throwaway demo, unacceptable anywhere else
 - [ ] Reverb reachable over `wss://` if realtime is enabled, with matching app keys
 - [ ] `NIGHTWATCH_TOKEN` set if you want monitoring — it is silently off without one
 - [ ] `DEMO_MODE` is **false** anywhere holding real data
+- [ ] `TRUSTED_PROXIES` left at `*`, or set to your proxy's addresses — without it
+      every visitor looks like the proxy and the rate limits become one shared bucket
 - [ ] File uploads have somewhere durable to live — set `FILESYSTEM_DISK=s3` if the
       container filesystem is ephemeral, which it is on Fly, Railway and Render

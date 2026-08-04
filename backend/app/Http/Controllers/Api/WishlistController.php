@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\ProjectStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProjectResource;
 use App\Models\Project;
@@ -20,6 +21,11 @@ class WishlistController extends Controller
     public function toggle(Request $request, Project $project): JsonResponse
     {
         $user = $request->user();
+
+        // A draft is invisible everywhere else — the detail endpoint 404s on one — so
+        // it must not be starrable either. Otherwise this route quietly confirms that
+        // an unpublished project exists.
+        abort_if($project->status === ProjectStatus::Draft, 404);
 
         abort_unless($user->isStudent(), 403, 'Only students keep a wishlist.');
 

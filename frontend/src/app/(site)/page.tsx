@@ -23,19 +23,19 @@ export default function HomePage() {
           alt=""
           width={200}
           height={200}
-          className="pointer-events-none absolute bottom-[-40px] left-0 hidden select-none xl:block"
+          className="moveInRightDash duration--2 pointer-events-none absolute bottom-[-40px] left-0 hidden select-none xl:block"
         />
         <Image
           src="/images/right-dashed-desktop.svg"
           alt=""
           width={200}
           height={200}
-          className="pointer-events-none absolute right-0 top-[24vh] hidden select-none xl:block"
+          className="moveInBottomLeft duration--2 pointer-events-none absolute right-0 top-[24vh] hidden select-none xl:block"
         />
 
         <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center justify-evenly gap-8 px-6 py-16 xl:min-h-[640px] xl:flex-row xl:justify-start xl:gap-0 xl:py-0 xl:pl-[95px]">
           <div className="relative z-[3] flex w-full flex-col items-center xl:mr-[-100px] xl:items-start xl:pt-10">
-            <h1 className="display-heading mb-3 text-center text-[36px] sm:text-[48px] xl:mb-5 xl:text-left xl:text-[80px]">
+            <h1 className="moveInTop duration--1 display-heading mb-3 text-center text-[36px] sm:text-[48px] xl:mb-5 xl:text-left xl:text-[80px]">
               Expand <br />
               Your Career <br />
               by Doing <br />
@@ -48,24 +48,24 @@ export default function HomePage() {
                 alt=""
                 width={183}
                 height={166}
-                className="hidden translate-x-[312%] translate-y-[-194%] xl:block"
+                className="fadeIn duration--2 hidden translate-x-[312%] translate-y-[-194%] xl:block"
               />
             </div>
 
-            <p className="mb-6 text-[14px] xl:ml-1.5 xl:text-[18px]">
+            <p className="moveInTop duration--1_5 mb-6 text-[14px] xl:ml-1.5 xl:text-[18px]">
               Fill up your college life with expectation
             </p>
 
             <Link
               href="/explore"
-              className="flex flex-row items-center gap-2.5 rounded-[40px] bg-navy px-[35px] py-[15px] text-[18px] font-bold text-white transition hover:bg-navy/90 xl:ml-1.5"
+              className="moveInTop duration--2 flex flex-row items-center gap-2.5 rounded-[40px] bg-navy px-[35px] py-[15px] text-[18px] font-bold text-white transition hover:bg-navy/90 xl:ml-1.5"
             >
               <span>Get Started</span>
               <ArrowRight />
             </Link>
           </div>
 
-          <div className="relative flex w-full flex-col items-center justify-center xl:z-[4] xl:h-full">
+          <div className="moveInTop duration--2 relative flex w-full flex-col items-center justify-center xl:z-[4] xl:h-full">
             <Image
               src="/images/dot-blue.svg"
               alt=""

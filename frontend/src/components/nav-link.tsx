@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link, { useLinkStatus } from "next/link";
 import { usePathname } from "next/navigation";
 
 /**
@@ -20,6 +20,23 @@ export function NavLink({ href, children }: { href: string; children: React.Reac
       }`}
     >
       {children}
+      <NavProgress />
     </Link>
   );
+}
+
+/**
+ * The navy bar the original ran across the top of the viewport with NProgress while a
+ * route loaded. `useLinkStatus` only reports the pending state of the Link it sits
+ * inside, so this rides along in the nav links — the same places the original's bar was
+ * most visible — and positions itself fixed regardless of where it is rendered.
+ */
+function NavProgress() {
+  const { pending } = useLinkStatus();
+
+  if (!pending) {
+    return null;
+  }
+
+  return <span aria-hidden className="nav-progress" />;
 }

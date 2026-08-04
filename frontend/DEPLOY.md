@@ -48,9 +48,24 @@ cd frontend
 pnpm install
 pnpm wrangler login
 
-pnpm wrangler secret put API_URL
 pnpm cf:deploy
 ```
+
+`wrangler.jsonc` ships a `routes` entry binding the Worker to `phive.ivqon.dev`.
+Wrangler creates and manages that DNS record itself, so the zone only has to exist in
+the same account. Point it elsewhere by editing the pattern, or delete the block to
+serve from the generated `*.workers.dev` URL instead.
+
+Set the API origin before expecting anything to work. It is a plain URL rather than a
+credential, so it lives in `vars` — edit `wrangler.jsonc` and redeploy:
+
+```jsonc
+"vars": { "API_URL": "https://api.example.com" }
+```
+
+Until it points at a reachable backend, every route that renders API data returns 500
+and the home page hangs on its `Loading…` fallback. `/login` and `/register` still
+render, which makes a 200 on the root a misleading smoke test — check `/explore`.
 
 Preview the real Worker runtime locally before a first deploy — `workerd` behaves
 differently from Node in ways `next dev` will not show you:
@@ -64,8 +79,9 @@ cookie resolves the right user, server-rendered API data comes through, guest re
 work, and `/api/broadcasting/auth` returns 401 without a session — all inside `workerd`,
 not just under `next start`.
 
-Public variables go in the `vars` block of `wrangler.jsonc` (they are not secret);
-`API_URL` is better as a secret since it is server-side only.
+Public variables go in the `vars` block of `wrangler.jsonc`. Do not also declare a
+secret of the same name — a secret and a var sharing a key is a conflict rather than an
+override.
 
 For ISR that survives across isolates, switch on the R2 incremental cache — the
 commented blocks in `open-next.config.ts` and `wrangler.jsonc` show what to uncomment.

@@ -14,6 +14,11 @@
   "observability": {
     "enabled": true
   },
+
+  // Wrangler creates and manages the DNS record for a custom domain, so the zone only
+  // needs to exist. Remove this block to fall back to the *.workers.dev URL.
+  "routes": [{ "pattern": "phive.ivqon.dev", "custom_domain": true }],
+
   "vars": {
     // Points at the deployed Laravel API. Override per environment, or set it as a
     // secret with: pnpm wrangler secret put API_URL

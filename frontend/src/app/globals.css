@@ -1,11 +1,15 @@
 @import "tailwindcss";
 
-/* Carried over from the original PHive palette. */
+/* Carried over from the original PHive palette. The two greys are load-bearing: the
+   original used #f2f4f6 for every raised surface — hero band, leaderboard cards, nav
+   hover — and a slightly darker #001534 for the footer than the navy used elsewhere. */
 @theme {
   --color-navy: #00214d;
   --color-glow: #ff5470;
   --color-paper: #ffffff;
   --color-ink: #12203a;
+  --color-mist: #f2f4f6;
+  --color-deep: #001534;
 
   --font-sans: var(--font-open-sans), ui-sans-serif, system-ui, sans-serif;
 }
@@ -13,4 +17,16 @@
 body {
   background-color: var(--color-paper);
   color: var(--color-ink);
+  /* The original set this globally; without it the uppercase display headings sit
+     noticeably tighter than the source design. */
+  letter-spacing: 0.02em;
+}
+
+/* The original's display headings: uppercase, near-black weight, and a line-height
+   below 1 so the stacked lines read as one block. */
+.display-heading {
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 0.9;
+  color: var(--color-navy);
 }

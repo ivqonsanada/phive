@@ -14,26 +14,29 @@ export function ProjectCard({ project }: { project: Project }) {
   const reward = formatMoney(project.reward.currency, project.reward.amount);
 
   return (
-    <article className="flex flex-col overflow-hidden rounded-xl border border-navy/10 transition hover:border-navy/30">
+    <article className="flex flex-col rounded-[10px] border border-[#b0aeae] px-6 pt-4 transition hover:border-navy">
       <div className="relative">
+        {/* img-placeholder.png is the original's stand-in — the striped fill that used
+            to show here was post-placeholder-img.png, which is the *post form's*
+            upload target, not a card thumbnail. */}
         <Image
-          src={project.thumbnail ?? "/images/post-placeholder-img.png"}
+          src={project.thumbnail ?? "/images/img-placeholder.png"}
           alt=""
           width={480}
           height={220}
-          className="h-36 w-full object-cover"
+          className="h-[150px] w-full rounded-[5px] object-cover"
           unoptimized
         />
-        <span className="absolute -bottom-3 left-4 rounded-lg bg-navy px-3 py-1.5 text-sm font-bold text-white">
+        <span className="absolute -bottom-3 left-3 rounded-lg bg-navy px-3 py-1.5 text-sm font-bold text-white">
           {project.reward.salary ? reward : "Unpaid"}
         </span>
       </div>
 
-      <div className="flex flex-1 flex-col p-5 pt-6">
-        <div className="mb-2 flex items-start justify-between gap-3">
+      <div className="flex flex-1 flex-col pb-5 pt-6">
+        <div className="mb-3 flex items-start justify-between gap-3">
           <Link
             href={`/projects/${project.project_url}`}
-            className="font-bold text-navy hover:text-glow"
+            className="text-[24px] font-bold leading-[1.15] text-navy hover:text-glow"
           >
             {project.title}
           </Link>

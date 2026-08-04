@@ -1,60 +1,85 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { BoardIcon, CheckCircleIcon } from "@/components/board-icons";
 import { BOARD_CODENAMES, BOARD_LABELS } from "@/lib/board-labels";
 import type { BoardKey, LeaderboardEntry } from "@/lib/types";
 
 /**
- * The "top of each board" card from the original home page: codename header, the
- * champion's avatar with their rank, points, and how much they've finished.
+ * The original's `topboard-item`, measurement for measurement: a #f2f4f6 card holding a
+ * codename header, a 10.8rem avatar ringed in navy with its rank badge overlapping the
+ * top-right and a points plate overlapping the bottom, then the name, the finished
+ * count and a view button pinned to the base of the card.
  */
-export function LeaderboardCard({ board, entry }: { board: BoardKey; entry: LeaderboardEntry | null }) {
+export function LeaderboardCard({
+  board,
+  entry,
+}: {
+  board: BoardKey;
+  entry: LeaderboardEntry | null;
+}) {
   return (
-    <div className="rounded-xl border border-navy/10 p-4 text-center">
-      <p className="mb-4 text-sm font-bold uppercase tracking-wide text-navy">
-        {BOARD_CODENAMES[board]}
-      </p>
+    <div className="flex min-h-[350px] w-full max-w-[250px] flex-col justify-between rounded-[10px] bg-mist px-[17px] pb-[25px] pt-3 text-navy">
+      <div>
+        <div className="flex items-center justify-center gap-3">
+          <BoardIcon board={board} className="size-[30px]" />
+          <span className="text-[20px] font-extrabold uppercase">{BOARD_CODENAMES[board]}</span>
+        </div>
+
+        {entry?.user ? (
+          <>
+            <div className="-mt-9 flex flex-col items-center justify-center">
+              <div className="relative left-[55px] top-[52px] z-10 grid size-[54px] place-items-center rounded-full bg-navy text-[24px] font-extrabold text-white">
+                #1
+              </div>
+
+              <Image
+                src={entry.user.photo_url ?? "/images/missing-avatar.svg"}
+                alt=""
+                width={108}
+                height={108}
+                className="size-[108px] rounded-full border-8 border-navy bg-white object-cover"
+                unoptimized
+              />
+
+              <div className="relative bottom-5 flex h-6 w-[125px] items-center justify-center rounded-[5px] bg-navy text-[12px] font-extrabold text-white shadow-[2px_4px_8px_rgba(0,33,77,0.3)]">
+                {entry.points.toLocaleString()} Points
+              </div>
+            </div>
+
+            <div className="mb-2.5 flex flex-col text-center">
+              <div className="text-[18px] font-bold">{entry.user.name}</div>
+              <div className="text-[18px] font-semibold">{BOARD_LABELS[board]}</div>
+            </div>
+          </>
+        ) : (
+          <div className="mt-6 flex flex-col items-center gap-3">
+            <div className="grid size-[108px] place-items-center rounded-full border-8 border-navy/20 text-navy/30">
+              —
+            </div>
+            <div className="text-center text-[18px] font-semibold">{BOARD_LABELS[board]}</div>
+          </div>
+        )}
+      </div>
 
       {entry?.user ? (
-        <>
-          <div className="relative mx-auto mb-3 w-fit">
-            <Image
-              src={entry.user.photo_url ?? "/images/missing-avatar.svg"}
-              alt=""
-              width={72}
-              height={72}
-              className="size-[72px] rounded-full border-2 border-navy object-cover"
-              unoptimized
-            />
-            <span className="absolute -right-1 -top-1 grid size-7 place-items-center rounded-full bg-navy text-xs font-bold text-white">
-              #1
-            </span>
-            <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-glow px-2 py-0.5 text-xs font-bold text-white">
-              {entry.points} pts
+        <div>
+          <div className="mb-3.5 flex items-center justify-center gap-1.5">
+            <CheckCircleIcon className="size-[45px] shrink-0" />
+            <span className="w-[72px] text-[13px] font-bold">
+              {entry.user.finished_project_count ?? 0} Project Finished
             </span>
           </div>
-
-          <p className="mt-4 font-bold text-navy">{entry.user.name}</p>
-          <p className="mb-3 text-sm text-ink/60">{BOARD_LABELS[board]}</p>
-          <p className="mb-3 text-xs text-ink/60">
-            ✓ {entry.user.finished_project_count ?? 0} project finished
-          </p>
 
           <Link
             href={`/u/${entry.user.tagname}`}
-            className="inline-block rounded-lg bg-navy px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-navy/90"
+            className="mx-auto flex h-[35px] w-[130px] items-center justify-center rounded-[10px] bg-navy text-[16px] font-bold text-white transition hover:bg-navy/90"
           >
-            View profile
+            View Profile
           </Link>
-        </>
+        </div>
       ) : (
-        <>
-          <div className="mx-auto mb-3 grid size-[72px] place-items-center rounded-full bg-navy/10 text-navy/40">
-            —
-          </div>
-          <p className="text-sm text-ink/60">{BOARD_LABELS[board]}</p>
-          <p className="mt-2 text-sm text-ink/40">Nobody ranked yet</p>
-        </>
+        <p className="text-center text-[13px] font-bold text-navy/50">Nobody ranked yet</p>
       )}
     </div>
   );

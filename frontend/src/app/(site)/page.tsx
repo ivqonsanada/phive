@@ -2,42 +2,92 @@ import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 
+import { BrainIcon, CheckOutlineIcon, PaperPlaneIcon } from "@/components/stat-icons";
 import { LeaderboardCard } from "@/components/leaderboard-card";
-import { ProjectCard } from "@/components/project-card";
 import { BOARD_KEYS } from "@/lib/board-labels";
-import { getCurrentUser } from "@/lib/dal";
 import { getHome } from "@/lib/projects";
 
+/**
+ * A port of the original three-slide home page. The line breaks in both display
+ * headings are deliberate — the source set them by hand so each stack reads as a block,
+ * and letting them wrap naturally is most of why this page stopped looking like PHive.
+ */
 export default function HomePage() {
   return (
     <main className="flex-1">
-      <section className="bg-navy/5">
-        <div className="mx-auto grid w-full max-w-5xl items-center gap-8 px-4 py-16 md:grid-cols-2">
-          <div>
-            <h1 className="mb-4 text-4xl font-extrabold uppercase leading-[1.05] tracking-tight text-navy sm:text-5xl">
-              Expand your career by doing projects.
-            </h1>
-            <p className="mb-8 text-ink/70">Fill up your college life with expectation.</p>
+      <section className="relative overflow-hidden bg-mist">
+        {/* Ornaments. Decorative only, and hidden on small screens exactly as the
+            original did — there is no room for them beside the heading. */}
+        <Image
+          src="/images/left-dashed-desktop.svg"
+          alt=""
+          width={200}
+          height={200}
+          className="pointer-events-none absolute bottom-[-40px] left-0 hidden select-none xl:block"
+        />
+        <Image
+          src="/images/right-dashed-desktop.svg"
+          alt=""
+          width={200}
+          height={200}
+          className="pointer-events-none absolute right-0 top-[24vh] hidden select-none xl:block"
+        />
 
-            <Suspense fallback={<div className="h-11" />}>
-              <PrimaryActions />
-            </Suspense>
+        <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center justify-evenly gap-8 px-6 py-16 xl:min-h-[640px] xl:flex-row xl:justify-start xl:gap-0 xl:py-0 xl:pl-[95px]">
+          <div className="relative z-[3] flex w-full flex-col items-center xl:mr-[-100px] xl:items-start xl:pt-10">
+            <h1 className="display-heading mb-3 text-center text-[36px] sm:text-[48px] xl:mb-5 xl:text-left xl:text-[80px]">
+              Expand <br />
+              Your Career <br />
+              by Doing <br />
+              Project.
+            </h1>
+
+            <div className="pointer-events-none absolute select-none">
+              <Image
+                src="/images/triangle.svg"
+                alt=""
+                width={183}
+                height={166}
+                className="hidden translate-x-[312%] translate-y-[-194%] xl:block"
+              />
+            </div>
+
+            <p className="mb-6 text-[14px] xl:ml-1.5 xl:text-[18px]">
+              Fill up your college life with expectation
+            </p>
+
+            <Link
+              href="/explore"
+              className="flex flex-row items-center gap-2.5 rounded-[40px] bg-navy px-[35px] py-[15px] text-[18px] font-bold text-white transition hover:bg-navy/90 xl:ml-1.5"
+            >
+              <span>Get Started</span>
+              <ArrowRight />
+            </Link>
           </div>
 
-          <Image
-            src="/images/smiling-woman-looking-desktop.png"
-            alt=""
-            width={560}
-            height={440}
-            className="mx-auto h-auto w-full max-w-md"
-            priority
-          />
+          <div className="relative flex w-full flex-col items-center justify-center xl:z-[4] xl:h-full">
+            <Image
+              src="/images/dot-blue.svg"
+              alt=""
+              width={120}
+              height={120}
+              className="pointer-events-none absolute z-[1] translate-x-[-9rem] translate-y-[10rem] select-none xl:translate-x-[-20.6rem] xl:translate-y-[8rem]"
+            />
+            <Image
+              src="/images/smiling-woman-looking-desktop.png"
+              alt=""
+              width={624}
+              height={520}
+              className="z-[3] h-auto w-full max-w-[420px] xl:w-[624px] xl:max-w-none"
+              priority
+            />
+          </div>
         </div>
       </section>
 
       {/* The API call is isolated so a slow or cold backend cannot block the hero. */}
       <Suspense
-        fallback={<p className="mx-auto max-w-5xl px-4 py-14 text-sm text-ink/50">Loading…</p>}
+        fallback={<p className="mx-auto max-w-[1280px] px-6 py-14 text-sm text-ink/50">Loading…</p>}
       >
         <Highlights />
       </Suspense>
@@ -45,88 +95,53 @@ export default function HomePage() {
   );
 }
 
-async function PrimaryActions() {
-  const user = await getCurrentUser();
-
-  return (
-    <div className="flex flex-wrap gap-3">
-      <Link
-        href="/explore"
-        className="rounded-lg bg-navy px-6 py-3 font-semibold text-white transition hover:bg-navy/90"
-      >
-        Get started →
-      </Link>
-      {!user && (
-        <Link
-          href="/register"
-          className="rounded-lg border border-navy/20 px-6 py-3 font-semibold text-navy transition hover:border-navy"
-        >
-          Create an account
-        </Link>
-      )}
-    </div>
-  );
-}
-
 async function Highlights() {
-  const { stats, top_boards, latest_projects } = await getHome();
+  const { stats, top_boards } = await getHome();
 
   return (
     <>
-      <section className="mx-auto grid w-full max-w-5xl items-center gap-10 px-4 py-16 md:grid-cols-2">
+      <section className="mx-auto flex w-full max-w-[1280px] flex-col items-center justify-center px-3 py-16 xl:flex-row xl:gap-[50px] xl:py-24">
         <Image
           src="/images/slide-2.png"
           alt=""
-          width={520}
+          width={450}
           height={420}
-          className="mx-auto h-auto w-full max-w-sm"
+          className="h-auto w-full max-w-[360px] xl:w-[450px] xl:max-w-none"
         />
 
-        <div>
-          <h2 className="mb-3 text-3xl font-extrabold uppercase leading-tight tracking-tight text-navy">
-            See the available projects on the platform
+        <div className="xl:w-[664px]">
+          <h2 className="display-heading mb-5 text-center text-[32px] leading-[3.6rem] sm:text-[36px] xl:text-left xl:text-[80px] xl:leading-[0.96]">
+            See The <br />
+            Available <br />
+            Project on <br />
+            The Platform
           </h2>
-          <p className="mb-6 text-sm text-ink/70">
-            Knowing which projects are posted right now — and which are already finished —
-            will determine your spirit.
+
+          <p className="mx-auto mb-10 max-w-[282px] text-center text-[18px] leading-[2.35rem] xl:mx-0 xl:max-w-none xl:text-left">
+            Knowing the available project that currently posted on the website and the
+            finished project will determine your spirit!
           </p>
 
-          <div className="grid grid-cols-3 gap-4 text-center">
-            <Stat icon="◆" label="Active projects" value={stats.hiring} />
-            <Stat icon="➤" label="Ongoing projects" value={stats.ongoing} />
-            <Stat icon="✓" label="Finished projects" value={stats.finished} />
+          <div className="flex flex-row justify-center gap-6 sm:gap-10 xl:mx-auto xl:w-[492px] xl:gap-20">
+            <Stat icon={<BrainIcon />} label="Active Projects" value={stats.hiring} />
+            <Stat icon={<PaperPlaneIcon />} label="Ongoing Projects" value={stats.ongoing} />
+            <Stat icon={<CheckOutlineIcon />} label="Finished Projects" value={stats.finished} />
           </div>
         </div>
       </section>
 
-      {latest_projects.length > 0 && (
-        <section className="mx-auto w-full max-w-5xl px-4 pb-16">
-          <div className="mb-5 flex items-baseline justify-between">
-            <h2 className="text-2xl font-extrabold uppercase tracking-tight text-navy">
-              Open for applications
-            </h2>
-            <Link href="/explore" className="text-sm font-semibold text-navy hover:text-glow">
-              See all →
-            </Link>
-          </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {latest_projects.map((project) => (
-              <ProjectCard key={project.uuid} project={project} />
-            ))}
-          </div>
-        </section>
-      )}
-
-      <section className="mx-auto w-full max-w-5xl px-4 pb-16 text-center">
-        <h2 className="mb-2 text-3xl font-extrabold uppercase tracking-tight text-navy">
+      <section className="mx-auto flex w-full max-w-[1280px] flex-col items-center px-4 pb-24 pt-8 text-center">
+        <h2 className="mb-2 text-[36px] font-bold uppercase text-ink xl:mb-6 xl:text-[48px]">
           Leaderboard
         </h2>
-        <p className="mx-auto mb-8 max-w-2xl text-sm text-ink/70">
-          These are the highest achievers. Set them as examples, or beat their records — the
-          choice is yours.
+        <p className="mb-6 max-w-[340px] text-[18px] leading-[2.35rem] xl:mb-8 xl:max-w-none">
+          These are the highest achievers. Set them as examples, or beat their records. The
+          choice is yours!
         </p>
 
-        <div className="mb-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {/* w-full matters: without it this sits in a centred column and shrinks to fit,
+            which wraps the fourth board onto its own row. */}
+        <div className="mb-8 flex w-full flex-wrap items-stretch justify-center gap-5">
           {BOARD_KEYS.map((key) => (
             <LeaderboardCard key={key} board={key} entry={top_boards[key]} />
           ))}
@@ -134,23 +149,43 @@ async function Highlights() {
 
         <Link
           href="/leaderboard"
-          className="inline-block rounded-lg bg-navy px-6 py-3 font-semibold text-white transition hover:bg-navy/90"
+          className="flex h-[60px] w-[300px] items-center justify-center rounded-[15px] bg-navy text-[18px] font-bold text-white transition hover:bg-navy/90"
         >
-          See all leaderboard
+          See All Leaderboard
         </Link>
       </section>
     </>
   );
 }
 
-function Stat({ icon, label, value }: { icon: string; label: string; value: number }) {
+function Stat({
+  icon,
+  label,
+  value,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: number;
+}) {
   return (
-    <div>
-      <p className="mb-1 text-xl text-navy" aria-hidden>
-        {icon}
-      </p>
-      <p className="text-3xl font-extrabold text-navy">{value}</p>
-      <p className="text-sm font-semibold leading-tight text-navy/70">{label}</p>
+    <div className="flex w-[7.8em] flex-col items-center justify-center gap-[0.72rem] text-navy xl:w-[10.8em]">
+      {icon}
+      <div className="text-[24px] font-extrabold xl:text-[48px]">{value}</div>
+      <div className="text-center text-[18px] font-bold xl:text-[24px]">{label}</div>
     </div>
+  );
+}
+
+function ArrowRight() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden className="size-[1.5em]">
+      <path
+        d="M4 12h15m0 0-6-6m6 6-6 6"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }

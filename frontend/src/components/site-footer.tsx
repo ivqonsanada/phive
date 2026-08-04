@@ -13,7 +13,7 @@ import Link from "next/link";
 export function SiteFooter() {
   return (
     <footer className="bg-deep text-[#b7c9e4]">
-      <div className="mx-auto flex w-full max-w-[1280px] flex-col px-6 py-8 text-[14px] font-bold xl:flex-row xl:px-10 xl:py-8">
+      <div className="tracked mx-auto flex w-full max-w-[1280px] flex-col px-6 py-8 text-[14px] font-bold xl:flex-row xl:px-10 xl:py-8">
         <div className="xl:w-[561px]">
           <Image
             src="/images/footer-logo.svg"

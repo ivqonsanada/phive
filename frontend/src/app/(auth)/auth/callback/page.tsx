@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { api } from "@/lib/api";
 import { createSession } from "@/lib/session";
 import type { AuthPayload } from "@/lib/types";
+import { AuthCard } from "@/components/auth-card";
 
 export const metadata: Metadata = { title: "Signing you in" };
 
@@ -36,16 +37,16 @@ export default async function SocialCallbackPage({
     await createSession(token);
   } catch {
     return (
-      <>
-        <h1 className="mb-1 text-xl font-bold text-navy">That sign-in link expired</h1>
-        <p className="mb-6 text-sm text-ink/70">
+      <AuthCard>
+        <h1 className="mb-2 text-[24px] font-extrabold text-ink">That sign-in link expired</h1>
+        <p className="mb-6 text-[16px] text-ink/80">
           These links are single-use and only valid for a couple of minutes. Start again
           and it should go straight through.
         </p>
-        <Link href="/login" className="font-semibold text-navy hover:text-glow">
+        <Link href="/login" className="font-bold text-navy hover:text-glow">
           Back to sign in
         </Link>
-      </>
+      </AuthCard>
     );
   }
 

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { AuthCard } from "@/components/auth-card";
 
 export const metadata: Metadata = { title: "Verify your email" };
 
@@ -18,6 +19,7 @@ export default async function VerifyEmailPage({
   const result = await verify(url);
 
   return (
+    <AuthCard>
     <>
       <h1 className="mb-1 text-xl font-bold text-navy">{result.title}</h1>
       <p className="mb-6 text-sm text-ink/70">{result.body}</p>
@@ -25,6 +27,7 @@ export default async function VerifyEmailPage({
         {result.cta}
       </Link>
     </>
+    </AuthCard>
   );
 }
 

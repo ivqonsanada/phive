@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { ForgotPasswordForm } from "@/app/(auth)/forgot-password/forgot-password-form";
+import { AuthCard } from "@/components/auth-card";
 
 export const metadata: Metadata = { title: "Reset your password" };
 
 export default function ForgotPasswordPage() {
   return (
+    <AuthCard>
     <>
       <h1 className="mb-1 text-xl font-bold text-navy">Reset your password</h1>
       <p className="mb-6 text-sm text-ink/70">
@@ -21,5 +23,6 @@ export default function ForgotPasswordPage() {
         </Link>
       </p>
     </>
+    </AuthCard>
   );
 }

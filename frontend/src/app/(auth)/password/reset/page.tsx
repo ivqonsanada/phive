@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { ResetPasswordForm } from "@/app/(auth)/password/reset/reset-password-form";
+import { AuthCard } from "@/components/auth-card";
 
 export const metadata: Metadata = { title: "Choose a new password" };
 
@@ -27,6 +28,7 @@ export default async function ResetPasswordPage({
   }
 
   return (
+    <AuthCard>
     <>
       <h1 className="mb-1 text-xl font-bold text-navy">Choose a new password</h1>
       <p className="mb-6 text-sm text-ink/70">
@@ -35,5 +37,6 @@ export default async function ResetPasswordPage({
 
       <ResetPasswordForm token={token} email={email} />
     </>
+    </AuthCard>
   );
 }

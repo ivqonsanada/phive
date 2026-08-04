@@ -28,8 +28,11 @@ html {
 body {
   background-color: var(--color-paper);
   color: var(--color-ink);
-  /* The original set this globally; without it the uppercase display headings sit
-     noticeably tighter than the source design. */
+}
+
+/* The original applied this per container (slide-1/2/3, footer, topboard) rather than
+   globally. Applying it to <body> widened the auth collage headline enough to wrap. */
+.tracked {
   letter-spacing: 0.02em;
 }
 

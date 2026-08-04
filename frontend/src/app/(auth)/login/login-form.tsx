@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useActionState } from "react";
 
 import { login } from "@/app/actions/auth";
@@ -19,6 +18,7 @@ export function LoginForm({ justResetPassword }: { justResetPassword: boolean })
       <Field
         label="Email"
         name="email"
+        variant="accent"
         type="email"
         autoComplete="email"
         required
@@ -27,19 +27,25 @@ export function LoginForm({ justResetPassword }: { justResetPassword: boolean })
       <Field
         label="Password"
         name="password"
+        variant="accent"
         type="password"
         autoComplete="current-password"
         required
         errors={state?.errors}
       />
 
-      <div className="text-right">
-        <Link href="/forgot-password" className="text-sm text-ink/70 hover:text-glow">
-          Forgot your password?
-        </Link>
-      </div>
+      {/* The original kept a Remember Me next to the fields; the forgot-password
+          link lives below the form rather than beside it. */}
+      <label className="flex items-center gap-2 text-[13px] font-bold text-ink">
+        <input
+          type="checkbox"
+          name="remember"
+          className="size-[18px] rounded border-2 border-navy accent-navy"
+        />
+        Remember Me
+      </label>
 
-      <SubmitButton>Sign in</SubmitButton>
+      <SubmitButton>Sign In</SubmitButton>
     </form>
   );
 }

@@ -14,7 +14,7 @@ import { getHome } from "@/lib/projects";
  */
 export default function HomePage() {
   return (
-    <main className="flex-1">
+    <main className="tracked flex-1">
       <section className="relative overflow-hidden bg-mist">
         {/* Ornaments. Decorative only, and hidden on small screens exactly as the
             original did — there is no room for them beside the heading. */}

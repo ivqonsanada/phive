@@ -50,7 +50,10 @@ export async function register(
     return toFormState(error);
   }
 
-  redirect("/dashboard");
+  // Straight into the walkthrough, as the original did. A brand-new account has a
+  // name and nothing else, and /dashboard would show a profile card with four blank
+  // lines in it and no hint that filling them in is what happens next.
+  redirect("/newcomer/1");
 }
 
 export async function logout(): Promise<void> {

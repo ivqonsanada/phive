@@ -295,8 +295,18 @@ field). Progress so far:
 - [x] Applying: as an individual or with your party
 - [x] Project box: shortlist, confirm, start, review and leaderboard points
 - [x] Inbox and direct messaging, delivered live over WebSockets
+- [x] Newcomer walkthrough, change password, project dashboard and the 404 page
 
-Everything the original app did is ported.
+Every screen the original had is ported. Three deliberate differences:
+
+- **Settings is one page.** The original split it between a two-step `/profile/edit`
+  wizard and a `/settings` that held only a password form. Both live here under
+  Settings.
+- **No public Wishlist tab.** The original showed anyone's saved projects on their
+  profile. This API scopes a wishlist to its owner, which is the better default, so
+  the tab is not reproduced.
+- **No `/profile` route.** Your own profile is the same public page everyone else
+  sees, at `/u/<handle>`, with the wishlist on `/wishlist`.
 
 ### Realtime
 

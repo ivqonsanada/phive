@@ -229,7 +229,7 @@ function StudentActions({ box }: { box: Box }) {
 
   if (box.status === "Project Started") {
     return (
-      <Link href={`/projects/${box.project.project_url}`} className={btn("blue")}>
+      <Link href={`/projects/${box.project.project_url}/dashboard`} className={btn("blue")}>
         Project Dashboard
       </Link>
     );

@@ -137,6 +137,10 @@ export function ProfileForm({ user }: { user: User }) {
         <div className="grid grid-cols-[1.8fr_2fr] items-center gap-[25px] rounded-[10px] bg-[#f1f1f1] p-4 xl:px-7 xl:py-6">
           <span className="text-[14px] font-semibold xl:text-[18px]">Open to be hired</span>
           <label className="flex cursor-pointer items-center gap-2.5 justify-self-end text-[14px] xl:text-[18px]">
+            {/* An unchecked box submits nothing, which the action cannot tell apart
+                from a form that never offered the field. This makes the key always
+                present; the checkbox adds "on" when ticked. */}
+            <input type="hidden" name="is_open_hired" value="off" />
             <input
               type="checkbox"
               name="is_open_hired"

@@ -21,29 +21,57 @@ export async function updateProfile(
     return typeof value === "string" ? value.trim() : "";
   };
 
+  /**
+   * Only send what the form actually rendered.
+   *
+   * The endpoint is a partial update — every rule is `sometimes` — but this action
+   * used to send all eighteen keys regardless, so any form showing a subset would
+   * send `null` for the rest and clear them. The newcomer flow submits three or four
+   * fields at a time, which would have wiped a profile on step one.
+   */
+  const body: Record<string, unknown> = {};
+
+  const include = (name: string, value: unknown) => {
+    if (formData.has(name)) {
+      body[name] = value;
+    }
+  };
+
+  const required = (name: string) => include(name, text(name));
+  // The API treats "" as an explicit clear for nullable text fields.
+  const nullable = (name: string) => include(name, text(name) || null);
+
+  required("first_name");
+  required("last_name");
+  required("tagname");
+
+  for (const name of [
+    "identity_number",
+    "expertise",
+    "university",
+    "faculty",
+    "major",
+    "location",
+    "biography",
+    "behance",
+    "github",
+    "linkedin",
+    "dribbble",
+    "website",
+  ]) {
+    nullable(name);
+  }
+
+  // An unchecked checkbox submits nothing at all, so a form that offers this pairs it
+  // with a hidden "off" under the same name. Presence therefore means the form owns
+  // the field; the checkbox itself only adds a second value when it is ticked.
+  include("is_open_hired", formData.getAll("is_open_hired").includes("on"));
+  include("skills", parseLines(text("skills")));
+
   try {
     const { user } = await api<{ user: User }>("/settings/profile", {
       method: "PATCH",
-      body: {
-        first_name: text("first_name"),
-        last_name: text("last_name"),
-        tagname: text("tagname"),
-        identity_number: text("identity_number") || null,
-        // The API treats "" as an explicit clear for nullable text fields.
-        expertise: text("expertise") || null,
-        university: text("university") || null,
-        faculty: text("faculty") || null,
-        major: text("major") || null,
-        location: text("location") || null,
-        biography: text("biography") || null,
-        is_open_hired: formData.get("is_open_hired") === "on",
-        behance: text("behance") || null,
-        github: text("github") || null,
-        linkedin: text("linkedin") || null,
-        dribbble: text("dribbble") || null,
-        website: text("website") || null,
-        skills: parseLines(text("skills")),
-      },
+      body,
     });
 
     revalidateProfile(user.tagname);
@@ -116,4 +144,31 @@ export async function removeExperience(uuid: string): Promise<void> {
   await api(`/settings/experiences/${uuid}`, { method: "DELETE" });
 
   revalidateProfile();
+}
+
+/**
+ * Change the password of the signed-in user.
+ *
+ * The API drops every other token on success, so anyone who had this account open
+ * elsewhere is signed out — which is the point of changing a password. The device
+ * doing the changing keeps its session.
+ */
+export async function changePassword(
+  _state: FormState | undefined,
+  formData: FormData,
+): Promise<FormState> {
+  try {
+    await api("/settings/password", {
+      method: "PATCH",
+      body: {
+        current_password: formData.get("current_password"),
+        password: formData.get("password"),
+        password_confirmation: formData.get("password_confirmation"),
+      },
+    });
+  } catch (error) {
+    return toFormState(error);
+  }
+
+  return { success: "Password updated. Any other devices have been signed out." };
 }

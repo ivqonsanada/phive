@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { ExperienceManager } from "@/app/(site)/settings/experience-manager";
 import { MediaManager } from "@/app/(site)/settings/media-manager";
+import { PasswordForm } from "@/app/(site)/settings/password-form";
 import { ProfileForm } from "@/app/(site)/settings/profile-form";
 import { TopImage } from "@/components/top-image";
 import { api } from "@/lib/api";
@@ -36,11 +37,16 @@ export default async function SettingsPage() {
       </section>
 
       {user.role === "Student" && (
-        <section>
+        <section className="mb-10">
           <h2 className="mb-[25px] text-[24px] font-extrabold xl:mb-10">Experience</h2>
           <ExperienceManager experiences={user.experiences ?? []} />
         </section>
       )}
+
+      <section>
+        <h2 className="mb-[25px] text-[24px] font-extrabold xl:mb-10">Change Password</h2>
+        <PasswordForm />
+      </section>
     </main>
   );
 }

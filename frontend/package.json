@@ -1,0 +1,42 @@
+{
+  "name": "phive-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "cf:build": "opennextjs-cloudflare build",
+    "cf:preview": "opennextjs-cloudflare build && wrangler dev",
+    "cf:deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@iconify/react": "^6.0.2",
+    "@radix-ui/react-scroll-area": "^1.2.18",
+    "@tanstack/react-query": "^5.101.4",
+    "laravel-echo": "^2.4.0",
+    "next": "16.2.12",
+    "pusher-js": "^8.6.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "server-only": "^0.0.1"
+  },
+  "devDependencies": {
+    "@opennextjs/cloudflare": "^1.20.2",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@vitest/coverage-v8": "^4.1.10",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.12",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vitest": "^4.1.10",
+    "wrangler": "^4.118.0"
+  }
+}

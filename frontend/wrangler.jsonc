@@ -1,0 +1,41 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "phive-frontend",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-07-30",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "images": {
+    "binding": "IMAGES"
+  },
+  "observability": {
+    "enabled": true
+  },
+
+  // Wrangler creates and manages the DNS record for a custom domain, so the zone only
+  // needs to exist. Remove this block to fall back to the *.workers.dev URL.
+  "routes": [{ "pattern": "phive.ivqon.dev", "custom_domain": true }],
+
+  "vars": {
+    // The API origin, read at request time rather than baked in at build time. Public
+    // reads go to it straight from the browser, so it must be reachable from a
+    // visitor's network and the API's FRONTEND_URL must name this site for CORS.
+    "API_URL": "http://localhost:8000",
+
+    // auto | always | never — see frontend/.env.example. On `auto` an unreachable API
+    // degrades to sample data with a banner instead of a 500 page.
+    "DEMO_DATA": "auto"
+  }
+
+  // Enable these together with the R2 incremental cache in open-next.config.ts:
+  //
+  // "services": [
+  //   { "binding": "WORKER_SELF_REFERENCE", "service": "phive-frontend" }
+  // ],
+  // "r2_buckets": [
+  //   { "binding": "NEXT_INC_CACHE_R2_BUCKET", "bucket_name": "phive-frontend-opennext-cache" }
+  // ]
+}

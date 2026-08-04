@@ -1,0 +1,18 @@
+.git
+.github
+vendor
+node_modules
+storage/logs/*
+storage/framework/cache/data/*
+storage/framework/sessions/*
+storage/framework/views/*
+tests
+.env
+.env.*
+!.env.example
+.phpunit.result.cache
+Dockerfile
+.dockerignore
+
+# Locally downloaded Octane binary — the image provides its own FrankenPHP.
+frankenphp

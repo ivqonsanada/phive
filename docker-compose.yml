@@ -1,0 +1,88 @@
+# Whole stack on one machine: Postgres + the Laravel API + the Next.js frontend.
+#
+#   cp backend/.env.example backend/.env      # then set APP_KEY (php artisan key:generate)
+#   docker compose up --build
+#
+# API      -> http://localhost:8000
+# Frontend -> http://localhost:3000
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: phive
+      POSTGRES_USER: phive
+      POSTGRES_PASSWORD: phive
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U phive -d phive"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: ./backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_URL: http://localhost:8000
+      FRONTEND_URL: http://localhost:3000
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: phive
+      DB_USERNAME: phive
+      DB_PASSWORD: phive
+      LOG_CHANNEL: stderr
+    env_file:
+      - ./backend/.env
+    ports:
+      - "8000:8080"
+
+  # WebSocket server for live messages. Same image and env as the API, different
+  # command. Drop this service and messaging still works, it just stops pushing.
+  reverb:
+    build:
+      context: ./backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: ["php", "artisan", "reverb:start", "--host=0.0.0.0", "--port=8080"]
+    entrypoint: []
+    environment:
+      APP_ENV: local
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: phive
+      DB_USERNAME: phive
+      DB_PASSWORD: phive
+    env_file:
+      - ./backend/.env
+    ports:
+      - "8085:8080"
+
+  web:
+    build:
+      context: ./frontend
+    depends_on:
+      - api
+    environment:
+      # Container-to-container, so this is the service name — not localhost.
+      API_URL: http://api:8080
+      # Browser-facing, so these are host values, not service names.
+      NEXT_PUBLIC_REVERB_HOST: localhost
+      NEXT_PUBLIC_REVERB_PORT: 8085
+      NEXT_PUBLIC_REVERB_SCHEME: http
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres-data:

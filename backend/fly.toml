@@ -1,0 +1,36 @@
+# fly launch --no-deploy   (then edit `app`), followed by:
+#   fly postgres create --name phive-db && fly postgres attach phive-db
+#   fly secrets set APP_KEY="$(php artisan key:generate --show)" FRONTEND_URL=https://your-frontend
+#   fly deploy
+
+app = "phive-api"
+primary_region = "sin"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  APP_ENV = "production"
+  APP_DEBUG = "false"
+  LOG_CHANNEL = "stderr"
+  DB_CONNECTION = "pgsql"
+  # fly postgres attach sets DATABASE_URL; Laravel reads DB_URL.
+  DB_URL = "$DATABASE_URL"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [[http_service.checks]]
+    grace_period = "10s"
+    interval = "30s"
+    method = "GET"
+    path = "/up"
+    timeout = "5s"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"

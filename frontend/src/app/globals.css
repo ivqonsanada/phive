@@ -1,0 +1,242 @@
+@import "tailwindcss";
+
+/* Carried over from the original PHive palette. The two greys are load-bearing: the
+   original used #f2f4f6 for every raised surface — hero band, leaderboard cards, nav
+   hover — and a slightly darker #001534 for the footer than the navy used elsewhere. */
+@theme {
+  --color-navy: #00214d;
+  --color-glow: #ff5470;
+  --color-paper: #ffffff;
+  --color-ink: #12203a;
+  --color-mist: #f2f4f6;
+  --color-deep: #001534;
+
+  --font-sans: var(--font-open-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  /* The original set this in base/_base.scss. */
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+}
+
+/* The original applied this per container (slide-1/2/3, footer, topboard) rather than
+   globally. Applying it to <body> widened the auth collage headline enough to wrap. */
+.tracked {
+  letter-spacing: 0.02em;
+}
+
+/* The original's display headings: uppercase, near-black weight, and a line-height
+   below 1 so the stacked lines read as one block. */
+.display-heading {
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 0.9;
+  color: var(--color-navy);
+}
+
+/* The original's .text-outline--thin. The project title is set over its thumbnail,
+   and a 2px white halo is what keeps it readable against whatever the image happens to
+   be. The source listed a full 5x5 grid of offsets; only the perimeter draws anything,
+   so this is the same result with a third of the declarations. */
+.text-outline {
+  text-shadow:
+    -2px -2px 0 #fff, -1px -2px 0 #fff, 0 -2px 0 #fff, 1px -2px 0 #fff, 2px -2px 0 #fff,
+    -2px -1px 0 #fff, 2px -1px 0 #fff,
+    -2px 0 0 #fff, 2px 0 0 #fff,
+    -2px 1px 0 #fff, 2px 1px 0 #fff,
+    -2px 2px 0 #fff, -1px 2px 0 #fff, 0 2px 0 #fff, 1px 2px 0 #fff, 2px 2px 0 #fff;
+}
+
+/* ---------------------------------------------------------------------------
+   Entrance animations, ported from the original's abstract/_animations.scss.
+
+   `animation-fill-mode: backwards` is added here and was not in the source. The
+   original could get away without it because every animation started at 0s; these run
+   at staggered durations, and without it an element sits at its final opacity for the
+   frame before its animation starts, which shows up as a flash.
+   --------------------------------------------------------------------------- */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes moveInTop {
+  0% {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes moveInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes moveInBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(-100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes moveInBottomLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(100px) translateY(-100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+  }
+}
+
+/* The dashed ornaments are already offset by -25% on the Y axis, so their entrance has
+   to preserve that rather than animate to translateY(0) and jump. */
+@keyframes moveInRightDash {
+  0% {
+    opacity: 0;
+    transform: translateX(-100px) translateY(-25%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) translateY(-25%);
+  }
+}
+
+.fadeIn,
+.moveInTop,
+.moveInRight,
+.moveInBottom,
+.moveInLeft,
+.moveInBottomLeft,
+.moveInRightDash {
+  animation-fill-mode: backwards;
+  animation-timing-function: ease-out;
+}
+
+.fadeIn {
+  animation-name: fadeIn;
+}
+.moveInTop {
+  animation-name: moveInTop;
+}
+.moveInRight {
+  animation-name: moveInRight;
+}
+.moveInBottom {
+  animation-name: moveInBottom;
+}
+.moveInLeft {
+  animation-name: moveInLeft;
+}
+.moveInBottomLeft {
+  animation-name: moveInBottomLeft;
+}
+.moveInRightDash {
+  animation-name: moveInRightDash;
+}
+
+.duration--0_5 {
+  animation-duration: 0.5s;
+}
+.duration--1 {
+  animation-duration: 1s;
+}
+.duration--1_5 {
+  animation-duration: 1.5s;
+}
+.duration--2 {
+  animation-duration: 2s;
+}
+.delay--1 {
+  animation-delay: 1s;
+}
+.delay--1_5 {
+  animation-delay: 1.5s;
+}
+
+/* The original's page transition: a 0.2s cross-fade between routes. */
+.page-enter {
+  animation: fadeIn 0.2s ease-out backwards;
+}
+
+/* The navigation bar the original drove with NProgress. */
+.nav-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1031;
+  height: 4px;
+  width: 100%;
+  pointer-events: none;
+  background: var(--color-navy);
+  transform-origin: 0 50%;
+  animation: navProgress 2s ease-out forwards;
+}
+
+@keyframes navProgress {
+  0% {
+    transform: scaleX(0);
+  }
+  60% {
+    transform: scaleX(0.7);
+  }
+  100% {
+    transform: scaleX(0.95);
+  }
+}
+
+/* Nobody who has asked the OS to reduce motion wants a 2s entrance on every element. */
+@media (prefers-reduced-motion: reduce) {
+  .fadeIn,
+  .moveInTop,
+  .moveInRight,
+  .moveInBottom,
+  .moveInLeft,
+  .moveInBottomLeft,
+  .moveInRightDash,
+  .page-enter,
+  .nav-progress {
+    animation: none;
+  }
+}

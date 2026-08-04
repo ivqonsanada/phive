@@ -1,199 +1,334 @@
-<!-- PROJECT SHIELDS -->
-
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
-<!-- PROJECT LOGO -->
-<br />
 <p align="center">
-  <a href="https://github.com/ivqonsanada/phive">
-    <img src="public/icon-192x192.png" alt="Logo" width="80" height="80">
-  </a>
-
-  <h3 align="center">PHive</h3>
-
-  <p align="center">
-    A kind of freelancing website for College
-    <br />
-    <a href="https://github.com/ivqonsanada/phive"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://phive.ivqonsanada.com/">View Demo</a>
-    ·
-    <a href="https://github.com/ivqonsanada/phive/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/ivqonsanada/phive/issues">Request Feature</a>
-  </p>
+  <img src="frontend/public/icons/icon-192x192.png" alt="PHive" width="80" height="80">
 </p>
 
-<!-- ABOUT THE PROJECT -->
+<h1 align="center">PHive</h1>
 
-## About The Project
+<p align="center">
+  A freelancing platform for college — lecturers publish real projects, students apply
+  alone or with a party they recruit, and get paid and certified for finishing them.
+</p>
 
-[![PHive Landing Page](public/github/landing-page.png)](https://phive.ivqonsanada.com)
+<p align="center">
+  <a href="#getting-started">Getting started</a> ·
+  <a href="docs/DEPLOYMENT.md">Deployment</a> ·
+  <a href="#roadmap">Roadmap</a> ·
+  <a href="https://github.com/ivqonsanada/phive/tree/legacy">Legacy version</a>
+</p>
 
-A kind of freelancing website for College. Where Lecturer can publish his/her project here waiting students apply to work on the project. Student will get some kind of rewards like salary and/or certification.
+---
 
-Features:
+## What this is
 
--   Commons
-    -   Explore Project
-    -   Leaderboard
-    -   Profile
-    -   Message
-    -   Inbox
--   Lecturer
-    -   Project Publications (Posting - Recruit - Review)
-    -   Project Box (to Organize Project)
-    -   Hire Student
--   Student
-    -   Apply Project (as Individual / as Team)
-    -   Party (for make the Team)
-    -   Project Box (to See current Apply/Ongoing/Finished projects)
-    -   Wishlist Project
--   Experiment
-    -   Adaptive while being Responsive (Mobile version is Mobile Apps-like)
+PHive started in 2020 as a Laravel 7 + Vue 2 monolith. This repository is the rewrite:
+two independently deployable apps that talk over a JSON API.
 
-### Built With
+```
+phive/
+├── backend/     Laravel 13 · PHP 8.3+ · PostgreSQL · Sanctum · Filament 5 · Octane
+├── frontend/    Next.js 16 · React 19 · TypeScript · Tailwind 4
+├── docs/        Deployment guide and assets
+└── docker-compose.yml
+```
 
--   [Laravel](https://laravel.com/)
--   [VueJS](https://vuejs.org/)
--   [Sass](https://sass-lang.com/)
+There are two front doors: the Next.js app that students and lecturers use, and a
+[Filament](https://filamentphp.com) admin panel served by Laravel itself at `/admin`.
 
-<!-- GETTING STARTED -->
+The original code is preserved on the [`legacy`](https://github.com/ivqonsanada/phive/tree/legacy)
+branch, untouched.
 
-## Getting Started
+### Why two apps
 
-To get a local copy up and running follow these simple steps.
+The frontend is edge-deployable (Cloudflare Workers by default) while the API needs PHP
+and a database. Splitting them lets each go where it runs best, and makes the API usable
+by anything else you want to build later.
 
-### Prerequisites
+### How auth works
 
--   [npm](https://nodejs.org/)
--   [composer](https://getcomposer.org/download/)
--   AMP stack
-    -   Apache HTTP Server
-    -   MySQL
-    -   [PHP](https://www.php.net/downloads)
+Sanctum **personal access tokens**, not stateful cookies — so the two apps never need to
+share a root domain.
 
-### Installation
+```
+Browser ──▶ Next.js server action ──▶ POST /api/login ──▶ Laravel
+                    │                                        │
+                    │◀──────────── { user, token } ──────────┘
+                    ▼
+          httpOnly cookie (phive_token)
+                    │
+Browser ──▶ Next.js Server Component ──▶ Authorization: Bearer ──▶ Laravel
+```
 
-1. Clone the repo
-    ```sh
-    git clone https://github.com/ivqonsanada/phive.git
-    ```
-2. Get into the project
-    ```sh
-    cd phive
-    ```
-3. Install the frontend packages (NPM)
-    ```sh
-    npm install
-    ```
-4. Install the backend packages
-    ```sh
-    composer install
-    ```
+The token lives in an httpOnly cookie and is only ever read on the server, so client-side
+JavaScript can never touch it. `requireUser()` in `src/lib/dal.ts` verifies it against the
+API and is called by every protected page — authorisation lives next to the data, not in
+a routing layer that can be bypassed.
 
-<!-- USAGE EXAMPLES -->
+There is deliberately no `proxy.ts`. Next 16 runs Proxy on the Node.js runtime and
+forbids opting into edge, which the Cloudflare adapter cannot deploy. It was only doing
+an optimistic cookie check anyway, so removing it cost nothing and unblocked Workers.
 
-## Usage
+### Mobile clients
 
-1. Make `.env` file by copy the `.env.example`
-    ```sh
-    cp .env.example .env
-    ```
-2. Edit `.env` file to setup database connection
-    ```dosini
-    DB_DATABASE=db_name
-    DB_USERNAME=user_to_access_the_db
-    DB_PASSWORD=user_password
-    ```
-3. Set application key
-    ```sh
-    php artisan key:generate
-    ```
-4. Create tables using migration with dummy data
-    ```sh
-    php artisan migrate:fresh --seed
-    ```
-5. Create the frontend production ready files
-    ```sh
-    npm run prod
-    ```
-6. Run the app
-    ```sh
-    php artisan serve
-    ```
-7. Try dummy account
+The httpOnly cookie is a *browser* concern. A native app talks to the same API the same
+way: `POST /api/login` returns a token, and every later request sends
+`Authorization: Bearer <token>`. Nothing needs adding for that.
 
-    ```dosini
-    # student
-    username = student@example.com
-    password = password
+JWT was considered and deliberately not used. Its real advantage is stateless
+verification across several services, which a single API does not need — and it would
+cost the two things this app relies on today: revoking one device's token on logout,
+and signing every device out when a password changes. Both are one indexed delete
+against `personal_access_tokens`; with JWTs they would need a denylist, which puts the
+database lookup back and loses the only benefit.
 
-    # lecturer
-    username = lecturer@example.ac.id
-    password = password
-    ```
+---
 
-<!-- ROADMAP -->
+## Getting started
+
+**Requirements:** PHP 8.3+, Composer 2, Node 24+, pnpm 10+, PostgreSQL 14+.
+
+```bash
+git clone https://github.com/ivqonsanada/phive.git
+cd phive
+```
+
+### Backend
+
+```bash
+cd backend
+composer install
+php artisan phive:install     # env file, app key, database, migrations, demo data
+composer dev                  # serve + queue worker + log tail on :8000
+```
+
+`phive:install` asks which database to use and writes the credentials into `.env` for
+you. Non-interactively (CI, containers):
+
+```bash
+php artisan phive:install --no-interaction-defaults --seed
+```
+
+Seeded accounts — password `password` for all three:
+
+| Email                 | Role     | Where              |
+| --------------------- | -------- | ------------------ |
+| `lecturer@phive.test` | Lecturer | Frontend           |
+| `student@phive.test`  | Student  | Frontend           |
+| `admin@phive.test`    | Admin    | `/admin` panel     |
+
+### Social sign-in
+
+Google and Apple, via Socialite. Both are optional — without credentials the buttons
+are hidden and the routes return 503.
+
+The OAuth round trip is a browser redirect flow, so those two routes live on the web
+routes rather than under `/api`, where they have a session to carry state across the
+hop. The callback finishes by redirecting to the frontend with a **single-use code
+valid for two minutes**, never the token: URLs end up in browser history, server logs
+and `Referer` headers. The frontend's server swaps that code for the token and puts it
+straight into the httpOnly cookie.
+
+Signing in with a provider whose email already exists links to that account instead of
+creating a duplicate. New accounts are created verified, without a password, and as
+students — choosing "lecturer" still has to satisfy the academic email rule, otherwise
+the whole restriction could be sidestepped by signing up through Google.
+
+Set `SOCIAL_PROVIDERS=google,apple` on the frontend to match whatever the API has
+credentials for.
+
+### Demo mode
+
+`DEMO_MODE=true` enables `php artisan phive:demo-reset`, which drops every table,
+reseeds, and clears uploads — and schedules it nightly. Without the flag the command
+refuses to run and the schedule is never registered, because the whole point of a
+destructive command is that it must be impossible to trigger by accident.
+
+### Admin panel
+
+Filament 5, at `http://localhost:8000/admin`. Access is gated on an `is_admin`
+flag rather than the platform `role` — being a lecturer says what you do on the
+platform, not that you may administer it. The panel is the one session-based
+surface in an otherwise token-authenticated API, so it runs on the `web` guard
+explicitly; a bearer token is not a way in.
+
+For a real deployment, seed your own administrator instead of the demo one:
+
+```bash
+ADMIN_EMAIL=you@example.com ADMIN_PASSWORD='...' \
+  php artisan db:seed --class=AdminSeeder
+```
+
+### Frontend
+
+```bash
+cd frontend
+pnpm install
+cp .env.example .env.local    # API_URL=http://localhost:8000
+pnpm dev                      # :3000
+```
+
+### Everything at once
+
+```bash
+cp backend/.env.example backend/.env
+docker compose up --build
+```
+
+---
+
+## Development
+
+| Task            | Backend                | Frontend         |
+| --------------- | ---------------------- | ---------------- |
+| Dev server      | `composer dev`         | `pnpm dev`       |
+| Dev on Octane   | `composer dev:octane`  | —                |
+| Tests           | `php artisan test`     | `pnpm test`      |
+| Lint / format   | `composer lint` (Pint) | `pnpm lint`      |
+| Types           | —                      | `pnpm typecheck` |
+| Production build| —                      | `pnpm build`     |
+
+### A note on Next.js 16
+
+Next 16 renamed `middleware.ts` to `proxy.ts` and made `cookies()` async. `frontend/AGENTS.md`
+points at the version-accurate docs bundled in `node_modules/next/dist/docs/` — read those
+rather than relying on older tutorials.
+
+---
+
+## API
+
+Base URL `/api`. Authenticated routes expect `Authorization: Bearer <token>`.
+
+**Reads** — these work for guests, but personalise themselves when a token is present
+(for example `is_wished` only appears for a signed-in student):
+
+| Method | Endpoint                       | Purpose                                          |
+| ------ | ------------------------------ | ------------------------------------------------ |
+| `GET`  | `/home`                        | Project counts, top of each board, latest projects |
+| `GET`  | `/projects`                    | Explore + search: `?query=`, `?expertise=`, `?status=`, `?open_only=`, `?page=` |
+| `GET`  | `/projects/{project_url}`      | Detail, with skills, requirements, team, review   |
+| `GET`  | `/projects/{project_url}/similar` | Three related projects, matched to your expertise |
+| `GET`  | `/users/{tagname}`             | Public profile plus that user's projects          |
+| `GET`  | `/leaderboards`                | One ranked board per expertise                    |
+
+**Auth and writes:**
+
+| Method  | Endpoint                          | Auth | Purpose                           |
+| ------- | --------------------------------- | ---- | --------------------------------- |
+| `POST`  | `/register`                       | —    | Create an account, get a token    |
+| `POST`  | `/login`                          | —    | Exchange credentials for a token  |
+| `GET`   | `/auth/{provider}/redirect`       | —    | Start Google/Apple sign-in (not under `/api`) |
+| `GET`   | `/auth/{provider}/callback`       | —    | Provider returns here (not under `/api`) |
+| `POST`  | `/auth/exchange`                  | —    | Swap the single-use code for a token |
+| `POST`  | `/logout`                         | ✓    | Revoke the calling token only     |
+| `GET`   | `/user`                           | ✓    | The signed-in user                |
+| `PATCH` | `/settings/password`              | ✓    | Change password, keep this device |
+| `POST`  | `/password/email`                 | —    | Send a reset link                 |
+| `POST`  | `/password/reset`                 | —    | Consume a reset token             |
+| `GET`   | `/email/verify/{id}/{hash}`       | —    | Signed verification link          |
+| `POST`  | `/email/resend`                   | ✓    | Resend the verification email     |
+| `GET`   | `/wishlist`                       | ✓    | Projects the student starred      |
+| `POST`  | `/projects/{project_url}/wishlist`| ✓    | Toggle a project on the wishlist  |
+| `PATCH` | `/settings/profile`               | ✓    | Partial profile update, plus skills |
+| `POST`  | `/settings/avatar` · `/settings/cv` | ✓  | Upload (multipart `file`)         |
+| `DELETE`| `/settings/avatar` · `/settings/cv` | ✓  | Remove                            |
+| `POST`  | `/settings/experiences`           | ✓    | Add a CV entry                    |
+| `PATCH` `DELETE` | `/settings/experiences/{id}` | ✓ | Edit or remove your own entry  |
+| `GET`   | `/party`                          | ✓    | The party you lead, and ones you're in |
+| `POST`  | `/users/{tagname}/invite/party`    | ✓    | Invite a student to your party    |
+| `DELETE`| `/party/members/{tagname}`        | ✓    | Remove a member                   |
+| `DELETE`| `/party/{team}/leave`             | ✓    | Leave a party you don't lead      |
+| `POST`  | `/projects/{project_url}/apply/individual` | ✓ | Apply on your own          |
+| `POST`  | `/projects/{project_url}/apply/team` | ✓  | Apply with your party           |
+| `DELETE`| `/projects/{project_url}/apply`   | ✓    | Withdraw your application         |
+| `GET`   | `/inbox`                          | ✓    | Invitations and messages          |
+| `POST`  | `/inbox/{id}/respond`             | ✓    | Accept or decline (`accept: bool`) |
+| `POST`  | `/inbox/{id}/read`                | ✓    | Mark as read                      |
+| `GET`   | `/project-box`                    | ✓    | Everything you're involved in     |
+| `POST`  | `/project-box/{box}/confirm`      | ✓    | Take or decline a shortlisted seat |
+| `GET`   | `/messages`                       | ✓    | Your conversations                |
+| `GET` `POST` | `/messages/{tagname}`        | ✓    | Read or add to a thread           |
+
+**Lecturer project management** — all require a lecturer token, and a policy scopes
+every one of them to that lecturer's own projects. They live under `/my` so none of
+them collide with the public `{project_url}` routes:
+
+| Method   | Endpoint                             | Purpose                                  |
+| -------- | ------------------------------------ | ---------------------------------------- |
+| `GET`    | `/my/projects`                       | Own projects, drafts included            |
+| `POST`   | `/my/projects`                       | Create — `publish: false` saves a draft  |
+| `PATCH`  | `/my/projects/{project_url}`         | Edit; `publish: true` also publishes     |
+| `POST`   | `/my/projects/{project_url}/publish` | Publish an existing draft as-is          |
+| `POST`   | `/my/projects/{project_url}/close`   | Stop accepting applications              |
+| `DELETE` | `/my/projects/{project_url}`         | Withdraw (blocked while ongoing)         |
+| `POST`   | `/my/projects/{project_url}/thumbnail` | Upload a cover image (multipart `file`) |
+| `DELETE` | `/my/projects/{project_url}/thumbnail` | Remove the cover image               |
+| `GET` `POST` | `/my/projects/{project_url}/shortlist` | See applicants, and choose who goes through |
+| `POST`   | `/my/projects/{project_url}/start`   | Start with whoever confirmed          |
+| `GET` `POST` | `/my/projects/{project_url}/review` | Close out, score participants, award points |
+| `POST`   | `/my/projects/{project_url}/invite/{tagname}` | Invite a student directly     |
+
+Resource wrapping is off, so a resource is returned at the top level. Paginated
+collections keep Laravel's `{ data, links, meta }` envelope.
+
+Lecturer sign-ups are restricted to non-student academic addresses. That rule is
+Indonesian-university-specific and lives in `config/phive.php` — change
+`lecturer_email_pattern`, or set it to `null` to accept anything.
+
+---
 
 ## Roadmap
 
-See the [open issues](https://github.com/ivqonsanada/phive/issues) for a list of proposed features (and known issues).
+The data model is fully ported (24 tables, typed Eloquent models, enums for every status
+field). Progress so far:
 
-<!-- CONTRIBUTING -->
+- [x] Auth: register, login, logout, email verification, password reset and change
+- [x] Social sign-in with Google and Apple
+- [x] Projects: explore, search, filter by expertise, detail, similar projects
+- [x] Wishlist: star from anywhere, review it on its own page
+- [x] Profiles: public view — finished work for students, published projects for lecturers
+- [x] Leaderboard and home page stats
+- [x] Publishing: draft, edit, publish, close applications, withdraw
+- [x] Publishing extras: thumbnail upload
+- [x] Profile editing: avatar and CV upload, skills, experiences
+- [x] Inviting students to a project directly
+- [x] Party recruitment and the inbox invitation flow
+- [x] Applying: as an individual or with your party
+- [x] Project box: shortlist, confirm, start, review and leaderboard points
+- [x] Inbox and direct messaging, delivered live over WebSockets
+- [x] Newcomer walkthrough, change password, project dashboard and the 404 page
 
-## Contributing
+Every screen the original had is ported. Three deliberate differences:
 
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+- **Settings is one page.** The original split it between a two-step `/profile/edit`
+  wizard and a `/settings` that held only a password form. Both live here under
+  Settings.
+- **No public Wishlist tab.** The original showed anyone's saved projects on their
+  profile. This API scopes a wishlist to its owner, which is the better default, so
+  the tab is not reproduced.
+- **No `/profile` route.** Your own profile is the same public page everyone else
+  sees, at `/u/<handle>`, with the wishlist on `/wishlist`.
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+### Realtime
 
-<!-- LICENSE -->
+Direct messages broadcast on the recipient's private channel over
+[Reverb](https://laravel.com/docs/reverb), which replaces the old Pusher setup.
+Laravel Echo subscribes in the browser and appends incoming messages to an open
+thread without a reload.
+
+Channel authorisation is proxied. The Sanctum token lives in an httpOnly cookie the
+browser cannot read, so Echo authorises against `/api/broadcasting/auth` on the
+Next.js side, which forwards to Laravel with the bearer token attached — the token
+never reaches client JavaScript.
+
+Realtime is additive: leave `NEXT_PUBLIC_REVERB_APP_KEY` empty and the app behaves
+exactly as before, reading threads on request.
+
+```bash
+cd backend && php artisan reverb:start   # or `composer dev`, which runs it for you
+```
+
+---
 
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
-
-<!-- CONTACT -->
-
-## Contact
-
-Team:
-
--   Ivqonnada Al Mufarrih - Full Stack Engineer - [@ivqonsanada](https://twitter.com/ivqonsanada) - ivqonnada@gmail.com
--   Verrel Radiman - Designer - [@verrel](https://www.linkedin.com/in/muhammad-verrel-radiman-61178314a)
--   Aji R. Gumiwang - Tester
-
-Project Link: [https://github.com/ivqonsanada/phive](https://github.com/ivqonsanada/phive)
-
-<!-- ACKNOWLEDGEMENTS -->
-
-## Acknowledgements
-
--   [Laravel-Vue SPA starter kit](https://github.com/cretueusebiu/laravel-vue-spa)
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-
-[contributors-shield]: https://img.shields.io/github/contributors/ivqonsanada/phive.svg?style=for-the-badge
-[contributors-url]: https://github.com/ivqonsanada/phive/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/ivqonsanada/phive.svg?style=for-the-badge
-[forks-url]: https://github.com/ivqonsanada/phive/network/members
-[stars-shield]: https://img.shields.io/github/stars/ivqonsanada/phive.svg?style=for-the-badge
-[stars-url]: https://github.com/ivqonsanada/phive/stargazers
-[issues-shield]: https://img.shields.io/github/issues/ivqonsanada/phive.svg?style=for-the-badge
-[issues-url]: https://github.com/ivqonsanada/phive/issues
-[license-shield]: https://img.shields.io/github/license/ivqonsanada/phive.svg?style=for-the-badge
-[license-url]: https://github.com/ivqonsanada/phive/blob/master/LICENSE
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/ivqonnada
+MIT — see [LICENSE](LICENSE).

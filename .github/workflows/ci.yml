@@ -1,0 +1,104 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: Backend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: phive_test
+          POSTGRES_USER: phive
+          POSTGRES_PASSWORD: phive
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U phive"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          extensions: pdo_pgsql, intl, zip, bcmath, sodium, fileinfo, curl, dom, mbstring
+          coverage: none
+
+      - name: Cache Composer packages
+        uses: actions/cache@v4
+        with:
+          path: backend/vendor
+          key: composer-${{ hashFiles('backend/composer.lock') }}
+
+      - run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Check formatting
+        run: vendor/bin/pint --test
+
+      - name: Prepare environment
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
+      # Fast feedback: in-memory SQLite, as phpunit.xml configures.
+      - name: Tests (SQLite)
+        run: php artisan test
+
+      # Then the same suite against the engine production actually runs, because
+      # SQLite hides dialect differences — an earlier ILIKE in a search query passed
+      # here and would only have failed in production. PHPUnit's <env> entries do not
+      # override real environment variables, so these win over phpunit.xml.
+      - name: Tests (PostgreSQL)
+        run: php artisan test
+        env:
+          DB_CONNECTION: pgsql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 5432
+          DB_DATABASE: phive_test
+          DB_USERNAME: phive
+          DB_PASSWORD: phive
+
+  frontend:
+    name: Frontend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: frontend/pnpm-lock.yaml
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build
+        env:
+          API_URL: http://localhost:8000

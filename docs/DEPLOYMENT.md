@@ -61,6 +61,9 @@ plus the queue worker, scheduler and Nightwatch agent under supervisord, listeni
 port **8080** with a health check at **`/up`**.
 
 Octane keeps the framework booted between requests instead of rebuilding it each time.
+The Filament panel runs on it too — verified that a logged-in admin session does not
+bleed into other requests hitting the same persistent worker, and that the API still
+resolves each bearer token independently.
 Workers recycle every 500 requests, which bounds anything a long-lived worker might
 accumulate. If you deploy without Docker, `php artisan octane:start` replaces
 php-fpm — but plain php-fpm still works, and nothing in the app depends on Octane.

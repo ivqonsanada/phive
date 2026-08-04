@@ -63,9 +63,14 @@ credential, so it lives in `vars` — edit `wrangler.jsonc` and redeploy:
 "vars": { "API_URL": "https://api.example.com" }
 ```
 
-Until it points at a reachable backend, every route that renders API data returns 500
-and the home page hangs on its `Loading…` fallback. `/login` and `/register` still
-render, which makes a 200 on the root a misleading smoke test — check `/explore`.
+Until it points at a reachable backend, `DEMO_DATA=auto` (the default) serves sample
+data with a banner rather than a 500, so the site stays browsable. Set `DEMO_DATA=never`
+in an environment where a broken backend should be loud instead.
+
+Public reads go from the **browser** to `API_URL` directly, so it has to be reachable
+from a visitor's network — not just from the Worker — and the API's `FRONTEND_URL` must
+name this site or CORS will refuse the call. Authenticated calls still run on the
+server, keeping the bearer token in an httpOnly cookie.
 
 Preview the real Worker runtime locally before a first deploy — `workerd` behaves
 differently from Node in ways `next dev` will not show you:

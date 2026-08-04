@@ -1,28 +1,14 @@
 import "server-only";
 
+import { ApiError } from "@/lib/api-error";
 import { getToken } from "@/lib/session";
 import type { ValidationErrors } from "@/lib/types";
 
 const API_URL = process.env.API_URL ?? "http://localhost:8000";
 
-export class ApiError extends Error {
-  constructor(
-    readonly status: number,
-    message: string,
-    readonly errors: ValidationErrors = {},
-  ) {
-    super(message);
-    this.name = "ApiError";
-  }
-
-  get isValidationError(): boolean {
-    return this.status === 422;
-  }
-
-  get isUnauthenticated(): boolean {
-    return this.status === 401;
-  }
-}
+// Re-exported so the many existing `import { ApiError } from "@/lib/api"` call sites
+// keep working; the definition itself has to sit outside this server-only module.
+export { ApiError };
 
 interface RequestOptions extends Omit<RequestInit, "body"> {
   body?: unknown;

@@ -188,7 +188,13 @@ function LecturerBody({ box }: { box: Box }) {
           {project.reward.salary &&
             ` · ${formatMoney(project.reward.currency, project.reward.amount)}`}
         </Summary>
-        <Summary icon="ri:team-fill">Max. {project.max_person} Person</Summary>
+        {/* "Not Specified" is a real value here, and the original's
+            `Max. {{ max_person }} Person` rendered it as "Max. Not Specified Person". */}
+        <Summary icon="ri:team-fill">
+          {project.max_person === "Not Specified"
+            ? "Team size not specified"
+            : `Max. ${project.max_person} Person`}
+        </Summary>
       </div>
     </>
   );

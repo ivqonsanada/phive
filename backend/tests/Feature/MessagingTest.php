@@ -8,9 +8,11 @@ use App\Models\Inbox;
 use App\Models\MessageBody;
 use App\Models\MessageHeader;
 use App\Models\User;
+use Illuminate\Contracts\Broadcasting\Factory as BroadcastingFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use PHPUnit\Framework\Attributes\Test;
+use RuntimeException;
 use Tests\TestCase;
 
 class MessagingTest extends TestCase
@@ -188,5 +190,58 @@ class MessagingTest extends TestCase
 
         $this->postJson("/api/messages/{$user->tagname}", ['message' => 'Hi'])
             ->assertUnauthorized();
+    }
+
+    /**
+     * MessageSent is ShouldBroadcastNow, so it goes out inline on the request. An
+     * unreachable Reverb used to throw straight out of the controller and turn a
+     * committed write into a 500 — the sender saw a failure for a message that had
+     * been delivered, and sent it again.
+     */
+    #[Test]
+    public function a_message_still_sends_when_broadcasting_is_down(): void
+    {
+        $sender = User::factory()->student()->create();
+        $recipient = User::factory()->student()->create();
+
+        // Stands in for a Reverb that is not listening. __call covers whatever the
+        // broadcast() helper reaches for, so this keeps failing the same way if the
+        // framework changes which method it calls.
+        $this->app->extend(BroadcastingFactory::class, fn () => new class implements BroadcastingFactory
+        {
+            public function connection($name = null)
+            {
+                throw new RuntimeException('Connection refused');
+            }
+
+            public function store($name = null)
+            {
+                throw new RuntimeException('Connection refused');
+            }
+
+            /** @param array<int, mixed> $arguments */
+            public function __call(string $method, array $arguments): mixed
+            {
+                throw new RuntimeException('Connection refused');
+            }
+        });
+
+        $this->withToken($sender->createToken('t')->plainTextToken)
+            ->postJson("/api/messages/{$recipient->tagname}", ['message' => 'Still delivered'])
+            ->assertCreated();
+
+        $this->assertDatabaseHas('message_bodies', [
+            'sender_id' => $sender->id,
+            'recipient_id' => $recipient->id,
+            'message' => 'Still delivered',
+        ]);
+
+        // The recipient's inbox entry has to land too, or the message is invisible
+        // until they happen to open the thread.
+        $this->assertDatabaseHas('inboxes', [
+            'recipient_id' => $recipient->id,
+            'sender_id' => $sender->id,
+            'category' => InboxCategory::Message->value,
+        ]);
     }
 }

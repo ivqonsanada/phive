@@ -13,6 +13,8 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class MessageController extends Controller
 {
@@ -119,7 +121,20 @@ class MessageController extends Controller
             return $body;
         });
 
-        broadcast(new MessageSent($body))->toOthers();
+        // Best-effort. The message is already committed, and MessageSent is
+        // ShouldBroadcastNow, so it goes out inline: an unreachable Reverb threw out of
+        // here and turned a successful write into a 500. The sender then saw a failure
+        // for a message that had in fact been delivered, and sent it again.
+        try {
+            broadcast(new MessageSent($body))->toOthers();
+        } catch (Throwable $e) {
+            // The recipient still gets it — the thread is server-rendered on load, and
+            // the socket only saves them a refresh.
+            Log::warning('Could not broadcast message', [
+                'message_uuid' => $body->uuid,
+                'exception' => $e->getMessage(),
+            ]);
+        }
 
         return response()->json([
             'message' => [

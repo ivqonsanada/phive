@@ -109,7 +109,12 @@ class ProjectWorkflowController extends Controller
 
         return response()->json([
             'participants' => $team?->members->map(fn (ProjectTeamMember $member) => [
-                'member_id' => $member->member_id,
+                // The uuid, not the integer id. `review()` below validates
+                // `participants.*.member_uuid` and looks each one up by uuid, so
+                // handing out an id here gave the form nothing it could submit back:
+                // every field came through named `participants[undefined][…]`.
+                // Internal ids also have no business leaving the API.
+                'member_uuid' => $member->member->uuid,
                 'expertise' => $member->expertise,
                 'score' => $member->score,
                 'assessment' => $member->assessment,

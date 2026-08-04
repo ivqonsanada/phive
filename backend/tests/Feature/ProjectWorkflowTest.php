@@ -290,6 +290,42 @@ class ProjectWorkflowTest extends TestCase
         $this->assertSame('4', ProjectTeamMember::sole()->score);
     }
 
+    /**
+     * The read side of the review form has to hand back the same identifier the write
+     * side validates. It returned the internal `member_id` instead, which nothing
+     * caught: every test posted a uuid it had built itself rather than one the API had
+     * given it, so the two halves were never checked against each other.
+     */
+    #[Test]
+    public function the_review_form_identifies_participants_by_the_uuid_review_expects(): void
+    {
+        $this->apply();
+        $this->shortlist();
+        $this->confirm();
+        $this->start();
+
+        $participant = $this->forgetAuthState()->withToken($this->lecturerToken)
+            ->getJson("/api/my/projects/{$this->project->project_url}/review")
+            ->assertOk()
+            ->assertJsonPath('participants.0.member_uuid', $this->student->uuid)
+            ->assertJsonMissingPath('participants.0.member_id')
+            ->json('participants.0');
+
+        // Post back exactly what was handed out, which is what the form does.
+        $this->forgetAuthState()->withToken($this->lecturerToken)
+            ->postJson("/api/my/projects/{$this->project->project_url}/review", [
+                'overall_score' => 5,
+                'participants' => [[
+                    'member_uuid' => $participant['member_uuid'],
+                    'expertise' => Expertise::FrontendEngineer->value,
+                    'score' => 4,
+                ]],
+            ])
+            ->assertOk();
+
+        $this->assertSame('4', ProjectTeamMember::sole()->score);
+    }
+
     #[Test]
     public function points_are_created_for_a_student_with_no_board_row_yet(): void
     {

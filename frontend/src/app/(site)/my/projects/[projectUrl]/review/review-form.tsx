@@ -33,7 +33,10 @@ export function ReviewForm({
 
       {/* `.review__overall--container`: label, a colon, then the field on one line. */}
       <div className="mb-[30px] flex flex-row items-center gap-2.5">
-        <h4 className="my-0 max-w-[90px] text-right text-[24px] font-bold xl:w-full xl:max-w-none xl:text-[48px]">
+        {/* whitespace-nowrap is mine. The original let this wrap, and at 48px in a
+            720px column beside its field "Overall Score" broke across two lines with
+            the colon stranded between them. */}
+        <h4 className="my-0 max-w-[90px] whitespace-nowrap text-right text-[24px] font-bold xl:w-auto xl:max-w-none xl:text-[48px]">
           Overall Score
         </h4>
         <div className="ml-3 mr-5 text-[24px] font-bold">:</div>
@@ -98,7 +101,13 @@ export function ReviewForm({
                     <div className="mt-1">
                       <Select
                         name={`participants[${participant.member_uuid}][expertise]`}
-                        defaultValue={participant.expertise ?? EXPERTISE_OPTIONS[0]}
+                        // Falls back to the person's own expertise, not to the first
+                        // option. This select decides which leaderboard the points
+                        // land on, and a participant with none recorded was silently
+                        // being scored as a UI/UX Designer whatever they actually do.
+                        defaultValue={
+                          participant.expertise ?? participant.user.expertise ?? EXPERTISE_OPTIONS[0]
+                        }
                         aria-label={`Expertise for ${participant.user.name}`}
                         className="max-w-[240px]"
                       >

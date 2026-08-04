@@ -42,13 +42,20 @@ export function ProjectRow({ project }: { project: Project }) {
             </Link>
           )}
 
-          <div className="flex w-full min-w-0 flex-col justify-between gap-2">
+          <div className="flex w-full min-w-0 flex-col gap-2">
             <div className="line-clamp-2 break-words text-[18px] font-bold leading-[1.25] text-[#020201] xl:text-[24px]">
               {project.title ?? "Untitled draft"}
             </div>
 
+            {/* The pitch and the two facts an applicant sees, as the original's
+                lecturer rows had. Without them the column is empty and the meta line
+                strands itself at the bottom of a row the button stack has made tall. */}
+            {project.description && (
+              <p className="line-clamp-2 text-[12px] leading-[1.65]">{project.description}</p>
+            )}
+
             <div className="flex flex-col gap-1 xl:flex-row xl:gap-5">
-              <div className="flex flex-row items-center gap-[5px] text-[11px]">
+              <div className="flex flex-row items-center gap-[5px] whitespace-nowrap text-[11px]">
                 <Icon icon="ic:round-access-time" className="size-3" aria-hidden />
                 <span className="hidden sm:inline">Posted on</span>{" "}
                 {new Date(project.created_at).toLocaleDateString("en-US", {
@@ -57,10 +64,21 @@ export function ProjectRow({ project }: { project: Project }) {
                   year: "numeric",
                 })}
               </div>
-              <div className="flex flex-row items-center gap-[5px] text-[11px]">
+              <div className="flex flex-row items-center gap-[5px] whitespace-nowrap text-[11px]">
                 <b className="ml-[2px] w-2.5">{project.status.charAt(0)}</b>
                 <span>{project.status}</span>
                 {isHiring && !project.is_open_hiring && <span>· applications closed</span>}
+              </div>
+              <div className="flex flex-row items-center gap-[5px] whitespace-nowrap text-[11px]">
+                <Icon icon="ri:team-fill" className="size-3" aria-hidden />
+                {/* max_person is a string that can literally be "Not Specified", and
+                    the original's `Max. {{ max_person }} Person` rendered that as
+                    "Max. Not Specified Person". */}
+                <span>
+                  {project.max_person === "Not Specified"
+                    ? "Team size not specified"
+                    : `Max. ${project.max_person} Person`}
+                </span>
               </div>
             </div>
           </div>

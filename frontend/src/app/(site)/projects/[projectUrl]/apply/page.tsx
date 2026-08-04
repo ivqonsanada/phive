@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
 import { ApplyForms } from "@/app/(site)/projects/[projectUrl]/apply/apply-forms";
+import { TopImage } from "@/components/top-image";
 import { api, ApiError } from "@/lib/api";
 import { requireUser } from "@/lib/dal";
 import { getProject } from "@/lib/projects";
@@ -31,25 +31,23 @@ export default async function ApplyPage({ params }: Params) {
   const { led } = await api<PartyPayload>("/party");
 
   return (
-    <main className="mx-auto w-full max-w-2xl flex-1 px-4 py-10">
-      <Link
-        href={`/projects/${projectUrl}`}
-        className="mb-4 inline-block text-sm font-semibold text-navy hover:text-glow"
-      >
-        ← Back to the project
-      </Link>
+    <main className="mx-auto w-full max-w-[720px] flex-1 px-[30px] pb-[30px] pt-[5px] xl:pb-[60px] xl:pt-5">
+      <div className="mb-[25px]">
+        <TopImage type={1} />
 
-      <h1 className="mb-1 text-2xl font-bold text-navy">Apply to {project.title}</h1>
-      <p className="mb-8 text-sm text-ink/70">
-        This project accepts <span className="font-semibold">{project.applicant_type}</span>{" "}
-        applications.
-      </p>
+        <h1 className="mt-0 text-center text-[30px] font-extrabold">You Almost There!</h1>
+        <p className="text-center text-[18px] leading-[1.65]">
+          You need to fill up the form below about yourself / team who wants to applied to{" "}
+          <strong>{project.title}.</strong>
+        </p>
+      </div>
 
       <ApplyForms
         projectUrl={projectUrl}
         applicantType={project.applicant_type}
         lookingFor={project.looking_for}
         party={led}
+        tagname={user.tagname}
         defaultExpertise={user.expertise}
       />
     </main>

@@ -11,11 +11,26 @@ import Image from "next/image";
 export function Avatar({
   src,
   size,
+  shape = "circle",
+  sizeClassName,
   className = "",
   priority,
 }: {
   src?: string | null;
+  /** Intrinsic size, in CSS pixels, at the largest the avatar is ever drawn. */
   size: number;
+  /**
+   * Tailwind sizing for avatars that change size across breakpoints. When given it
+   * replaces the inline width/height, which would otherwise win over any class.
+   */
+  sizeClassName?: string;
+  /**
+   * The original used the same photo two ways: a circle everywhere a person is named,
+   * and a 5px-radius square in the project box rows. A prop rather than a className
+   * because two Tailwind radius utilities on one element resolve by stylesheet order,
+   * not by which was passed last.
+   */
+  shape?: "circle" | "square";
   className?: string;
   priority?: boolean;
 }) {
@@ -27,8 +42,10 @@ export function Avatar({
       height={size}
       priority={priority}
       unoptimized
-      style={{ width: size, height: size }}
-      className={`shrink-0 rounded-full bg-[url('/images/missing-avatar.svg')] bg-cover bg-center object-cover ${className}`}
+      style={sizeClassName ? undefined : { width: size, height: size }}
+      className={`shrink-0 ${sizeClassName ?? ""} ${
+        shape === "circle" ? "rounded-full" : "rounded-[5px]"
+      } bg-[url('/images/missing-avatar.svg')] bg-cover bg-center object-cover ${className}`}
     />
   );
 }

@@ -39,7 +39,7 @@ export function ShareRow({ title }: { title: string }) {
         onClick={() => share((url) => `https://www.facebook.com/sharer/sharer.php?u=${url}`)}
         className={button}
       >
-        <Icon icon="la:facebook-f" className="size-[18px]" aria-hidden />
+        <Icon icon="fa-brands:facebook-f" className="size-[18px]" aria-hidden />
         Facebook
       </button>
       <button
@@ -47,7 +47,7 @@ export function ShareRow({ title }: { title: string }) {
         onClick={() => share((url, text) => `https://t.me/share/url?url=${url}&text=${text}`)}
         className={button}
       >
-        <Icon icon="si-glyph:paper-plane" className="size-[18px]" aria-hidden />
+        <Icon icon="fa-brands:telegram-plane" className="size-[18px]" aria-hidden />
         Telegram
       </button>
       <button
@@ -57,7 +57,7 @@ export function ShareRow({ title }: { title: string }) {
         }
         className={button}
       >
-        <Icon icon="ant-design:twitter-outlined" className="size-[18px]" aria-hidden />
+        <Icon icon="fa-brands:twitter" className="size-[18px]" aria-hidden />
         Twitter
       </button>
       <button
@@ -65,7 +65,7 @@ export function ShareRow({ title }: { title: string }) {
         onClick={() => share((url) => `https://social-plugins.line.me/lineit/share?url=${url}`)}
         className={button}
       >
-        <Icon icon="dashicons:share" className="size-[18px]" aria-hidden />
+        <Icon icon="fa-brands:line" className="size-[18px]" aria-hidden />
         Line
       </button>
       <button
@@ -73,7 +73,7 @@ export function ShareRow({ title }: { title: string }) {
         onClick={() => share((url, text) => `https://wa.me/?text=${text}%20${url}`)}
         className={button}
       >
-        <Icon icon="mdi:whatsapp" className="size-[18px]" aria-hidden />
+        <Icon icon="fa-brands:whatsapp" className="size-[18px]" aria-hidden />
         Whatsapp
       </button>
     </div>

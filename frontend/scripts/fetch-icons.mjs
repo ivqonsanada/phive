@@ -8,26 +8,43 @@
 import { writeFileSync } from "node:fs";
 
 const WANTED = {
-  bx: ["bxs-brain", "bx-code", "bx-code-curly", "bxs-data", "bxl-linkedin", "bxs-file-pdf"],
-  entypo: ["paper-plane"],
+  bx: [
+    "bxs-brain", "bx-code", "bx-code-curly", "bxs-data", "bxl-linkedin", "bxs-file-pdf",
+    "bx-log-out-circle",
+  ],
+  entypo: ["paper-plane", "chevron-left", "chevron-small-down", "email", "log-out"],
   "ant-design": [
     "check-circle-outlined", "github-filled", "instagram-outlined",
-    "twitter-outlined", "behance-outlined", "field-time-outlined",
+    "twitter-outlined", "behance-outlined", "field-time-outlined", "star-filled",
   ],
   whh: ["painting", "website", "dribbblealt"],
   ic: [
     "round-check-circle", "round-search", "round-filter-list", "round-link",
     "round-access-time", "round-add-circle", "baseline-work",
+    "round-add-circle-outline", "round-remove-circle-outline", "round-block",
+    "round-view-headline", "baseline-post-add", "round-supervisor-account",
   ],
-  ion: ["arrow-forward-outline"],
-  carbon: ["view-filled", "view-off-filled"],
+  ion: ["arrow-forward-outline", "close", "mail-unread-sharp"],
+  carbon: [
+    "view-filled", "view-off-filled", "dot-mark", "send-filled", "3rd-party-connected",
+  ],
   "fa-solid": ["paint-brush", "dollar-sign"],
   ri: ["team-fill"],
-  bi: ["shield-fill-check"],
-  la: ["facebook-f", "certificate-solid"],
+  bi: ["shield-fill-check", "arrow-left-short", "arrow-right-short", "brush"],
+  la: ["facebook-f", "certificate-solid", "linkedin-in"],
   "si-glyph": ["paper-plane"],
   dashicons: ["share"],
-  mdi: ["whatsapp"],
+  mdi: ["whatsapp", "alpha-s-circle-outline", "comma", "dots-horizontal"],
+  eva: ["info-outline", "arrow-back-fill", "settings-fill", "globe-2-fill"],
+  el: ["flag"],
+  maki: ["cross-11"],
+  uil: ["enter"],
+  zmdi: ["more"],
+  "simple-icons": ["polymerproject"],
+  clarity: ["success-standard-solid", "times-circle-solid"],
+  gridicons: ["stats-up-alt"],
+  // The original's share row used Font Awesome's brand marks, not Line Awesome's.
+  "fa-brands": ["facebook-f", "line", "pinterest", "telegram-plane", "twitter", "whatsapp"],
 };
 
 const collections = {};

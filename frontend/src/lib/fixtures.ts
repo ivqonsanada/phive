@@ -22,6 +22,17 @@ import type {
 
 const DEMO_EPOCH = "2026-05-04T09:00:00.000000Z";
 
+/**
+ * Demo photos, so the fallback silhouette is not the whole page.
+ *
+ * The seeds are fixed, which is the point: pravatar and picsum both serve a stable
+ * image per seed, so a demo render is the same picture every time and hydration has
+ * nothing to disagree about. Both are placeholder services, so no real person's face
+ * ends up standing in for a fictional student.
+ */
+const avatar = (seed: string) => `https://i.pravatar.cc/300?u=${seed}`;
+const photo = (id: number) => `https://picsum.photos/id/${id}/680/500`;
+
 function summary(
   tagname: string,
   first: string,
@@ -36,7 +47,7 @@ function summary(
     last_name: last,
     name: `${first} ${last}`,
     role: "Student",
-    photo_url: null,
+    photo_url: avatar(tagname),
     expertise,
     finished_project_count: finished,
   };
@@ -56,8 +67,17 @@ const lecturer: UserSummary = {
   last_name: "Wijaya",
   name: "Dr. Adi Wijaya",
   role: "Lecturer",
-  photo_url: null,
+  photo_url: avatar("wijaya"),
   expertise: null,
+};
+
+// One picsum id per project slug, so a project keeps the same cover everywhere it is
+// listed rather than changing between the card and the detail page.
+const COVERS: Record<string, number> = {
+  "campus-wayfinding-app": 180,
+  "thesis-archive-search": 24,
+  "lab-equipment-booking": 3,
+  "attendance-insight-dashboard": 119,
 };
 
 function project(
@@ -74,7 +94,7 @@ function project(
     description,
     project_url: slug,
     status,
-    thumbnail: null,
+    thumbnail: photo(COVERS[slug] ?? 35),
     applicant_type: "Individual & Team",
     max_person: "4",
     level_applicant: "Intermediate",

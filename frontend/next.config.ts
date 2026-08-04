@@ -12,6 +12,10 @@ const nextConfig: NextConfig = {
         port: apiUrl.port,
         pathname: "/storage/**",
       },
+      // The two placeholder services the demo fixtures point at, so a deployment with
+      // no backend shows faces and covers rather than a page of silhouettes.
+      { protocol: "https", hostname: "i.pravatar.cc" },
+      { protocol: "https", hostname: "picsum.photos" },
     ],
   },
 };

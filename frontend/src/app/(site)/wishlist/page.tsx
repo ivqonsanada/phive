@@ -1,14 +1,18 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { ProjectCard } from "@/components/project-card";
 import { api } from "@/lib/api";
 import { requireUser } from "@/lib/dal";
+import { Icon } from "@/lib/icons";
 import type { Project } from "@/lib/types";
 
 export const metadata: Metadata = { title: "Wishlist" };
 
+/**
+ * The original showed this as a tab on your own profile rather than as its own page,
+ * with the same card grid explore uses.
+ */
 export default async function WishlistPage() {
   const user = await requireUser();
 
@@ -20,22 +24,20 @@ export default async function WishlistPage() {
   const { projects } = await api<{ projects: Project[] }>("/wishlist");
 
   return (
-    <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-10">
-      <h1 className="mb-1 text-2xl font-bold text-navy">Wishlist</h1>
-      <p className="mb-8 text-sm text-ink/70">
-        Projects you starred. Unstarring one here removes it from the list.
-      </p>
+    <main className="mx-auto w-full max-w-[1090px] flex-1 px-[30px] pb-[30px] pt-[5px]">
+      <div className="mb-7 flex flex-row items-center">
+        <Icon icon="ant-design:star-filled" className="mr-2.5 size-[30px]" aria-hidden />
+        <h1 className="text-[20px] font-extrabold uppercase xl:text-[36px]">Wishlist</h1>
+      </div>
 
       {projects.length === 0 ? (
-        <p className="rounded-xl border border-dashed border-navy/20 p-10 text-center text-ink/60">
-          Nothing starred yet. Tap the ☆ on any project in{" "}
-          <Link href="/explore" className="font-semibold text-navy hover:text-glow">
-            explore
-          </Link>{" "}
-          to keep it here.
+        <p className="text-[12px] leading-[1.65] xl:text-[14px]">
+          Show your interest towards some projects :)
         </p>
       ) : (
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        // The original's `.project--container`: the same responsive card grid explore
+        // uses, so a starred project looks identical to where you starred it.
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-5 sm:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] md:grid-cols-[repeat(auto-fill,minmax(320px,1fr))] xl:grid-cols-[repeat(auto-fill,minmax(350px,1fr))]">
           {projects.map((project) => (
             <ProjectCard key={project.uuid} project={project} />
           ))}

@@ -16,26 +16,35 @@ import { getHome } from "@/lib/projects";
 export default function HomePage() {
   return (
     <main className="tracked -mt-[92px] flex-1">
-      <section className="relative overflow-hidden bg-mist pt-[92px]">
-        {/* Ornaments. Decorative only, and hidden on small screens exactly as the
-            original did — there is no room for them beside the heading. */}
+      {/* The hero is exactly one viewport tall, with a 640px floor — `.slide-1__container`
+          set `height: 100vh` and the fixed header overlays it rather than pushing it
+          down. Sizing this by its content instead put every absolutely-placed ornament
+          at the wrong height, because they are all measured from its edges. */}
+      <section className="relative h-screen min-h-[640px] overflow-hidden bg-mist">
+        {/* Ornaments. Decorative, and each rendered at the SVG's own size: forcing a
+            square box on them letterboxed the artwork, which is what clipped the dot
+            off the end of the left-hand path. */}
         <Image
           src="/images/left-dashed-desktop.svg"
           alt=""
-          width={200}
-          height={200}
-          className="moveInRightDash duration--2 pointer-events-none absolute bottom-[-40px] left-0 hidden select-none xl:block"
+          width={178}
+          height={429}
+          // [transform:...] rather than -translate-y-1/4: Tailwind 4 compiles translate
+          // utilities to the standalone `translate` property, which composes *with* the
+          // keyframes' `transform` instead of being overridden by it. The path animated
+          // in at -50% and then dropped 107px to -25% the moment the animation ended.
+          className="moveInRightDash duration--2 pointer-events-none absolute bottom-[-40px] left-0 hidden select-none [transform:translateY(-25%)] xl:block"
         />
         <Image
           src="/images/right-dashed-desktop.svg"
           alt=""
-          width={200}
-          height={200}
+          width={148}
+          height={149}
           className="moveInBottomLeft duration--2 pointer-events-none absolute right-0 top-[24vh] hidden select-none xl:block"
         />
 
-        <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center justify-evenly gap-8 px-6 py-16 xl:min-h-[640px] xl:flex-row xl:justify-start xl:gap-0 xl:py-0 xl:pl-[95px]">
-          <div className="relative z-[3] flex w-full flex-col items-center xl:mr-[-100px] xl:items-start xl:pt-10">
+        <div className="mx-auto flex h-full w-full max-w-[1280px] flex-col items-center justify-evenly overflow-hidden px-6 xl:flex-row xl:justify-start xl:px-0 xl:pl-[95px]">
+          <div className="relative top-[70px] z-[3] flex w-full flex-col items-center pt-[2vh] xl:top-0 xl:mr-[-100px] xl:items-start xl:pt-10">
             <h1 className="moveInTop duration--1 display-heading mb-3 text-center text-[36px] sm:text-[48px] xl:mb-5 xl:text-left xl:text-[80px]">
               Expand <br />
               Your Career <br />
@@ -43,13 +52,36 @@ export default function HomePage() {
               Project.
             </h1>
 
-            <div className="pointer-events-none absolute select-none">
+            {/* `.slide-1__ornament`. The wrapper has to stay in flow and the image
+                has to be the absolute one: an absolutely-positioned *flex item* is
+                placed by the container's alignment rather than by its position among
+                its siblings, which floated the triangle up to the top of the column.
+                In flow, the triangle's offsets are measured from just below the
+                heading, which is where the original measured them from. */}
+            <div className="overflow-hidden">
               <Image
                 src="/images/triangle.svg"
                 alt=""
                 width={183}
                 height={166}
-                className="fadeIn duration--2 hidden translate-x-[312%] translate-y-[-194%] xl:block"
+                className="fadeIn duration--2 pointer-events-none absolute h-[69px] w-[76px] translate-x-[150%] translate-y-[-100%] select-none xl:h-[166px] xl:w-[183px] xl:translate-x-[312%] xl:translate-y-[-194%]"
+              />
+
+              {/* The phone-sized paths. The desktop pair live on the section, because
+                  there they are measured from the viewport's edges, not the heading's. */}
+              <Image
+                src="/images/left-dashed.svg"
+                alt=""
+                width={75}
+                height={180}
+                className="moveInRightDash duration--2 pointer-events-none absolute left-0 w-[20vmin] max-w-[75px] select-none [transform:translateY(-25%)] xl:hidden"
+              />
+              <Image
+                src="/images/right-dashed.svg"
+                alt=""
+                width={80}
+                height={80}
+                className="moveInBottomLeft duration--2 pointer-events-none absolute right-0 top-[-10%] max-w-[80px] select-none xl:hidden"
               />
             </div>
 
@@ -67,19 +99,28 @@ export default function HomePage() {
           </div>
 
           <div className="moveInTop duration--2 relative flex w-full flex-col items-center justify-center xl:z-[4] xl:h-full">
+            {/* 120x100 is the artwork's own size — a 5x4 grid of dots. Forcing it
+                square letterboxed it, so the spacing came out wrong. */}
             <Image
               src="/images/dot-blue.svg"
               alt=""
               width={120}
-              height={120}
+              height={100}
               className="pointer-events-none absolute z-[1] translate-x-[-9rem] translate-y-[10rem] select-none xl:translate-x-[-20.6rem] xl:translate-y-[8rem]"
+            />
+            <Image
+              src="/images/dot-blue.svg"
+              alt=""
+              width={120}
+              height={100}
+              className="pointer-events-none absolute z-[1] translate-x-[8rem] select-none xl:hidden"
             />
             <Image
               src="/images/smiling-woman-looking-desktop.png"
               alt=""
               width={624}
               height={520}
-              className="z-[3] h-auto w-full max-w-[420px] xl:w-[624px] xl:max-w-none"
+              className="z-[3] h-auto max-h-[45vh] w-auto object-contain xl:max-h-none xl:w-[624px]"
               priority
             />
           </div>

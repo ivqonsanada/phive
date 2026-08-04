@@ -49,7 +49,7 @@ export function LeaderboardBoards() {
 
   return (
     <>
-      <div className="mb-16 flex w-full flex-wrap items-stretch justify-center gap-5">
+      <div className="mb-16 flex w-full flex-wrap items-stretch justify-center gap-5 xl:my-[60px]">
         {BOARD_KEYS.map((key) => (
           <button
             key={key}
@@ -108,18 +108,20 @@ function LeaderboardRow({ board, entry }: { board: BoardKey; entry: LeaderboardE
       <div className="flex flex-row items-center gap-4 xl:gap-7">
         {entry.user ? (
           <Link href={`/u/${entry.user.tagname}`} className="shrink-0">
+            {/* sizeClassName, not className: Avatar's inline width/height would win
+                over a class and pin this to 90px at every width. */}
             <Avatar
               src={entry.user.photo_url}
               size={90}
-              className="size-[60px] xl:size-[90px]"
+              sizeClassName="size-[60px] xl:size-[90px]"
             />
           </Link>
         ) : (
           <div className="size-[60px] shrink-0 rounded-full bg-navy/10 xl:size-[90px]" />
         )}
 
-        <div className="flex flex-col justify-center gap-2 xl:gap-3.5">
-          <div>
+        <div className="flex flex-col justify-center gap-[7px] leading-[18.5px] xl:gap-3.5">
+          <div className="xl:space-y-2.5">
             <div className="text-[14px] font-extrabold text-navy xl:text-[24px] xl:font-bold">
               {entry.user?.name ?? "Unknown"}
             </div>
@@ -129,17 +131,19 @@ function LeaderboardRow({ board, entry }: { board: BoardKey; entry: LeaderboardE
           </div>
 
           <div className="flex flex-row items-center gap-1.5 xl:gap-2.5">
-            <CheckCircleIcon className="size-5 shrink-0 text-navy xl:size-[30px]" />
-            <span className="text-[13px] font-bold text-navy">
+            <CheckCircleIcon className="size-5 shrink-0 text-navy drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] xl:size-[30px]" />
+            <span className="text-[12px] font-bold text-navy xl:text-[18px]">
               {entry.user?.finished_project_count ?? 0} Project Finished
             </span>
           </div>
         </div>
       </div>
 
-      <div className="flex shrink-0 flex-col items-center justify-center rounded-[10px] border-2 border-navy bg-white px-4 py-2 text-navy">
-        <span className="text-[18px] font-extrabold leading-none xl:text-[24px]">{points}</span>
-        <span className="text-[11px] font-bold uppercase xl:text-[14px]">Points</span>
+      {/* The original drew no box at all on a phone — just a centred column — and on
+          desktop a hairline with one thick navy edge on the left. */}
+      <div className="flex shrink-0 flex-col items-center justify-center text-center text-navy xl:rounded-[10px] xl:border xl:border-l-[5px] xl:border-navy xl:px-[13px] xl:py-3.5">
+        <span className="text-[18px] font-extrabold uppercase sm:text-[23px]">{points}</span>
+        <span className="text-[13px] font-extrabold uppercase sm:text-[18px]">Points</span>
       </div>
     </div>
   );

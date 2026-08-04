@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { HeaderShell } from "@/components/header-shell";
 import { NavLink } from "@/components/nav-link";
 import { getCurrentUser } from "@/lib/dal";
 
@@ -13,7 +14,7 @@ export async function SiteHeader() {
   const user = await getCurrentUser();
 
   return (
-    <header className="sticky top-0 z-20 bg-white shadow-[0_2px_4px_0_rgba(0,0,0,0.1)]">
+    <HeaderShell>
       <nav className="mx-auto flex h-[92px] w-full max-w-[1280px] items-center px-6">
         <Link href="/" aria-label="PHive home" className="shrink-0">
           {/* logo.svg is white-filled and only works on the dark footer. */}
@@ -60,7 +61,7 @@ export async function SiteHeader() {
           )}
         </div>
       </nav>
-    </header>
+    </HeaderShell>
   );
 }
 

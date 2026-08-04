@@ -33,34 +33,45 @@ export function RegisterView({ social }: { social: React.ReactNode }) {
   const art = ARTWORK[role];
 
   return (
-    <main className="mx-auto flex min-h-[620px] w-full max-w-[1130px] flex-1 flex-col justify-center gap-10 px-6 py-10 xl:flex-row xl:items-center xl:gap-24">
-      <div className="hidden max-w-[595px] flex-col justify-center xl:flex">
+    <main className="mx-auto flex h-dvh w-full max-w-[1130px] flex-col justify-center gap-10 overflow-y-auto px-6 py-10 xl:flex-row xl:items-center xl:gap-24 xl:overflow-hidden">
+      <div className="hidden w-[595px] shrink-0 flex-col justify-center xl:flex">
         <Image
           src={art.top}
           alt=""
           width={595}
           height={129}
-          className="h-[129px] w-[595px] rounded-[15px] object-cover"
+          className="h-[129px] w-[595px] shrink-0 rounded-[15px] object-cover"
           priority
         />
 
         <div
-          className={`mt-6 flex justify-between ${role === "Lecturer" ? "flex-row-reverse" : "flex-row"}`}
+          className={`mt-6 flex h-[380px] justify-between ${role === "Lecturer" ? "flex-row-reverse" : "flex-row"}`}
         >
           <Image
             src={art.midLeft}
             alt=""
             width={192}
             height={380}
-            className="h-[380px] w-[192px] rounded-[15px] object-cover"
+            className="h-[380px] w-[192px] shrink-0 rounded-[15px] object-cover"
           />
           <Image
             src={art.midRight}
             alt=""
             width={380}
             height={380}
-            className="size-[380px] rounded-[15px] object-cover"
+            className="size-[380px] shrink-0 rounded-[15px] object-cover"
           />
+        </div>
+
+        {/* The other role's artwork, fetched but not shown. Without this the swap
+            leaves an empty box for as long as the new images take to load — the boxes
+            are pinned so nothing moves, but the flash is just as obvious. */}
+        <div aria-hidden className="hidden">
+          {Object.values(ARTWORK)
+            .flatMap((set) => [set.top, set.midLeft, set.midRight])
+            .map((src) => (
+              <Image key={src} src={src} alt="" width={1} height={1} />
+            ))}
         </div>
 
         <h2 className="mt-4 whitespace-nowrap text-[48px] font-extrabold uppercase leading-none text-black">

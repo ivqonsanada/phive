@@ -40,8 +40,8 @@ export function LoginView({
   const art = ARTWORK[role];
 
   return (
-    <main className="mx-auto flex min-h-[620px] w-full max-w-[1130px] flex-1 flex-col justify-center gap-10 px-6 py-10 xl:flex-row xl:items-center xl:gap-24">
-      <div className="hidden max-w-[593px] flex-col justify-center xl:flex">
+    <main className="mx-auto flex h-dvh w-full max-w-[1130px] flex-col justify-center gap-10 overflow-y-auto px-6 py-10 xl:flex-row xl:items-center xl:gap-24 xl:overflow-hidden">
+      <div className="hidden w-[593px] shrink-0 flex-col justify-center xl:flex">
         <Image
           src={art.top}
           alt=""
@@ -52,9 +52,9 @@ export function LoginView({
         />
 
         <div
-          className={`mt-6 flex justify-between ${role === "Lecturer" ? "flex-row-reverse" : "flex-row"}`}
+          className={`mt-6 flex h-[379px] justify-between ${role === "Lecturer" ? "flex-row-reverse" : "flex-row"}`}
         >
-          <div className="flex h-full flex-col justify-between">
+          <div className="flex h-[379px] w-[193px] shrink-0 flex-col justify-between">
             <Image
               src={art.midLeft}
               alt=""
@@ -78,8 +78,19 @@ export function LoginView({
             alt=""
             width={379}
             height={379}
-            className="size-[379px] rounded-[15px] object-cover"
+            className="size-[379px] shrink-0 rounded-[15px] object-cover"
           />
+        </div>
+
+        {/* The other role's artwork, fetched but not shown. Without this the swap
+            leaves an empty box for as long as the new images take to load — the boxes
+            are pinned so nothing moves, but the flash is just as obvious. */}
+        <div aria-hidden className="hidden">
+          {Object.values(ARTWORK)
+            .flatMap((set) => [set.top, set.midLeft, set.midRight])
+            .map((src) => (
+              <Image key={src} src={src} alt="" width={1} height={1} />
+            ))}
         </div>
 
         <h2 className="mt-4 whitespace-nowrap text-[48px] font-extrabold uppercase leading-none text-black">

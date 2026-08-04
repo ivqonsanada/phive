@@ -40,7 +40,7 @@ export function LoginView({
   const art = ARTWORK[role];
 
   return (
-    <main className="mx-auto flex h-dvh w-full max-w-[1130px] flex-col justify-center gap-10 overflow-y-auto px-6 py-10 xl:flex-row xl:items-center xl:gap-24 xl:overflow-hidden">
+    <main className="mx-auto flex w-full max-w-[1130px] flex-col gap-10 px-6 xl:h-dvh xl:flex-row xl:items-center xl:gap-24 xl:overflow-hidden">
       <div className="hidden w-[593px] shrink-0 flex-col justify-center xl:flex">
         <Image
           src={art.top}
@@ -98,7 +98,8 @@ export function LoginView({
         </h2>
       </div>
 
-      <div className="flex w-full flex-col justify-center xl:w-[420px]">
+      <div className="w-full py-10 xl:h-dvh xl:w-[420px] xl:overflow-y-auto xl:overscroll-contain">
+        <div className="flex min-h-full flex-col justify-center">
         <Link href="/" className="mx-auto mb-6">
           <Image src="/images/logo-blue.svg" alt="PHive" width={95} height={42} priority />
         </Link>
@@ -149,6 +150,7 @@ export function LoginView({
 
         <div className="mt-7 hidden text-center text-[14px] xl:block">
           PHive, All Rights Reserved. © {new Date().getFullYear()} . | Created by FILKOM
+        </div>
         </div>
       </div>
     </main>

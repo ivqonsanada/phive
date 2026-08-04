@@ -1,9 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import { WishlistButton } from "@/components/wishlist-button";
 import { formatMoney, timeAgo } from "@/lib/format";
 import type { Project } from "@/lib/types";
+import { Thumbnail } from "@/components/avatar";
 
 /**
  * Mirrors the original card: cover image with the reward overlaid, then the facts a
@@ -22,13 +22,11 @@ export function ProjectCard({ project }: { project: Project }) {
             as the src fallback, which is how the original did it: `??` only covers a
             null thumbnail, while the background also shows through when the stored URL
             is present but fails to load. */}
-        <Image
-          src={project.thumbnail ?? "/images/img-placeholder.png"}
-          alt=""
+        <Thumbnail
+          src={project.thumbnail}
           width={480}
           height={220}
-          className="h-[150px] w-full rounded-[5px] object-cover bg-[url('/images/img-placeholder.png')] bg-cover bg-center"
-          unoptimized
+          className="h-[150px] w-full rounded-[5px]"
         />
         <span className="absolute -bottom-5 left-1/2 flex h-10 -translate-x-1/2 items-center justify-center whitespace-nowrap rounded-[10px] bg-navy px-5 text-[18px] font-bold text-white">
           {project.reward.salary ? reward : "Unpaid"}

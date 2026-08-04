@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
@@ -13,6 +12,7 @@ import { getCurrentUser } from "@/lib/dal";
 import { formatMoney, timeAgo } from "@/lib/format";
 import { getProject, getSimilarProjects } from "@/lib/projects";
 import type { Project } from "@/lib/types";
+import { Avatar } from "@/components/avatar";
 
 type Params = {
   params: Promise<{ projectUrl: string }>;
@@ -126,14 +126,7 @@ export default async function ProjectPage({ params, searchParams }: Params) {
           {project.user && (
             <section className="mb-6">
               <div className="flex flex-row items-start gap-4">
-                <Image
-                  src={project.user.photo_url ?? "/images/missing-avatar.svg"}
-                  alt=""
-                  width={90}
-                  height={90}
-                  className="size-[90px] shrink-0 rounded-full object-cover bg-[url('/images/missing-avatar.svg')] bg-cover bg-center"
-                  unoptimized
-                />
+                <Avatar src={project.user.photo_url} size={90} />
                 <div>
                   <p className="text-[18px] font-bold text-ink">Posted By</p>
                   <Link

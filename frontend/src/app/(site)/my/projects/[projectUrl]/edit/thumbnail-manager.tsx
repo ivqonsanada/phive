@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { useActionState } from "react";
+import { Thumbnail } from "@/components/avatar";
 
 import { removeThumbnail, uploadThumbnail } from "@/app/actions/manage-projects";
 import { FormMessage } from "@/components/form";
@@ -23,20 +23,7 @@ export function ThumbnailManager({
       <p className="mb-3 text-sm font-semibold text-navy">Thumbnail</p>
 
       <div className="flex flex-wrap items-center gap-4">
-        {current ? (
-          <Image
-            src={current}
-            alt=""
-            width={128}
-            height={80}
-            className="h-20 w-32 rounded-lg object-cover"
-            unoptimized
-          />
-        ) : (
-          <div className="grid h-20 w-32 place-items-center rounded-lg bg-navy/10 text-sm text-navy/50">
-            None
-          </div>
-        )}
+        <Thumbnail src={current} width={128} height={80} className="h-20 w-32 rounded-lg" />
 
         <form action={action} className="flex flex-wrap items-center gap-2">
           <input

@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { markInboxRead, respondToInvitation } from "@/app/actions/inbox";
+import { Avatar } from "@/components/avatar";
 import type { InboxItem } from "@/lib/types";
 
 export function InboxRow({ item }: { item: InboxItem }) {
@@ -14,6 +15,16 @@ export function InboxRow({ item }: { item: InboxItem }) {
         item.is_read ? "border-navy/10" : "border-glow/40 bg-glow/5"
       }`}
     >
+      <div className="mb-3 flex flex-row items-center gap-3">
+        <Avatar src={item.sender?.photo_url} size={48} />
+        <div className="min-w-0">
+          <p className="truncate font-bold text-navy">{item.sender?.name ?? "PHive"}</p>
+          {item.sender?.expertise && (
+            <p className="truncate text-[14px] text-ink/60">{item.sender.expertise}</p>
+          )}
+        </div>
+      </div>
+
       <div className="mb-2 flex flex-wrap items-baseline gap-2">
         <span className="text-xs font-semibold uppercase tracking-wide text-ink/50">
           {item.category}

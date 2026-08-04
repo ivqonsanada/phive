@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
@@ -11,6 +10,7 @@ import { formatDateRange } from "@/lib/format";
 import { Icon } from "@/lib/icons";
 import { getProfile } from "@/lib/projects";
 import type { ProfilePayload, User } from "@/lib/types";
+import { Avatar } from "@/components/avatar";
 
 type Params = {
   params: Promise<{ tagname: string }>;
@@ -42,13 +42,10 @@ export default async function ProfilePage({ params, searchParams }: Params) {
   return (
     <main className="mx-auto w-full max-w-[1100px] flex-1 px-6 py-10">
       <header className="flex flex-col items-center justify-center">
-        <Image
-          src={user.photo_url ?? "/images/missing-avatar.svg"}
-          alt=""
-          width={175}
-          height={175}
-          className="mb-3 size-[150px] rounded-full object-cover xl:size-[175px] bg-[url('/images/missing-avatar.svg')] bg-cover bg-center"
-          unoptimized
+        <Avatar
+          src={user.photo_url}
+          size={175}
+          className="mb-3 size-[150px] xl:size-[175px]"
           priority
         />
 

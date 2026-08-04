@@ -5,6 +5,7 @@ import { api } from "@/lib/api";
 import { requireUser } from "@/lib/dal";
 import { timeAgo } from "@/lib/format";
 import type { UserSummary } from "@/lib/types";
+import { Avatar } from "@/components/avatar";
 
 export const metadata: Metadata = { title: "Messages" };
 
@@ -38,6 +39,7 @@ export default async function MessagesPage() {
                 href={`/messages/${conversation.with.tagname}`}
                 className="flex items-center gap-3 rounded-xl border border-navy/10 p-4 transition hover:border-navy/30"
               >
+                <Avatar src={conversation.with.photo_url} size={48} />
                 <div className="min-w-0 flex-1">
                   <p className="font-semibold text-navy">{conversation.with.name}</p>
                   <p className="truncate text-sm text-ink/60">

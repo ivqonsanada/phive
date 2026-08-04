@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { useActionState } from "react";
 
 import { removeMedia, uploadMedia } from "@/app/actions/settings";
+import { Avatar } from "@/components/avatar";
 import { FormMessage } from "@/components/form";
 import type { User } from "@/lib/types";
 
@@ -15,22 +15,7 @@ export function MediaManager({ user }: { user: User }) {
         label="Profile photo"
         accept="image/jpeg,image/png,image/webp"
         current={user.photo_url}
-        preview={
-          user.photo_url ? (
-            <Image
-              src={user.photo_url}
-              alt=""
-              width={64}
-              height={64}
-              className="size-16 rounded-full object-cover"
-              unoptimized
-            />
-          ) : (
-            <div className="grid size-16 place-items-center rounded-full bg-navy/10 text-sm text-navy/50">
-              None
-            </div>
-          )
-        }
+        preview={<Avatar src={user.photo_url} size={64} />}
       />
 
       <MediaSlot

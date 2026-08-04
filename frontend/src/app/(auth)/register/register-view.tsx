@@ -84,7 +84,7 @@ export function RegisterView({ social }: { social: React.ReactNode }) {
       {/* The column is 420px of content plus a 48px gutter, so the drawn
           scrollbar never sits against the form. */}
       <ScrollArea className="w-full xl:h-dvh xl:w-[468px]">
-        <div className="flex min-h-full flex-col justify-center py-10 xl:pr-12">
+        <div className="flex min-h-dvh flex-col justify-center py-10 xl:pr-12">
         <Link href="/" className="mx-auto mb-6">
           <Image src="/images/logo-blue.svg" alt="PHive" width={95} height={42} priority />
         </Link>

@@ -1,9 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import { BoardIcon, CheckCircleIcon } from "@/components/board-icons";
 import { BOARD_CODENAMES, BOARD_LABELS } from "@/lib/board-labels";
 import type { BoardKey, LeaderboardEntry } from "@/lib/types";
+import { Avatar } from "@/components/avatar";
 
 /**
  * The original's `topboard-item`, measurement for measurement: a #f2f4f6 card holding a
@@ -33,13 +33,10 @@ export function LeaderboardCard({
                 #1
               </div>
 
-              <Image
-                src={entry.user.photo_url ?? "/images/missing-avatar.svg"}
-                alt=""
-                width={108}
-                height={108}
-                className="size-[108px] rounded-full border-8 border-navy object-cover bg-[url('/images/missing-avatar.svg')] bg-cover bg-center"
-                unoptimized
+              <Avatar
+                src={entry.user.photo_url}
+                size={108}
+                className="border-8 border-navy"
               />
 
               <div className="relative bottom-5 flex h-6 w-[125px] items-center justify-center rounded-[5px] bg-navy text-[12px] font-extrabold text-white shadow-[2px_4px_8px_rgba(0,33,77,0.3)]">

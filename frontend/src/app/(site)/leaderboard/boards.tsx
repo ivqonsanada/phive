@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -9,6 +8,7 @@ import { LeaderboardCard } from "@/components/leaderboard-card";
 import { BOARD_CODENAMES, BOARD_KEYS, BOARD_LABELS } from "@/lib/board-labels";
 import { useLeaderboards } from "@/lib/queries";
 import type { BoardKey, LeaderboardEntry } from "@/lib/types";
+import { Avatar } from "@/components/avatar";
 
 const PAGE_SIZE = 10;
 
@@ -56,8 +56,13 @@ export function LeaderboardBoards() {
             type="button"
             onClick={() => select(key)}
             aria-pressed={key === board}
-            className={`flex transition-opacity duration-300 ${
-              key === board ? "opacity-100" : "opacity-25 hover:opacity-60"
+            /* The original's selector: the chosen board scales to 1.2326 with
+               margins compensating for the growth, the rest sit at 25% and lift to
+               50% on hover. */
+            className={`flex transition-all duration-300 ${
+              key === board
+                ? "opacity-100 xl:ml-10 xl:mr-5 xl:min-w-[225px] xl:scale-[1.23255814]"
+                : "cursor-pointer opacity-25 hover:opacity-50"
             }`}
           >
             <LeaderboardCard board={key} entry={data.boards[key]?.[0] ?? null} />
@@ -103,13 +108,10 @@ function LeaderboardRow({ board, entry }: { board: BoardKey; entry: LeaderboardE
       <div className="flex flex-row items-center gap-4 xl:gap-7">
         {entry.user ? (
           <Link href={`/u/${entry.user.tagname}`} className="shrink-0">
-            <Image
-              src={entry.user.photo_url ?? "/images/missing-avatar.svg"}
-              alt=""
-              width={90}
-              height={90}
-              className="size-[60px] rounded-full object-cover xl:size-[90px] bg-[url('/images/missing-avatar.svg')] bg-cover bg-center"
-              unoptimized
+            <Avatar
+              src={entry.user.photo_url}
+              size={90}
+              className="size-[60px] xl:size-[90px]"
             />
           </Link>
         ) : (

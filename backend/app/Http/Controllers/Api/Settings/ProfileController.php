@@ -33,7 +33,7 @@ class ProfileController extends Controller
 
         return response()->json([
             'message' => 'Profile updated.',
-            'user' => new UserResource($user->fresh()->load(['skills', 'experiences', 'leaderboard'])),
+            'user' => new UserResource($user->fresh()->load(['skills', 'experiences', 'leaderboards'])),
         ]);
     }
 }

@@ -53,6 +53,27 @@ export default async function ProfilePage({ params }: Params) {
           </div>
         </div>
 
+        {user.role === "Student" && user.points !== undefined && (
+          <div className="mb-3 flex flex-wrap items-center gap-2">
+            <span className="rounded-full bg-navy px-3 py-1 text-xs font-semibold text-white">
+              {user.level}
+            </span>
+            <span className="rounded-full bg-glow/15 px-3 py-1 text-xs font-semibold text-navy">
+              {user.points.toLocaleString()} Points Collected
+            </span>
+            {user.leaderboards
+              ?.filter((board) => board.points > 0)
+              .map((board) => (
+                <span
+                  key={board.uuid}
+                  className="rounded-full border border-navy/15 px-3 py-1 text-xs text-ink/70"
+                >
+                  {board.expertise} · {board.points.toLocaleString()}
+                </span>
+              ))}
+          </div>
+        )}
+
         {(user.university || user.location) && (
           <p className="mt-1 text-sm text-ink/60">
             {[user.major, user.faculty, user.university, user.location].filter(Boolean).join(" · ")}

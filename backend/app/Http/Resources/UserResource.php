@@ -57,11 +57,20 @@ class UserResource extends JsonResource
                 ]),
             ),
             // Shaped rather than passed through: a raw model carries the internal id.
-            'leaderboard' => $this->whenLoaded('leaderboard', fn () => $this->leaderboard ? [
-                'uuid' => $this->leaderboard->uuid,
-                'expertise' => $this->leaderboard->expertise,
-                'points' => $this->leaderboard->points,
-            ] : null),
+            'leaderboards' => $this->whenLoaded(
+                'leaderboards',
+                fn () => $this->leaderboards->map(fn ($board) => [
+                    'uuid' => $board->uuid,
+                    'expertise' => $board->expertise,
+                    'points' => $board->points,
+                ]),
+            ),
+            // The best board's score, and the standing it earns. Derived here so the
+            // profile does not have to re-implement the thresholds — the original
+            // computed them in the Vue component and got it wrong for anyone holding
+            // more than one board.
+            'points' => $this->whenLoaded('leaderboards', fn () => $this->points()),
+            'level' => $this->whenLoaded('leaderboards', fn () => $this->level()),
             'unread_inbox_count' => $this->whenCounted('unread_inbox'),
             'created_at' => $this->created_at,
         ];

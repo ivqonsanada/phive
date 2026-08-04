@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Expertise;
+use App\Enums\Level;
 use App\Enums\ProjectBoxStatus;
 use App\Enums\UserRole;
 use App\Models\Concerns\HasUuid;
@@ -100,10 +101,33 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmailContr
         return $this->hasMany(Experience::class)->orderByDesc('start_date');
     }
 
-    /** @return HasOne<Leaderboard, $this> */
-    public function leaderboard(): HasOne
+    /**
+     * Every board this user has scored on, best first.
+     *
+     * Points are awarded per expertise — a student reviewed as a designer on one
+     * project and as a front-end engineer on another holds two rows, which is what the
+     * unique (user_id, expertise) index allows for. This was a `hasOne`, so it returned
+     * whichever row the database happened to hand back first and the profile could
+     * report a stale board's score.
+     *
+     * @return HasMany<Leaderboard, $this>
+     */
+    public function leaderboards(): HasMany
     {
-        return $this->hasOne(Leaderboard::class);
+        return $this->hasMany(Leaderboard::class)->orderByDesc('points')->orderBy('id');
+    }
+
+    /**
+     * The best score across every board, which is what "points collected" means.
+     */
+    public function points(): int
+    {
+        return (int) $this->leaderboards->max('points');
+    }
+
+    public function level(): Level
+    {
+        return Level::forPoints($this->points());
     }
 
     /** Projects this user published (lecturers). @return HasMany<Project, $this> */

@@ -14,7 +14,7 @@ class UserController extends Controller
     public function current(Request $request): UserResource
     {
         $user = $request->user()
-            ->loadMissing(['skills', 'experiences', 'leaderboard'])
+            ->loadMissing(['skills', 'experiences', 'leaderboards'])
             // whenCounted('unread_inbox') in UserResource reads the "_count" suffix.
             ->loadCount(['inboxes as unread_inbox_count' => fn ($query) => $query->where('is_read', false)]);
 

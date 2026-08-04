@@ -34,8 +34,21 @@ export interface User {
   };
   skills?: string[];
   experiences?: Experience[];
+  /** One row per expertise the user has been scored on, best first. */
+  leaderboards?: LeaderboardStanding[];
+  /** The best board's score. Present whenever `leaderboards` is. */
+  points?: number;
+  level?: Level;
   unread_inbox_count?: number;
   created_at: string;
+}
+
+export type Level = "Rookie" | "Amateur" | "Superior" | "Expert";
+
+export interface LeaderboardStanding {
+  uuid: string;
+  expertise: Expertise;
+  points: number;
 }
 
 export interface Experience {

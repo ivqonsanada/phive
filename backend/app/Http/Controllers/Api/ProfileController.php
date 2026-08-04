@@ -20,7 +20,7 @@ class ProfileController extends Controller
      */
     public function show(Request $request, User $user): JsonResponse
     {
-        $user->load(['skills', 'experiences', 'leaderboard']);
+        $user->load(['skills', 'experiences', 'leaderboards']);
 
         return response()->json([
             'user' => new UserResource($user),

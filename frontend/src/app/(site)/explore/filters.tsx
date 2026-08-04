@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 import { BOARD_LABELS } from "@/lib/board-labels";
+import { Icon } from "@/lib/icons";
 
 const EXPERTISE_OPTIONS = Object.values(BOARD_LABELS);
 
@@ -43,7 +44,7 @@ export function ExploreFiltersBar({
 
       <form action="/explore" className="mx-auto mb-14 flex max-w-[790px] items-center gap-3">
         <div className="flex min-w-0 flex-1 items-center gap-3 rounded-[10px] bg-mist px-4 py-3">
-          <SearchIcon />
+          <Icon icon="ic:round-search" className="size-5 shrink-0 text-ink/50" aria-hidden />
           <input
             type="search"
             name="query"
@@ -70,7 +71,7 @@ export function ExploreFiltersBar({
           aria-expanded={showFilters}
           className="flex shrink-0 items-center gap-2 rounded-[10px] bg-navy px-4 py-2.5 text-[16px] font-bold text-white transition hover:bg-navy/90"
         >
-          <FilterIcon />
+          <Icon icon="ic:round-filter-list" className="size-[18px]" aria-hidden />
           Filters
         </button>
       </div>
@@ -118,24 +119,4 @@ function FilterChip({
   );
 }
 
-function SearchIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden className="size-5 shrink-0 text-ink/50">
-      <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
-      <path d="m20 20-3.5-3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    </svg>
-  );
-}
 
-function FilterIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden className="size-[18px]">
-      <path
-        d="M3 6h18M6 12h12M10 18h4"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}

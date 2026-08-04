@@ -8,6 +8,7 @@ import { ProfileActions } from "@/app/(site)/u/[tagname]/profile-actions";
 import { ProjectCard } from "@/components/project-card";
 import { ApiError } from "@/lib/api";
 import { formatDateRange } from "@/lib/format";
+import { Icon } from "@/lib/icons";
 import { getProfile } from "@/lib/projects";
 import type { ProfilePayload, User } from "@/lib/types";
 
@@ -46,7 +47,7 @@ export default async function ProfilePage({ params, searchParams }: Params) {
           alt=""
           width={175}
           height={175}
-          className="mb-3 size-[150px] rounded-full bg-mist object-cover xl:size-[175px]"
+          className="mb-3 size-[150px] rounded-full object-cover xl:size-[175px] bg-[url('/images/missing-avatar.svg')] bg-cover bg-center"
           unoptimized
           priority
         />
@@ -106,6 +107,15 @@ export default async function ProfilePage({ params, searchParams }: Params) {
     </main>
   );
 }
+
+/** The original gave each network its own glyph rather than a bare word. */
+const SOCIAL_ICONS: Record<string, string> = {
+  behance: "ant-design:behance-outlined",
+  github: "ant-design:github-filled",
+  linkedin: "bx:bxl-linkedin",
+  dribbble: "whh:dribbblealt",
+  website: "whh:website",
+};
 
 function Info({ user }: { user: User }) {
   const socials = Object.entries(user.links).filter(([, href]) => Boolean(href));
@@ -167,8 +177,9 @@ function Info({ user }: { user: User }) {
                   href={href as string}
                   target="_blank"
                   rel="noopener noreferrer nofollow"
-                  className="rounded-[10px] bg-mist px-4 py-2 text-[14px] font-bold capitalize text-navy transition hover:bg-navy hover:text-white"
+                  className="flex items-center gap-2 rounded-[10px] bg-mist px-4 py-2 text-[14px] font-bold capitalize text-navy transition hover:bg-navy hover:text-white"
                 >
+                  <Icon icon={SOCIAL_ICONS[name] ?? "ic:round-link"} className="size-[18px]" aria-hidden />
                   {name}
                 </Link>
               ))}
@@ -184,8 +195,9 @@ function Info({ user }: { user: User }) {
               href={user.cv_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-bold text-navy hover:text-glow"
+              className="flex items-center gap-2 font-bold text-navy hover:text-glow"
             >
+              <Icon icon="bx:bxs-file-pdf" className="size-6" aria-hidden />
               {user.first_name} CV.pdf
             </Link>
           ) : (

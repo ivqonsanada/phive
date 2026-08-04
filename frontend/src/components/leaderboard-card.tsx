@@ -38,7 +38,7 @@ export function LeaderboardCard({
                 alt=""
                 width={108}
                 height={108}
-                className="size-[108px] rounded-full border-8 border-navy bg-white object-cover"
+                className="size-[108px] rounded-full border-8 border-navy object-cover bg-[url('/images/missing-avatar.svg')] bg-cover bg-center"
                 unoptimized
               />
 

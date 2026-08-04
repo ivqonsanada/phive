@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 
+import { Icon } from "@/lib/icons";
+
 /**
  * The original's share row: copy the link, or hand it to one of five networks. Each is
  * a plain share URL, so nothing here loads a third-party script or lets those networks
@@ -29,6 +31,7 @@ export function ShareRow({ title }: { title: string }) {
   return (
     <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
       <button type="button" onClick={copy} className={button}>
+        <Icon icon="ic:round-link" className="size-[18px]" aria-hidden />
         {copied ? "Copied" : "Copy"}
       </button>
       <button
@@ -36,6 +39,7 @@ export function ShareRow({ title }: { title: string }) {
         onClick={() => share((url) => `https://www.facebook.com/sharer/sharer.php?u=${url}`)}
         className={button}
       >
+        <Icon icon="la:facebook-f" className="size-[18px]" aria-hidden />
         Facebook
       </button>
       <button
@@ -43,6 +47,7 @@ export function ShareRow({ title }: { title: string }) {
         onClick={() => share((url, text) => `https://t.me/share/url?url=${url}&text=${text}`)}
         className={button}
       >
+        <Icon icon="si-glyph:paper-plane" className="size-[18px]" aria-hidden />
         Telegram
       </button>
       <button
@@ -52,6 +57,7 @@ export function ShareRow({ title }: { title: string }) {
         }
         className={button}
       >
+        <Icon icon="ant-design:twitter-outlined" className="size-[18px]" aria-hidden />
         Twitter
       </button>
       <button
@@ -59,6 +65,7 @@ export function ShareRow({ title }: { title: string }) {
         onClick={() => share((url) => `https://social-plugins.line.me/lineit/share?url=${url}`)}
         className={button}
       >
+        <Icon icon="dashicons:share" className="size-[18px]" aria-hidden />
         Line
       </button>
       <button
@@ -66,6 +73,7 @@ export function ShareRow({ title }: { title: string }) {
         onClick={() => share((url, text) => `https://wa.me/?text=${text}%20${url}`)}
         className={button}
       >
+        <Icon icon="mdi:whatsapp" className="size-[18px]" aria-hidden />
         Whatsapp
       </button>
     </div>

@@ -58,8 +58,11 @@ export default async function ProjectPage({ params, searchParams }: Params) {
         <div className="flex flex-col justify-end xl:w-[580px]">
           {/* The negative right margin and z-index are both the original's: long
               titles are meant to run across the thumbnail, drawn over it rather than
-              under it. Without the z-index the image clips the text. */}
-          <h1 className="relative z-[1] text-center text-[28px] font-extrabold uppercase text-ink [text-wrap:balance] sm:text-[36px] xl:mr-[-140px] xl:text-left xl:text-[96px] xl:leading-[0.83]">
+              under it. The white halo is what keeps them readable there.
+              pointer-events-none so the text lying over the image does not swallow
+              clicks meant for it — at the cost of the title no longer being
+              selectable, which is the trade the overlap forces. */}
+          <h1 className="text-outline pointer-events-none relative z-[1] text-center text-[28px] font-extrabold uppercase text-ink [text-wrap:balance] sm:text-[36px] xl:mr-[-140px] xl:text-left xl:text-[96px] xl:leading-[0.83]">
             {project.title}
           </h1>
 
@@ -69,7 +72,11 @@ export default async function ProjectPage({ params, searchParams }: Params) {
             </Suspense>
 
             {project.is_wished !== undefined && project.project_url && (
-              <WishlistButton projectUrl={project.project_url} initial={project.is_wished} />
+              <WishlistButton
+                projectUrl={project.project_url}
+                initial={project.is_wished}
+                variant="button"
+              />
             )}
           </div>
         </div>
@@ -124,7 +131,7 @@ export default async function ProjectPage({ params, searchParams }: Params) {
                   alt=""
                   width={90}
                   height={90}
-                  className="size-[90px] shrink-0 rounded-full bg-mist object-cover"
+                  className="size-[90px] shrink-0 rounded-full object-cover bg-[url('/images/missing-avatar.svg')] bg-cover bg-center"
                   unoptimized
                 />
                 <div>

@@ -108,7 +108,7 @@ function LeaderboardRow({ board, entry }: { board: BoardKey; entry: LeaderboardE
               alt=""
               width={90}
               height={90}
-              className="size-[60px] rounded-full bg-white object-cover xl:size-[90px]"
+              className="size-[60px] rounded-full object-cover xl:size-[90px] bg-[url('/images/missing-avatar.svg')] bg-cover bg-center"
               unoptimized
             />
           </Link>

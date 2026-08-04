@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { Icon } from "@/lib/icons";
+
 /**
  * The original's footer: #001534 behind #b7c9e4 text, the mark and blurb on the left,
  * two link columns and a row of circular social buttons on the right, and the rights
@@ -51,12 +53,8 @@ export function SiteFooter() {
             <div>
               <p className="mb-3 text-white">Connect with us</p>
               <div className="flex flex-row gap-2.5">
-                <SocialButton href="https://github.com/ivqonsanada" label="GitHub">
-                  <path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.7.4-1.1.6-1.4-2.2-.2-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.2-.4-1.2.1-2.5 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.3.2 2.3.1 2.5.6.7 1 1.6 1 2.7 0 3.9-2.4 4.8-4.6 5 .4.3.7.9.7 1.8v2.7c0 .3.2.6.7.5A10 10 0 0 0 12 2z" />
-                </SocialButton>
-                <SocialButton href="https://www.linkedin.com/in/ivqonsanada" label="LinkedIn">
-                  <path d="M6.9 8.4H3.6V21h3.3V8.4zM5.3 3a1.9 1.9 0 1 0 0 3.9 1.9 1.9 0 0 0 0-3.9zM21 13.9c0-3.2-1.7-4.7-4-4.7-1.8 0-2.7 1-3.1 1.7V8.4H10.6c0 .9 0 12.6 0 12.6h3.3v-7c0-.4 0-.7.1-.9.3-.7.9-1.4 1.9-1.4 1.4 0 1.9 1 1.9 2.5V21H21v-7.1z" />
-                </SocialButton>
+                <SocialButton href="https://github.com/ivqonsanada" label="GitHub" icon="ant-design:github-filled" />
+                <SocialButton href="https://www.linkedin.com/in/ivqonsanada" label="LinkedIn" icon="bx:bxl-linkedin" />
               </div>
             </div>
           </div>
@@ -95,15 +93,7 @@ function FooterLink({ href, children }: { href: string; children: React.ReactNod
   );
 }
 
-function SocialButton({
-  href,
-  label,
-  children,
-}: {
-  href: string;
-  label: string;
-  children: React.ReactNode;
-}) {
+function SocialButton({ href, label, icon }: { href: string; label: string; icon: string }) {
   return (
     <Link
       href={href}
@@ -112,9 +102,7 @@ function SocialButton({
       aria-label={label}
       className="grid size-8 place-items-center rounded-full bg-white text-deep transition hover:bg-glow hover:text-white"
     >
-      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden className="size-[18px]">
-        {children}
-      </svg>
+      <Icon icon={icon} className="size-[18px]" aria-hidden />
     </Link>
   );
 }

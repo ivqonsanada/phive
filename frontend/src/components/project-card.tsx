@@ -18,16 +18,19 @@ export function ProjectCard({ project }: { project: Project }) {
       <div className="relative">
         {/* img-placeholder.png is the original's stand-in — the striped fill that used
             to show here was post-placeholder-img.png, which is the *post form's*
-            upload target, not a card thumbnail. */}
+            upload target, not a card thumbnail. It is set as a CSS background as well
+            as the src fallback, which is how the original did it: `??` only covers a
+            null thumbnail, while the background also shows through when the stored URL
+            is present but fails to load. */}
         <Image
           src={project.thumbnail ?? "/images/img-placeholder.png"}
           alt=""
           width={480}
           height={220}
-          className="h-[150px] w-full rounded-[5px] object-cover"
+          className="h-[150px] w-full rounded-[5px] object-cover bg-[url('/images/img-placeholder.png')] bg-cover bg-center"
           unoptimized
         />
-        <span className="absolute -bottom-3 left-3 rounded-lg bg-navy px-3 py-1.5 text-sm font-bold text-white">
+        <span className="absolute -bottom-5 left-1/2 flex h-10 -translate-x-1/2 items-center justify-center whitespace-nowrap rounded-[10px] bg-navy px-5 text-[18px] font-bold text-white">
           {project.reward.salary ? reward : "Unpaid"}
         </span>
       </div>

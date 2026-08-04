@@ -45,6 +45,19 @@ body {
   color: var(--color-navy);
 }
 
+/* The original's .text-outline--thin. The project title is set over its thumbnail,
+   and a 2px white halo is what keeps it readable against whatever the image happens to
+   be. The source listed a full 5x5 grid of offsets; only the perimeter draws anything,
+   so this is the same result with a third of the declarations. */
+.text-outline {
+  text-shadow:
+    -2px -2px 0 #fff, -1px -2px 0 #fff, 0 -2px 0 #fff, 1px -2px 0 #fff, 2px -2px 0 #fff,
+    -2px -1px 0 #fff, 2px -1px 0 #fff,
+    -2px 0 0 #fff, 2px 0 0 #fff,
+    -2px 1px 0 #fff, 2px 1px 0 #fff,
+    -2px 2px 0 #fff, -1px 2px 0 #fff, 0 2px 0 #fff, 1px 2px 0 #fff, 2px 2px 0 #fff;
+}
+
 /* ---------------------------------------------------------------------------
    Entrance animations, ported from the original's abstract/_animations.scss.
 

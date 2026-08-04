@@ -4,6 +4,7 @@ import { Suspense } from "react";
 
 import { BrainIcon, CheckOutlineIcon, PaperPlaneIcon } from "@/components/stat-icons";
 import { LeaderboardCard } from "@/components/leaderboard-card";
+import { Icon } from "@/lib/icons";
 import { BOARD_KEYS } from "@/lib/board-labels";
 import { getHome } from "@/lib/projects";
 
@@ -61,7 +62,7 @@ export default function HomePage() {
               className="moveInTop duration--2 flex flex-row items-center gap-2.5 rounded-[40px] bg-navy px-[35px] py-[15px] text-[18px] font-bold text-white transition hover:bg-navy/90 xl:ml-1.5"
             >
               <span>Get Started</span>
-              <ArrowRight />
+              <Icon icon="ion:arrow-forward-outline" className="size-[1.5em]" aria-hidden />
             </Link>
           </div>
 
@@ -176,16 +177,3 @@ function Stat({
   );
 }
 
-function ArrowRight() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden className="size-[1.5em]">
-      <path
-        d="M4 12h15m0 0-6-6m6 6-6 6"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}

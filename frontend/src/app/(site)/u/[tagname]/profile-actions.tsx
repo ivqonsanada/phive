@@ -20,12 +20,12 @@ export async function ProfileActions({ profile }: { profile: User }) {
   const projects = canInvite ? await invitableProjects() : [];
 
   return (
-    <div className="mt-5 flex flex-wrap items-center gap-3">
+    <div className="mb-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
       <Link
         href={`/messages/${profile.tagname}`}
-        className="rounded-lg border border-navy/15 px-4 py-2 text-sm font-semibold text-navy transition hover:border-navy"
+        className="flex h-[45px] w-[150px] items-center justify-center rounded-[10px] border-[1.5px] border-navy bg-white text-[14px] font-bold text-navy transition hover:bg-mist xl:w-[185px] xl:text-[18px]"
       >
-        Message
+        Direct Message
       </Link>
 
       {canInvite && projects.length > 0 && (

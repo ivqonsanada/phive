@@ -43,3 +43,14 @@ export function formatMoney(currency: string, amount: string): string {
 
   return `${value.toLocaleString("id-ID")},- ${currency}`;
 }
+
+/**
+ * An experience's span, as the original's CV block read it. A null end date means the
+ * work is still going.
+ */
+export function formatDateRange(start: string, end: string | null): string {
+  const format = (iso: string) =>
+    new Date(iso).toLocaleDateString("en-GB", { month: "short", year: "numeric" });
+
+  return `${format(start)} — ${end ? format(end) : "Present"}`;
+}

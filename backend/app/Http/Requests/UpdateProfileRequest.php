@@ -33,6 +33,11 @@ class UpdateProfileRequest extends FormRequest
             'biography' => ['sometimes', 'nullable', 'string', 'max:5000'],
             'is_open_hired' => ['sometimes', 'boolean'],
 
+            // `role`, `is_admin`, `email`, `password` and `email_verified_at` are
+            // deliberately absent: this endpoint updates whatever the form sends, so
+            // anything listed here is something its owner can grant themselves.
+            // PrivilegeEscalationTest pins that.
+
             'behance' => ['sometimes', 'nullable', 'url', 'max:255'],
             'github' => ['sometimes', 'nullable', 'url', 'max:255'],
             'linkedin' => ['sometimes', 'nullable', 'url', 'max:255'],

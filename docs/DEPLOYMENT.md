@@ -65,6 +65,12 @@ Workers recycle every 500 requests, which bounds anything a long-lived worker mi
 accumulate. If you deploy without Docker, `php artisan octane:start` replaces
 php-fpm — but plain php-fpm still works, and nothing in the app depends on Octane.
 
+> **Not yet built anywhere.** The image has been audited statically — COPY sources
+> exist, the entrypoint is valid shell, supervisord's absolute paths match `WORKDIR`,
+> and Octane resolves the FrankenPHP binary from `PATH` (so it will not try to prompt
+> or download one at runtime). But no `docker build` has actually run against it. Do
+> one before you rely on it.
+
 Generate `APP_KEY` once and keep it stable; rotating it invalidates encrypted data:
 
 ```bash

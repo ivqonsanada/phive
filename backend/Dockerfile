@@ -20,9 +20,12 @@ RUN composer dump-autoload --optimize --no-dev
 
 FROM dunglas/frankenphp:php8.4 AS runtime
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        supervisor libpq-dev libicu-dev libzip-dev unzip \
-    && docker-php-ext-install pdo_pgsql pgsql intl zip opcache bcmath pcntl \
+# `install-php-extensions` ships with the FrankenPHP image and is idempotent — it
+# pulls the right system libraries and skips anything the base image already has.
+# `docker-php-ext-install` would fail the build on an extension that is already
+# compiled in, which opcache typically is here.
+RUN apt-get update && apt-get install -y --no-install-recommends supervisor \
+    && install-php-extensions pdo_pgsql pgsql intl zip opcache bcmath pcntl \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app

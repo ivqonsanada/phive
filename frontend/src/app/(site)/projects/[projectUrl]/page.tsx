@@ -5,9 +5,12 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 import { ProjectCard } from "@/components/project-card";
+import { ShareRow } from "@/components/share-row";
+import { SummaryIcon } from "@/components/summary-icons";
 import { WishlistButton } from "@/components/wishlist-button";
 import { ApiError } from "@/lib/api";
 import { getCurrentUser } from "@/lib/dal";
+import { formatMoney, timeAgo } from "@/lib/format";
 import { getProject, getSimilarProjects } from "@/lib/projects";
 import type { Project } from "@/lib/types";
 
@@ -26,107 +29,156 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   };
 }
 
+/**
+ * The original's project page: the title set at 9.6rem beside a thumbnail cut to an
+ * organic shape by mask-image.png, the actions under it, then the written detail on the
+ * left with the lecturer, share row and summary stacked on the right.
+ */
 export default async function ProjectPage({ params, searchParams }: Params) {
   const { projectUrl } = await params;
   const { applied } = await searchParams;
   const project = await load(projectUrl);
-  const justApplied = applied === "1";
 
   return (
-    <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-10">
-      {project.thumbnail && (
-        <Image
-          src={project.thumbnail}
-          alt=""
-          width={960}
-          height={360}
-          className="mb-6 h-56 w-full rounded-xl object-cover"
-          priority
-          unoptimized
+    <main className="mx-auto w-full max-w-[1090px] flex-1 px-6 py-8">
+      <div className="flex flex-col justify-between xl:flex-row-reverse xl:items-center">
+        <div
+          className="mx-auto my-2 h-[220px] w-full max-w-[510px] bg-mist bg-cover bg-center sm:h-[260px] xl:h-[374px]"
+          style={{
+            backgroundImage: `url(${project.thumbnail ?? "/images/img-placeholder.png"})`,
+            maskImage: "url(/images/mask-image.png)",
+            maskSize: "100%",
+            maskRepeat: "no-repeat",
+            maskPosition: "center",
+          }}
+          role="img"
+          aria-label=""
         />
-      )}
 
-      <header className="mb-6">
-        <div className="mb-2 flex items-start justify-between gap-4">
-          <h1 className="text-3xl font-bold text-navy">{project.title}</h1>
-          {project.is_wished !== undefined && project.project_url && (
-            <WishlistButton projectUrl={project.project_url} initial={project.is_wished} />
-          )}
+        <div className="flex flex-col justify-end xl:w-[580px]">
+          {/* The negative right margin and z-index are both the original's: long
+              titles are meant to run across the thumbnail, drawn over it rather than
+              under it. Without the z-index the image clips the text. */}
+          <h1 className="relative z-[1] text-center text-[28px] font-extrabold uppercase text-ink [text-wrap:balance] sm:text-[36px] xl:mr-[-140px] xl:text-left xl:text-[96px] xl:leading-[0.83]">
+            {project.title}
+          </h1>
+
+          <div className="mt-6 flex flex-col gap-4 sm:flex-row xl:mt-11">
+            <Suspense fallback={<div className="h-[60px]" />}>
+              <ApplyCallToAction project={project} justApplied={applied === "1"} />
+            </Suspense>
+
+            {project.is_wished !== undefined && project.project_url && (
+              <WishlistButton projectUrl={project.project_url} initial={project.is_wished} />
+            )}
+          </div>
         </div>
-
-        <p className="text-sm text-ink/70">
-          {project.user && (
-            <>
-              Published by{" "}
-              <Link href={`/u/${project.user.tagname}`} className="font-semibold text-navy hover:text-glow">
-                {project.user.name}
-              </Link>{" "}
-              ·{" "}
-            </>
-          )}
-          <span className="font-semibold">{project.status}</span>
-          {!project.is_open_hiring && " · applications closed"}
-        </p>
-      </header>
-
-      <div className="mb-6 flex flex-wrap gap-2">
-        {project.looking_for.map((expertise) => (
-          <span
-            key={expertise}
-            className="rounded-full bg-navy/5 px-3 py-1 text-sm font-medium text-navy"
-          >
-            {expertise}
-          </span>
-        ))}
       </div>
 
-      <section className="mb-8 whitespace-pre-line text-ink/80">{project.description}</section>
+      <hr className="my-8 border-t border-navy/20" />
 
-      <Suspense fallback={null}>
-        <ApplyCallToAction project={project} justApplied={justApplied} />
-      </Suspense>
+      <div className="grid gap-10 lg:grid-cols-[1fr_400px]">
+        <div>
+          <Block title="Description">
+            <p className="whitespace-pre-line leading-relaxed text-ink">
+              {project.description || "-"}
+            </p>
+          </Block>
 
-      <div className="mb-8 grid gap-4 sm:grid-cols-2">
-        <Panel title="Reward">
-          <ul className="space-y-1 text-sm text-ink/70">
-            <li>{project.reward.certificate ? "Certificate on completion" : "No certificate"}</li>
-            <li>
-              {project.reward.salary
-                ? `${project.reward.currency} ${Number(project.reward.amount).toLocaleString()} per ${project.reward.payment_type}`
-                : "Unpaid"}
-            </li>
-          </ul>
-        </Panel>
+          <Block title="Requirements">
+            {project.requirements && project.requirements.length > 0 ? (
+              <ul className="list-disc space-y-1 pl-5 text-ink">
+                {project.requirements.map((requirement) => (
+                  <li key={requirement}>{requirement}</li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-ink">-</p>
+            )}
+          </Block>
 
-        <Panel title="Applying">
-          <ul className="space-y-1 text-sm text-ink/70">
-            <li>Accepts: {project.applicant_type}</li>
-            <li>Team size: {project.max_person}</li>
-            {project.level_applicant && <li>Level: {project.level_applicant}</li>}
-          </ul>
-        </Panel>
+          <Block title="Skills">
+            {project.skills && project.skills.length > 0 ? (
+              <div className="flex flex-wrap gap-3">
+                {project.skills.map((skill) => (
+                  <span
+                    key={skill}
+                    className="rounded-[10px] bg-navy px-4 py-2.5 text-[16px] font-bold text-white"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            ) : (
+              <p className="text-ink">-</p>
+            )}
+          </Block>
+        </div>
 
-        {project.skills && project.skills.length > 0 && (
-          <Panel title="Skills">
-            <div className="flex flex-wrap gap-1.5">
-              {project.skills.map((skill) => (
-                <span key={skill} className="rounded bg-navy/5 px-2 py-1 text-xs text-navy">
-                  {skill}
-                </span>
-              ))}
-            </div>
-          </Panel>
-        )}
+        <div>
+          {project.user && (
+            <section className="mb-6">
+              <div className="flex flex-row items-start gap-4">
+                <Image
+                  src={project.user.photo_url ?? "/images/missing-avatar.svg"}
+                  alt=""
+                  width={90}
+                  height={90}
+                  className="size-[90px] shrink-0 rounded-full bg-mist object-cover"
+                  unoptimized
+                />
+                <div>
+                  <p className="text-[18px] font-bold text-ink">Posted By</p>
+                  <Link
+                    href={`/u/${project.user.tagname}`}
+                    className="block text-ink hover:text-glow"
+                  >
+                    {project.user.name}
+                  </Link>
+                  {project.user.expertise && (
+                    <p className="text-ink">{project.user.expertise} Specialist</p>
+                  )}
+                </div>
+              </div>
 
-        {project.requirements && project.requirements.length > 0 && (
-          <Panel title="Requirements">
-            <ul className="list-disc space-y-1 pl-4 text-sm text-ink/70">
-              {project.requirements.map((requirement) => (
-                <li key={requirement}>{requirement}</li>
-              ))}
+              <Link
+                href={`/messages/${project.user.tagname}`}
+                className="mt-5 flex h-[55px] w-full items-center justify-center rounded-[10px] bg-navy text-[20px] font-bold text-white transition hover:bg-navy/90"
+              >
+                Contact Lecturer
+              </Link>
+            </section>
+          )}
+
+          <section className="mb-6">
+            <h2 className="mb-3 text-[24px] font-bold text-ink">Share</h2>
+            <ShareRow title={project.title ?? "PHive project"} />
+          </section>
+
+          <section>
+            <h2 className="mb-3 text-[24px] font-bold text-ink">Summary Project</h2>
+            <ul className="space-y-2.5 text-ink">
+              {project.looking_for.length > 0 && (
+                <SummaryRow icon="brush">
+                  Expertise in {project.looking_for.join(", ")}
+                </SummaryRow>
+              )}
+              <SummaryRow icon="money">
+                {project.reward.salary
+                  ? `${formatMoney(project.reward.currency, project.reward.amount)} for ${project.reward.payment_type}`
+                  : "Unpaid"}
+                {project.reward.certificate && " + Certificate"}
+              </SummaryRow>
+              <SummaryRow icon="clock">Posted {timeAgo(project.created_at)}</SummaryRow>
+              <SummaryRow icon="people">
+                Max. {project.max_person} Persons ({project.applicant_type})
+              </SummaryRow>
+              {project.level_applicant && (
+                <SummaryRow icon="level">{project.level_applicant}</SummaryRow>
+              )}
             </ul>
-          </Panel>
-        )}
+          </section>
+        </div>
       </div>
 
       <Suspense fallback={null}>
@@ -138,7 +190,7 @@ export default async function ProjectPage({ params, searchParams }: Params) {
 
 /**
  * Rendered separately so the session lookup does not hold up the project itself.
- * Guests get a prompt to sign in; lecturers get nothing.
+ * Guests get a prompt to sign in; lecturers get the disabled state the original showed.
  */
 async function ApplyCallToAction({
   project,
@@ -152,9 +204,9 @@ async function ApplyCallToAction({
 
   if (justApplied) {
     return (
-      <p className="mb-8 rounded-xl bg-navy/5 px-4 py-3 text-sm text-navy">
+      <p className="rounded-[10px] bg-mist px-4 py-3 text-[16px] text-navy">
         Application sent. You&apos;ll hear back through your{" "}
-        <Link href="/inbox" className="font-semibold hover:text-glow">
+        <Link href="/inbox" className="font-bold hover:text-glow">
           inbox
         </Link>
         .
@@ -162,28 +214,27 @@ async function ApplyCallToAction({
     );
   }
 
+  const base =
+    "flex h-[60px] w-full items-center justify-center rounded-[10px] text-[18px] font-bold sm:w-[280px]";
+
   if (!open || user?.role === "Lecturer") {
-    return null;
+    return <span className={`${base} bg-[#f1f1f1] text-ink/40`}>Apply Project</span>;
   }
 
-  return (
-    <div className="mb-8">
-      {user ? (
-        <Link
-          href={`/projects/${project.project_url}/apply`}
-          className="inline-block rounded-lg bg-navy px-5 py-2.5 font-semibold text-white transition hover:bg-navy/90"
-        >
-          Apply to this project
-        </Link>
-      ) : (
-        <Link
-          href="/login"
-          className="inline-block rounded-lg border border-navy/15 px-5 py-2.5 font-semibold text-navy transition hover:border-navy"
-        >
-          Sign in to apply
-        </Link>
-      )}
-    </div>
+  return user ? (
+    <Link
+      href={`/projects/${project.project_url}/apply`}
+      className={`${base} bg-navy text-white transition hover:bg-navy/90`}
+    >
+      Apply Project
+    </Link>
+  ) : (
+    <Link
+      href="/login"
+      className={`${base} border-2 border-navy bg-white text-navy transition hover:bg-mist`}
+    >
+      Sign in to apply
+    </Link>
   );
 }
 
@@ -193,9 +244,11 @@ async function SimilarProjects({ projectUrl }: { projectUrl: string }) {
   if (projects.length === 0) return null;
 
   return (
-    <section>
-      <h2 className="mb-3 font-semibold text-navy">You might also like</h2>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <section className="mt-16">
+      <h2 className="mb-6 text-center text-[28px] font-bold text-ink xl:text-[36px]">
+        Other Projects You Might Like
+      </h2>
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {projects.map((project) => (
           <ProjectCard key={project.uuid} project={project} />
         ))}
@@ -204,12 +257,27 @@ async function SimilarProjects({ projectUrl }: { projectUrl: string }) {
   );
 }
 
-function Panel({ title, children }: { title: string; children: React.ReactNode }) {
+function Block({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="rounded-xl border border-navy/10 p-4">
-      <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-ink/50">{title}</h2>
+    <section className="mb-8">
+      <h2 className="mb-2 text-[24px] font-bold text-ink">{title}</h2>
       {children}
     </section>
+  );
+}
+
+function SummaryRow({
+  icon,
+  children,
+}: {
+  icon: React.ComponentProps<typeof SummaryIcon>["name"];
+  children: React.ReactNode;
+}) {
+  return (
+    <li className="flex flex-row items-center gap-3">
+      <SummaryIcon name={icon} />
+      <span>{children}</span>
+    </li>
   );
 }
 

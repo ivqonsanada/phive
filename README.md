@@ -43,15 +43,16 @@ The rewrite reproduces the original's design rather than replacing it — the po
 measured against the running legacy site, not eyeballed. Left is Laravel 7 + Vue 2;
 right is Laravel 13 + Next.js 16.
 
-|        | 2020 · Vue 2                                       | Now · Next.js 16                                     |
-| ------ | -------------------------------------------------- | ---------------------------------------------------- |
-| Home   | ![](docs/screenshots/legacy/home.png)               | ![](docs/screenshots/rewrite/home.png)                |
-| Explore| ![](docs/screenshots/legacy/explore.png)            | ![](docs/screenshots/rewrite/explore.png)             |
-| Board  | ![](docs/screenshots/legacy/leaderboard.png)        | ![](docs/screenshots/rewrite/leaderboard.png)         |
-| Project| ![](docs/screenshots/legacy/project.png)            | ![](docs/screenshots/rewrite/project.png)             |
-| Sign in| ![](docs/screenshots/legacy/login.png)              | ![](docs/screenshots/rewrite/login.png)               |
+|             | 2020 · Laravel 7 + Vue 2                     | Now · Laravel 13 + Next.js 16                 |
+| ----------- | -------------------------------------------- | --------------------------------------------- |
+| Home        | ![](docs/screenshots/legacy/home.png)        | ![](docs/screenshots/rewrite/home.png)        |
+| Explore     | ![](docs/screenshots/legacy/explore.png)     | ![](docs/screenshots/rewrite/explore.png)     |
+| Leaderboard | ![](docs/screenshots/legacy/leaderboard.png) | ![](docs/screenshots/rewrite/leaderboard.png) |
+| Sign in     | ![](docs/screenshots/legacy/login.png)       | ![](docs/screenshots/rewrite/login.png)       |
+| Register    | ![](docs/screenshots/legacy/register.png)    | ![](docs/screenshots/rewrite/register.png)    |
 
-More in [`docs/screenshots/`](docs/screenshots).
+Every pair was captured the same way — 1425px wide, whole page, signed out — so the two
+columns are directly comparable. See [`docs/screenshots/`](docs/screenshots).
 
 ### Why two apps
 

@@ -11,3 +11,11 @@
 
 # Playwright MCP scratch output
 .playwright-mcp/
+
+# Screenshots belong in docs/screenshots/, not the repository root — a stray capture
+# committed there is easy to miss and hard to name later.
+/*.png
+/*.jpg
+/*.jpeg
+/*.gif
+/*.webp

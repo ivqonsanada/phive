@@ -37,6 +37,22 @@ There are two front doors: the Next.js app that students and lecturers use, and 
 The original code is preserved on the [`legacy`](https://github.com/ivqonsanada/phive/tree/legacy)
 branch, untouched.
 
+### Before and after
+
+The rewrite reproduces the original's design rather than replacing it — the port was
+measured against the running legacy site, not eyeballed. Left is Laravel 7 + Vue 2;
+right is Laravel 13 + Next.js 16.
+
+|        | 2020 · Vue 2                                       | Now · Next.js 16                                     |
+| ------ | -------------------------------------------------- | ---------------------------------------------------- |
+| Home   | ![](docs/screenshots/legacy/home.png)               | ![](docs/screenshots/rewrite/home.png)                |
+| Explore| ![](docs/screenshots/legacy/explore.png)            | ![](docs/screenshots/rewrite/explore.png)             |
+| Board  | ![](docs/screenshots/legacy/leaderboard.png)        | ![](docs/screenshots/rewrite/leaderboard.png)         |
+| Project| ![](docs/screenshots/legacy/project.png)            | ![](docs/screenshots/rewrite/project.png)             |
+| Sign in| ![](docs/screenshots/legacy/login.png)              | ![](docs/screenshots/rewrite/login.png)               |
+
+More in [`docs/screenshots/`](docs/screenshots).
+
 ### Why two apps
 
 The frontend is edge-deployable (Cloudflare Workers by default) while the API needs PHP

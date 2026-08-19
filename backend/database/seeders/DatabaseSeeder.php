@@ -1,7 +1,4 @@
-<?php
-
 namespace Database\Seeders;
-
 use App\Enums\Expertise;
 use App\Models\Leaderboard;
 use App\Models\Project;

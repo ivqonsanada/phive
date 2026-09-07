@@ -1,6 +1,7 @@
 {
   "name": "phive-frontend",
   "version": "0.1.0",
+  "packageManager": "pnpm@10.26.0",
   "private": true,
   "scripts": {
     "dev": "next dev",

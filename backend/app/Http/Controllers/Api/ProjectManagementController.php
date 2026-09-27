@@ -153,9 +153,10 @@ class ProjectManagementController extends Controller
         $validated = $request->safe()->except(['publish', 'skills', 'requirements']);
 
         return [
-            ...$validated,
+           ...$validated,
+           'max_person' => $validated['max_person'] ?? 'Not Specified',
             'status' => $request->publishing() ? ProjectStatus::Hiring : ProjectStatus::Draft,
-        ];
+       ];
     }
 
     /**

@@ -1,0 +1,57 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "phive-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": { "enabled": true },
+
+  // Wrangler creates the DNS record for a custom domain. Remove this block (and set
+  // workers_dev to true) to run on *.workers.dev instead.
+  "routes": [{ "pattern": "api-phive.ivqonsanada.com", "custom_domain": true }],
+  "workers_dev": false,
+  "preview_urls": false,
+
+  // Ids are filled in on first deploy (wrangler provisions D1 and R2 automatically).
+  "d1_databases": [
+    { "binding": "DB", "database_name": "phive", "migrations_dir": "migrations" }
+  ],
+  "r2_buckets": [{ "binding": "UPLOADS", "bucket_name": "phive-uploads" }],
+
+  // Realtime: a Pusher-protocol hub so the frontend's Laravel Echo client works
+  // against this backend unchanged.
+  "durable_objects": {
+    "bindings": [{ "name": "REALTIME", "class_name": "RealtimeHub" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["RealtimeHub"] }],
+
+  // Used when MAIL_DRIVER is "cloudflare". The MAIL_FROM domain has to be onboarded
+  // first: `wrangler email sending enable <domain>`.
+  "send_email": [{ "name": "EMAIL" }],
+
+  // Nightly demo reset (20:00 UTC is 03:00 in Jakarta); does nothing unless DEMO_MODE is "true".
+  "triggers": { "crons": ["0 20 * * *"] },
+
+  // Production values. Local dev overrides them from .dev.vars (see .dev.vars.example);
+  // tests set their own in vitest.config.ts.
+  "vars": {
+    // This API's public origin: upload URLs and email-verification links are built
+    // from it, so it must equal the frontend's API_URL.
+    "APP_URL": "https://api-phive.ivqonsanada.com",
+    // The Next.js origin(s), comma separated. The first builds email links; all
+    // of them are allowed through CORS.
+    "FRONTEND_URL": "https://phive.ivqonsanada.com",
+    "LECTURER_EMAIL_PATTERN": "^[a-zA-Z0-9._%+-]+@(?!.*student).*\\.ac\\.id$",
+    // A public demo: the cron wipes and reseeds everything nightly.
+    "DEMO_MODE": "true",
+    // log | cloudflare (needs `wrangler email sending enable <MAIL_FROM domain>`)
+    "MAIL_DRIVER": "log",
+    "MAIL_FROM": "PHive <no-reply@ivqonsanada.com>",
+    "REALTIME_APP_KEY": "phive"
+  }
+
+  // Secrets (wrangler secret put, or .dev.vars locally):
+  //   APP_KEY                 signs email links and realtime channel auth
+  //   GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET
+  //   APPLE_CLIENT_ID / APPLE_TEAM_ID / APPLE_KEY_ID / APPLE_PRIVATE_KEY
+}

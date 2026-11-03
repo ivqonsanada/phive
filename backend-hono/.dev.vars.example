@@ -1,0 +1,14 @@
+# Copy to .dev.vars for `pnpm dev`; these override the production vars in wrangler.jsonc.
+APP_KEY=local-dev-key-change-me
+APP_URL=http://localhost:8787
+FRONTEND_URL=http://localhost:3000
+DEMO_MODE=false
+MAIL_DRIVER=log
+
+# Optional social sign-in
+# GOOGLE_CLIENT_ID=
+# GOOGLE_CLIENT_SECRET=
+# APPLE_CLIENT_ID=
+# APPLE_TEAM_ID=
+# APPLE_KEY_ID=
+# APPLE_PRIVATE_KEY=

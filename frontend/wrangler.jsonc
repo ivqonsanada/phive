@@ -25,6 +25,9 @@
     // visitor's network and the API's FRONTEND_URL must name this site for CORS.
     "API_URL": "https://api-phive.ivqonsanada.com",
 
+    // This site's own origin, for absolute URLs in sitemap.xml and robots.txt.
+    "SITE_URL": "https://phive.ivqonsanada.com",
+
     // auto | always | never — see frontend/.env.example. On `auto` an unreachable API
     // degrades to sample data with a banner instead of a 500 page.
     "DEMO_DATA": "auto",

@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "phive-frontend",
-  "main": ".open-next/worker.js",
+  "main": "worker.ts",
   "compatibility_date": "2026-07-30",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": {
@@ -17,17 +17,22 @@
 
   // Wrangler creates and manages the DNS record for a custom domain, so the zone only
   // needs to exist. Remove this block to fall back to the *.workers.dev URL.
-  "routes": [{ "pattern": "phive.ivqon.dev", "custom_domain": true }],
+  "routes": [{ "pattern": "phive.ivqonsanada.com", "custom_domain": true }],
 
   "vars": {
     // The API origin, read at request time rather than baked in at build time. Public
     // reads go to it straight from the browser, so it must be reachable from a
     // visitor's network and the API's FRONTEND_URL must name this site for CORS.
-    "API_URL": "http://localhost:8000",
+    "API_URL": "https://api-phive.ivqonsanada.com",
 
     // auto | always | never — see frontend/.env.example. On `auto` an unreachable API
     // degrades to sample data with a banner instead of a 500 page.
-    "DEMO_DATA": "auto"
+    "DEMO_DATA": "auto",
+
+    // Comma separated (google,apple); must match the API's configured providers. Set
+    // explicitly because OpenNext also bundles .env files, and a value left in a local
+    // .env.local would otherwise fill the gap in production.
+    "SOCIAL_PROVIDERS": ""
   }
 
   // Enable these together with the R2 incremental cache in open-next.config.ts:

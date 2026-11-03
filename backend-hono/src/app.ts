@@ -7,6 +7,8 @@ import { cors, frontendOrigins } from "./lib/cors";
 import { HttpError } from "./lib/http";
 import { serveUpload } from "./lib/storage";
 import { authRoutes } from "./routes/auth";
+import { publicRoutes } from "./routes/public";
+import { settingsRoutes } from "./routes/settings";
 
 export const app = new Hono<AppEnv>();
 
@@ -31,6 +33,8 @@ app.get("/up", (c) => c.html("<!doctype html><title>PHive</title><p>Application 
 app.get("/storage/*", (c) => serveUpload(c.env, decodeURIComponent(c.req.path.slice("/storage/".length))));
 
 app.route("/api", authRoutes);
+app.route("/api", publicRoutes);
+app.route("/api/settings", settingsRoutes);
 
 const jsonPath = (path: string) => path.startsWith("/api/") || path.startsWith("/broadcasting/");
 

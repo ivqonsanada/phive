@@ -7,6 +7,7 @@ import { cors, frontendOrigins } from "./lib/cors";
 import { HttpError } from "./lib/http";
 import { serveUpload } from "./lib/storage";
 import { authRoutes } from "./routes/auth";
+import { myProjectRoutes } from "./routes/my-projects";
 import { publicRoutes } from "./routes/public";
 import { settingsRoutes } from "./routes/settings";
 
@@ -35,6 +36,7 @@ app.get("/storage/*", (c) => serveUpload(c.env, decodeURIComponent(c.req.path.sl
 app.route("/api", authRoutes);
 app.route("/api", publicRoutes);
 app.route("/api/settings", settingsRoutes);
+app.route("/api/my/projects", myProjectRoutes);
 
 const jsonPath = (path: string) => path.startsWith("/api/") || path.startsWith("/broadcasting/");
 

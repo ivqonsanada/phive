@@ -84,9 +84,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # The version comes from packageManager, so CI and local installs cannot drift.
       - uses: pnpm/action-setup@v4
         with:
-          version: 10
+          package_json_file: frontend/package.json
 
       - uses: actions/setup-node@v4
         with:
@@ -102,3 +103,28 @@ jobs:
       - run: pnpm build
         env:
           API_URL: http://localhost:8000
+
+  backend-hono:
+    name: Backend (Hono)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend-hono
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: backend-hono/package.json
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: backend-hono/pnpm-lock.yaml
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      # The ported Laravel feature tests, inside workerd with local D1 and R2.
+      - run: pnpm test

@@ -25,11 +25,18 @@ two independently deployable apps that talk over a JSON API.
 
 ```
 phive/
-├── backend/     Laravel 13 · PHP 8.3+ · PostgreSQL · Sanctum · Filament 5 · Octane
-├── frontend/    Next.js 16 · React 19 · TypeScript · Tailwind 4
-├── docs/        Deployment guide and assets
+├── backend/        Laravel 13 · PHP 8.3+ · PostgreSQL · Sanctum · Filament 5 · Octane
+├── backend-hono/   Hono · Cloudflare Workers · D1 · R2 · Durable Objects (same API)
+├── frontend/       Next.js 16 · React 19 · TypeScript · Tailwind 4
+├── docs/           Deployment guide and assets
 └── docker-compose.yml
 ```
+
+**Two interchangeable backends.** `backend/` and `backend-hono/` serve the same JSON API
+(routes, payloads, status codes and messages), so the frontend picks one with `API_URL`
+alone. The Hono one runs entirely on Cloudflare, with no server to patch. It lacks only
+the Filament admin panel. See [`backend-hono/README.md`](backend-hono/README.md). The live
+demo at https://phive.ivqonsanada.com runs on it.
 
 There are two front doors: the Next.js app that students and lecturers use, and a
 [Filament](https://filamentphp.com) admin panel served by Laravel itself at `/admin`.

@@ -15,6 +15,7 @@ export function UserInfoCard({ user }: { user: User }) {
     <div className="mb-8 mt-2.5 flex flex-col items-center justify-center rounded-[20px] bg-mist px-2.5 py-5 shadow-[0_2px_6px_rgba(119,114,114,0.2)] sm:flex-row sm:py-[15px] sm:pl-[15px] sm:pr-[25px] xl:mb-0 xl:h-full xl:w-[280px] xl:flex-col xl:gap-4 xl:px-5 xl:py-6 xl:text-center">
       <Avatar
         src={user.photo_url}
+        seed={user.uuid}
         size={125}
         sizeClassName="size-[100px] xl:size-[125px]"
         className="mb-5 sm:mb-0 sm:mr-[30px] xl:mr-0"

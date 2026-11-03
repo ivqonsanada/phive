@@ -27,6 +27,7 @@ export function ProjectRow({ project }: { project: Project }) {
           {isDraft ? (
             <Thumbnail
               src={project.thumbnail}
+              seed={project.uuid}
               width={100}
               height={100}
               className="h-[100px] w-[90px] shrink-0 rounded-[5px] sm:w-[100px]"
@@ -35,6 +36,7 @@ export function ProjectRow({ project }: { project: Project }) {
             <Link href={`/projects/${url}`} className="shrink-0">
               <Thumbnail
                 src={project.thumbnail}
+                seed={project.uuid}
                 width={100}
                 height={100}
                 className="h-[100px] w-[90px] rounded-[5px] sm:w-[100px]"

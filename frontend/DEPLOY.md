@@ -51,7 +51,7 @@ pnpm wrangler login
 pnpm cf:deploy
 ```
 
-`wrangler.jsonc` ships a `routes` entry binding the Worker to `phive.ivqon.dev`.
+`wrangler.jsonc` ships a `routes` entry binding the Worker to `phive.ivqonsanada.com`.
 Wrangler creates and manages that DNS record itself, so the zone only has to exist in
 the same account. Point it elsewhere by editing the pattern, or delete the block to
 serve from the generated `*.workers.dev` URL instead.

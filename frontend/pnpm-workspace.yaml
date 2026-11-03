@@ -1,9 +1,9 @@
-ignoredBuiltDependencies:
-  - sharp
-  - unrs-resolver
-
-# esbuild and workerd ship prebuilt binaries that their install scripts unpack.
-# Without this, `opennextjs-cloudflare build` and `wrangler dev` fail to start.
-onlyBuiltDependencies:
-  - esbuild
-  - workerd
+# `onlyBuiltDependencies` was removed in pnpm 11 and replaced by `allowBuilds`,
+# a map so each package is answered rather than merely listed. This repo never
+# had the old field: on pnpm 10 an unapproved postinstall was only a warning,
+# so these three were being skipped silently. pnpm 12 fails the install
+# outright, which is how they surfaced.
+allowBuilds:
+  esbuild: true
+  unrs-resolver: true
+  workerd: true

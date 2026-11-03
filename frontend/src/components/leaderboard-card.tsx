@@ -40,6 +40,7 @@ export function LeaderboardCard({
                   ring instead of painting straight over it. */}
               <Avatar
                 src={entry.user.photo_url}
+                seed={entry.user.uuid}
                 size={108}
                 className="box-content border-8 border-navy bg-clip-padding"
               />

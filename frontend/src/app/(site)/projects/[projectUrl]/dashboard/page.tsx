@@ -62,6 +62,7 @@ export default async function ProjectDashboardPage({ params }: Params) {
         <div className="mt-[25px] xl:w-[509px]">
           <Thumbnail
             src={project.thumbnail}
+            seed={project.uuid}
             width={509}
             height={374}
             className="h-[220px] w-full rounded-[10px] sm:h-[260px] xl:h-[374px]"
@@ -108,6 +109,7 @@ export default async function ProjectDashboardPage({ params }: Params) {
                   <Link href={`/u/${member.user.tagname}`}>
                     <Avatar
                       src={member.user.photo_url}
+                      seed={member.user.uuid}
                       size={90}
                       sizeClassName="size-[65px] xl:size-[90px]"
                       className="mb-[7px]"

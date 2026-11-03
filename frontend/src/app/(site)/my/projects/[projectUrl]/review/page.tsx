@@ -47,6 +47,7 @@ export default async function ReviewPage({ params }: Params) {
             a portrait for the review page. */}
         <Thumbnail
           src={project.thumbnail}
+          seed={project.uuid}
           width={200}
           height={200}
           className="mx-auto mb-[30px] block size-[125px] rounded-full xl:mb-0 xl:size-[200px]"

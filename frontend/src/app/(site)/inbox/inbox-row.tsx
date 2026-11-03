@@ -48,6 +48,7 @@ export function InboxRow({ item }: { item: InboxItem }) {
         <Link href={`/u/${item.sender.tagname}`}>
           <Avatar
             src={item.sender.photo_url}
+            seed={item.sender.uuid}
             size={100}
             shape="square"
             sizeClassName="size-[50px] xl:size-[100px]"

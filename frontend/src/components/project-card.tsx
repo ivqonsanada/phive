@@ -24,6 +24,7 @@ export function ProjectCard({ project }: { project: Project }) {
             is present but fails to load. */}
         <Thumbnail
           src={project.thumbnail}
+          seed={project.uuid}
           width={480}
           height={220}
           className="h-[150px] w-full rounded-[5px]"

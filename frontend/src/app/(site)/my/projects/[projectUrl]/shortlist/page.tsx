@@ -53,6 +53,7 @@ export default async function ShortlistPage({ params }: Params) {
         <div className="mt-[25px] xl:w-[509px]">
           <Thumbnail
             src={project.thumbnail}
+            seed={project.uuid}
             width={509}
             height={374}
             className="h-[220px] w-full rounded-[10px] sm:h-[260px] xl:h-[374px]"

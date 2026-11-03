@@ -50,6 +50,7 @@ export default async function MessagesPage() {
                   <div className="flex flex-row items-center gap-4 xl:gap-[26px]">
                     <Avatar
                       src={conversation.with.photo_url}
+                      seed={conversation.with.uuid}
                       size={100}
                       shape="square"
                       sizeClassName="size-[50px] xl:size-[100px]"

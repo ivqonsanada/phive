@@ -113,6 +113,7 @@ export function Thread({
           <div key={message.uuid} className={`flex flex-row xl:items-end ${gap}`}>
             <Avatar
               src={partner.photo_url}
+              seed={partner.uuid}
               size={35}
               shape="square"
               sizeClassName="size-[25px] xl:size-[35px]"

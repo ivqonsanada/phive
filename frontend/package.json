@@ -1,28 +1,30 @@
 {
   "name": "phive-frontend",
   "version": "0.1.0",
+  "packageManager": "pnpm@12.3.4",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "node node_modules/typescript-7/bin/tsc --noEmit",
     "cf:build": "opennextjs-cloudflare build",
     "cf:preview": "opennextjs-cloudflare build && wrangler dev",
     "cf:deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "typecheck:tsc5": "tsc --noEmit"
   },
   "dependencies": {
     "@iconify/react": "^6.0.2",
     "@radix-ui/react-scroll-area": "^1.2.18",
     "@tanstack/react-query": "^5.101.4",
     "laravel-echo": "^2.4.0",
-    "next": "16.2.12",
+    "next": "16.3.4",
     "pusher-js": "^8.6.0",
-    "react": "19.2.4",
-    "react-dom": "19.2.4",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
     "server-only": "^0.0.1"
   },
   "devDependencies": {
@@ -33,9 +35,10 @@
     "@types/react-dom": "^19",
     "@vitest/coverage-v8": "^4.1.10",
     "eslint": "^9",
-    "eslint-config-next": "16.2.12",
+    "eslint-config-next": "16.3.4",
     "tailwindcss": "^4",
     "typescript": "^5",
+    "typescript-7": "npm:typescript@^7.0.2",
     "vitest": "^4.1.10",
     "wrangler": "^4.118.0"
   }

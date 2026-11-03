@@ -12,6 +12,7 @@ import { myProjectRoutes } from "./routes/my-projects";
 import { partyRoutes } from "./routes/party";
 import { publicRoutes } from "./routes/public";
 import { settingsRoutes } from "./routes/settings";
+import { socialRoutes } from "./routes/social";
 import { projectBoxRoutes, workflowRoutes } from "./routes/workflow";
 
 export const app = new Hono<AppEnv>();
@@ -44,6 +45,7 @@ app.route("/api", partyRoutes);
 app.route("/api", projectBoxRoutes);
 app.route("/api", inboxRoutes);
 app.route("/", realtimeRoutes);
+app.route("/", socialRoutes);
 app.route("/api/my/projects", workflowRoutes);
 
 const jsonPath = (path: string) => path.startsWith("/api/") || path.startsWith("/broadcasting/");

@@ -7,6 +7,7 @@ import { cors, frontendOrigins } from "./lib/cors";
 import { HttpError } from "./lib/http";
 import { serveUpload } from "./lib/storage";
 import { authRoutes } from "./routes/auth";
+import { inboxRoutes, realtimeRoutes } from "./routes/inbox";
 import { myProjectRoutes } from "./routes/my-projects";
 import { partyRoutes } from "./routes/party";
 import { publicRoutes } from "./routes/public";
@@ -41,6 +42,8 @@ app.route("/api/settings", settingsRoutes);
 app.route("/api/my/projects", myProjectRoutes);
 app.route("/api", partyRoutes);
 app.route("/api", projectBoxRoutes);
+app.route("/api", inboxRoutes);
+app.route("/", realtimeRoutes);
 app.route("/api/my/projects", workflowRoutes);
 
 const jsonPath = (path: string) => path.startsWith("/api/") || path.startsWith("/broadcasting/");

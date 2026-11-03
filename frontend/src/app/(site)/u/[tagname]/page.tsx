@@ -44,6 +44,7 @@ export default async function ProfilePage({ params, searchParams }: Params) {
       <header className="flex flex-col items-center justify-center">
         <Avatar
           src={user.photo_url}
+          seed={user.uuid}
           size={175}
           className="mb-3 size-[150px] xl:size-[175px]"
           priority

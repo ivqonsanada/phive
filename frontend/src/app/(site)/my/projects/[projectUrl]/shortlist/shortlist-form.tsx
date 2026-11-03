@@ -179,7 +179,7 @@ function TeamRow({
             <ul className="flex flex-col gap-2">
               {application.members.map((member) => (
                 <li key={member.user.uuid} className="flex flex-row items-center gap-3">
-                  <Avatar src={member.user.photo_url} size={45} />
+                  <Avatar src={member.user.photo_url} seed={member.user.uuid} size={45} />
                   <span className="text-[18px] font-bold">{member.user.name}</span>
                   <span className="text-[18px] font-semibold text-ink/60">
                     {member.expertise ?? "No expertise"}
@@ -203,7 +203,7 @@ function Row({
   onToggle,
   details,
 }: {
-  user: { name: string; tagname: string; photo_url: string | null };
+  user: { uuid: string; name: string; tagname: string; photo_url: string | null };
   subtitle: string;
   accepted: boolean;
   onToggle: () => void;
@@ -217,6 +217,7 @@ function Row({
         <Link href={`/u/${user.tagname}`}>
           <Avatar
             src={user.photo_url}
+            seed={user.uuid}
             size={75}
             sizeClassName="size-[65px] xl:size-[75px]"
           />

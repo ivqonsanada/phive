@@ -88,6 +88,7 @@ export function ReviewForm({
                 <div className="mb-[15px] flex flex-row items-center gap-4">
                   <Avatar
                     src={participant.user.photo_url}
+                    seed={participant.user.uuid}
                     size={75}
                     sizeClassName="size-[65px] xl:size-[75px]"
                   />

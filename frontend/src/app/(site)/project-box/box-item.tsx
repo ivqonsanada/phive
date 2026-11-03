@@ -93,6 +93,7 @@ export function BoxItem({ box, role }: { box: Box; role: UserRole }) {
         <Link href={`/projects/${project.project_url}`} className="shrink-0">
           <Thumbnail
             src={project.thumbnail}
+            seed={project.uuid}
             width={100}
             height={100}
             className="h-[100px] w-[90px] rounded-[5px] sm:w-[100px]"

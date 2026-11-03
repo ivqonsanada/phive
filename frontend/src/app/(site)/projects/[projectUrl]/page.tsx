@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 import { ProjectCard } from "@/components/project-card";
+import { ProjectCover } from "@/components/project-cover";
 import { ShareRow } from "@/components/share-row";
 import { SummaryIcon } from "@/components/summary-icons";
 import { WishlistButton } from "@/components/wishlist-button";
@@ -42,18 +43,7 @@ export default async function ProjectPage({ params, searchParams }: Params) {
   return (
     <main className="mx-auto w-full max-w-[1090px] flex-1 px-6 py-8">
       <div className="flex flex-col justify-between xl:flex-row-reverse xl:items-center">
-        <div
-          className="mx-auto my-2 h-[220px] w-full max-w-[510px] bg-mist bg-cover bg-center sm:h-[260px] xl:h-[374px]"
-          style={{
-            backgroundImage: `url(${project.thumbnail ?? "/images/img-placeholder.png"})`,
-            maskImage: "url(/images/mask-image.png)",
-            maskSize: "100%",
-            maskRepeat: "no-repeat",
-            maskPosition: "center",
-          }}
-          role="img"
-          aria-label=""
-        />
+        <ProjectCover src={project.thumbnail} seed={project.uuid} title={project.title} />
 
         <div className="flex flex-col justify-end xl:w-[580px]">
           {/* The negative right margin and z-index are both the original's: long
@@ -126,7 +116,7 @@ export default async function ProjectPage({ params, searchParams }: Params) {
           {project.user && (
             <section className="mb-6">
               <div className="flex flex-row items-start gap-4">
-                <Avatar src={project.user.photo_url} size={90} />
+                <Avatar src={project.user.photo_url} seed={project.user.uuid} size={90} />
                 <div>
                   <p className="text-[18px] font-bold text-ink">Posted By</p>
                   <Link

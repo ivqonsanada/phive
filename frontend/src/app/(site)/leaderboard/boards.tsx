@@ -112,6 +112,7 @@ function LeaderboardRow({ board, entry }: { board: BoardKey; entry: LeaderboardE
                 over a class and pin this to 90px at every width. */}
             <Avatar
               src={entry.user.photo_url}
+              seed={entry.user.uuid}
               size={90}
               sizeClassName="size-[60px] xl:size-[90px]"
             />

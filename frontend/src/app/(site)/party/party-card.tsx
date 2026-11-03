@@ -20,6 +20,7 @@ export function MemberRow({ member }: { member: PartyMember }) {
         <Link href={`/u/${member.user.tagname}`} className="my-auto">
           <Avatar
             src={member.user.photo_url}
+            seed={member.user.uuid}
             size={65}
             sizeClassName="size-[45px] xl:size-[65px]"
           />
@@ -59,6 +60,7 @@ export function PartyRow({ party }: { party: Party }) {
           <Avatar
             key={member.user.uuid}
             src={member.user.photo_url}
+            seed={member.user.uuid}
             size={65}
             className="xl:mr-2.5"
           />
@@ -99,6 +101,7 @@ export function PartyRow({ party }: { party: Party }) {
                 <Link href={`/u/${member.user.tagname}`}>
                   <Avatar
                     src={member.user.photo_url}
+                    seed={member.user.uuid}
                     size={85}
                     sizeClassName="size-[65px] xl:size-[85px]"
                   />

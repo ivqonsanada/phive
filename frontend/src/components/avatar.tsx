@@ -1,15 +1,18 @@
 import Image from "next/image";
 
+import { placeholderAvatar, placeholderCover } from "@/lib/placeholders";
+
 /**
  * Every avatar in the app, so the fallback is decided once.
  *
- * The placeholder is set two ways on purpose, which is how the original did it: as the
- * `src` when there is no photo, and as a CSS background underneath regardless. The
- * first covers a null value; the second covers a stored URL that 404s, which otherwise
- * renders the browser's broken-image glyph.
+ * With a `seed`, a missing photo becomes a placeholder face. Without one (upload
+ * previews, empty slots) it stays the original's silhouette, so "no photo yet" still
+ * reads as such. The silhouette is also the CSS background underneath regardless,
+ * which covers a stored URL that 404s and would otherwise show the broken-image glyph.
  */
 export function Avatar({
   src,
+  seed,
   size,
   shape = "circle",
   sizeClassName,
@@ -17,6 +20,8 @@ export function Avatar({
   priority,
 }: {
   src?: string | null;
+  /** A stable id for the person (their uuid); picks the placeholder face. */
+  seed?: string;
   /** Intrinsic size, in CSS pixels, at the largest the avatar is ever drawn. */
   size: number;
   /**
@@ -36,7 +41,7 @@ export function Avatar({
 }) {
   return (
     <Image
-      src={src || "/images/missing-avatar.svg"}
+      src={src || (seed ? placeholderAvatar(seed) : "/images/missing-avatar.svg")}
       alt=""
       width={size}
       height={size}
@@ -51,17 +56,20 @@ export function Avatar({
 }
 
 /**
- * The same idea for project thumbnails, which fall back to the original's
- * img-placeholder.png rather than the avatar silhouette.
+ * The same idea for project thumbnails: a placeholder cover with a `seed`, otherwise
+ * the original's img-placeholder.png.
  */
 export function Thumbnail({
   src,
+  seed,
   width,
   height,
   className = "",
   priority,
 }: {
   src?: string | null;
+  /** A stable id for the project (its uuid); picks the placeholder cover. */
+  seed?: string;
   width: number;
   height: number;
   className?: string;
@@ -69,7 +77,7 @@ export function Thumbnail({
 }) {
   return (
     <Image
-      src={src || "/images/img-placeholder.png"}
+      src={src || (seed ? placeholderCover(seed) : "/images/img-placeholder.png")}
       alt=""
       width={width}
       height={height}

@@ -8,8 +8,10 @@ import { HttpError } from "./lib/http";
 import { serveUpload } from "./lib/storage";
 import { authRoutes } from "./routes/auth";
 import { myProjectRoutes } from "./routes/my-projects";
+import { partyRoutes } from "./routes/party";
 import { publicRoutes } from "./routes/public";
 import { settingsRoutes } from "./routes/settings";
+import { projectBoxRoutes, workflowRoutes } from "./routes/workflow";
 
 export const app = new Hono<AppEnv>();
 
@@ -37,6 +39,9 @@ app.route("/api", authRoutes);
 app.route("/api", publicRoutes);
 app.route("/api/settings", settingsRoutes);
 app.route("/api/my/projects", myProjectRoutes);
+app.route("/api", partyRoutes);
+app.route("/api", projectBoxRoutes);
+app.route("/api/my/projects", workflowRoutes);
 
 const jsonPath = (path: string) => path.startsWith("/api/") || path.startsWith("/broadcasting/");
 
